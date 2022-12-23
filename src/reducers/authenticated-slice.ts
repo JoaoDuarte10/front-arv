@@ -3,14 +3,21 @@ import { ReducerActionType } from "./types/reducer-type";
 import { LocalStorageService } from "../service/local-storage";
 import { JwtService } from "../service/jwt";
 
-export type UserLogin = {
-  username?: string | null;
+type UserLoginInitial = {
+  username?: string;
   access_token: string | null;
   refreshToken: string;
   redirectLoginPageUri?: string;
 };
 
-const LOCAL_STORAGE_LOGIN_KEY = "user-info-arv";
+export type UserLogin = {
+  username: string;
+  access_token: string;
+  refreshToken: string;
+  redirectLoginPageUri: string;
+};
+
+const LOCAL_STORAGE_LOGIN_KEY = "8604-0f6d57165718";
 const SECRET_TOKEN = process.env.REACT_APP_SECRET_TOKEN as string;
 
 const localStorageService = new LocalStorageService(LOCAL_STORAGE_LOGIN_KEY);
@@ -18,7 +25,7 @@ const jwtService = new JwtService(SECRET_TOKEN);
 
 const loginInLocalStorage = localStorageService.getUserInLocalStorange();
 
-const initialState: UserLogin = {
+const initialState: UserLoginInitial = {
   username: loginInLocalStorage ? loginInLocalStorage.username : null,
   access_token: loginInLocalStorage ? loginInLocalStorage.access_token : null,
   refreshToken: loginInLocalStorage ? loginInLocalStorage.refreshToken : null,
@@ -30,7 +37,10 @@ const authenticatedSlice = createSlice({
   initialState,
   reducers: {
     loginAdded: {
-      reducer(state: UserLogin, action: ReducerActionType<UserLogin>) {
+      reducer(
+        state: UserLoginInitial,
+        action: ReducerActionType<UserLoginInitial>
+      ) {
         localStorageService.cleanUserInLocalStorange();
         const userInfos = {
           ...action.payload,
@@ -46,7 +56,7 @@ const authenticatedSlice = createSlice({
         access_token: string;
         refreshToken: string;
       }): {
-        payload: UserLogin;
+        payload: UserLoginInitial;
       } {
         return {
           payload: {
@@ -57,7 +67,7 @@ const authenticatedSlice = createSlice({
       }
     },
     validateToken: {
-      reducer(state: UserLogin, action: any) {
+      reducer(state: UserLoginInitial, action: any) {
         if (jwtService.isValid(action.payload)) {
           return;
         }
