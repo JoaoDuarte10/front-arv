@@ -10,6 +10,7 @@ import { loginAdded } from "../reducers/authenticated-slice";
 import { CircularIndeterminate } from "../components/loaders/CircularLoader";
 import { AlertError } from "../components/alerts/AlertError";
 import { TIMEOUT } from "../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 export function Login(props: any) {
   const { loginService } = props;
@@ -25,6 +26,7 @@ export function Login(props: any) {
   const [serverError, setServerError] = useState<boolean>(false);
 
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
   const handlePasswordChange = (prop: any) => (
     event: React.BaseSyntheticEvent
@@ -52,6 +54,7 @@ export function Login(props: any) {
     }
 
     dispatch(loginAdded({ access_token: data.access_token, refreshToken: "" }));
+    navigate("/home", { replace: true });
   };
 
   let loader = null;

@@ -4,6 +4,8 @@ import { Login } from "./pages/Login";
 import { LoginService } from "./service/login";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import { PrivateRoute } from "./private-route";
+import { Home } from "./pages/Home";
 
 export function RoutesApp() {
   const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
@@ -17,6 +19,22 @@ export function RoutesApp() {
           <Route
             path="/login"
             element={<Login loginService={loginService} />}
+          />
+          <Route
+            path="/home"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
           />
         </Routes>
       </BrowserRouter>
