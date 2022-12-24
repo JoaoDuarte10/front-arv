@@ -2,12 +2,13 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login } from "./pages/Login";
 import { LoginService } from "./service/login";
-import { Provider } from "react-redux";
-import { store } from "./app/store";
+import { Provider, useSelector } from "react-redux";
+import { store, ReduceStore } from "./app/store";
 import { PrivateRoute } from "./private-route";
 import { Home } from "./pages/Home";
 import { NavBarResponsive } from "./components/NavBar";
 import { LocalStorageService } from "./service/local-storage";
+import { RulesService } from "./service/rules";
 
 export function RoutesApp() {
   const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
@@ -29,7 +30,10 @@ export function RoutesApp() {
             path="/home"
             element={
               <PrivateRoute>
-                <NavBarResponsive localStorageService={localStorageService} />
+                <NavBarResponsive
+                  localStorageService={localStorageService}
+                  ruleService={new RulesService(localStorageService)}
+                />
                 <Home />
               </PrivateRoute>
             }
@@ -38,6 +42,10 @@ export function RoutesApp() {
             path="*"
             element={
               <PrivateRoute>
+                <NavBarResponsive
+                  localStorageService={localStorageService}
+                  ruleService={new RulesService(localStorageService)}
+                />
                 <Home />
               </PrivateRoute>
             }

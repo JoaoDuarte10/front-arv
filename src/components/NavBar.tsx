@@ -3,9 +3,12 @@ import React from "react";
 /* eslint-disable jsx-a11y/no-redundant-roles */
 import "../css/main.css";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { ReduceStore } from "../app/store";
 
 export function NavBarResponsive(props: any) {
   const { localStorageService } = props;
+  const { ruleService } = props;
   const navigate = useNavigate();
 
   const closeItens = () => {
@@ -38,6 +41,8 @@ export function NavBarResponsive(props: any) {
       else navGroupElement.className = "nav-group";
     }
   };
+
+  const rules = useSelector((state: ReduceStore) => state.authenticated).rules;
 
   return (
     <div id="navbarresponsive">
@@ -81,62 +86,64 @@ export function NavBarResponsive(props: any) {
           </button>
         </li>
 
-        <li className="nav-item remove-style-link" key="8979951462">
-          <button
-            className="btn-list-item"
-            style={{ outline: "none" }}
-            data-toggle="collapse"
-            data-target="#sub-group-schedule"
-            aria-expanded="false"
-            aria-controls="sub-group-schedule"
-          >
-            Agenda
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-caret-down"
-              viewBox="0 0 16 16"
+        {rules.includes(ruleService.ruleWithPage("schedule")) && (
+          <li className="nav-item remove-style-link" key="8979951462">
+            <button
+              className="btn-list-item"
+              style={{ outline: "none" }}
+              data-toggle="collapse"
+              data-target="#sub-group-schedule"
+              aria-expanded="false"
+              aria-controls="sub-group-schedule"
             >
-              <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
-            </svg>
-          </button>
-          <div className="nav-sub-group" id="sub-group-schedule">
-            <li className="sub-item" data-dismiss="modal" key="2369874">
-              <button
-                className="btn-list-sub-item"
-                onClick={e => {
-                  closeItens();
-                  navigate("/create-schedule");
-                }}
-                style={{ outline: "none" }}
-                data-toggle="collapse"
-                data-target="#sub-group-schedule"
-                aria-expanded="false"
-                aria-controls="sub-group-schedule"
+              Agenda
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-caret-down"
+                viewBox="0 0 16 16"
               >
-                Nova Agenda
-              </button>
-            </li>
-            <li className="sub-item" data-dismiss="modal" key="278534">
-              <button
-                className="btn-list-sub-item"
-                onClick={e => {
-                  closeItens();
-                  navigate("/schedule");
-                }}
-                style={{ outline: "none" }}
-                data-toggle="collapse"
-                data-target="#sub-group-schedule"
-                aria-expanded="false"
-                aria-controls="sub-group-schedule"
-              >
-                Suas Agendas
-              </button>
-            </li>
-          </div>
-        </li>
+                <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z" />
+              </svg>
+            </button>
+            <div className="nav-sub-group" id="sub-group-schedule">
+              <li className="sub-item" data-dismiss="modal" key="2369874">
+                <button
+                  className="btn-list-sub-item"
+                  onClick={e => {
+                    closeItens();
+                    navigate("/create-schedule");
+                  }}
+                  style={{ outline: "none" }}
+                  data-toggle="collapse"
+                  data-target="#sub-group-schedule"
+                  aria-expanded="false"
+                  aria-controls="sub-group-schedule"
+                >
+                  Nova Agenda
+                </button>
+              </li>
+              <li className="sub-item" data-dismiss="modal" key="278534">
+                <button
+                  className="btn-list-sub-item"
+                  onClick={e => {
+                    closeItens();
+                    navigate("/schedule");
+                  }}
+                  style={{ outline: "none" }}
+                  data-toggle="collapse"
+                  data-target="#sub-group-schedule"
+                  aria-expanded="false"
+                  aria-controls="sub-group-schedule"
+                >
+                  Suas Agendas
+                </button>
+              </li>
+            </div>
+          </li>
+        )}
 
         <li className="nav-item remove-style-link" key="3348795">
           <button

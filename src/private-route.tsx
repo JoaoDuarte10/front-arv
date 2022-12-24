@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { validateToken } from "./reducers/authenticated-slice";
 import { ReduceStore } from "./app/store";
 import { RulesService } from "./service/rules";
+import { LocalStorageService } from "./service/local-storage";
 
 export function PrivateRoute({ children, rules }: any) {
   const dispatch = useDispatch();
@@ -11,7 +12,12 @@ export function PrivateRoute({ children, rules }: any) {
 
   const auth = useSelector((state: ReduceStore) => state.authenticated);
 
-  const ruleService = new RulesService();
+  const LOCAL_STORAGE_LOGIN_KEY = process.env
+    .REACT_APP_LOCAL_STORAGE_KEY as string;
+
+  const localStorageService = new LocalStorageService(LOCAL_STORAGE_LOGIN_KEY);
+
+  const ruleService = new RulesService(localStorageService);
 
   useEffect(() => {
     dispatch(validateToken(auth.access_token));
