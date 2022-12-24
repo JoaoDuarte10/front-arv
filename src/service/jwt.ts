@@ -1,5 +1,9 @@
 import jwt from "jsonwebtoken";
 
+export type Rules = {
+  idrules: number;
+  ruleName: string;
+}
 export class JwtService {
   constructor(private readonly secrectToken: string) {}
   isValid(token: string): boolean {
@@ -17,5 +21,10 @@ export class JwtService {
       return user.username;
     }
     return "";
+  }
+
+  getRules(token: string): string[] {
+    const jwtDecoded = jwt.decode(token) as any;
+    return jwtDecoded.rules.map((rule: Rules) => rule.ruleName);
   }
 }
