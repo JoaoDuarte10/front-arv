@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { validateToken } from "./reducers/authenticated-slice";
 import { ReduceStore } from "./app/store";
-import { RulesService } from './service/rules';
+import { RulesService } from "./service/rules";
 
 export function PrivateRoute({ children, rules }: any) {
   const dispatch = useDispatch();
@@ -23,8 +23,8 @@ export function PrivateRoute({ children, rules }: any) {
     if (rules && rules.length) {
       for (const rule of rules) {
         if (!ruleService.userHasPermission(rule)) {
-          navigate('/home', { replace: true });
-          alert('Você não tem permissão para acessar essa página!');
+          navigate("/home", { replace: true });
+          alert("Você não tem permissão para acessar essa página!");
           return;
         }
       }

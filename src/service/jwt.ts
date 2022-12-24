@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 export type Rules = {
   idrules: number;
   ruleName: string;
-}
+};
 export class JwtService {
   constructor(private readonly secrectToken: string) {}
   isValid(token: string): boolean {

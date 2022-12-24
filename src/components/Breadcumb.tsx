@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { Link } from 'react-router-dom';
-import { randomId } from '../utils/random';
+import { Link } from "react-router-dom";
+import { randomId } from "../utils/random";
 
 type InputProps = {
   page: {
@@ -20,7 +20,7 @@ export function Breadcumb(props: InputProps) {
           <li className="breadcrumb-item" key={randomId()}>
             <Link to="/home">Home</Link>
           </li>
-          {page.map((item) => {
+          {page.map(item => {
             if (item.link) {
               return (
                 <li

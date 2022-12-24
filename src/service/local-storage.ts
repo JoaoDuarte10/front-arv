@@ -1,7 +1,7 @@
 export class LocalStorageService {
   constructor(private readonly key: string) {}
 
-  getUserInLocalStorange() {
+  getUser() {
     const user = localStorage.getItem(this.key);
     if (!user) return null;
     try {
@@ -12,11 +12,11 @@ export class LocalStorageService {
     }
   }
 
-  saveLoginInLocalStorage(params: any) {
+  saveLogin(params: any) {
     localStorage.setItem(this.key, JSON.stringify(params));
   }
 
-  cleanUserInLocalStorange() {
+  clearUser() {
     localStorage.removeItem(this.key);
   }
 }

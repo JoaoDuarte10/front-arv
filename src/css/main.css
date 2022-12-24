@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  z-index: 1000;
 }
 
 #form_login {
@@ -35,6 +36,131 @@
   #form_login {
     width: 80%;
     margin: 0 auto;
+  }
+}
+#navbarresponsive {
+  background-color: #202857;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+#title-navbar {
+  color: white;
+}
+
+.nav-group {
+  color: white;
+  padding: 0;
+  margin: 10px 0;
+  display: block;
+}
+
+.btn-list-item {
+  background-color: #202857;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  color: white;
+  padding: 5px 4px;
+  width: 100%;
+  text-align: left;
+}
+
+.btn-list-sub-item {
+  background-color: #8496a9;
+  border: none;
+  color: white;
+  padding: 4px;
+  margin-left: 10px;
+  width: 90%;
+  text-align: left;
+  font-size: 16px;
+}
+
+.btn-list-sub-item:hover {
+  background-color: lightslategrey;
+}
+
+.btn-list-item:hover, .links:hover {
+  background-color: lightslategrey;
+  border-radius: 5px;
+  color: white;
+}
+
+.links {
+  padding: 5px 192px 5px 4px;
+  color: white;
+}
+
+.nav-sub-group {
+  display: none;
+}
+
+.nav-icon {
+  display: none;
+  margin-right: 15px;
+}
+
+.nav-group-responsive {
+  display: block;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.btn-exit {
+  position: absolute;
+  bottom: 0;
+  width: 80%;
+  margin: 10px 0;
+  padding: 5px 0;
+  border-top: 1px white solid;
+}
+
+@media (max-width: 800px) {
+  #navbarresponsive {
+    width: 100%;
+    display: inline-block;
+    height: auto;
+    position: -webkit-sticky;
+    position: sticky;
+    overflow-x: none;
+  }
+  .btn-list-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .btn-list-sub-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .title-navbar-responsive {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-icon {
+    display: block;
+    top: 0;
+  }
+  .nav-group {
+    display: none;
+  }
+  .btn-exit {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin: 0 0;
+    padding: 10px 5px;
+    border-top: none;
   }
 }
 body, html {

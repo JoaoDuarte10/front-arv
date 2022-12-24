@@ -6,11 +6,16 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import { PrivateRoute } from "./private-route";
 import { Home } from "./pages/Home";
+import { NavBarResponsive } from "./components/NavBar";
+import { LocalStorageService } from "./service/local-storage";
 
 export function RoutesApp() {
   const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
+  const LOCAL_STORAGE_LOGIN_KEY = process.env
+    .REACT_APP_LOCAL_STORAGE_KEY as string;
 
   const loginService = new LoginService(API_RV_BASE_URI);
+  const localStorageService = new LocalStorageService(LOCAL_STORAGE_LOGIN_KEY);
 
   return (
     <Provider store={store}>
@@ -24,6 +29,7 @@ export function RoutesApp() {
             path="/home"
             element={
               <PrivateRoute>
+                <NavBarResponsive localStorageService={localStorageService} />
                 <Home />
               </PrivateRoute>
             }

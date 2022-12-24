@@ -1,22 +1,25 @@
-import '../css/main.css';
+import "../css/main.css";
 
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { useSelector } from "react-redux";
 
 // import { WhatsAppService } from '../services/whatsapp-service';
-import { ReduceStore } from '../app/store';
+import { ReduceStore } from "../app/store";
 
-import { Breadcumb } from '../components/Breadcumb';
-import { TitlePrincipal } from '../components/titles/TitlePrincipal';
+import { Breadcumb } from "../components/Breadcumb";
+import { TitlePrincipal } from "../components/titles/TitlePrincipal";
 
 export function Home() {
-  const username = useSelector((state: ReduceStore) => state.authenticated).username;
+  const username = useSelector((state: ReduceStore) => state.authenticated)
+    .username;
 
   return (
     <div className="container-main">
       <Breadcumb page={[]} />
 
-      <TitlePrincipal title={`Olá, ${username ? username : 'Seja Bem Vindo'}!`} />
+      <TitlePrincipal
+        title={`Olá, ${username ? username : "Seja Bem Vindo"}!`}
+      />
       <p>
         Este é o <strong>ARV - Controll &copy;</strong>, um Sistema de
         Gerenciamento para sua empresa.
