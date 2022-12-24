@@ -54,6 +54,13 @@ body, html {
   height: 100%;
 }
 
+.container-main {
+  max-width: 1200px;
+  margin: 0 auto 0 200px;
+  padding: 30px 30px;
+  height: 100%;
+}
+
 .remove-style-link {
   list-style: none;
 }
@@ -95,5 +102,12 @@ body, html {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+@media (max-width: 800px) {
+  .container-main {
+    width: 90%;
+    margin: 0 auto;
+    padding: 30px 0;
   }
 }/*# sourceMappingURL=main.css.map */

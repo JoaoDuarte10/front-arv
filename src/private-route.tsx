@@ -17,6 +17,7 @@ export function PrivateRoute({ children, rules }: any) {
     dispatch(validateToken(auth.access_token));
     if (!auth.access_token) {
       navigate(auth.redirectLoginPageUri, { replace: true });
+      return;
     }
 
     if (rules && rules.length) {
