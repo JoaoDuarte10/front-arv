@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 /* eslint-disable jsx-a11y/no-redundant-roles */
 import "../css/main.css";
@@ -42,7 +42,15 @@ export function NavBarResponsive(props: any) {
     }
   };
 
-  const rules = useSelector((state: ReduceStore) => state.authenticated).rules;
+  // const rules = useSelector((state: ReduceStore) => state.authenticated).rules;
+
+  const rulesStorage = useSelector((state: ReduceStore) => state.authenticated).rules
+
+  const [rules, setRules] = useState<string[]>([])
+
+  useEffect(() => {
+    setRules(rulesStorage)
+  })
 
   return (
     <div id="navbarresponsive">

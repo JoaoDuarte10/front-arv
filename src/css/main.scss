@@ -2,15 +2,7 @@
 @import "./navBar";
 @import "./clients";
 @import "./infoClient";
-
-body, html {
-    font-size: 15px;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #808080;
-}
+@import "./formClients";
 
 #root {
     font-family: "Montserrat";

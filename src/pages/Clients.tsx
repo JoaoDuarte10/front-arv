@@ -130,12 +130,12 @@ export function Clients(props: { clientService: ClientService }) {
               </div>
 
               <div className="info_clients">
-                <div className="inline">
-                  <h6 className="label_client">
+                <div className="form-row">
+                  <h6 className="label_client col">
                     Nome:{" "}
                     <small className="text-muted h6 mb-3">{client.name}</small>
                   </h6>
-                  <h6 className="label_client">
+                  <h6 className="label_client col">
                     Celular:{" "}
                     <small className="text-muted h6 mb-3">{client.phone}</small>
                   </h6>
@@ -156,18 +156,6 @@ export function Clients(props: { clientService: ClientService }) {
                 ) : null}
               </div>
             </div>
-
-            {/* <div>idclients: {client.idclients}</div>
-                        <div>Nome: {client.name}</div>
-                        <div>E-mail: {client.email}</div>
-                        <div>Celular: {client.phone}</div>
-                        <div>Segmento: {client.segment}</div>
-                        <div>Endereço: {client.address}</div>
-                        <div>Número: {client.addressnumber}</div>
-                        <div>Observação: {client.note}</div>
-                        <div>Criado em: {client.created_at}</div>
-                        <div>Atualizado: {client.updated_at}</div>
-                        <br /> */}
           </div>
         );
       })}
