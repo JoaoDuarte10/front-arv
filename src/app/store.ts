@@ -14,5 +14,5 @@ export const store = configureStore({
 
 export type ReduceStore = {
   authenticated: UserLogin;
-  client: ClientsInterface;
+  client: ClientsInterface[];
 };

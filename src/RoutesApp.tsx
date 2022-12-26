@@ -11,6 +11,7 @@ import { LocalStorageService } from "./service/local-storage";
 import { RulesService } from "./service/rules";
 import { Clients } from "./pages/Clients";
 import { ClientService } from "./service/client-service";
+import { InfoClients } from "./pages/InfoClients";
 
 export function RoutesApp() {
   const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
@@ -51,6 +52,15 @@ export function RoutesApp() {
               <PrivateRoute>
                 {navBar}
                 <Clients clientService={clientService} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/info-client/:clientId"
+            element={
+              <PrivateRoute>
+                {navBar}
+                <InfoClients />
               </PrivateRoute>
             }
           />

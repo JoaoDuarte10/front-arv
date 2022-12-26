@@ -46,7 +46,10 @@ export function Clients(props: { clientService: ClientService }) {
           <div key={client.idclients}>
             <div className="container_client">
               <div className="actions_client remove-style-link">
-                <Link id="more_info_client" to={`/editClient/$`}>
+                <Link
+                  id="more_info_client"
+                  to={`/info-client/${client.idclients}`}
+                >
                   Mais Informações
                 </Link>
                 <div
@@ -153,6 +156,18 @@ export function Clients(props: { clientService: ClientService }) {
                 ) : null}
               </div>
             </div>
+
+            {/* <div>idclients: {client.idclients}</div>
+                        <div>Nome: {client.name}</div>
+                        <div>E-mail: {client.email}</div>
+                        <div>Celular: {client.phone}</div>
+                        <div>Segmento: {client.segment}</div>
+                        <div>Endereço: {client.address}</div>
+                        <div>Número: {client.addressnumber}</div>
+                        <div>Observação: {client.note}</div>
+                        <div>Criado em: {client.created_at}</div>
+                        <div>Atualizado: {client.updated_at}</div>
+                        <br /> */}
           </div>
         );
       })}

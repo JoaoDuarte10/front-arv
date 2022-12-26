@@ -1,6 +1,7 @@
 @import "./login";
 @import "./navBar";
 @import "./clients";
+@import "./infoClient";
 
 body, html {
     font-size: 15px;
@@ -74,4 +75,8 @@ body, html {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+}
+
+.btn_come_back {
+    border-radius: 50px;
 }
