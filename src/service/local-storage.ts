@@ -22,6 +22,16 @@ export class LocalStorageService {
     }
   }
 
+  getAccessToken(): string | null {
+    const user = localStorage.getItem(this.key);
+    if (!user) return null;
+    try {
+      return JSON.parse(user).access_token;
+    } catch (error) {
+      return null;
+    }
+  }
+
   saveLogin(params: any) {
     localStorage.setItem(this.key, JSON.stringify(params));
   }
