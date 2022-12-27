@@ -4,8 +4,7 @@ import { TitlePrincipal } from "../components/titles/TitlePrincipal";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ReduceStore } from "../app/store";
-import { format, parseISO } from "date-fns";
-import ptBR from "date-fns/locale/pt-BR";
+import { format } from "date-fns";
 import { ComeBack } from "../components/ComeBack";
 
 export function InfoClients() {
@@ -13,7 +12,6 @@ export function InfoClients() {
   const navigate = useNavigate();
 
   const clients = useSelector((state: ReduceStore) => state.client);
-
   const client = clients.find(item => item.idclients === Number(clientId));
 
   useEffect(() => {

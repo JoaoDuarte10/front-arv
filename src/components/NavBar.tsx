@@ -44,13 +44,14 @@ export function NavBarResponsive(props: any) {
 
   // const rules = useSelector((state: ReduceStore) => state.authenticated).rules;
 
-  const rulesStorage = useSelector((state: ReduceStore) => state.authenticated).rules
+  const rulesStorage = useSelector((state: ReduceStore) => state.authenticated)
+    .rules;
 
-  const [rules, setRules] = useState<string[]>([])
+  const [rules, setRules] = useState<string[]>([]);
 
   useEffect(() => {
-    setRules(rulesStorage)
-  })
+    setRules(rulesStorage);
+  });
 
   return (
     <div id="navbarresponsive">

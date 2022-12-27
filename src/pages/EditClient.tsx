@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TitlePrincipal } from "../components/titles/TitlePrincipal";
 import { Breadcumb } from "../components/Breadcumb";
 import { ClientService } from "../service/client-service";
@@ -6,11 +6,15 @@ import { AlertError } from "../components/alerts/AlertError";
 import { AlertSuccess } from "../components/alerts/AlertSuccess";
 import { TIMEOUT } from "../utils/constants";
 import { FormClient } from "../components/FormClient";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
+import { ReduceStore } from "../app/store";
+import { ComeBack } from "../components/ComeBack";
 import { clientAdded } from "../reducers/clients-slice";
-import { useDispatch } from "react-redux";
 
-export type CreateClientRequest = {
+export type EditClientRequest = {
   event: React.SyntheticEvent;
+  idclients: number;
   name: string;
   email: string;
   phone: string;
@@ -19,10 +23,21 @@ export type CreateClientRequest = {
   note?: string;
 };
 
-export function CreateClient(props: { clientService: ClientService }) {
+export function EditClient(props: { clientService: ClientService }) {
+  const { clientId } = useParams();
+  const navigate = useNavigate();
+
+  const clients = useSelector((state: ReduceStore) => state.client);
+  const client = clients.find(item => item.idclients === Number(clientId));
   const { clientService } = props;
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
+
+  useEffect(() => {
+    if (!clientId || !client) {
+      navigate(-1);
+    }
+  }, []);
 
   const dispatch = useDispatch();
   const getAllClients = async () => {
@@ -30,11 +45,13 @@ export function CreateClient(props: { clientService: ClientService }) {
     dispatch(clientAdded(data));
   };
 
-  const createClient = async (
-    params: CreateClientRequest
+  const editClient = async (
+    params: EditClientRequest
   ): Promise<{ success: boolean }> => {
     params.event.preventDefault();
-    const { error, conflict, badRequest } = await clientService.createClinet({
+    console.log(params);
+    const { error, conflict, badRequest } = await clientService.editClinet({
+      idclients: params.idclients,
       name: params.name,
       email: params.email,
       phone: params.phone,
@@ -59,7 +76,8 @@ export function CreateClient(props: { clientService: ClientService }) {
     }
 
     setAlert(<AlertSuccess title="Cliente criado com sucesso" />);
-    getAllClients();
+    await getAllClients();
+    navigate(-1);
     return { success: true };
   };
 
@@ -72,12 +90,19 @@ export function CreateClient(props: { clientService: ClientService }) {
       <Breadcumb
         page={[
           { link: "/clients", name: "Clientes" },
-          { link: false, name: "Novo Cliente" }
+          { link: false, name: "Editar Cliente" }
         ]}
       />
-      <TitlePrincipal title="Novo cliente" />
+      <ComeBack />
+      <br />
+      <TitlePrincipal title="Editar cliente" />
 
-      <FormClient edit={false} alert={alert} requestClient={createClient} />
+      <FormClient
+        edit={true}
+        alert={alert}
+        requestClient={editClient}
+        client={client}
+      />
     </div>
   );
 }

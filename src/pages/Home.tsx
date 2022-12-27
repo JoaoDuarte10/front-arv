@@ -3,7 +3,6 @@ import "../css/main.css";
 import React from "react";
 import { useSelector } from "react-redux";
 
-// import { WhatsAppService } from '../services/whatsapp-service';
 import { ReduceStore } from "../app/store";
 
 import { Breadcumb } from "../components/Breadcumb";
@@ -29,7 +28,7 @@ export function Home() {
         utilizado pelo computador ou pelo celular, sem perda de desempenho ou
         produtividade.
       </p>
-      <div className="container mt-5 mb-5">
+      {/* <div className="container mt-5 mb-5">
         <h5 className="title-page">Ajuda</h5>
         <p>
           Caso precise de ajuda ou queira tirar dúvidas sobre o sistema, entre
@@ -42,7 +41,7 @@ export function Home() {
         >
           Entrar em contato
         </button>
-      </div>
+      </div> */}
       <p className="mt-5 mb-3 text-muted text-center">
         ARV - Controll &copy; 2022
       </p>

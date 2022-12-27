@@ -12,7 +12,9 @@ import { RulesService } from "./service/rules";
 import { Clients } from "./pages/Clients";
 import { ClientService } from "./service/client-service";
 import { InfoClients } from "./pages/InfoClients";
-import { CreateClient } from './pages/CreateClient';
+import { CreateClient } from "./pages/CreateClient";
+import { WhatsAppService } from "./service/whatsapp";
+import { EditClient } from "./pages/EditClient";
 
 export function RoutesApp() {
   const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
@@ -22,6 +24,7 @@ export function RoutesApp() {
   const loginService = new LoginService(API_RV_BASE_URI);
   const localStorageService = new LocalStorageService(LOCAL_STORAGE_LOGIN_KEY);
   const clientService = new ClientService(API_RV_BASE_URI, localStorageService);
+  const whatsAppService = new WhatsAppService();
 
   const navBar = (
     <NavBarResponsive
@@ -52,7 +55,10 @@ export function RoutesApp() {
             element={
               <PrivateRoute>
                 {navBar}
-                <Clients clientService={clientService} />
+                <Clients
+                  clientService={clientService}
+                  whatsAppService={whatsAppService}
+                />
               </PrivateRoute>
             }
           />
@@ -70,7 +76,16 @@ export function RoutesApp() {
             element={
               <PrivateRoute>
                 {navBar}
-                <CreateClient clientService={clientService}/>
+                <CreateClient clientService={clientService} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/edit-client/:clientId"
+            element={
+              <PrivateRoute>
+                {navBar}
+                <EditClient clientService={clientService} />
               </PrivateRoute>
             }
           />

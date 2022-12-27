@@ -6,6 +6,12 @@ import { useDispatch } from "react-redux";
 import { clientAdded } from "../reducers/clients-slice";
 import { Link } from "react-router-dom";
 import { randomId } from "../utils/random";
+import { WhatsAppService } from "../service/whatsapp";
+import { BasicDeleteModal } from "../components/modal/BasicDeleteModal";
+import Typography from "@mui/material/Typography";
+import { TIMEOUT } from "../utils/constants";
+import { AlertSuccess } from "../components/alerts/AlertSuccess";
+import { AlertError } from "../components/alerts/AlertError";
 
 export type ClientsInterface = {
   idclients: number;
@@ -20,11 +26,15 @@ export type ClientsInterface = {
   updated_at: string;
 };
 
-export function Clients(props: { clientService: ClientService }) {
+export function Clients(props: {
+  clientService: ClientService;
+  whatsAppService: WhatsAppService;
+}) {
   const dispatch = useDispatch();
-  const { clientService } = props;
+  const { clientService, whatsAppService } = props;
 
   const [clients, setClients] = useState<ClientsInterface[]>([]);
+  const [alert, setAlert] = useState<JSX.Element | null>(null);
 
   const getAllClients = async () => {
     const { data } = await clientService.fetchAllClients();
@@ -36,10 +46,31 @@ export function Clients(props: { clientService: ClientService }) {
     getAllClients();
   }, []);
 
+  const onDeleteClient = async (idclients: number) => {
+    const { success, error } = await clientService.deleteClient(idclients);
+    if (error) {
+      setAlert(
+        <AlertError title="Não foi possível processar sua requisição." />
+      );
+      return;
+    }
+
+    if (success) {
+      setAlert(<AlertSuccess title="Cliente deletedo com sucesso." />);
+      getAllClients();
+    }
+  };
+
+  if (alert) {
+    setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
+  }
+
   return (
     <div className="container-main">
       <Breadcumb page={[{ link: false, name: "Clientes" }]} />
       <TitlePrincipal title="Clientes" />
+
+      {alert}
 
       {clients.map(client => {
         return (
@@ -65,6 +96,9 @@ export function Clients(props: { clientService: ClientService }) {
                       backgroundColor: "transparent",
                       outline: "none"
                     }}
+                    onClick={(e: React.SyntheticEvent) => {
+                      whatsAppService.redirectToWhatsapp(e, client.phone);
+                    }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +111,7 @@ export function Clients(props: { clientService: ClientService }) {
                       <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
                     </svg>
                   </button>
-                  <Link className="" to={`/editClient/$`}>
+                  <Link className="" to={`/edit-client/${client.idclients}`}>
                     <button
                       type="button"
                       className="m-0 pl-2 pr-2 btn"
@@ -104,28 +138,24 @@ export function Clients(props: { clientService: ClientService }) {
                       </svg>
                     </button>
                   </Link>
-                  <button
-                    type="button"
-                    className="m-0 pl-2 pr-2 btn btn-outline-danger"
-                    data-toggle="modal"
-                    data-target="#delete-client"
-                    style={{
-                      border: "none",
-                      backgroundColor: "transparent",
-                      outline: "none"
+                  <BasicDeleteModal
+                    btnName="Excluir"
+                    onDeleteClient={async (e: React.SyntheticEvent) => {
+                      await onDeleteClient(client.idclients);
                     }}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      fill="red"
-                      className="bi bi-trash-fill"
-                      viewBox="0 0 16 16"
+                    <Typography
+                      id="modal-modal-title"
+                      variant="h6"
+                      component="h2"
+                      sx={{ color: "red" }}
                     >
-                      <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                    </svg>
-                  </button>
+                      Excluir Cliente
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      Tem certeza que deseja excluir esse cliente?
+                    </Typography>
+                  </BasicDeleteModal>
                 </div>
               </div>
 
