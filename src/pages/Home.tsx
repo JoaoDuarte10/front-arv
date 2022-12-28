@@ -7,13 +7,14 @@ import { ReduceStore } from "../app/store";
 
 import { Breadcumb } from "../components/Breadcumb";
 import { TitlePrincipal } from "../components/titles/TitlePrincipal";
+import { ContainerMain } from '../components/divs/ContainerMain';
 
 export function Home() {
   const username = useSelector((state: ReduceStore) => state.authenticated)
     .username;
 
   return (
-    <div className="container-main">
+    <ContainerMain>
       <Breadcumb page={[]} />
 
       <TitlePrincipal
@@ -45,6 +46,6 @@ export function Home() {
       <p className="mt-5 mb-3 text-muted text-center">
         ARV - Controll &copy; 2022
       </p>
-    </div>
+    </ContainerMain>
   );
 }

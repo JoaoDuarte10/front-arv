@@ -68,7 +68,6 @@ export class SegmentService {
   async update(idsegments: number, segment: string): Promise<Response> {
     let response: Response = {} as Response;
     try {
-      console.log(idsegments, segment)
       const { data, status } = await axios
         .put(`${this.baseUri}/api/segments`,
           {

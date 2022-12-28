@@ -17,7 +17,6 @@ export function BasicEditModal({ children, btnName, onDeleteClient }: any) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
-    console.log("closeee");
     setOpen(false);
   };
 

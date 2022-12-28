@@ -152,7 +152,7 @@ export function NavBarResponsive(props: any) {
           </li>
         )}
 
-        <li className="nav-item remove-style-link" key="3348795">
+        {/* <li className="nav-item remove-style-link" key="3348795">
           <button
             className="btn-list-item"
             style={{ outline: "none" }}
@@ -207,7 +207,7 @@ export function NavBarResponsive(props: any) {
               </button>
             </li>
           </div>
-        </li>
+        </li> */}
 
         <li className="nav-item remove-style-link" key="8795444">
           <button

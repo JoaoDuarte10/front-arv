@@ -32,14 +32,12 @@ export function FormClient(props: InputProps) {
 
   useEffect(() => {
     if (props.edit && props.client) {
-      console.log(props.client)
       const findSegment = props.segments.find(segment => {
         if (props.client)
           return segment.name === props.client.name
       });
       if (findSegment) {
         setSegment(findSegment.idsegments);
-        console.log(findSegment)
       }
       setIdClients(props.client.idclients);
       setName(props.client.name);

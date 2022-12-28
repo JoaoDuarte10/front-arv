@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ReduceStore } from '../app/store';
 import { SegmentService, SegmentInterface } from '../service/segment';
 import { segmentAdded } from "../reducers/segment-sclice";
+import { ContainerMain } from '../components/divs/ContainerMain';
 
 export type CreateClientRequest = {
   event: React.SyntheticEvent;
@@ -91,7 +92,7 @@ export function CreateClient(props: { clientService: ClientService, segmentServi
   }
 
   return (
-    <div className="container-main">
+    <ContainerMain>
       <Breadcumb
         page={[
           { link: "/clients", name: "Clientes" },
@@ -103,6 +104,6 @@ export function CreateClient(props: { clientService: ClientService, segmentServi
       <FormClient edit={false} alert={alert} requestClient={createClient}
         segments={segments}
       />
-    </div>
+    </ContainerMain>
   );
 }

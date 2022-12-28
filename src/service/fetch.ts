@@ -40,6 +40,7 @@ export function normalizeResponse(data: any, status: number): Response {
       response.unauthorized = true;
       break;
     case HTTP_RESPONSE.ERROR:
+    case undefined:
       response.error = true;
       break;
     default:

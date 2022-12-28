@@ -37,10 +37,22 @@ const clientSlice = createSlice({
           })
         };
       }
+    },
+    clearClient: {
+      reducer(
+        state: ClientsInterface[],
+      ) {
+        state.splice(0, state.length);
+      },
+      prepare(): any {
+        return {
+          payload: {}
+        };
+      }
     }
   }
 });
 
-export const { clientAdded } = clientSlice.actions;
+export const { clientAdded, clearClient } = clientSlice.actions;
 
 export default clientSlice.reducer;

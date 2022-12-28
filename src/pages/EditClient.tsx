@@ -10,9 +10,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { ReduceStore } from "../app/store";
 import { ComeBack } from "../components/ComeBack";
-import { clientAdded } from "../reducers/clients-slice";
+import { clearClient, clientAdded } from "../reducers/clients-slice";
 import { SegmentService, SegmentInterface } from '../service/segment';
 import { segmentAdded } from "../reducers/segment-sclice";
+import { ContainerMain } from '../components/divs/ContainerMain';
 
 export type EditClientRequest = {
   event: React.SyntheticEvent;
@@ -60,6 +61,7 @@ export function EditClient(props: { clientService: ClientService, segmentService
   const dispatch = useDispatch();
   const getAllClients = async () => {
     const { data } = await clientService.fetchAllClients();
+    dispatch(clearClient());
     dispatch(clientAdded(data));
   };
 
@@ -67,7 +69,6 @@ export function EditClient(props: { clientService: ClientService, segmentService
     params: EditClientRequest
   ): Promise<{ success: boolean }> => {
     params.event.preventDefault();
-    console.log(params);
     const { error, conflict, badRequest } = await clientService.editClinet({
       idclients: params.idclients,
       name: params.name,
@@ -105,7 +106,7 @@ export function EditClient(props: { clientService: ClientService, segmentService
   }
 
   return (
-    <div className="container-main">
+    <ContainerMain>
       <Breadcumb
         page={[
           { link: "/clients", name: "Clientes" },
@@ -123,6 +124,6 @@ export function EditClient(props: { clientService: ClientService, segmentService
         client={client}
         segments={segments}
       />
-    </div>
+    </ContainerMain>
   );
 }

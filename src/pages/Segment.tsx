@@ -13,6 +13,7 @@ import { ButtonFilterAction } from "../components/buttons/ButtonFilterAction";
 import { TopModal } from "../components/modal/TopModal";
 import { CardSegment } from "../components/CardSegment";
 import { format } from "date-fns";
+import { ContainerMain } from '../components/divs/ContainerMain';
 
 type InputProps = {
   segmentService: SegmentService;
@@ -133,7 +134,7 @@ export function Segment(props: InputProps) {
   }
 
   return (
-    <div className="container-main">
+    <ContainerMain>
       <Breadcumb page={[{ link: false, name: "Segmentos" }]} />
       <TitlePrincipal title="Segmentos" />
 
@@ -226,6 +227,6 @@ export function Segment(props: InputProps) {
           </div>
         );
       }) : <h5 className="pt-4">Nenhum segmento</h5>}
-    </div>
+    </ContainerMain>
   );
 }

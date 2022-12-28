@@ -1,17 +1,11 @@
 import axios from "axios";
-import { HTTP_RESPONSE } from "../utils/constants";
+import { Response, normalizeResponse } from './fetch';
 
 export class LoginService {
   constructor(private readonly baseUri: string) {}
 
   async signIn(params: { user: string; password: string }): Promise<any> {
-    const response = {
-      success: false,
-      data: null,
-      unauthorized: false,
-      error: false,
-      message: null
-    };
+    let response: Response = {} as Response;
     try {
       const { data, status } = await axios
         .post(`${this.baseUri}/api/users/login`, {
@@ -24,16 +18,7 @@ export class LoginService {
           status: err.response ? err.response.status : err.response
         }));
 
-      if (status === HTTP_RESPONSE.ERROR) {
-        response.error = true;
-      }
-
-      if (status === HTTP_RESPONSE.SUCCESS) {
-        response.unauthorized = false;
-      }
-
-      response.success = true;
-      response.data = data;
+        response = normalizeResponse(data, status);
     } catch (error) {
       response.error = true;
       response.message = error.message;

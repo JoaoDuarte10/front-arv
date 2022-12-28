@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { ReduceStore } from "../app/store";
 import { format } from "date-fns";
 import { ComeBack } from "../components/ComeBack";
+import { ContainerMain } from '../components/divs/ContainerMain';
 
 export function InfoClients() {
   const { clientId } = useParams();
@@ -21,7 +22,7 @@ export function InfoClients() {
   }, []);
 
   return (
-    <div className="container-main">
+    <ContainerMain>
       <Breadcumb
         page={[
           { link: "/clients", name: "Clientes" },
@@ -74,7 +75,7 @@ export function InfoClients() {
           <h6 className="label_info_client">
             Última atualização:{" "}
             <small className="text-muted h6 mb-3">
-              {client.updated_at || "Nenhuma atualização"}
+              {format(new Date(client.updated_at), "dd/MM/yyyy 'às' HH:mm'h'") || "Nenhuma atualização"}
             </small>
           </h6>
           <h6 className="label_info_client">
@@ -83,6 +84,6 @@ export function InfoClients() {
           </h6>
         </div>
       ) : null}
-    </div>
+    </ContainerMain>
   );
 }
