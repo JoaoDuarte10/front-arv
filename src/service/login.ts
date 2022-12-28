@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Response, normalizeResponse } from './fetch';
+import { Response, normalizeResponse } from "./fetch";
 
 export class LoginService {
   constructor(private readonly baseUri: string) {}
@@ -18,7 +18,7 @@ export class LoginService {
           status: err.response ? err.response.status : err.response
         }));
 
-        response = normalizeResponse(data, status);
+      response = normalizeResponse(data, status);
     } catch (error) {
       response.error = true;
       response.message = error.message;

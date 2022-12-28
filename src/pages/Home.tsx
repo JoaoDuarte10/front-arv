@@ -7,7 +7,7 @@ import { ReduceStore } from "../app/store";
 
 import { Breadcumb } from "../components/Breadcumb";
 import { TitlePrincipal } from "../components/titles/TitlePrincipal";
-import { ContainerMain } from '../components/divs/ContainerMain';
+import { ContainerMain } from "../components/divs/ContainerMain";
 
 export function Home() {
   const username = useSelector((state: ReduceStore) => state.authenticated)

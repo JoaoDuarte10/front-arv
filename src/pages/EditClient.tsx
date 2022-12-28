@@ -11,9 +11,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ReduceStore } from "../app/store";
 import { ComeBack } from "../components/ComeBack";
 import { clearClient, clientAdded } from "../reducers/clients-slice";
-import { SegmentService, SegmentInterface } from '../service/segment';
+import { SegmentService, SegmentInterface } from "../service/segment";
 import { segmentAdded } from "../reducers/segment-sclice";
-import { ContainerMain } from '../components/divs/ContainerMain';
+import { ContainerMain } from "../components/divs/ContainerMain";
 
 export type EditClientRequest = {
   event: React.SyntheticEvent;
@@ -27,7 +27,10 @@ export type EditClientRequest = {
   idsegment: number | null;
 };
 
-export function EditClient(props: { clientService: ClientService, segmentService: SegmentService }) {
+export function EditClient(props: {
+  clientService: ClientService;
+  segmentService: SegmentService;
+}) {
   const { clientService, segmentService } = props;
 
   const { clientId } = useParams();
@@ -50,12 +53,12 @@ export function EditClient(props: { clientService: ClientService, segmentService
   useEffect(() => {
     if (!clientId || !client) {
       navigate(-1);
-    };
+    }
     if (!segmentCache.length) {
       getSegments();
     } else {
       setSegments(segmentCache);
-    };
+    }
   }, []);
 
   const dispatch = useDispatch();

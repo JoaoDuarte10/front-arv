@@ -58,7 +58,10 @@ export function CardSegment(props: InputProps) {
               id="procedure"
               value={segment ? segment.name : ""}
               onChange={(e: React.BaseSyntheticEvent) =>
-                setNewSegment({ name: e.target.value, idsegments: segment.idsegments })
+                setNewSegment({
+                  name: e.target.value,
+                  idsegments: segment.idsegments
+                })
               }
               label="Digite o segmento"
               required={true}

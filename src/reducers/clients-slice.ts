@@ -39,9 +39,7 @@ const clientSlice = createSlice({
       }
     },
     clearClient: {
-      reducer(
-        state: ClientsInterface[],
-      ) {
+      reducer(state: ClientsInterface[]) {
         state.splice(0, state.length);
       },
       prepare(): any {

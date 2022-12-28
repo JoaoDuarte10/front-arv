@@ -17,6 +17,8 @@ import { WhatsAppService } from "./service/whatsapp";
 import { EditClient } from "./pages/EditClient";
 import { Segment } from "./pages/Segment";
 import { SegmentService } from "./service/segment";
+import { CreateSales } from "./pages/sales/CreateSales";
+import { SalesService } from "./service/sales";
 
 export function RoutesApp() {
   const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
@@ -31,6 +33,7 @@ export function RoutesApp() {
     API_RV_BASE_URI,
     localStorageService
   );
+  const salesService = new SalesService(API_RV_BASE_URI, localStorageService);
 
   const navBar = (
     <NavBarResponsive
@@ -82,7 +85,10 @@ export function RoutesApp() {
             element={
               <PrivateRoute>
                 {navBar}
-                <CreateClient clientService={clientService} segmentService={segmentService}/>
+                <CreateClient
+                  clientService={clientService}
+                  segmentService={segmentService}
+                />
               </PrivateRoute>
             }
           />
@@ -91,7 +97,10 @@ export function RoutesApp() {
             element={
               <PrivateRoute>
                 {navBar}
-                <EditClient clientService={clientService} segmentService={segmentService} />
+                <EditClient
+                  clientService={clientService}
+                  segmentService={segmentService}
+                />
               </PrivateRoute>
             }
           />
@@ -101,6 +110,18 @@ export function RoutesApp() {
               <PrivateRoute>
                 {navBar}
                 <Segment segmentService={segmentService} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/create-sale"
+            element={
+              <PrivateRoute>
+                {navBar}
+                <CreateSales
+                  clientService={clientService}
+                  salesService={salesService}
+                />
               </PrivateRoute>
             }
           />

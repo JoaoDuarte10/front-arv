@@ -13,7 +13,7 @@ import { ButtonFilterAction } from "../components/buttons/ButtonFilterAction";
 import { TopModal } from "../components/modal/TopModal";
 import { CardSegment } from "../components/CardSegment";
 import { format } from "date-fns";
-import { ContainerMain } from '../components/divs/ContainerMain';
+import { ContainerMain } from "../components/divs/ContainerMain";
 
 type InputProps = {
   segmentService: SegmentService;
@@ -29,9 +29,13 @@ export function Segment(props: InputProps) {
 
   const [titleCardSegment, setTitleCardSegment] = useState<string>("");
   const [actionName, setActionName] = useState<string>("");
-  const [editSegmentName, setEditSegmentName] = useState<SegmentInterface>({} as any);
+  const [editSegmentName, setEditSegmentName] = useState<SegmentInterface>(
+    {} as any
+  );
   const [editSegment, setEditSegment] = useState<boolean | null>(null);
-  const [segmentWithDelete, setSegmentWithDelete] = useState<SegmentInterface>({} as any);
+  const [segmentWithDelete, setSegmentWithDelete] = useState<SegmentInterface>(
+    {} as any
+  );
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
 
@@ -73,11 +77,13 @@ export function Segment(props: InputProps) {
     }
 
     if (conflict) {
-      setAlert(<AlertInfo title="Esse segmento já existe." />)
+      setAlert(<AlertInfo title="Esse segmento já existe." />);
     }
 
     if (error) {
-      setAlert(<AlertError title="Não foi possível processar sua requisição." />)
+      setAlert(
+        <AlertError title="Não foi possível processar sua requisição." />
+      );
     }
   };
 
@@ -87,7 +93,10 @@ export function Segment(props: InputProps) {
   ) => {
     event.preventDefault();
 
-    const { success, notFound, error } = await segmentService.update(segment.idsegments, segment.name);
+    const { success, notFound, error } = await segmentService.update(
+      segment.idsegments,
+      segment.name
+    );
 
     if (success) {
       setAlert(<AlertSuccess title="Segmento atualizado com sucesso." />);
@@ -95,11 +104,13 @@ export function Segment(props: InputProps) {
     }
 
     if (notFound) {
-      setAlert(<AlertInfo title="Segmento não encontrado." />)
+      setAlert(<AlertInfo title="Segmento não encontrado." />);
     }
 
     if (error) {
-      setAlert(<AlertError title="Não foi possível processar sua requisição." />)
+      setAlert(
+        <AlertError title="Não foi possível processar sua requisição." />
+      );
     }
   };
 
@@ -109,7 +120,9 @@ export function Segment(props: InputProps) {
   ) => {
     event.preventDefault();
 
-    const { success, notFound, error, conflict } = await segmentService.delete(idsegments);
+    const { success, notFound, error, conflict } = await segmentService.delete(
+      idsegments
+    );
 
     if (success) {
       setAlert(<AlertSuccess title="Segmento deletado com sucesso." />);
@@ -117,15 +130,19 @@ export function Segment(props: InputProps) {
     }
 
     if (notFound) {
-      setAlert(<AlertInfo title="Segmento não encontrado." />)
+      setAlert(<AlertInfo title="Segmento não encontrado." />);
     }
 
     if (error) {
-      setAlert(<AlertError title="Não foi possível processar sua requisição." />)
+      setAlert(
+        <AlertError title="Não foi possível processar sua requisição." />
+      );
     }
 
     if (conflict) {
-      setAlert(<AlertError title="Não é possível excluir esse segmento pois há clientes associados à ele." />)
+      setAlert(
+        <AlertError title="Não é possível excluir esse segmento pois há clientes associados à ele." />
+      );
     }
   };
 
@@ -140,13 +157,14 @@ export function Segment(props: InputProps) {
 
       <ButtonFilterAction
         onClick={(e: React.BaseSyntheticEvent) => {
-          const filterBySegmentElement =
-            document.getElementById('searchBySegment');
+          const filterBySegmentElement = document.getElementById(
+            "searchBySegment"
+          );
           if (filterBySegmentElement)
-            filterBySegmentElement.style.display = 'none';
+            filterBySegmentElement.style.display = "none";
 
-          setTitleCardSegment('Novo');
-          setActionName('Criar');
+          setTitleCardSegment("Novo");
+          setActionName("Criar");
           setEditSegment(false);
         }}
         text="Novo"
@@ -186,47 +204,56 @@ export function Segment(props: InputProps) {
         alert={alert}
       />
 
-      {segments.length ? segments.map(segment => {
-        return (
-          <div className="container_segment" key={segment.idsegments}>
-            <h6 className="text-primary font-weight-bold">
-              Segmento:{" "}
-              <small className="text-dark text-muted h6">
-                {segment.name}
-              </small>
-            </h6>
-            <h6 className="text-primary font-weight-bold">
-              Criado em:{" "}
-              <small className="text-dark text-muted h6">
-                {format(new Date(segment.createdAt), "dd/MM/yyyy 'às' HH:mm'h'")}
-              </small>
-            </h6>
-            <div className="pt-2 mt-2 form-row border-top">
-              <button
-                className="btn btn-outline-primary font-weight-bold"
-                data-toggle="modal"
-                data-target="#modalSegment"
-                onClick={(e: React.BaseSyntheticEvent) => {
-                  setTitleCardSegment("Editar");
-                  setActionName("Salvar");
-                  setEditSegmentName(segment);
-                  setEditSegment(true);
-                }}
-              >
-                Editar
-              </button>
-              <button
-                className="btn btn-outline-danger font-weight-bold ml-2"
-                data-toggle="modal"
-                data-target="#delete-segment"
-                onClick={(e: React.BaseSyntheticEvent) => setSegmentWithDelete(segment)}
-              >
-                Deletar
-              </button>
+      {segments.length ? (
+        segments.map(segment => {
+          return (
+            <div className="container_segment" key={segment.idsegments}>
+              <h6 className="text-primary font-weight-bold">
+                Segmento:{" "}
+                <small className="text-dark text-muted h6">
+                  {segment.name}
+                </small>
+              </h6>
+              <h6 className="text-primary font-weight-bold">
+                Criado em:{" "}
+                <small className="text-dark text-muted h6">
+                  {format(
+                    new Date(segment.createdAt),
+                    "dd/MM/yyyy 'às' HH:mm'h'"
+                  )}
+                </small>
+              </h6>
+              <div className="pt-2 mt-2 form-row border-top">
+                <button
+                  className="btn btn-outline-primary font-weight-bold"
+                  data-toggle="modal"
+                  data-target="#modalSegment"
+                  onClick={(e: React.BaseSyntheticEvent) => {
+                    setTitleCardSegment("Editar");
+                    setActionName("Salvar");
+                    setEditSegmentName(segment);
+                    setEditSegment(true);
+                  }}
+                >
+                  Editar
+                </button>
+                <button
+                  className="btn btn-outline-danger font-weight-bold ml-2"
+                  data-toggle="modal"
+                  data-target="#delete-segment"
+                  onClick={(e: React.BaseSyntheticEvent) =>
+                    setSegmentWithDelete(segment)
+                  }
+                >
+                  Deletar
+                </button>
+              </div>
             </div>
-          </div>
-        );
-      }) : <h5 className="pt-4">Nenhum segmento</h5>}
+          );
+        })
+      ) : (
+        <h5 className="pt-4">Nenhum segmento</h5>
+      )}
     </ContainerMain>
   );
 }

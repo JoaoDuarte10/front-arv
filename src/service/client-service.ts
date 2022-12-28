@@ -60,13 +60,13 @@ export class ClientService {
   }
 
   async createClinet(params: {
-    name: string,
-    email: string,
-    phone: string,
-    address: string,
-    addressNumber: number,
-    note: string | null,
-    idsegment: number | null
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    addressNumber: number;
+    note: string | null;
+    idsegment: number | null;
   }): Promise<Response> {
     const response = {
       success: false,
@@ -88,7 +88,7 @@ export class ClientService {
             idsegment: params.idsegment,
             address: params.address,
             addressNumber: params.addressNumber,
-            note: params.note,
+            note: params.note
           },
           {
             headers: {
@@ -124,14 +124,14 @@ export class ClientService {
   }
 
   async editClinet(params: {
-    idclients: number,
-    name: string,
-    email: string,
-    phone: string,
-    address: string,
-    addressNumber: number,
-    note: string | null,
-    idsegment: number | null
+    idclients: number;
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    addressNumber: number;
+    note: string | null;
+    idsegment: number | null;
   }): Promise<Response> {
     const response = {
       success: false,

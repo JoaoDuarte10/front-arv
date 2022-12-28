@@ -308,7 +308,7 @@ export function NavBarResponsive(props: any) {
                 className="btn-list-sub-item"
                 onClick={e => {
                   closeItens();
-                  navigate("/new-sale");
+                  navigate("/create-sale");
                 }}
                 style={{ outline: "none" }}
                 data-toggle="collapse"

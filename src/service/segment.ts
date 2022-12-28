@@ -45,13 +45,17 @@ export class SegmentService {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
-        .post(`${this.baseUri}/api/segments`, {
-          name: segment
-        }, {
-          headers: {
-            Authorization: `Bearer ${this.accessToken}`
+        .post(
+          `${this.baseUri}/api/segments`,
+          {
+            name: segment
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.accessToken}`
+            }
           }
-        })
+        )
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
@@ -69,15 +73,18 @@ export class SegmentService {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
-        .put(`${this.baseUri}/api/segments`,
+        .put(
+          `${this.baseUri}/api/segments`,
           {
             idsegments,
             name: segment
-          }, {
-          headers: {
-            Authorization: `Bearer ${this.accessToken}`
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.accessToken}`
+            }
           }
-        })
+        )
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
@@ -95,13 +102,12 @@ export class SegmentService {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
-        .delete(`${this.baseUri}/api/segments`,
-          {
-            params: { idsegments },
-            headers: {
-              Authorization: `Bearer ${this.accessToken}`
-            }
-          })
+        .delete(`${this.baseUri}/api/segments`, {
+          params: { idsegments },
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,

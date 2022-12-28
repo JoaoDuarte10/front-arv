@@ -6,9 +6,17 @@ type Props = {
   label: string;
   fnChange: any;
   value: any;
+  type?: string;
+  rows: number;
 };
 
-export default function TextFieldMultiline({ label, fnChange, value }: Props) {
+export default function TextFieldMultiline({
+  label,
+  fnChange,
+  value,
+  type,
+  rows
+}: Props) {
   return (
     <Box
       sx={{
@@ -25,9 +33,10 @@ export default function TextFieldMultiline({ label, fnChange, value }: Props) {
           border: "none"
         }}
         multiline
-        rows={4}
+        rows={rows}
         onChange={fnChange}
         value={value}
+        type={type}
       />
     </Box>
   );

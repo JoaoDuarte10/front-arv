@@ -4,8 +4,8 @@ import InputMaskPhone from "./inputs/InputMaskPhone";
 import InputMaskNumber from "./inputs/InputMaskNumber";
 import TextFieldMultiline from "./inputs/TextFieldMultiline";
 import { ClientsInterface } from "../pages/Clients";
-import { ComboBox } from './ComboBox';
-import { SegmentInterface } from '../service/segment';
+import { ComboBox } from "./ComboBox";
+import { SegmentInterface } from "../service/segment";
 
 type Response = {
   success: boolean;
@@ -16,7 +16,7 @@ type InputProps = {
   alert: JSX.Element | null;
   requestClient: (params: any) => Promise<Response>;
   client?: ClientsInterface;
-  segments: SegmentInterface[]
+  segments: SegmentInterface[];
 };
 
 export function FormClient(props: InputProps) {
@@ -32,10 +32,11 @@ export function FormClient(props: InputProps) {
 
   useEffect(() => {
     if (props.edit && props.client) {
-      const findSegment = props.segments.find(segment => {
-        if (props.client)
-          return segment.name === props.client.name
-      });
+      const findSegment: SegmentInterface | undefined = props.segments.find(
+        segment => {
+          if (props.client) return segment.name === props.client.name;
+        }
+      );
       if (findSegment) {
         setSegment(findSegment.idsegments);
       }
@@ -47,7 +48,7 @@ export function FormClient(props: InputProps) {
       setAddressNumber(props.client.addressnumber);
       setNote(props.client.note);
       setSegmentSelected(props.client.segment);
-    };
+    }
   }, []);
 
   const clearFields = () => {
@@ -119,21 +120,21 @@ export function FormClient(props: InputProps) {
       {props.segments.length ? (
         <ComboBox
           title="Selecionar segmento"
-          options={props.segments.map((item) => {
+          options={props.segments.map(item => {
             return {
               label: item.name,
               idsegments: item.idsegments
-            }
+            };
           })}
           selectValue={(e: React.BaseSyntheticEvent, item: any) => {
             if (item) {
               setSegment(item.idsegments);
             } else {
               setSegment(null);
-            };
+            }
           }}
           style={{
-            margin: '5px 0'
+            margin: "5px 0"
           }}
           value={segmentSelected}
         />
@@ -144,6 +145,7 @@ export function FormClient(props: InputProps) {
         fnChange={(e: React.BaseSyntheticEvent) => {
           setNote(e.target.value);
         }}
+        rows={4}
       />
       <button
         className="btn btn-primary col p-2 mt-2 font-weight-bold"
@@ -157,7 +159,7 @@ export function FormClient(props: InputProps) {
             address,
             addressNumber,
             note,
-            idsegment: segment,
+            idsegment: segment
           });
 
           if (result.success) {

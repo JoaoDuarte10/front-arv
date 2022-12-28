@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { ReduceStore } from "../app/store";
 import { format } from "date-fns";
 import { ComeBack } from "../components/ComeBack";
-import { ContainerMain } from '../components/divs/ContainerMain';
+import { ContainerMain } from "../components/divs/ContainerMain";
 
 export function InfoClients() {
   const { clientId } = useParams();
@@ -75,12 +75,17 @@ export function InfoClients() {
           <h6 className="label_info_client">
             Última atualização:{" "}
             <small className="text-muted h6 mb-3">
-              {format(new Date(client.updated_at), "dd/MM/yyyy 'às' HH:mm'h'") || "Nenhuma atualização"}
+              {format(
+                new Date(client.updated_at),
+                "dd/MM/yyyy 'às' HH:mm'h'"
+              ) || "Nenhuma atualização"}
             </small>
           </h6>
           <h6 className="label_info_client">
             Observação:{" "}
-            <small className="text-muted h6 mb-3">{client.note || "Nenhuma obervação"}</small>
+            <small className="text-muted h6 mb-3">
+              {client.note || "Nenhuma obervação"}
+            </small>
           </h6>
         </div>
       ) : null}

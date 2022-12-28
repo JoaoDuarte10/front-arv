@@ -6,9 +6,15 @@ type Props = {
   label: string;
   fnChange: any;
   value: any;
+  type?: string;
 };
 
-export default function FullWidthTextField({ label, fnChange, value }: Props) {
+export default function FullWidthTextField({
+  label,
+  fnChange,
+  value,
+  type
+}: Props) {
   return (
     <Box
       sx={{
@@ -17,6 +23,7 @@ export default function FullWidthTextField({ label, fnChange, value }: Props) {
       }}
     >
       <TextField
+        type={type}
         fullWidth
         label={label}
         id="fullWidth"

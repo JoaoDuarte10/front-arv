@@ -7,11 +7,11 @@ import { AlertSuccess } from "../components/alerts/AlertSuccess";
 import { TIMEOUT } from "../utils/constants";
 import { FormClient } from "../components/FormClient";
 import { clientAdded } from "../reducers/clients-slice";
-import { useDispatch, useSelector } from 'react-redux';
-import { ReduceStore } from '../app/store';
-import { SegmentService, SegmentInterface } from '../service/segment';
+import { useDispatch, useSelector } from "react-redux";
+import { ReduceStore } from "../app/store";
+import { SegmentService, SegmentInterface } from "../service/segment";
 import { segmentAdded } from "../reducers/segment-sclice";
-import { ContainerMain } from '../components/divs/ContainerMain';
+import { ContainerMain } from "../components/divs/ContainerMain";
 
 export type CreateClientRequest = {
   event: React.SyntheticEvent;
@@ -24,7 +24,10 @@ export type CreateClientRequest = {
   idsegment: number | null;
 };
 
-export function CreateClient(props: { clientService: ClientService, segmentService: SegmentService }) {
+export function CreateClient(props: {
+  clientService: ClientService;
+  segmentService: SegmentService;
+}) {
   const { clientService, segmentService } = props;
 
   const segmentCache = useSelector((state: ReduceStore) => state.segment);
@@ -49,7 +52,7 @@ export function CreateClient(props: { clientService: ClientService, segmentServi
       getSegments();
     } else {
       setSegments(segmentCache);
-    };
+    }
   }, []);
 
   const createClient = async (
@@ -101,7 +104,10 @@ export function CreateClient(props: { clientService: ClientService, segmentServi
       />
       <TitlePrincipal title="Novo cliente" />
 
-      <FormClient edit={false} alert={alert} requestClient={createClient}
+      <FormClient
+        edit={false}
+        alert={alert}
+        requestClient={createClient}
         segments={segments}
       />
     </ContainerMain>
