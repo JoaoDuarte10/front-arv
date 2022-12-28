@@ -59,7 +59,15 @@ export class ClientService {
     return response;
   }
 
-  async createClinet(params: any): Promise<Response> {
+  async createClinet(params: {
+    name: string,
+    email: string,
+    phone: string,
+    address: string,
+    addressNumber: number,
+    note: string | null,
+    idsegment: number | null
+  }): Promise<Response> {
     const response = {
       success: false,
       data: null,
@@ -69,7 +77,6 @@ export class ClientService {
       conflict: false,
       badRequest: false
     };
-    console.log(params);
     try {
       const { data, status } = await axios
         .post(
@@ -81,7 +88,7 @@ export class ClientService {
             idsegment: params.idsegment,
             address: params.address,
             addressNumber: params.addressNumber,
-            note: params.note
+            note: params.note,
           },
           {
             headers: {
@@ -116,7 +123,16 @@ export class ClientService {
     return response;
   }
 
-  async editClinet(params: any): Promise<Response> {
+  async editClinet(params: {
+    idclients: number,
+    name: string,
+    email: string,
+    phone: string,
+    address: string,
+    addressNumber: number,
+    note: string | null,
+    idsegment: number | null
+  }): Promise<Response> {
     const response = {
       success: false,
       data: null,

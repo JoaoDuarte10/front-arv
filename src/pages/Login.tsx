@@ -11,8 +11,9 @@ import { CircularIndeterminate } from "../components/loaders/CircularLoader";
 import { AlertError } from "../components/alerts/AlertError";
 import { TIMEOUT } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
+import { LoginService } from "../service/login";
 
-export function Login(props: any) {
+export function Login(props: { loginService: LoginService }) {
   const { loginService } = props;
   const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState({

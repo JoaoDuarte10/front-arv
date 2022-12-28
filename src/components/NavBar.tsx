@@ -12,11 +12,11 @@ export function NavBarResponsive(props: any) {
   const navigate = useNavigate();
 
   const closeItens = () => {
-    // const scheduleElement = document.getElementById('sub-group-schedule');
-    // const clientElement = document.getElementById('sub-group-client');
-    // const salesElement = document.getElementById('sub-group-sales');
-    // const atendimentoElement = document.getElementById('sub-group-atendimento');
-    // const navGroupElement = document.getElementById('navGroup');
+    const scheduleElement = document.getElementById("sub-group-schedule");
+    const clientElement = document.getElementById("sub-group-client");
+    const salesElement = document.getElementById("sub-group-sales");
+    const atendimentoElement = document.getElementById("sub-group-atendimento");
+    const navGroupElement = document.getElementById("navGroup");
 
     // if (scheduleElement?.style.display === 'block')
     //   scheduleElement.style.display = 'none';
@@ -41,8 +41,6 @@ export function NavBarResponsive(props: any) {
       else navGroupElement.className = "nav-group";
     }
   };
-
-  // const rules = useSelector((state: ReduceStore) => state.authenticated).rules;
 
   const rulesStorage = useSelector((state: ReduceStore) => state.authenticated)
     .rules;
@@ -270,7 +268,7 @@ export function NavBarResponsive(props: any) {
                 className="btn-list-sub-item"
                 onClick={e => {
                   closeItens();
-                  navigate("/segments-clients");
+                  navigate("/segments");
                 }}
                 style={{ outline: "none" }}
                 data-toggle="collapse"

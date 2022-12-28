@@ -4,6 +4,8 @@ import InputMaskPhone from "./inputs/InputMaskPhone";
 import InputMaskNumber from "./inputs/InputMaskNumber";
 import TextFieldMultiline from "./inputs/TextFieldMultiline";
 import { ClientsInterface } from "../pages/Clients";
+import { ComboBox } from './ComboBox';
+import { SegmentInterface } from '../service/segment';
 
 type Response = {
   success: boolean;
@@ -14,6 +16,7 @@ type InputProps = {
   alert: JSX.Element | null;
   requestClient: (params: any) => Promise<Response>;
   client?: ClientsInterface;
+  segments: SegmentInterface[]
 };
 
 export function FormClient(props: InputProps) {
@@ -24,9 +27,20 @@ export function FormClient(props: InputProps) {
   const [address, setAddress] = useState<string>("");
   const [addressNumber, setAddressNumber] = useState<number | any>();
   const [note, setNote] = useState<string>();
+  const [segment, setSegment] = useState<number | null>(null);
+  const [segmentSelected, setSegmentSelected] = useState<string>("");
 
   useEffect(() => {
     if (props.edit && props.client) {
+      console.log(props.client)
+      const findSegment = props.segments.find(segment => {
+        if (props.client)
+          return segment.name === props.client.name
+      });
+      if (findSegment) {
+        setSegment(findSegment.idsegments);
+        console.log(findSegment)
+      }
       setIdClients(props.client.idclients);
       setName(props.client.name);
       setEmail(props.client.email);
@@ -34,7 +48,8 @@ export function FormClient(props: InputProps) {
       setAddress(props.client.address);
       setAddressNumber(props.client.addressnumber);
       setNote(props.client.note);
-    }
+      setSegmentSelected(props.client.segment);
+    };
   }, []);
 
   const clearFields = () => {
@@ -44,6 +59,7 @@ export function FormClient(props: InputProps) {
     setAddress("");
     setAddressNumber("");
     setNote("");
+    setSegment(null);
   };
 
   return (
@@ -102,6 +118,28 @@ export function FormClient(props: InputProps) {
           />
         </div>
       </div>
+      {props.segments.length ? (
+        <ComboBox
+          title="Selecionar segmento"
+          options={props.segments.map((item) => {
+            return {
+              label: item.name,
+              idsegments: item.idsegments
+            }
+          })}
+          selectValue={(e: React.BaseSyntheticEvent, item: any) => {
+            if (item) {
+              setSegment(item.idsegments);
+            } else {
+              setSegment(null);
+            };
+          }}
+          style={{
+            margin: '5px 0'
+          }}
+          value={segmentSelected}
+        />
+      ) : null}
       <TextFieldMultiline
         label="Observação"
         value={note}
@@ -120,7 +158,8 @@ export function FormClient(props: InputProps) {
             phone,
             address,
             addressNumber,
-            note
+            note,
+            idsegment: segment,
           });
 
           if (result.success) {

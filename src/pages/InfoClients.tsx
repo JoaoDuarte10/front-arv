@@ -79,7 +79,7 @@ export function InfoClients() {
           </h6>
           <h6 className="label_info_client">
             Observação:{" "}
-            <small className="text-muted h6 mb-3">{client.note}</small>
+            <small className="text-muted h6 mb-3">{client.note || "Nenhuma obervação"}</small>
           </h6>
         </div>
       ) : null}

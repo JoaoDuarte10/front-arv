@@ -15,6 +15,8 @@ import { InfoClients } from "./pages/InfoClients";
 import { CreateClient } from "./pages/CreateClient";
 import { WhatsAppService } from "./service/whatsapp";
 import { EditClient } from "./pages/EditClient";
+import { Segment } from "./pages/Segment";
+import { SegmentService } from "./service/segment";
 
 export function RoutesApp() {
   const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
@@ -25,6 +27,10 @@ export function RoutesApp() {
   const localStorageService = new LocalStorageService(LOCAL_STORAGE_LOGIN_KEY);
   const clientService = new ClientService(API_RV_BASE_URI, localStorageService);
   const whatsAppService = new WhatsAppService();
+  const segmentService = new SegmentService(
+    API_RV_BASE_URI,
+    localStorageService
+  );
 
   const navBar = (
     <NavBarResponsive
@@ -76,7 +82,7 @@ export function RoutesApp() {
             element={
               <PrivateRoute>
                 {navBar}
-                <CreateClient clientService={clientService} />
+                <CreateClient clientService={clientService} segmentService={segmentService}/>
               </PrivateRoute>
             }
           />
@@ -85,7 +91,16 @@ export function RoutesApp() {
             element={
               <PrivateRoute>
                 {navBar}
-                <EditClient clientService={clientService} />
+                <EditClient clientService={clientService} segmentService={segmentService} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/segments"
+            element={
+              <PrivateRoute>
+                {navBar}
+                <Segment segmentService={segmentService} />
               </PrivateRoute>
             }
           />

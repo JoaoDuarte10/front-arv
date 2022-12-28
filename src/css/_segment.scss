@@ -1,0 +1,14 @@
+.container_segment {
+    background-color: white;
+    margin: 15px 0;
+    padding: 15px 15px;
+    border-radius: 10px;
+    border-left: #0275d8 5px solid;
+    box-shadow: 1px 1px 4px gray;
+}
+
+.actions_segment {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}

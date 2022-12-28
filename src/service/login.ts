@@ -8,7 +8,7 @@ export class LoginService {
     const response = {
       success: false,
       data: null,
-      unauthorized: true,
+      unauthorized: false,
       error: false,
       message: null
     };
@@ -23,6 +23,10 @@ export class LoginService {
           data: err.response ? err.response.data : err.response,
           status: err.response ? err.response.status : err.response
         }));
+
+      if (status === HTTP_RESPONSE.ERROR) {
+        response.error = true;
+      }
 
       if (status === HTTP_RESPONSE.SUCCESS) {
         response.unauthorized = false;

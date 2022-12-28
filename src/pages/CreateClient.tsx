@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TitlePrincipal } from "../components/titles/TitlePrincipal";
 import { Breadcumb } from "../components/Breadcumb";
 import { ClientService } from "../service/client-service";
@@ -7,7 +7,10 @@ import { AlertSuccess } from "../components/alerts/AlertSuccess";
 import { TIMEOUT } from "../utils/constants";
 import { FormClient } from "../components/FormClient";
 import { clientAdded } from "../reducers/clients-slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
+import { ReduceStore } from '../app/store';
+import { SegmentService, SegmentInterface } from '../service/segment';
+import { segmentAdded } from "../reducers/segment-sclice";
 
 export type CreateClientRequest = {
   event: React.SyntheticEvent;
@@ -17,11 +20,15 @@ export type CreateClientRequest = {
   address: string;
   addressNumber: number;
   note?: string;
+  idsegment: number | null;
 };
 
-export function CreateClient(props: { clientService: ClientService }) {
-  const { clientService } = props;
+export function CreateClient(props: { clientService: ClientService, segmentService: SegmentService }) {
+  const { clientService, segmentService } = props;
 
+  const segmentCache = useSelector((state: ReduceStore) => state.segment);
+
+  const [segments, setSegments] = useState<SegmentInterface[]>([]);
   const [alert, setAlert] = useState<JSX.Element | null>(null);
 
   const dispatch = useDispatch();
@@ -30,17 +37,33 @@ export function CreateClient(props: { clientService: ClientService }) {
     dispatch(clientAdded(data));
   };
 
+  const getSegments = async () => {
+    const { data } = await segmentService.getAll();
+    dispatch(segmentAdded(data));
+    setSegments(data);
+  };
+
+  useEffect(() => {
+    if (!segmentCache.length) {
+      getSegments();
+    } else {
+      setSegments(segmentCache);
+    };
+  }, []);
+
   const createClient = async (
     params: CreateClientRequest
   ): Promise<{ success: boolean }> => {
     params.event.preventDefault();
+
     const { error, conflict, badRequest } = await clientService.createClinet({
       name: params.name,
       email: params.email,
       phone: params.phone,
       address: params.address,
       addressNumber: params.addressNumber,
-      note: params.note
+      note: params.note || null,
+      idsegment: params.idsegment
     });
 
     if (error) {
@@ -77,7 +100,9 @@ export function CreateClient(props: { clientService: ClientService }) {
       />
       <TitlePrincipal title="Novo cliente" />
 
-      <FormClient edit={false} alert={alert} requestClient={createClient} />
+      <FormClient edit={false} alert={alert} requestClient={createClient}
+        segments={segments}
+      />
     </div>
   );
 }

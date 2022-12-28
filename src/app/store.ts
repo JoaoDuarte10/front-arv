@@ -4,15 +4,19 @@ import { ClientsInterface } from "../pages/Clients";
 import authenticatedReducer, {
   UserLogin
 } from "../reducers/authenticated-slice";
+import segmentReducer from "../reducers/segment-sclice";
+import { SegmentInterface } from "../service/segment";
 
 export const store = configureStore({
   reducer: {
     authenticated: authenticatedReducer,
-    client: clientReducer
+    client: clientReducer,
+    segment: segmentReducer
   }
 });
 
 export type ReduceStore = {
   authenticated: UserLogin;
   client: ClientsInterface[];
+  segment: SegmentInterface[];
 };

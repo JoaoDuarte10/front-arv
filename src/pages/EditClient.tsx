@@ -11,6 +11,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ReduceStore } from "../app/store";
 import { ComeBack } from "../components/ComeBack";
 import { clientAdded } from "../reducers/clients-slice";
+import { SegmentService, SegmentInterface } from '../service/segment';
+import { segmentAdded } from "../reducers/segment-sclice";
 
 export type EditClientRequest = {
   event: React.SyntheticEvent;
@@ -21,22 +23,38 @@ export type EditClientRequest = {
   address: string;
   addressNumber: number;
   note?: string;
+  idsegment: number | null;
 };
 
-export function EditClient(props: { clientService: ClientService }) {
+export function EditClient(props: { clientService: ClientService, segmentService: SegmentService }) {
+  const { clientService, segmentService } = props;
+
   const { clientId } = useParams();
   const navigate = useNavigate();
 
   const clients = useSelector((state: ReduceStore) => state.client);
   const client = clients.find(item => item.idclients === Number(clientId));
-  const { clientService } = props;
 
+  const segmentCache = useSelector((state: ReduceStore) => state.segment);
+
+  const [segments, setSegments] = useState<SegmentInterface[]>([]);
   const [alert, setAlert] = useState<JSX.Element | null>(null);
+
+  const getSegments = async () => {
+    const { data } = await segmentService.getAll();
+    dispatch(segmentAdded(data));
+    setSegments(data);
+  };
 
   useEffect(() => {
     if (!clientId || !client) {
       navigate(-1);
-    }
+    };
+    if (!segmentCache.length) {
+      getSegments();
+    } else {
+      setSegments(segmentCache);
+    };
   }, []);
 
   const dispatch = useDispatch();
@@ -57,7 +75,8 @@ export function EditClient(props: { clientService: ClientService }) {
       phone: params.phone,
       address: params.address,
       addressNumber: params.addressNumber,
-      note: params.note
+      note: params.note || null,
+      idsegment: params.idsegment
     });
 
     if (error) {
@@ -102,6 +121,7 @@ export function EditClient(props: { clientService: ClientService }) {
         alert={alert}
         requestClient={editClient}
         client={client}
+        segments={segments}
       />
     </div>
   );
