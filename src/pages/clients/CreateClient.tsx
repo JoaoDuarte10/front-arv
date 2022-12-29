@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { TitlePrincipal } from "../components/titles/TitlePrincipal";
-import { Breadcumb } from "../components/Breadcumb";
-import { ClientService } from "../service/client-service";
-import { AlertError } from "../components/alerts/AlertError";
-import { AlertSuccess } from "../components/alerts/AlertSuccess";
-import { TIMEOUT } from "../utils/constants";
-import { FormClient } from "../components/FormClient";
-import { clientAdded } from "../reducers/clients-slice";
+import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
+import { Breadcumb } from "../../components/Breadcumb";
+import { ClientService } from "../../service/client-service";
+import { AlertError } from "../../components/alerts/AlertError";
+import { AlertSuccess } from "../../components/alerts/AlertSuccess";
+import { TIMEOUT } from "../../utils/constants";
+import { FormClient } from "../../components/FormClient";
+import { clearClient, clientAdded } from "../../reducers/clients-slice";
 import { useDispatch, useSelector } from "react-redux";
-import { ReduceStore } from "../app/store";
-import { SegmentService, SegmentInterface } from "../service/segment";
-import { segmentAdded } from "../reducers/segment-sclice";
-import { ContainerMain } from "../components/divs/ContainerMain";
+import { ReduceStore } from "../../app/store";
+import { SegmentService, SegmentInterface } from "../../service/segment";
+import { segmentAdded } from "../../reducers/segment-sclice";
+import { ContainerMain } from "../../components/divs/ContainerMain";
 
 export type CreateClientRequest = {
   event: React.SyntheticEvent;
@@ -38,6 +38,7 @@ export function CreateClient(props: {
   const dispatch = useDispatch();
   const getAllClients = async () => {
     const { data } = await clientService.fetchAllClients();
+    dispatch(clearClient());
     dispatch(clientAdded(data));
   };
 

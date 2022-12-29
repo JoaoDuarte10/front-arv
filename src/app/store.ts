@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import clientReducer from "../reducers/clients-slice";
-import { ClientsInterface } from "../pages/Clients";
+import { ClientsInterface } from "../pages/clients/Clients";
 import authenticatedReducer, {
   UserLogin
 } from "../reducers/authenticated-slice";

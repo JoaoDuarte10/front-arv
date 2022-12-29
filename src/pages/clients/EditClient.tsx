@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { TitlePrincipal } from "../components/titles/TitlePrincipal";
-import { Breadcumb } from "../components/Breadcumb";
-import { ClientService } from "../service/client-service";
-import { AlertError } from "../components/alerts/AlertError";
-import { AlertSuccess } from "../components/alerts/AlertSuccess";
-import { TIMEOUT } from "../utils/constants";
-import { FormClient } from "../components/FormClient";
+import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
+import { Breadcumb } from "../../components/Breadcumb";
+import { ClientService } from "../../service/client-service";
+import { AlertError } from "../../components/alerts/AlertError";
+import { AlertSuccess } from "../../components/alerts/AlertSuccess";
+import { TIMEOUT } from "../../utils/constants";
+import { FormClient } from "../../components/FormClient";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { ReduceStore } from "../app/store";
-import { ComeBack } from "../components/ComeBack";
-import { clearClient, clientAdded } from "../reducers/clients-slice";
-import { SegmentService, SegmentInterface } from "../service/segment";
-import { segmentAdded } from "../reducers/segment-sclice";
-import { ContainerMain } from "../components/divs/ContainerMain";
+import { ReduceStore } from "../../app/store";
+import { ComeBack } from "../../components/ComeBack";
+import { clearClient, clientAdded } from "../../reducers/clients-slice";
+import { SegmentService, SegmentInterface } from "../../service/segment";
+import { segmentAdded } from "../../reducers/segment-sclice";
+import { ContainerMain } from "../../components/divs/ContainerMain";
 
 export type EditClientRequest = {
   event: React.SyntheticEvent;

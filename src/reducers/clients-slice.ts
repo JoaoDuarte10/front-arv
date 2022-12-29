@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ReducerActionType } from "./types/reducer-type";
-import { ClientsInterface } from "../pages/Clients";
+import { ClientsInterface } from "../pages/clients/Clients";
 
 const initialState: ClientsInterface[] = [];
 

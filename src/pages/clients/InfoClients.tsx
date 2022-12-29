@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Breadcumb } from "../components/Breadcumb";
-import { TitlePrincipal } from "../components/titles/TitlePrincipal";
+import { Breadcumb } from "../../components/Breadcumb";
+import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ReduceStore } from "../app/store";
+import { ReduceStore } from "../../app/store";
 import { format } from "date-fns";
-import { ComeBack } from "../components/ComeBack";
-import { ContainerMain } from "../components/divs/ContainerMain";
+import { ComeBack } from "../../components/ComeBack";
+import { ContainerMain } from "../../components/divs/ContainerMain";
 
 export function InfoClients() {
   const { clientId } = useParams();

@@ -3,7 +3,7 @@ import FullWidthTextField from "./inputs/TextFieldFullWidth";
 import InputMaskPhone from "./inputs/InputMaskPhone";
 import InputMaskNumber from "./inputs/InputMaskNumber";
 import TextFieldMultiline from "./inputs/TextFieldMultiline";
-import { ClientsInterface } from "../pages/Clients";
+import { ClientsInterface } from "../pages/clients/Clients";
 import { ComboBox } from "./ComboBox";
 import { SegmentInterface } from "../service/segment";
 
@@ -59,6 +59,9 @@ export function FormClient(props: InputProps) {
     setAddressNumber("");
     setNote("");
     setSegment(null);
+    setSegmentSelected("");
+
+    console.log(segmentSelected);
   };
 
   return (
@@ -129,6 +132,7 @@ export function FormClient(props: InputProps) {
           selectValue={(e: React.BaseSyntheticEvent, item: any) => {
             if (item) {
               setSegment(item.idsegments);
+              setSegmentSelected(item.label);
             } else {
               setSegment(null);
             }
@@ -147,28 +151,38 @@ export function FormClient(props: InputProps) {
         }}
         rows={4}
       />
-      <button
-        className="btn btn-primary col p-2 mt-2 font-weight-bold"
-        onClick={async (e: React.SyntheticEvent) => {
-          const result = await props.requestClient({
-            event: e,
-            idclients,
-            name,
-            email,
-            phone,
-            address,
-            addressNumber,
-            note,
-            idsegment: segment
-          });
-
-          if (result.success) {
+      <div className="inline">
+        <button
+          className="btn btn-secondary col p-2 mt-2 mr-1 font-weight-bold"
+          onClick={async (e: React.SyntheticEvent) => {
             clearFields();
-          }
-        }}
-      >
-        {props.edit ? "Salvar" : "Criar"}
-      </button>
+          }}
+        >
+          Limpar Campos
+        </button>
+        <button
+          className="btn btn-primary col p-2 mt-2 ml-1 font-weight-bold"
+          onClick={async (e: React.SyntheticEvent) => {
+            const result = await props.requestClient({
+              event: e,
+              idclients,
+              name,
+              email,
+              phone,
+              address,
+              addressNumber,
+              note,
+              idsegment: segment
+            });
+
+            if (result.success) {
+              clearFields();
+            }
+          }}
+        >
+          {props.edit ? "Salvar" : "Criar"}
+        </button>
+      </div>
 
       <div className="mt-3">{props.alert}</div>
     </div>

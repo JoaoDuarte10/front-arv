@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Breadcumb } from "../components/Breadcumb";
-import { TitlePrincipal } from "../components/titles/TitlePrincipal";
-import { ClientService } from "../service/client-service";
+import { Breadcumb } from "../../components/Breadcumb";
+import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
+import { ClientService } from "../../service/client-service";
 import { useDispatch, useSelector } from "react-redux";
-import { clientAdded } from "../reducers/clients-slice";
+import { clientAdded } from "../../reducers/clients-slice";
 import { Link } from "react-router-dom";
-import { randomId } from "../utils/random";
-import { WhatsAppService } from "../service/whatsapp";
-import { BasicDeleteModal } from "../components/modal/BasicDeleteModal";
+import { randomId } from "../../utils/random";
+import { WhatsAppService } from "../../service/whatsapp";
+import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
 import Typography from "@mui/material/Typography";
-import { TIMEOUT } from "../utils/constants";
-import { AlertSuccess } from "../components/alerts/AlertSuccess";
-import { AlertError } from "../components/alerts/AlertError";
-import { ReduceStore } from "../app/store";
-import { ContainerMain } from "../components/divs/ContainerMain";
+import { TIMEOUT } from "../../utils/constants";
+import { AlertSuccess } from "../../components/alerts/AlertSuccess";
+import { AlertError } from "../../components/alerts/AlertError";
+import { ReduceStore } from "../../app/store";
+import { ContainerMain } from "../../components/divs/ContainerMain";
 
 export type ClientsInterface = {
   idclients: number;

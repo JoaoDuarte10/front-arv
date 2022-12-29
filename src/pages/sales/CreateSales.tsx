@@ -6,7 +6,7 @@ import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
 import { ComboBox } from "../../components/ComboBox";
 import { mask } from "../../service/mask-money";
 import { ClientService } from "../../service/client-service";
-import { ClientsInterface } from "../Clients";
+import { ClientsInterface } from "../clients/Clients";
 import { useDispatch, useSelector } from "react-redux";
 import { clientAdded } from "../../reducers/clients-slice";
 import { ReduceStore } from "../../app/store";
