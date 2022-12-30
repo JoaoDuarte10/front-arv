@@ -3,7 +3,6 @@ import { ContainerMain } from "../../components/divs/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
-import { ComboBox } from "../../components/ComboBox";
 import { mask } from "../../service/mask-money";
 import { ClientService } from "../../service/client-service";
 import { ClientsInterface } from "../clients/Clients";
@@ -108,7 +107,7 @@ export function CreateSales(props: {
       {loader}
       <Breadcumb
         page={[
-          { link: "sales", name: "Vendas" },
+          { link: "/sales", name: "Vendas" },
           { link: false, name: "Nova venda" }
         ]}
       />

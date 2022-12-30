@@ -19,6 +19,7 @@ import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { TIMEOUT } from "../../utils/constants";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { TableSales } from "../../components/sales/TableSales";
+import { Collapse } from "@material-ui/core";
 
 export function Sales(props: {
   salesService: SalesService;
@@ -172,7 +173,7 @@ export function Sales(props: {
   return (
     <ContainerMain>
       {loader}
-      <Breadcumb page={[{ link: "sales", name: "Vendas" }]} />
+      <Breadcumb page={[{ link: false, name: "Suas vendas" }]} />
       <TitlePrincipal title="Suas vendas" />
 
       <div className="filter_buttons">
@@ -209,7 +210,7 @@ export function Sales(props: {
         />
       </div>
 
-      {searchFilterDateEnable ? (
+      <Collapse in={searchFilterDateEnable} timeout="auto" unmountOnExit>
         <div className="filter_buttons">
           <small className="font-weight-bold">Selecione a data</small>
           <div
@@ -239,9 +240,9 @@ export function Sales(props: {
             Fechar
           </button>
         </div>
-      ) : null}
+      </Collapse>
 
-      {searchFilterPeriodEnable ? (
+      <Collapse in={searchFilterPeriodEnable} timeout="auto" unmountOnExit>
         <div className="filter_buttons">
           <div
             style={{
@@ -298,9 +299,9 @@ export function Sales(props: {
             Fechar
           </button>
         </div>
-      ) : null}
+      </Collapse>
 
-      {searchFilterClientEnable ? (
+      <Collapse in={searchFilterClientEnable} timeout="auto" unmountOnExit>
         <div className="filter_buttons">
           <div
             style={{
@@ -348,46 +349,37 @@ export function Sales(props: {
             Fechar
           </button>
         </div>
-      ) : null}
+      </Collapse>
 
       {alert}
 
       {sales.length ? (
         <div>
           <TableSales sales={sales} salesService={salesService} />
-          <div className="inline">
-            <p>
-              <strong>Quantidade de vendas:</strong>{" "}
-              {sales.length > 0 ? sales.length : null}
-            </p>
-          </div>
+          <strong>Quantidade de vendas:</strong>{" "}
+          {sales.length > 0 ? sales.length : null}
+          <br />
           {sales.length &&
           sales.filter(sale => sale.payment_status === "PENDING").length ? (
-            <div className="form-row mt-2">
-              <h6 className="font-weight-bold">Total a receber: </h6>
-              <h6>
-                {sales.length > 0
-                  ? salesService.countTotalValueSales(
-                      sales
-                        .filter(sale => sale.payment_status === "PENDING")
-                        .map(sale => Number(sale.total))
-                    )
-                  : null}
-              </h6>
-            </div>
-          ) : null}
-          <div className="form-row mt-2">
-            <h6 className="font-weight-bold">Total recebido:</h6>
-            <h6>
+            <div className="mt-2 mb-2">
+              <strong>Total a receber: </strong>{" "}
               {sales.length > 0
                 ? salesService.countTotalValueSales(
                     sales
-                      .filter(sale => sale.payment_status === "PAID")
+                      .filter(sale => sale.payment_status === "PENDING")
                       .map(sale => Number(sale.total))
                   )
                 : null}
-            </h6>
-          </div>
+            </div>
+          ) : null}
+          <strong>Total recebido:</strong>{" "}
+          {sales.length > 0
+            ? salesService.countTotalValueSales(
+                sales
+                  .filter(sale => sale.payment_status === "PAID")
+                  .map(sale => Number(sale.total))
+              )
+            : null}
         </div>
       ) : (
         <h6 className="mt-4 ml-2 font-weight-bold">Faça uma busca</h6>
