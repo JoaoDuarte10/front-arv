@@ -6,7 +6,7 @@ import TextFieldMultiline from "./inputs/TextFieldMultiline";
 import { ClientsInterface } from "../pages/clients/Clients";
 import { ComboBox } from "./ComboBox";
 import { SegmentInterface } from "../service/segment";
-import ComboBoxList from './inputs/InputAutocompleteList';
+import ComboBoxList from "./inputs/InputAutocompleteList";
 
 type Response = {
   success: boolean;
@@ -79,7 +79,9 @@ export function FormClient(props: InputProps) {
         </svg>
       </div>
       <div className="pb-2">
-        <small className="font-weight-bold">Os campos que possuem " * " são obrigatórios!</small>
+        <small className="font-weight-bold">
+          Os campos que possuem " * " são obrigatórios!
+        </small>
       </div>
       <FullWidthTextField
         label="Nome*"

@@ -17,7 +17,7 @@ import { AlertError } from "../../components/alerts/AlertError";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import TextFieldMultiline from "../../components/inputs/TextFieldMultiline";
-import ComboBoxList from '../../components/inputs/InputAutocompleteList';
+import ComboBoxList from "../../components/inputs/InputAutocompleteList";
 
 export function CreateSales(props: {
   clientService: ClientService;
@@ -107,7 +107,9 @@ export function CreateSales(props: {
       <TitlePrincipal title="Nova venda" />
 
       <div className="form_sales">
-        <small className="font-weight-bold pb-4">Os campos que possuem " * " são obrigatórios!</small>
+        <small className="font-weight-bold pb-4">
+          Os campos que possuem " * " são obrigatórios!
+        </small>
         <div className="form-group mb-2 mt-2">
           {clients.length ? (
             <ComboBoxList

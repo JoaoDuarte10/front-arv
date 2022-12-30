@@ -23,12 +23,12 @@ export function BasicDeleteModal({ children, btnName, onDeleteClient }: any) {
     <Box>
       <button
         onClick={handleOpen}
-        className="m-0 pl-2 pr-2 btn btn-outline-danger"
+        className="m-0 pl-1 pr-1 ml-1 mr-1 btn btn-outline-danger"
         style={{
-          display: 'flex',
-          alignItems: 'center',
+          display: "flex",
+          alignItems: "center",
           border: "none",
-          backgroundColor: 'transparent',
+          backgroundColor: "transparent",
           outline: "none",
           padding: 0,
           margin: 0

@@ -21,13 +21,15 @@ const segmentSlice = createSlice({
         payload: SegmentInterface[];
       } {
         return {
-          payload: params.length ? params.map(segment => {
-            return {
-              idsegments: segment.idsegments,
-              name: segment.name,
-              createdAt: segment.createdAt
-            };
-          }) : []
+          payload: params.length
+            ? params.map(segment => {
+                return {
+                  idsegments: segment.idsegments,
+                  name: segment.name,
+                  createdAt: segment.createdAt
+                };
+              })
+            : []
         };
       }
     }

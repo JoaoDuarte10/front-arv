@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SalesService, SalesInterface } from '../../service/sales';
+import { SalesService, SalesInterface } from "../../service/sales";
 import { ContainerMain } from "../../components/divs/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
@@ -12,13 +12,13 @@ import { ReduceStore } from "../../app/store";
 import { clientAdded } from "../../reducers/clients-slice";
 import { ClientsInterface } from "../clients/Clients";
 import { ClientService } from "../../service/client-service";
-import ComboBoxList from '../../components/inputs/InputAutocompleteList';
+import ComboBoxList from "../../components/inputs/InputAutocompleteList";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { AlertError } from "../../components/alerts/AlertError";
-import { AlertSuccess } from '../../components/alerts/AlertSuccess';
-import { TIMEOUT } from '../../utils/constants';
-import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
-import { TableSales } from '../../components/sales/TableSales';
+import { AlertSuccess } from "../../components/alerts/AlertSuccess";
+import { TIMEOUT } from "../../utils/constants";
+import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
+import { TableSales } from "../../components/sales/TableSales";
 
 export function Sales(props: {
   salesService: SalesService;
@@ -39,7 +39,10 @@ export function Sales(props: {
   >(false);
 
   const [date, setDate] = useState<string>("");
-  const [period, setPeriod] = useState<{ date1: string, date2: string }>({ date1: "", date2: "" })
+  const [period, setPeriod] = useState<{ date1: string; date2: string }>({
+    date1: "",
+    date2: ""
+  });
 
   const [clientSelected, setClientSelected] = useState<{
     label: string;
@@ -79,13 +82,19 @@ export function Sales(props: {
 
   const fetchSalesByDate = async () => {
     setLoader(<CircularIndeterminate />);
-    const { success, data, error, notFound, badRequest } = await salesService.findByDate(date);
+    const {
+      success,
+      data,
+      error,
+      notFound,
+      badRequest
+    } = await salesService.findByDate(date);
     setLoader(null);
 
     if (success) {
       setSales(data);
       setAlert(<AlertSuccess title="Pesquisa atualizada" />);
-    };
+    }
     if (notFound) {
       setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
     }
@@ -95,21 +104,25 @@ export function Sales(props: {
       );
     }
     if (badRequest) {
-      setAlert(
-        <AlertInfo title="pPreencha os campos corretamente." />
-      )
+      setAlert(<AlertInfo title="pPreencha os campos corretamente." />);
     }
   };
 
   const fetchSalesByPeriod = async () => {
     setLoader(<CircularIndeterminate />);
-    const { success, data, error, notFound, badRequest } = await salesService.findByPeriod(period.date1, period.date2);
+    const {
+      success,
+      data,
+      error,
+      notFound,
+      badRequest
+    } = await salesService.findByPeriod(period.date1, period.date2);
     setLoader(null);
 
     if (success) {
       setSales(data);
       setAlert(<AlertSuccess title="Pesquisa atualizada" />);
-    };
+    }
     if (notFound) {
       setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
     }
@@ -119,21 +132,25 @@ export function Sales(props: {
       );
     }
     if (badRequest) {
-      setAlert(
-        <AlertInfo title="pPreencha os campos corretamente." />
-      )
+      setAlert(<AlertInfo title="pPreencha os campos corretamente." />);
     }
   };
 
   const fetchSalesByClient = async () => {
     setLoader(<CircularIndeterminate />);
-    const { success, data, error, notFound, badRequest } = await salesService.findByClient(clientSelected.idclients);
+    const {
+      success,
+      data,
+      error,
+      notFound,
+      badRequest
+    } = await salesService.findByClient(clientSelected.idclients);
     setLoader(null);
 
     if (success) {
       setSales(data);
       setAlert(<AlertSuccess title="Pesquisa atualizada" />);
-    };
+    }
     if (notFound) {
       setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
     }
@@ -143,9 +160,7 @@ export function Sales(props: {
       );
     }
     if (badRequest) {
-      setAlert(
-        <AlertInfo title="Preencha os campos corretamente." />
-      )
+      setAlert(<AlertInfo title="Preencha os campos corretamente." />);
     }
   };
 
@@ -216,7 +231,12 @@ export function Sales(props: {
               }}
             />
           </div>
-          <button className="btn btn-secondary mt-2" onClick={e => closeActionButtons()}>Fechar</button>
+          <button
+            className="btn btn-secondary mt-2"
+            onClick={e => closeActionButtons()}
+          >
+            Fechar
+          </button>
         </div>
       ) : null}
 
@@ -270,7 +290,12 @@ export function Sales(props: {
               }}
             />
           </div>
-          <button className="btn btn-secondary mt-2" onClick={e => closeActionButtons()}>Fechar</button>
+          <button
+            className="btn btn-secondary mt-2"
+            onClick={e => closeActionButtons()}
+          >
+            Fechar
+          </button>
         </div>
       ) : null}
 
@@ -315,7 +340,12 @@ export function Sales(props: {
               }}
             />
           </div>
-          <button className="btn btn-secondary mt-2" onClick={e => closeActionButtons()}>Fechar</button>
+          <button
+            className="btn btn-secondary mt-2"
+            onClick={e => closeActionButtons()}
+          >
+            Fechar
+          </button>
         </div>
       ) : null}
 
@@ -326,31 +356,38 @@ export function Sales(props: {
           <TableSales sales={sales} salesService={salesService} />
           <div className="inline">
             <p>
-              <strong>Quantidade de vendas:</strong>{' '}
+              <strong>Quantidade de vendas:</strong>{" "}
               {sales.length > 0 ? sales.length : null}
             </p>
           </div>
           <div className="form-row mt-2">
-            <h6 className="font-weight-bold">Total a receber: {" "}</h6>
+            <h6 className="font-weight-bold">Total a receber: </h6>
             <h6>
               {sales.length > 0
-                ? salesService.countTotalValueSales(sales.filter(sale => sale.payment_status === "PENDING").map(sale => Number(sale.total)))
+                ? salesService.countTotalValueSales(
+                    sales
+                      .filter(sale => sale.payment_status === "PENDING")
+                      .map(sale => Number(sale.total))
+                  )
                 : null}
             </h6>
           </div>
           <div className="form-row mt-2">
-            <h6 className="font-weight-bold">Total recebido: {" "}</h6>
+            <h6 className="font-weight-bold">Total recebido: </h6>
             <h6>
               {sales.length > 0
-                ? salesService.countTotalValueSales(sales.filter(sale => sale.payment_status === "PAID").map(sale => Number(sale.total)))
+                ? salesService.countTotalValueSales(
+                    sales
+                      .filter(sale => sale.payment_status === "PAID")
+                      .map(sale => Number(sale.total))
+                  )
                 : null}
             </h6>
           </div>
         </div>
       ) : (
         <h6 className="mt-4 ml-2 font-weight-bold">Faça uma busca</h6>
-      )
-      }
-    </ContainerMain >
+      )}
+    </ContainerMain>
   );
 }

@@ -3,7 +3,7 @@ import "../css/main.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ReduceStore } from "../app/store";
-import { KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons';
+import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
 
 export function NavBarResponsive(props: any) {
   const { localStorageService } = props;

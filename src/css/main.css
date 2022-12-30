@@ -184,6 +184,7 @@
   justify-content: space-between;
   border-bottom: lightgray 1px solid;
   margin-bottom: 12px;
+  padding-bottom: 10px;
 }
 
 #more_info_client {

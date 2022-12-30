@@ -12,7 +12,7 @@ export type SalesInterface = {
   payment_status: string;
   payment_date: string;
   created_at: string;
-}
+};
 
 export class SalesService {
   private accessToken: string = "";
@@ -88,7 +88,10 @@ export class SalesService {
     return response;
   }
 
-  async findByPeriod(date1: string, date2: string): Promise<Response<SalesInterface[]>> {
+  async findByPeriod(
+    date1: string,
+    date2: string
+  ): Promise<Response<SalesInterface[]>> {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
@@ -118,7 +121,7 @@ export class SalesService {
         .get(`${this.baseUri}/api/sales/client`, {
           params: { idclients },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`,
+            Authorization: `Bearer ${this.accessToken}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -138,15 +141,17 @@ export class SalesService {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
-        .post(`${this.baseUri}/api/sales/register-payment`,
+        .post(
+          `${this.baseUri}/api/sales/register-payment`,
           {
             idsales
           },
           {
             headers: {
-              Authorization: `Bearer ${this.accessToken}`,
+              Authorization: `Bearer ${this.accessToken}`
             }
-          })
+          }
+        )
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
@@ -164,13 +169,12 @@ export class SalesService {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
-        .delete(`${this.baseUri}/api/sales`,
-          {
-            params: { idsales },
-            headers: {
-              Authorization: `Bearer ${this.accessToken}`,
-            }
-          })
+        .delete(`${this.baseUri}/api/sales`, {
+          params: { idsales },
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
@@ -186,8 +190,8 @@ export class SalesService {
 
   countTotalValueSales(prices: number[]): string {
     return prices
-      .filter((item) => !!item)
+      .filter(item => !!item)
       .reduce((acc, item) => acc + item, 0)
-      .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+      .toLocaleString("pt-br", { style: "currency", currency: "BRL" });
   }
 }
