@@ -5,7 +5,6 @@ import { ClientService } from "../../service/client-service";
 import { useDispatch, useSelector } from "react-redux";
 import { clientAdded } from "../../reducers/clients-slice";
 import { Link } from "react-router-dom";
-import { randomId } from "../../utils/random";
 import { WhatsAppService } from "../../service/whatsapp";
 import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
 import Typography from "@mui/material/Typography";
@@ -16,6 +15,7 @@ import { ReduceStore } from "../../app/store";
 import { ContainerMain } from "../../components/divs/ContainerMain";
 import { EditIconButton } from "../../components/buttons/EditIconButton";
 import { WhatsAppIconButton } from "../../components/buttons/WhatsAppIconButton";
+import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 
 export type ClientsInterface = {
   idclients: number;
@@ -41,9 +41,13 @@ export function Clients(props: {
 
   const [clients, setClients] = useState<ClientsInterface[]>([]);
   const [alert, setAlert] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<JSX.Element | null>(null);
 
   const getAllClients = async () => {
+    setLoader(<CircularIndeterminate />);
     const { data } = await clientService.fetchAllClients();
+    setLoader(null);
+
     if (data) {
       setClients(data);
       dispatch(clientAdded(data));
@@ -59,7 +63,9 @@ export function Clients(props: {
   }, []);
 
   const onDeleteClient = async (idclients: number) => {
+    setLoader(<CircularIndeterminate />);
     const { success, error } = await clientService.deleteClient(idclients);
+    setLoader(null);
     if (error) {
       setAlert(
         <AlertError title="Não foi possível processar sua requisição." />
@@ -83,6 +89,7 @@ export function Clients(props: {
       <TitlePrincipal title="Clientes" />
 
       {alert}
+      {loader}
 
       {clients.length
         ? clients.map(client => {

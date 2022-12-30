@@ -12,6 +12,7 @@ import { ReduceStore } from "../../app/store";
 import { SegmentService, SegmentInterface } from "../../service/segment";
 import { segmentAdded } from "../../reducers/segment-sclice";
 import { ContainerMain } from "../../components/divs/ContainerMain";
+import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 
 export type CreateClientRequest = {
   event: React.SyntheticEvent;
@@ -34,16 +35,24 @@ export function CreateClient(props: {
 
   const [segments, setSegments] = useState<SegmentInterface[]>([]);
   const [alert, setAlert] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<JSX.Element | null>(null);
 
   const dispatch = useDispatch();
+
   const getAllClients = async () => {
+    setLoader(<CircularIndeterminate />);
     const { data } = await clientService.fetchAllClients();
+    setLoader(null);
+
     dispatch(clearClient());
     dispatch(clientAdded(data));
   };
 
   const getSegments = async () => {
+    setLoader(<CircularIndeterminate />);
     const { data } = await segmentService.getAll();
+    setLoader(null);
+
     dispatch(segmentAdded(data));
     setSegments(data);
   };
@@ -61,6 +70,7 @@ export function CreateClient(props: {
   ): Promise<{ success: boolean }> => {
     params.event.preventDefault();
 
+    setLoader(<CircularIndeterminate />);
     const { error, conflict, badRequest } = await clientService.createClinet({
       name: params.name,
       email: params.email,
@@ -70,6 +80,7 @@ export function CreateClient(props: {
       note: params.note || null,
       idsegment: params.idsegment
     });
+    setLoader(null);
 
     if (error) {
       setAlert(<AlertError title="Erro ao processar sua requisição." />);
@@ -97,6 +108,8 @@ export function CreateClient(props: {
 
   return (
     <ContainerMain>
+      {loader}
+
       <Breadcumb
         page={[
           { link: "/clients", name: "Clientes" },

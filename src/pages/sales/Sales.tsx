@@ -50,16 +50,17 @@ export function Sales(props: {
   }>({ label: "", idclients: 0 });
 
   const clientsCache = useSelector((state: ReduceStore) => state.client);
-
   const [clients, setClients] = useState<ClientsInterface[]>([]);
-  const [alert, setAlert] = useState<JSX.Element | null>(null);
-
   const [sales, setSales] = useState<SalesInterface[]>([]);
 
+  const [alert, setAlert] = useState<JSX.Element | null>(null);
   const [loader, setLoader] = useState<JSX.Element | null>(null);
 
   const getAllClients = async () => {
+    setLoader(<CircularIndeterminate />);
     const { data } = await clientService.fetchAllClients();
+    setLoader(null);
+
     if (data) {
       setClients(data);
       dispatch(clientAdded(data));
@@ -365,10 +366,10 @@ export function Sales(props: {
             <h6>
               {sales.length > 0
                 ? salesService.countTotalValueSales(
-                    sales
-                      .filter(sale => sale.payment_status === "PENDING")
-                      .map(sale => Number(sale.total))
-                  )
+                  sales
+                    .filter(sale => sale.payment_status === "PENDING")
+                    .map(sale => Number(sale.total))
+                )
                 : null}
             </h6>
           </div>
@@ -377,10 +378,10 @@ export function Sales(props: {
             <h6>
               {sales.length > 0
                 ? salesService.countTotalValueSales(
-                    sales
-                      .filter(sale => sale.payment_status === "PAID")
-                      .map(sale => Number(sale.total))
-                  )
+                  sales
+                    .filter(sale => sale.payment_status === "PAID")
+                    .map(sale => Number(sale.total))
+                )
                 : null}
             </h6>
           </div>

@@ -14,6 +14,7 @@ import { clearClient, clientAdded } from "../../reducers/clients-slice";
 import { SegmentService, SegmentInterface } from "../../service/segment";
 import { segmentAdded } from "../../reducers/segment-sclice";
 import { ContainerMain } from "../../components/divs/ContainerMain";
+import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 
 export type EditClientRequest = {
   event: React.SyntheticEvent;
@@ -35,6 +36,7 @@ export function EditClient(props: {
 
   const { clientId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const clients = useSelector((state: ReduceStore) => state.client);
   const client = clients.find(item => item.idclients === Number(clientId));
@@ -43,9 +45,22 @@ export function EditClient(props: {
 
   const [segments, setSegments] = useState<SegmentInterface[]>([]);
   const [alert, setAlert] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<JSX.Element | null>(null);
+
+  const getAllClients = async () => {
+    setLoader(<CircularIndeterminate />);
+    const { data } = await clientService.fetchAllClients();
+    setLoader(null);
+
+    dispatch(clearClient());
+    dispatch(clientAdded(data));
+  };
 
   const getSegments = async () => {
+    setLoader(<CircularIndeterminate />);
     const { data } = await segmentService.getAll();
+    setLoader(null);
+
     dispatch(segmentAdded(data));
     setSegments(data);
   };
@@ -61,17 +76,12 @@ export function EditClient(props: {
     }
   }, []);
 
-  const dispatch = useDispatch();
-  const getAllClients = async () => {
-    const { data } = await clientService.fetchAllClients();
-    dispatch(clearClient());
-    dispatch(clientAdded(data));
-  };
-
   const editClient = async (
     params: EditClientRequest
   ): Promise<{ success: boolean }> => {
     params.event.preventDefault();
+
+    setLoader(<CircularIndeterminate />);
     const { error, conflict, badRequest } = await clientService.editClinet({
       idclients: params.idclients,
       name: params.name,
@@ -82,6 +92,7 @@ export function EditClient(props: {
       note: params.note || null,
       idsegment: params.idsegment
     });
+    setLoader(null);
 
     if (error) {
       setAlert(<AlertError title="Erro ao processar sua requisição." />);
@@ -110,6 +121,8 @@ export function EditClient(props: {
 
   return (
     <ContainerMain>
+      {loader}
+
       <Breadcumb
         page={[
           { link: "/clients", name: "Clientes" },

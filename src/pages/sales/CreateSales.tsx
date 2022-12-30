@@ -18,6 +18,7 @@ import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import TextFieldMultiline from "../../components/inputs/TextFieldMultiline";
 import ComboBoxList from "../../components/inputs/InputAutocompleteList";
+import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 
 export function CreateSales(props: {
   clientService: ClientService;
@@ -35,14 +36,18 @@ export function CreateSales(props: {
   const [date, setDate] = useState<string>("");
   const [paymentDate, setPaymentDate] = useState<string>("");
   const [paymentPending, setPaymentPending] = useState<boolean>(true);
-
   const [clientSelected, setClientSelected] = useState<string>("");
 
   const [clients, setClients] = useState<ClientsInterface[]>([]);
+
   const [alert, setAlert] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<JSX.Element | null>(null);
 
   const getAllClients = async () => {
+    setLoader(<CircularIndeterminate />);
     const { data } = await clientService.fetchAllClients();
+    setLoader(null);
+
     if (data) {
       setClients(data);
       dispatch(clientAdded(data));
@@ -69,6 +74,7 @@ export function CreateSales(props: {
   const onCreate = async () => {
     const priceParsed = parseInt(price.substring(2).replace(/\.|,/g, "")) / 100;
 
+    setLoader(<CircularIndeterminate />);
     const { success, error, badRequest } = await salesService.create({
       idclients: idclients || null,
       description,
@@ -77,6 +83,7 @@ export function CreateSales(props: {
       paymentPending: paymentPending,
       paymentDate
     });
+    setLoader(null);
 
     if (success) {
       setAlert(<AlertSuccess title="Venda criada com sucesso." />);
@@ -98,6 +105,7 @@ export function CreateSales(props: {
 
   return (
     <ContainerMain>
+      {loader}
       <Breadcumb
         page={[
           { link: "sales", name: "Vendas" },

@@ -13,7 +13,6 @@ import Paper from "@mui/material/Paper";
 import {
   KeyboardArrowDown,
   KeyboardArrowUp,
-  Delete,
   CheckCircle,
   Cancel
 } from "@material-ui/icons";
@@ -25,6 +24,7 @@ import { AlertInfo } from "../alerts/AlertInfo";
 import { AlertSuccess } from "../alerts/AlertSuccess";
 import { TIMEOUT } from "../../utils/constants";
 import { BasicDeleteModal } from "../modal/BasicDeleteModal";
+import { CircularIndeterminate } from '../loaders/CircularLoader';
 
 type InputProps = {
   sales: SalesInterface[];
@@ -105,12 +105,16 @@ function Row(props: {
 }) {
   const { row, salesService } = props;
   const [open, setOpen] = useState<boolean>(false);
+
   const [alert, setAlert] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<JSX.Element | null>(null);
 
   const registerPayment = async (idsales: number) => {
+    setLoader(<CircularIndeterminate />);
     const { success, error, notFound } = await salesService.registerPayment(
       idsales
     );
+    setLoader(null);
 
     if (success) {
       setAlert(
@@ -128,7 +132,9 @@ function Row(props: {
   };
 
   const deleteSale = async (idsales: number) => {
+    setLoader(<CircularIndeterminate />);
     const { success, error, notFound } = await salesService.delete(idsales);
+    setLoader(null);
 
     if (success) {
       setAlert(
@@ -151,6 +157,8 @@ function Row(props: {
 
   return (
     <React.Fragment>
+      {loader}
+
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
           <IconButton

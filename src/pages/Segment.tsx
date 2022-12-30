@@ -14,6 +14,7 @@ import { TopModal } from "../components/modal/TopModal";
 import { CardSegment } from "../components/CardSegment";
 import { format } from "date-fns";
 import { ContainerMain } from "../components/divs/ContainerMain";
+import { CircularIndeterminate } from "../components/loaders/CircularLoader";
 
 type InputProps = {
   segmentService: SegmentService;
@@ -38,9 +39,13 @@ export function Segment(props: InputProps) {
   );
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<JSX.Element | null>(null);
 
   const getSegments = async () => {
+    setLoader(<CircularIndeterminate />);
     const { data } = await segmentService.getAll();
+    setLoader(null);
+
     dispatch(segmentAdded(data));
     setSegments(data);
   };
@@ -69,7 +74,9 @@ export function Segment(props: InputProps) {
 
     if (!formFieldsIsValids(segment)) return;
 
+    setLoader(<CircularIndeterminate />);
     const { success, conflict, error } = await segmentService.create(segment);
+    setLoader(null);
 
     if (success) {
       setAlert(<AlertSuccess title="Segmento criado com sucesso." />);
@@ -93,14 +100,17 @@ export function Segment(props: InputProps) {
   ) => {
     event.preventDefault();
 
+    setLoader(<CircularIndeterminate />);
     const { success, notFound, error } = await segmentService.update(
       segment.idsegments,
       segment.name
     );
+    setLoader(null);
 
     if (success) {
       setAlert(<AlertSuccess title="Segmento atualizado com sucesso." />);
       getSegments();
+      setEditSegmentName({} as any);
     }
 
     if (notFound) {
@@ -120,9 +130,11 @@ export function Segment(props: InputProps) {
   ) => {
     event.preventDefault();
 
+    setLoader(<CircularIndeterminate />);
     const { success, notFound, error, conflict } = await segmentService.delete(
       idsegments
     );
+    setLoader(null);
 
     if (success) {
       setAlert(<AlertSuccess title="Segmento deletado com sucesso." />);
@@ -152,6 +164,7 @@ export function Segment(props: InputProps) {
 
   return (
     <ContainerMain>
+      {loader}
       <Breadcumb page={[{ link: false, name: "Segmentos" }]} />
       <TitlePrincipal title="Segmentos" />
 
