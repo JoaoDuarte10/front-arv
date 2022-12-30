@@ -361,27 +361,30 @@ export function Sales(props: {
               {sales.length > 0 ? sales.length : null}
             </p>
           </div>
+          {sales.length &&
+          sales.filter(sale => sale.payment_status === "PENDING").length ? (
+            <div className="form-row mt-2">
+              <h6 className="font-weight-bold">Total a receber: </h6>
+              <h6>
+                {sales.length > 0
+                  ? salesService.countTotalValueSales(
+                      sales
+                        .filter(sale => sale.payment_status === "PENDING")
+                        .map(sale => Number(sale.total))
+                    )
+                  : null}
+              </h6>
+            </div>
+          ) : null}
           <div className="form-row mt-2">
-            <h6 className="font-weight-bold">Total a receber: </h6>
+            <h6 className="font-weight-bold">Total recebido:</h6>
             <h6>
               {sales.length > 0
                 ? salesService.countTotalValueSales(
-                  sales
-                    .filter(sale => sale.payment_status === "PENDING")
-                    .map(sale => Number(sale.total))
-                )
-                : null}
-            </h6>
-          </div>
-          <div className="form-row mt-2">
-            <h6 className="font-weight-bold">Total recebido: </h6>
-            <h6>
-              {sales.length > 0
-                ? salesService.countTotalValueSales(
-                  sales
-                    .filter(sale => sale.payment_status === "PAID")
-                    .map(sale => Number(sale.total))
-                )
+                    sales
+                      .filter(sale => sale.payment_status === "PAID")
+                      .map(sale => Number(sale.total))
+                  )
                 : null}
             </h6>
           </div>

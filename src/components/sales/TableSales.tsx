@@ -24,7 +24,7 @@ import { AlertInfo } from "../alerts/AlertInfo";
 import { AlertSuccess } from "../alerts/AlertSuccess";
 import { TIMEOUT } from "../../utils/constants";
 import { BasicDeleteModal } from "../modal/BasicDeleteModal";
-import { CircularIndeterminate } from '../loaders/CircularLoader';
+import { CircularIndeterminate } from "../loaders/CircularLoader";
 
 type InputProps = {
   sales: SalesInterface[];
