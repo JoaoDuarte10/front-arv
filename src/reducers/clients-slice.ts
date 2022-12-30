@@ -21,7 +21,7 @@ const clientSlice = createSlice({
         payload: ClientsInterface[];
       } {
         return {
-          payload: params.map(client => {
+          payload: params.length ? params.map(client => {
             return {
               idclients: client.idclients,
               name: client.name,
@@ -34,7 +34,7 @@ const clientSlice = createSlice({
               created_at: client.created_at,
               updated_at: client.updated_at
             };
-          })
+          }) : []
         };
       }
     },

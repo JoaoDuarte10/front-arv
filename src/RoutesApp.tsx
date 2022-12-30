@@ -19,6 +19,7 @@ import { Segment } from "./pages/Segment";
 import { SegmentService } from "./service/segment";
 import { CreateSales } from "./pages/sales/CreateSales";
 import { SalesService } from "./service/sales";
+import { Sales } from "./pages/sales/Sales";
 
 export function RoutesApp() {
   const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
@@ -110,6 +111,18 @@ export function RoutesApp() {
               <PrivateRoute>
                 {navBar}
                 <Segment segmentService={segmentService} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/sales"
+            element={
+              <PrivateRoute>
+                {navBar}
+                <Sales
+                  salesService={salesService}
+                  clientService={clientService}
+                />
               </PrivateRoute>
             }
           />

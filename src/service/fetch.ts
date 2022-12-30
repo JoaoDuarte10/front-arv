@@ -1,7 +1,7 @@
 import { HTTP_RESPONSE } from "../utils/constants";
-export type Response = {
+export type Response<T = any> = {
   success: boolean;
-  data: any;
+  data: T;
   unauthorized: boolean;
   error: boolean;
   message: null;

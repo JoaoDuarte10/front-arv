@@ -7,7 +7,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 300,
+  // width: 300,
   bgcolor: "background.paper",
   borderRadius: "5px",
   boxShadow: 24,
@@ -25,8 +25,10 @@ export function BasicDeleteModal({ children, btnName, onDeleteClient }: any) {
         onClick={handleOpen}
         className="m-0 pl-2 pr-2 btn btn-outline-danger"
         style={{
+          display: 'flex',
+          alignItems: 'center',
           border: "none",
-          backgroundColor: "transparent",
+          backgroundColor: 'transparent',
           outline: "none",
           padding: 0,
           margin: 0
@@ -59,6 +61,14 @@ export function BasicDeleteModal({ children, btnName, onDeleteClient }: any) {
             }}
           >
             {btnName}
+          </button>
+          <button
+            className="btn btn-secondary p-2 ml-2 mt-4"
+            onClick={(e: React.SyntheticEvent) => {
+              handleClose();
+            }}
+          >
+            Fechar
           </button>
         </Box>
       </Modal>

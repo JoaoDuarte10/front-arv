@@ -17,6 +17,7 @@ import { AlertError } from "../../components/alerts/AlertError";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import TextFieldMultiline from "../../components/inputs/TextFieldMultiline";
+import ComboBoxList from '../../components/inputs/InputAutocompleteList';
 
 export function CreateSales(props: {
   clientService: ClientService;
@@ -106,17 +107,19 @@ export function CreateSales(props: {
       <TitlePrincipal title="Nova venda" />
 
       <div className="form_sales">
-        <div className="form-group mb-2">
+        <small className="font-weight-bold pb-4">Os campos que possuem " * " são obrigatórios!</small>
+        <div className="form-group mb-2 mt-2">
           {clients.length ? (
-            <ComboBox
-              title="Selecionar Cliente"
+            <ComboBoxList
               options={clients.map(client => {
                 return {
                   label: client.name,
                   idclients: client.idclients
                 };
               })}
-              selectValue={(
+              label={"Selecione o Cliente"}
+              value={clientSelected}
+              onChange={(
                 e: React.BaseSyntheticEvent,
                 item: { label: string; idclients: number }
               ) => {
@@ -127,7 +130,6 @@ export function CreateSales(props: {
                 setIdClients(item.idclients);
                 setClientSelected(item.label);
               }}
-              value={clientSelected}
             />
           ) : null}
         </div>
