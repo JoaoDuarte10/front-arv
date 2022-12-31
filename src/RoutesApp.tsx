@@ -20,6 +20,9 @@ import { SegmentService } from "./service/segment";
 import { CreateSales } from "./pages/sales/CreateSales";
 import { SalesService } from "./service/sales";
 import { Sales } from "./pages/sales/Sales";
+import { Schedules } from "./pages/schedules/Schedule";
+import { CreateSchedule } from "./pages/schedules/CreateSchedule";
+import { ScheduleService } from "./service/schedule";
 
 export function RoutesApp() {
   const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
@@ -35,6 +38,10 @@ export function RoutesApp() {
     localStorageService
   );
   const salesService = new SalesService(API_RV_BASE_URI, localStorageService);
+  const scheduleService = new ScheduleService(
+    API_RV_BASE_URI,
+    localStorageService
+  );
 
   const navBar = (
     <NavBarResponsive
@@ -134,6 +141,32 @@ export function RoutesApp() {
                 <CreateSales
                   clientService={clientService}
                   salesService={salesService}
+                />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/schedules"
+            element={
+              <PrivateRoute>
+                {navBar}
+                <Schedules
+                  clientService={clientService}
+                  scheduleService={scheduleService}
+                  whatsAppService={whatsAppService}
+                  salesService={salesService}
+                />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/create-schedule"
+            element={
+              <PrivateRoute>
+                {navBar}
+                <CreateSchedule
+                  clientService={clientService}
+                  scheduleService={scheduleService}
                 />
               </PrivateRoute>
             }

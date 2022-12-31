@@ -9,7 +9,7 @@ import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
 import { SearchButton } from "../../components/buttons/SearchButton";
 import { useSelector, useDispatch } from "react-redux";
 import { ReduceStore } from "../../app/store";
-import { clientAdded } from "../../reducers/clients-slice";
+import { clearClient, clientAdded } from "../../reducers/clients-slice";
 import { ClientsInterface } from "../clients/Clients";
 import { ClientService } from "../../service/client-service";
 import ComboBoxList from "../../components/inputs/InputAutocompleteList";
@@ -63,6 +63,7 @@ export function Sales(props: {
     setLoader(null);
 
     if (data) {
+      dispatch(clearClient());
       setClients(data);
       dispatch(clientAdded(data));
     }
@@ -173,7 +174,12 @@ export function Sales(props: {
   return (
     <ContainerMain>
       {loader}
-      <Breadcumb page={[{ link: false, name: "Suas vendas" }]} />
+      <Breadcumb
+        page={[
+          { link: "/create-sale", name: "Nova venda" },
+          { link: false, name: "Suas vendas" }
+        ]}
+      />
       <TitlePrincipal title="Suas vendas" />
 
       <div className="filter_buttons">
@@ -247,7 +253,7 @@ export function Sales(props: {
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
+              // justifyContent: "space-between",
               width: "360px",
               alignItems: "flex-end"
             }}

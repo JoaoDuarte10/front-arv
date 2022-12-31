@@ -3,7 +3,7 @@ import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { ClientService } from "../../service/client-service";
 import { useDispatch, useSelector } from "react-redux";
-import { clientAdded } from "../../reducers/clients-slice";
+import { clearClient, clientAdded } from "../../reducers/clients-slice";
 import { Link } from "react-router-dom";
 import { WhatsAppService } from "../../service/whatsapp";
 import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
@@ -49,6 +49,7 @@ export function Clients(props: {
     setLoader(null);
 
     if (data) {
+      dispatch(clearClient());
       setClients(data);
       dispatch(clientAdded(data));
     }
@@ -94,85 +95,80 @@ export function Clients(props: {
       {clients.length
         ? clients.map(client => {
             return (
-              <div key={client.idclients}>
-                <div className="container_client">
-                  <div className="actions_client remove-style-link">
-                    <Link
-                      id="more_info_client"
-                      to={`/info-client/${client.idclients}`}
-                    >
-                      Mais Informações
+              <div className="container_client" key={client.idclients}>
+                <div className="actions_client remove-style-link">
+                  <Link
+                    id="more_info_client"
+                    to={`/info-client/${client.idclients}`}
+                  >
+                    Mais Informações
+                  </Link>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center"
+                    }}
+                  >
+                    <WhatsAppIconButton
+                      onClick={(e: React.SyntheticEvent) => {
+                        whatsAppService.redirectToWhatsapp(e, client.phone);
+                      }}
+                    />
+                    <Link className="" to={`/edit-client/${client.idclients}`}>
+                      <EditIconButton />
                     </Link>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center"
+                    <BasicDeleteModal
+                      btnName="Excluir"
+                      onChange={(e: React.SyntheticEvent) => {
+                        onDeleteClient(client.idclients);
                       }}
                     >
-                      <WhatsAppIconButton
-                        onClick={(e: React.SyntheticEvent) => {
-                          whatsAppService.redirectToWhatsapp(e, client.phone);
-                        }}
-                      />
-                      <Link
-                        className=""
-                        to={`/edit-client/${client.idclients}`}
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h6"
+                        component="h2"
+                        sx={{ color: "red" }}
                       >
-                        <EditIconButton />
-                      </Link>
-                      <BasicDeleteModal
-                        btnName="Excluir"
-                        onDeleteClient={async (e: React.SyntheticEvent) => {
-                          await onDeleteClient(client.idclients);
-                        }}
-                      >
-                        <Typography
-                          id="modal-modal-title"
-                          variant="h6"
-                          component="h2"
-                          sx={{ color: "red" }}
-                        >
-                          Excluir Cliente
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                          Tem certeza que deseja excluir esse cliente?
-                        </Typography>
-                      </BasicDeleteModal>
-                    </div>
+                        Excluir Cliente
+                      </Typography>
+                      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        Tem certeza que deseja excluir esse cliente?
+                      </Typography>
+                    </BasicDeleteModal>
                   </div>
+                </div>
 
-                  <div className="info_clients">
-                    <div className="form-row">
-                      <h6 className="label_client col">
-                        Nome:{" "}
-                        <small className="text-muted h6 mb-3">
-                          {client.name}
-                        </small>
-                      </h6>
-                      <h6 className="label_client col">
-                        Celular:{" "}
-                        <small className="text-muted h6 mb-3">
-                          {client.phone}
-                        </small>
-                      </h6>
-                    </div>
-                    {client.segment ? (
-                      <h6 className="label_client">
-                        Segmento:{" "}
-                        <small className="text-muted h6 mb-3">
-                          {client.segment}
-                        </small>
-                      </h6>
-                    ) : null}
-                    {client.note ? (
-                      <h6 className="label_client">
-                        Observação:{" "}
-                        <small className="text-muted h6 mb-3">
-                          {client.note}
-                        </small>
-                      </h6>
-                    ) : null}
+                <div className="info_clients">
+                  <div className="form-row">
+                    <h6 className="label_client col">
+                      Nome:{" "}
+                      <small className="text-muted h6 mb-3">
+                        {client.name}
+                      </small>
+                    </h6>
+                    <h6 className="label_client col">
+                      Celular:{" "}
+                      <small className="text-muted h6 mb-3">
+                        {client.phone}
+                      </small>
+                    </h6>
                   </div>
+                  {client.segment ? (
+                    <h6 className="label_client">
+                      Segmento:{" "}
+                      <small className="text-muted h6 mb-3">
+                        {client.segment}
+                      </small>
+                    </h6>
+                  ) : null}
+                  {client.note ? (
+                    <h6 className="label_client">
+                      Observação:{" "}
+                      <small className="text-muted h6 mb-3">
+                        {client.note}
+                      </small>
+                    </h6>
+                  ) : null}
                 </div>
               </div>
             );

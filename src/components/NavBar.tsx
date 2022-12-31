@@ -71,8 +71,7 @@ export function NavBarResponsive(props: any) {
         </div>
       </div>
 
-      {/* <Collapse in={openResponsive} timeout="auto" unmountOnExit> */}
-      <ul className="nav-group-responsive" id="navGroup">
+      <ul className="nav-group" id="navGroup">
         <li className="nav-item remove-style-link" key="984513">
           <button
             className="btn-list-item"
@@ -113,7 +112,7 @@ export function NavBarResponsive(props: any) {
                   className="btn-list-sub-item"
                   onClick={e => {
                     closeItens();
-                    navigate("/schedule");
+                    navigate("/schedules");
                   }}
                   style={{ outline: "none" }}
                 >
@@ -233,7 +232,6 @@ export function NavBarResponsive(props: any) {
           </button>
         </li>
       </ul>
-      {/* </Collapse> */}
     </div>
   );
 }

@@ -1,20 +1,24 @@
 import { Response, normalizeResponse } from "./fetch";
-import axios from "axios";
 import { LocalStorageService } from "./local-storage";
+import axios from "axios";
 
-export type SalesInterface = {
-  idsales: number;
-  client: string;
-  idclients: number;
+export type ScheduleInterface = {
+  idschedules?: number;
+  idclients: number | null;
+  clientName: string | null;
+  name?: string;
+  phone?: string;
   description: string;
+  time: string;
   date: string;
-  total: number;
-  payment_status: string;
-  payment_date: string;
-  created_at: string;
+  pacote: boolean;
+  atendenceCount?: number;
+  totalAtendenceCount: number;
+  status: string;
+  createdAt?: string;
 };
 
-export class SalesService {
+export class ScheduleService {
   private accessToken: string = "";
 
   constructor(
@@ -25,26 +29,21 @@ export class SalesService {
     if (token) this.accessToken = token;
   }
 
-  async create(params: {
-    idclients: number | null;
-    description: string;
-    date: string;
-    total: number;
-    paymentPending: boolean;
-    paymentDate: string;
-  }): Promise<Response> {
+  async create(params: ScheduleInterface): Promise<Response<void>> {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
         .post(
-          `${this.baseUri}/api/sales`,
+          `${this.baseUri}/api/schedule`,
           {
             idclients: params.idclients,
+            clientName: params.clientName,
             description: params.description,
+            time: params.time,
             date: params.date,
-            total: params.total,
-            paymentStatus: params.paymentPending ? "PAID" : "PENDING",
-            paymentDate: params.paymentDate || null
+            pacote: params.pacote,
+            totalAtendenceCount: params.totalAtendenceCount,
+            status: params.status
           },
           {
             headers: {
@@ -65,16 +64,30 @@ export class SalesService {
     return response;
   }
 
-  async findByDate(date: string): Promise<Response<SalesInterface[]>> {
+  async update(params: ScheduleInterface): Promise<Response<void>> {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
-        .get(`${this.baseUri}/api/sales/date`, {
-          params: { date },
-          headers: {
-            Authorization: `Bearer ${this.accessToken}`
+        .put(
+          `${this.baseUri}/api/schedule`,
+          {
+            idschedules: params.idschedules,
+            idclients: params.idclients,
+            clientName: params.clientName,
+            description: params.description,
+            time: params.time,
+            date: params.date,
+            pacote: params.pacote,
+            atendenceCount: params.atendenceCount,
+            totalAtendenceCount: params.totalAtendenceCount,
+            status: params.status
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.accessToken}`
+            }
           }
-        })
+        )
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
@@ -88,37 +101,13 @@ export class SalesService {
     return response;
   }
 
-  async findByPeriod(
-    date1: string,
-    date2: string
-  ): Promise<Response<SalesInterface[]>> {
+  async fetchByClient(
+    idclients: number
+  ): Promise<Response<ScheduleInterface[]>> {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
-        .get(`${this.baseUri}/api/sales/period`, {
-          params: { date1, date2 },
-          headers: {
-            Authorization: `Bearer ${this.accessToken}`
-          }
-        })
-        .then(res => ({ data: res.data, status: res.status }))
-        .catch(err => ({
-          data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
-        }));
-      response = normalizeResponse(data, status);
-    } catch (error) {
-      response.error = true;
-      response.message = error.message;
-    }
-    return response;
-  }
-
-  async findByClient(idclients: number): Promise<Response<SalesInterface[]>> {
-    let response: Response = {} as Response;
-    try {
-      const { data, status } = await axios
-        .get(`${this.baseUri}/api/sales/client`, {
+        .get(`${this.baseUri}/api/schedule/client`, {
           params: { idclients },
           headers: {
             Authorization: `Bearer ${this.accessToken}`
@@ -137,40 +126,12 @@ export class SalesService {
     return response;
   }
 
-  async registerPayment(idsales: number): Promise<Response<SalesInterface[]>> {
+  async fetchByDate(date: string): Promise<Response<ScheduleInterface[]>> {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
-        .post(
-          `${this.baseUri}/api/sales/register-payment`,
-          {
-            idsales
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${this.accessToken}`
-            }
-          }
-        )
-        .then(res => ({ data: res.data, status: res.status }))
-        .catch(err => ({
-          data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
-        }));
-      response = normalizeResponse(data, status);
-    } catch (error) {
-      response.error = true;
-      response.message = error.message;
-    }
-    return response;
-  }
-
-  async delete(idsales: number): Promise<Response<SalesInterface[]>> {
-    let response: Response = {} as Response;
-    try {
-      const { data, status } = await axios
-        .delete(`${this.baseUri}/api/sales`, {
-          params: { idsales },
+        .get(`${this.baseUri}/api/schedule/date`, {
+          params: { date },
           headers: {
             Authorization: `Bearer ${this.accessToken}`
           }
@@ -188,10 +149,74 @@ export class SalesService {
     return response;
   }
 
-  countTotalValueSales(prices: number[]): string {
-    return prices
-      .filter(item => !!item)
-      .reduce((acc, item) => acc + item, 0)
-      .toLocaleString("pt-br", { style: "currency", currency: "BRL" });
+  async fetchAllExpireds(): Promise<Response<ScheduleInterface[]>> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .get(`${this.baseUri}/api/schedule/expireds`, {
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
+
+  async delete(idschedules: number): Promise<Response> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .delete(`${this.baseUri}/api/schedule`, {
+          params: { idschedules },
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
+
+  async finish(idschedules: number): Promise<Response> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .post(
+          `${this.baseUri}/api/schedule/finish`,
+          { idschedules },
+          {
+            headers: {
+              Authorization: `Bearer ${this.accessToken}`
+            }
+          }
+        )
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
   }
 }

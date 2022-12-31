@@ -93,7 +93,8 @@ function createData(sale: SalesInterface) {
       {
         total: Number(sale.total),
         payment_status: sale.payment_status,
-        payment_date: sale.payment_date
+        payment_date: sale.payment_date,
+        createdAt: sale.created_at
       }
     ]
   };
@@ -190,10 +191,21 @@ function Row(props: {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
+              <div>
+                <small className="font-weight-bold h6 text-muted">
+                  Criada em:
+                </small>{" "}
+                <small>
+                  {format(
+                    new Date(row.info[0].createdAt),
+                    "dd/MM/yyyy 'às' HH:mm'h'"
+                  )}
+                </small>
+              </div>
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "end",
+                  justifyContent: "flex-end",
                   alignItems: "center",
                   margin: "10px 0"
                 }}
@@ -213,7 +225,7 @@ function Row(props: {
                 )}
                 <BasicDeleteModal
                   btnName="Excluir"
-                  onDeleteClient={async (e: React.SyntheticEvent) =>
+                  onChange={(e: React.SyntheticEvent) =>
                     deleteSale(row.idsales)
                   }
                 >

@@ -7,14 +7,15 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  // width: 300,
   bgcolor: "background.paper",
   borderRadius: "5px",
   boxShadow: 24,
-  p: 4
+  minWidth: "300px",
+  fontFamily: "Montserrat",
+  p: 2
 };
 
-export function BasicDeleteModal({ children, btnName, onDeleteClient }: any) {
+export function BasicDeleteModal({ children, btnName, onChange }: any) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -52,23 +53,24 @@ export function BasicDeleteModal({ children, btnName, onDeleteClient }: any) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <div className="text-right p-2 mb-2">
+            <button
+              type="button"
+              className="close"
+              onClick={e => handleClose()}
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
           {children}
           <button
-            className="btn btn-danger p-2 mt-4"
+            className="btn btn-danger mt-4"
             onClick={(e: React.SyntheticEvent) => {
-              onDeleteClient();
+              onChange();
               handleClose();
             }}
           >
             {btnName}
-          </button>
-          <button
-            className="btn btn-secondary p-2 ml-2 mt-4"
-            onClick={(e: React.SyntheticEvent) => {
-              handleClose();
-            }}
-          >
-            Fechar
           </button>
         </Box>
       </Modal>

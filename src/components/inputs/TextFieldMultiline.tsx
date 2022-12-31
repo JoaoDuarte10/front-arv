@@ -8,6 +8,7 @@ type Props = {
   value: any;
   type?: string;
   rows: number;
+  className?: string;
 };
 
 export default function TextFieldMultiline({
@@ -15,7 +16,8 @@ export default function TextFieldMultiline({
   fnChange,
   value,
   type,
-  rows
+  rows,
+  className
 }: Props) {
   return (
     <Box
@@ -37,6 +39,7 @@ export default function TextFieldMultiline({
         onChange={fnChange}
         value={value}
         type={type}
+        className={className}
       />
     </Box>
   );

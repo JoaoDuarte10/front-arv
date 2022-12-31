@@ -34,7 +34,7 @@ export function normalizeResponse(data: any, status: number): Response {
       response.badRequest = true;
       break;
     case HTTP_RESPONSE.NOT_FOUND:
-      response.badRequest = true;
+      response.notFound = true;
       break;
     case HTTP_RESPONSE.UNAUTHORIZED:
       response.unauthorized = true;

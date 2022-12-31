@@ -7,13 +7,17 @@ type Props = {
   fnChange: any;
   value: any;
   type?: string;
+  className?: string;
+  helperText?: string;
 };
 
 export default function FullWidthTextField({
   label,
   fnChange,
   value,
-  type
+  type,
+  className,
+  helperText
 }: Props) {
   return (
     <Box
@@ -29,10 +33,13 @@ export default function FullWidthTextField({
         id="fullWidth"
         sx={{
           borderRadius: "150px",
-          border: "none"
+          border: "none",
+          minWidth: "120px"
         }}
         onChange={fnChange}
         value={value}
+        className={className}
+        helperText={helperText}
       />
     </Box>
   );

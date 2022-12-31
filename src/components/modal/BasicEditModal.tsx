@@ -10,10 +10,11 @@ const style = {
   bgcolor: "background.paper",
   borderRadius: "5px",
   boxShadow: 24,
-  p: 4
+  minWidth: "300px",
+  fontFamily: "Montserrat"
 };
 
-export function BasicEditModal({ children, btnName, onDeleteClient }: any) {
+export function BasicEditModal({ children }: any) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -26,6 +27,8 @@ export function BasicEditModal({ children, btnName, onDeleteClient }: any) {
         onClick={handleOpen}
         className="m-0 pl-2 pr-2 btn btn-outline-primary"
         style={{
+          display: "flex",
+          alignItems: "center",
           border: "none",
           backgroundColor: "transparent",
           outline: "none",
@@ -55,16 +58,16 @@ export function BasicEditModal({ children, btnName, onDeleteClient }: any) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {children}
-          <button
-            className="btn btn-primary p-2 mt-4"
-            onClick={(e: React.SyntheticEvent) => {
-              onDeleteClient();
-              handleClose();
-            }}
-          >
-            {btnName}
-          </button>
+          <div className="text-right p-2">
+            <button
+              type="button"
+              className="close"
+              onClick={e => handleClose()}
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div className="pt-2">{children}</div>
         </Box>
       </Modal>
     </Box>
