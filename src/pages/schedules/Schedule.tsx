@@ -93,15 +93,14 @@ export function Schedules(props: {
   const [searchFilterClientOpen, setSearchFilterClientOpen] = useState<boolean>(
     false
   );
-
   const [clients, setClients] = useState<ClientsInterface[]>([]);
 
   const getAllClients = async () => {
     setLoader(<CircularIndeterminate />);
-    const { data } = await clientService.fetchAllClients();
+    const { success, data } = await clientService.fetchAllClients();
     setLoader(null);
 
-    if (data) {
+    if (success) {
       dispatch(clearClient());
       setClients(data);
       dispatch(clientAdded(data));
@@ -110,7 +109,16 @@ export function Schedules(props: {
     }
   };
 
+  const fetchExpireds = async () => {
+    const { success, data } = await scheduleService.expireds();
+
+    if (success) {
+      setSchedules([...schedules, ...data]);
+    }
+  };
+
   useEffect(() => {
+    fetchExpireds();
     if (!clientsCache.length) {
       getAllClients();
     } else {
@@ -198,7 +206,9 @@ export function Schedules(props: {
     setLoader(null);
 
     if (success) {
-      setAlert(<AlertSuccess title="Agenda editada com sucesso." />);
+      setAlert(
+        <AlertSuccess title="Agenda editada com sucesso. Atualize a pesquisa." />
+      );
       return true;
     }
     if (error) {
@@ -218,7 +228,9 @@ export function Schedules(props: {
     setLoader(null);
 
     if (success) {
-      setAlert(<AlertSuccess title="Agenda excluída com sucesso." />);
+      setAlert(
+        <AlertSuccess title="Agenda excluída com sucesso. Atualize a pesquisa." />
+      );
       return true;
     }
     if (error) {
@@ -238,7 +250,9 @@ export function Schedules(props: {
     setLoader(null);
 
     if (success) {
-      setAlert(<AlertSuccess title="Agenda finalizada com sucesso." />);
+      setAlert(
+        <AlertSuccess title="Agenda finalizada com sucesso. Atualize a pesquisa." />
+      );
       setOpenModal(false);
       return true;
     }
@@ -414,6 +428,11 @@ export function Schedules(props: {
         ? schedules.map(schedule => {
             return (
               <div className="schedule_card" key={schedule.idschedules}>
+                {schedule.expired ? (
+                  <small className="h6 text-danger font-weight-bold pulse">
+                    Horário expirado
+                  </small>
+                ) : null}
                 <div
                   style={{
                     display: "flex",

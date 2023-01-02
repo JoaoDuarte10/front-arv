@@ -98,7 +98,11 @@ export function Clients(props: {
               <div className="container_client" key={client.idclients}>
                 <div className="actions_client remove-style-link">
                   <Link
-                    id="more_info_client"
+                    style={{
+                      border: "1px solid blue",
+                      padding: "5px",
+                      borderRadius: "15px"
+                    }}
                     to={`/info-client/${client.idclients}`}
                   >
                     Mais Informações

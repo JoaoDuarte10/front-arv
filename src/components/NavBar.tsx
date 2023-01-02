@@ -119,6 +119,18 @@ export function NavBarResponsive(props: any) {
                   Suas Agendas
                 </button>
               </li>
+              <li className="sub-item" data-dismiss="modal" key="278534">
+                <button
+                  className="btn-list-sub-item"
+                  onClick={e => {
+                    closeItens();
+                    navigate("/schedule-history");
+                  }}
+                  style={{ outline: "none" }}
+                >
+                  Histórico
+                </button>
+              </li>
             </Collapse>
           </li>
         )}

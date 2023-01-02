@@ -9,6 +9,7 @@ export type ScheduleInterface = {
   name?: string;
   phone?: string;
   description: string;
+  expired?: boolean;
   time: string;
   date: string;
   pacote: boolean;
@@ -16,6 +17,7 @@ export type ScheduleInterface = {
   totalAtendenceCount: number;
   status: string;
   createdAt?: string;
+  updatedAt?: string;
 };
 
 export class ScheduleService {
@@ -207,6 +209,50 @@ export class ScheduleService {
             }
           }
         )
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
+
+  async expireds(): Promise<Response> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .get(`${this.baseUri}/api/schedule/expireds`, {
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
+
+  async fetchAllHistory(): Promise<Response> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .get(`${this.baseUri}/api/schedule/finished`, {
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
