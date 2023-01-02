@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ContainerMain } from "../../components/divs/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import { clearClient, clientAdded } from "../../reducers/clients-slice";
 import { ClientService } from "../../service/client-service";
-import { useSelector, useDispatch } from "react-redux";
-import { ReduceStore } from "../../app/store";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { TIMEOUT } from "../../utils/constants";
 import { ScheduleService } from "../../service/schedule";

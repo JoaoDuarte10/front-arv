@@ -21,24 +21,21 @@ import { clearClient, clientAdded } from "../../reducers/clients-slice";
 import { ClientsInterface } from "../clients/Clients";
 import { TIMEOUT } from "../../utils/constants";
 import { format } from "date-fns";
-import { Link } from "react-router-dom";
 import { WhatsAppIconButton } from "../../components/buttons/WhatsAppIconButton";
-import { EditIconButton } from "../../components/buttons/EditIconButton";
 import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
 import { FormSchedule } from "../../components/FormSchedule";
 import { BasicEditModal } from "../../components/modal/BasicEditModal";
 import { WhatsAppService } from "../../service/whatsapp";
 import { FormSales } from "../sales/FormSales";
 import { SalesService } from "../../service/sales";
+import { DivInline } from "../../components/divs/DivInline";
 import {
   ColorsBootstrap,
   GenericModal
 } from "../../components/modal/GenericModal";
-import {
-  ColorsMaterialUi,
-  GenericButton,
-  Variant
-} from "../../components/buttons/GenericButton";
+import { GenericButton } from "../../components/buttons/GenericButton";
+import { LabelForm } from "../../components/labels/LabelForm";
+import { LabelSmall } from "../../components/labels/LabelSmal";
 
 export function Schedules(props: {
   clientService: ClientService;
@@ -69,23 +66,7 @@ export function Schedules(props: {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openModalSale, setOpenModalSale] = useState<boolean>(false);
 
-  const [schedules, setSchedules] = useState<ScheduleInterface[]>([
-    // {
-    //     "idschedules": 4,
-    //     "idclients": 22,
-    //     "clientName": null,
-    //     "name": "Johnny007",
-    //     "phone": "(35) 9 9955-4534",
-    //     "description": "Teste novo hoje",
-    //     "time": "08:40",
-    //     "date": "2022-12-31T03:00:00.000Z",
-    //     "pacote": true,
-    //     "atendenceCount": 2,
-    //     "totalAtendenceCount": 4,
-    //     "status": "PENDING",
-    //     "createdAt": "2022-12-31T11:40:25.201Z"
-    // }
-  ]);
+  const [schedules, setSchedules] = useState<ScheduleInterface[]>([]);
 
   const [searchFilterDataOpen, setSearchFilterDataOpen] = useState<boolean>(
     false
@@ -488,60 +469,47 @@ export function Schedules(props: {
                   </BasicDeleteModal>
                 </div>
 
-                <h6 className="text-primary font-weight-bold pb-2 border-bottom">
-                  Cliente:{" "}
-                  <small className="text-muted h6">
-                    {schedule.name || schedule.clientName}
-                  </small>
-                </h6>
-                <h6 className="text-primary font-weight-bold pb-2 border-bottom">
-                  Descrição:{" "}
-                  <small className="text-muted h6">
-                    {schedule.description}
-                  </small>
-                </h6>
+                <LabelForm text="Cliente" className="pb-2 border-bottom">
+                  <LabelSmall
+                    text={schedule.name || (schedule.clientName as string)}
+                  />
+                </LabelForm>
+                <LabelForm text="Descrição" className="pb-2 border-bottom">
+                  <LabelSmall text={schedule.description} />
+                </LabelForm>
 
-                <div className="form-row border-bottom mb-2">
-                  <h6 className="text-primary font-weight-bold col">
-                    Data:{" "}
-                    <small className="text-muted h6">
-                      {format(new Date(schedule.date), "dd/MM/yyyy")}
-                    </small>
-                  </h6>
-                  <h6 className="text-primary font-weight-bold col">
-                    Horário:{" "}
-                    <small className="text-muted h6">{schedule.time}h</small>
-                  </h6>
-                </div>
+                <DivInline className="border-bottom mb-2">
+                  <LabelForm text="Data" className="col">
+                    <LabelSmall
+                      text={format(new Date(schedule.date), "dd/MM/yyyy")}
+                    />
+                  </LabelForm>
+                  <LabelForm text="Data" className="col">
+                    <LabelSmall text={schedule.time} />
+                  </LabelForm>
+                </DivInline>
 
                 {schedule.pacote ? (
-                  <div className="form-row border-bottom mb-2">
-                    <h6 className="text-primary font-weight-bold col">
-                      Atendimentos:{" "}
-                      <small className="text-muted h6">
-                        {schedule.totalAtendenceCount}
-                      </small>
-                    </h6>
-                    <h6 className="text-primary font-weight-bold col">
-                      Atual:{" "}
-                      <small className="text-muted h6">
-                        {schedule.atendenceCount}
-                      </small>
-                    </h6>
-                  </div>
+                  <DivInline className="border-bottom mb-2">
+                    <LabelForm text="Atendimentos" className="col">
+                      <LabelSmall text={schedule.totalAtendenceCount} />
+                    </LabelForm>
+                    <LabelForm text="Atual" className="col">
+                      <LabelSmall text={schedule.atendenceCount as number} />
+                    </LabelForm>
+                  </DivInline>
                 ) : null}
 
-                <h6 className="text-primary font-weight-bold border-bottom mb-2 pb-2">
-                  Criado em:{" "}
-                  <small className="text-muted h6">
-                    {format(
+                <LabelForm text="Criado em">
+                  <LabelSmall
+                    text={format(
                       new Date(schedule.createdAt as string),
                       "dd/MM/yyyy 'às' HH:mm'h'"
                     )}
-                  </small>
-                </h6>
+                  />
+                </LabelForm>
 
-                <div className="form-row mt-3" style={{ marginLeft: "2px" }}>
+                <DivInline style={{ marginLeft: "2px", marginTop: "15px" }}>
                   <GenericModal
                     btnOpenName="Finalizar"
                     color={ColorsBootstrap.primary}
@@ -550,29 +518,27 @@ export function Schedules(props: {
                     openModal={openModal}
                     setOpenModal={setOpenModal}
                   >
-                    <div>
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h6"
-                        component="h2"
-                        sx={{ color: "#0275d8" }}
-                      >
-                        Finalizar agenda
-                      </Typography>
-                      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Tem certeza que deseja finalizar essa agenda?
-                      </Typography>
-                      <GenericButton
-                        color={ColorsBootstrap.primary}
-                        onClick={(e: React.BaseSyntheticEvent) =>
-                          finish(schedule.idschedules as number)
-                        }
-                        text="Finalizar"
-                        style={{
-                          marginTop: "15px"
-                        }}
-                      />
-                    </div>
+                    <Typography
+                      id="modal-modal-title"
+                      variant="h6"
+                      component="h2"
+                      sx={{ color: "#0275d8" }}
+                    >
+                      Finalizar agenda
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      Tem certeza que deseja finalizar essa agenda?
+                    </Typography>
+                    <GenericButton
+                      color={ColorsBootstrap.primary}
+                      onClick={(e: React.BaseSyntheticEvent) =>
+                        finish(schedule.idschedules as number)
+                      }
+                      text="Finalizar"
+                      style={{
+                        marginTop: "15px"
+                      }}
+                    />
                   </GenericModal>
                   <GenericModal
                     btnOpenName="Gerar venda"
@@ -587,7 +553,7 @@ export function Schedules(props: {
                       schedule={schedule}
                     />
                   </GenericModal>
-                </div>
+                </DivInline>
               </div>
             );
           })

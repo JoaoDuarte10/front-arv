@@ -16,6 +16,9 @@ import { ContainerMain } from "../../components/divs/ContainerMain";
 import { EditIconButton } from "../../components/buttons/EditIconButton";
 import { WhatsAppIconButton } from "../../components/buttons/WhatsAppIconButton";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
+import { LabelForm } from "../../components/labels/LabelForm";
+import { LabelSmall } from "../../components/labels/LabelSmal";
+import { DivInline } from "../../components/divs/DivInline";
 
 export type ClientsInterface = {
   idclients: number;
@@ -143,35 +146,23 @@ export function Clients(props: {
                 </div>
 
                 <div className="info_clients">
-                  <div className="form-row">
-                    <h6 className="label_client col">
-                      Nome:{" "}
-                      <small className="text-muted h6 mb-3">
-                        {client.name}
-                      </small>
-                    </h6>
-                    <h6 className="label_client col">
-                      Celular:{" "}
-                      <small className="text-muted h6 mb-3">
-                        {client.phone}
-                      </small>
-                    </h6>
-                  </div>
+                  <DivInline>
+                    <LabelForm text="Nome" className="col">
+                      <LabelSmall text={client.name} />
+                    </LabelForm>
+                    <LabelForm text="Celular" className="col">
+                      <LabelSmall text={client.phone} />
+                    </LabelForm>
+                  </DivInline>
                   {client.segment ? (
-                    <h6 className="label_client">
-                      Segmento:{" "}
-                      <small className="text-muted h6 mb-3">
-                        {client.segment}
-                      </small>
-                    </h6>
+                    <LabelForm text="Segmento">
+                      <LabelSmall text={client.segment} />
+                    </LabelForm>
                   ) : null}
                   {client.note ? (
-                    <h6 className="label_client">
-                      Observação:{" "}
-                      <small className="text-muted h6 mb-3">
-                        {client.note}
-                      </small>
-                    </h6>
+                    <LabelForm text="Observação">
+                      <LabelSmall text={client.note} />
+                    </LabelForm>
                   ) : null}
                 </div>
               </div>

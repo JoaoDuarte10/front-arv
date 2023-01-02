@@ -35,7 +35,7 @@ export function PrivateRoute({ children, rules }: any) {
         }
       }
     }
-  }, []);
+  });
 
   return children;
 }

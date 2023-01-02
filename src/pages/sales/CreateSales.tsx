@@ -2,34 +2,27 @@ import React, { useEffect, useState } from "react";
 import { ContainerMain } from "../../components/divs/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
-import { mask } from "../../service/mask-money";
 import { ClientService } from "../../service/client-service";
 import { ClientsInterface } from "../clients/Clients";
 import { useDispatch, useSelector } from "react-redux";
 import { clearClient, clientAdded } from "../../reducers/clients-slice";
 import { ReduceStore } from "../../app/store";
 import { TIMEOUT } from "../../utils/constants";
-import { Checkbox, FormControlLabel, FormGroup } from "@material-ui/core";
 import { SalesService } from "../../service/sales";
 import { AlertError } from "../../components/alerts/AlertError";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
-import TextFieldMultiline from "../../components/inputs/TextFieldMultiline";
-import ComboBoxList from "../../components/inputs/InputAutocompleteList";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import { ScheduleInterface } from "../../service/schedule";
 import { FormSales } from "./FormSales";
 
 export function CreateSales(props: {
   clientService: ClientService;
   salesService: SalesService;
 }) {
+  const { clientService, salesService } = props;
   const dispatch = useDispatch();
 
   const clientsCache = useSelector((state: ReduceStore) => state.client);
-
-  const { clientService, salesService } = props;
 
   const [clients, setClients] = useState<ClientsInterface[]>([]);
 

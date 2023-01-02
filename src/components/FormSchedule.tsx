@@ -12,6 +12,8 @@ import { ClientService } from "../service/client-service";
 import { ScheduleInterface } from "../service/schedule";
 import { format } from "date-fns";
 import { InputText } from "./inputs/InputText";
+import { DivInline } from "./divs/DivInline";
+import { ContainerCardWhite } from './divs/ContainerCardWhite';
 
 type InputProps = {
   clientService: ClientService;
@@ -100,7 +102,7 @@ export function FormSchedule(props: InputProps) {
     <div>
       {loader}
 
-      <div className="form_schedules">
+      <ContainerCardWhite>
         <div className="pb-2">
           <small className="font-weight-bold">
             Os campos que possuem " * " são obrigatórios!
@@ -127,7 +129,7 @@ export function FormSchedule(props: InputProps) {
             label={"Selecione o cliente*"}
             value={clientSelected}
             onChange={(
-              e: React.BaseSyntheticEvent,
+              _e: React.BaseSyntheticEvent,
               item: { label: string; idclients: number } | string
             ) => {
               if (typeof item === "string") {
@@ -153,7 +155,7 @@ export function FormSchedule(props: InputProps) {
           className="mt-1"
           rows={2}
         />
-        <div className="form-row">
+        <DivInline>
           <div className="col">
             <FullWidthTextField
               type="date"
@@ -176,9 +178,9 @@ export function FormSchedule(props: InputProps) {
               helperText="Escolha o horário"
             />
           </div>
-        </div>
+        </DivInline>
 
-        <div className="payment_form">
+        <div className="payment_form mb-3">
           <FormGroup>
             <FormControlLabel
               control={
@@ -195,7 +197,7 @@ export function FormSchedule(props: InputProps) {
           </FormGroup>
 
           {pacote ? (
-            <div className="form-row">
+            <DivInline>
               <ComboBoxList
                 options={atendenceOptions}
                 label="Total de atendimentos"
@@ -220,11 +222,11 @@ export function FormSchedule(props: InputProps) {
                   className="col"
                 />
               ) : null}
-            </div>
+            </DivInline>
           ) : null}
         </div>
 
-        <div className="form-row mt-3">
+        <DivInline>
           {edit ? null : (
             <div className="col">
               <button
@@ -261,10 +263,10 @@ export function FormSchedule(props: InputProps) {
               {edit ? "Salvar" : "Criar"}
             </button>
           </div>
-        </div>
+        </DivInline>
 
         <div className="mt-3">{alert}</div>
-      </div>
+      </ ContainerCardWhite>
     </div>
   );
 }

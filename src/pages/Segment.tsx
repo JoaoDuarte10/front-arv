@@ -15,6 +15,7 @@ import { CardSegment } from "../components/CardSegment";
 import { format } from "date-fns";
 import { ContainerMain } from "../components/divs/ContainerMain";
 import { CircularIndeterminate } from "../components/loaders/CircularLoader";
+import { DivInline } from "../components/divs/DivInline";
 
 type InputProps = {
   segmentService: SegmentService;
@@ -236,7 +237,7 @@ export function Segment(props: InputProps) {
                   )}
                 </small>
               </h6>
-              <div className="pt-2 mt-2 form-row border-top">
+              <DivInline className="pt-2 mt-2 border-top">
                 <button
                   className="btn btn-outline-primary font-weight-bold"
                   data-toggle="modal"
@@ -260,7 +261,7 @@ export function Segment(props: InputProps) {
                 >
                   Deletar
                 </button>
-              </div>
+              </DivInline>
             </div>
           );
         })

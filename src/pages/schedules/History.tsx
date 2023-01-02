@@ -6,6 +6,7 @@ import { Breadcumb } from "../../components/Breadcumb";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { format } from "date-fns";
+import { DivInline } from "../../components/divs/DivInline";
 
 export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
   const { scheduleService } = props;
@@ -42,6 +43,7 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
       <TitlePrincipal title="Histórico de agendas" />
 
       {loader}
+      {alert}
 
       {schedules.length
         ? schedules.map(schedule => {
@@ -63,7 +65,7 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
                   </small>
                 </h6>
 
-                <div className="form-row border-bottom mb-2">
+                <DivInline className="border-bottom mb-2">
                   <h6 className="text-primary font-weight-bold col">
                     Data:{" "}
                     <small className="text-muted h6">
@@ -74,10 +76,10 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
                     Horário:{" "}
                     <small className="text-muted h6">{schedule.time}h</small>
                   </h6>
-                </div>
+                </DivInline>
 
                 {schedule.pacote ? (
-                  <div className="form-row border-bottom mb-2">
+                  <DivInline className="border-bottom mb-2">
                     <h6 className="text-primary font-weight-bold col">
                       Atendimentos:{" "}
                       <small className="text-muted h6">
@@ -90,7 +92,7 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
                         {schedule.atendenceCount}
                       </small>
                     </h6>
-                  </div>
+                  </DivInline>
                 ) : null}
 
                 <h6 className="text-primary font-weight-bold border-bottom mb-2 pb-2">

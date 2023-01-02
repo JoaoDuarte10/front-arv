@@ -1,8 +1,8 @@
 import React from "react";
 
-import { LabelForm } from "./labels/LabelForm";
 import { SegmentInterface } from "../service/segment";
 import { InputText } from "./inputs/InputText";
+import { DivInline } from "./divs/DivInline";
 
 type InputProps = {
   editSegment: Function;
@@ -66,7 +66,7 @@ export function CardSegment(props: InputProps) {
               label="Digite o segmento"
               required={true}
             />
-            <div className="form-row mt-4">
+            <DivInline>
               <div className="form-group col">
                 <button
                   type="reset"
@@ -94,7 +94,7 @@ export function CardSegment(props: InputProps) {
                   {actionName}
                 </button>
               </div>
-            </div>
+            </DivInline>
             {alert}
           </div>
         </div>

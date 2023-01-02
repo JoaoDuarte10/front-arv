@@ -1,5 +1,20 @@
 import React from "react";
 
-export function LabelForm(props: { text: string }) {
-  return <label className="mt-2">{props.text}</label>;
+export function LabelForm(props: {
+  text: string;
+  className?: string;
+  children: JSX.Element;
+}) {
+  return (
+    <h6
+      style={{
+        fontSize: "1em",
+        color: "#0275d8",
+        fontWeight: "bold"
+      }}
+      className={props.className}
+    >
+      {props.text}: {props.children}
+    </h6>
+  );
 }

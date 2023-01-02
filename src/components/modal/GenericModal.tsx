@@ -23,7 +23,7 @@ export enum ColorsBootstrap {
 }
 
 type InputProps = {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
   btnOpenName: string;
   color: ColorsBootstrap;
   styleModal?: any;

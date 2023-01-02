@@ -8,6 +8,7 @@ import { ClientsInterface } from "../clients/Clients";
 import { ScheduleInterface } from "../../service/schedule";
 import { format } from "date-fns";
 import { InputText } from "../../components/inputs/InputText";
+import { DivInline } from "../../components/divs/DivInline";
 
 type InputProps = {
   clients: ClientsInterface[];
@@ -67,7 +68,7 @@ export function FormSales(props: InputProps) {
           className="mt-2 mb-2"
         />
       ) : (
-        <div className="form-group mb-2 mt-2">
+        <div className="mb-1 mt-2">
           {clients.length ? (
             <ComboBoxList
               options={clients.map(client => {
@@ -107,8 +108,8 @@ export function FormSales(props: InputProps) {
         }}
         rows={3}
       />
-      <div className="form-row">
-        <div className="form-group col">
+      <DivInline className="mb-1">
+        <div className="col">
           <FullWidthTextField
             type="text"
             label="Preço*"
@@ -120,7 +121,7 @@ export function FormSales(props: InputProps) {
             }}
           />
         </div>
-        <div className="form-group col">
+        <div className="col">
           <FullWidthTextField
             type="date"
             label=""
@@ -130,22 +131,21 @@ export function FormSales(props: InputProps) {
             }}
           />
         </div>
-      </div>
+      </DivInline>
+
       <div className="payment_form">
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Checkbox
-                onChange={(e: any) => {
-                  setPaymentPending(!paymentPending);
-                }}
-                color="primary"
-                checked={paymentPending}
-              />
-            }
-            label="Pagamento recebido?"
-          />
-        </FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={(e: any) => {
+                setPaymentPending(!paymentPending);
+              }}
+              color="primary"
+              checked={paymentPending}
+            />
+          }
+          label="Pagamento recebido?"
+        />
 
         {!paymentPending ? (
           <div className="">
@@ -164,7 +164,7 @@ export function FormSales(props: InputProps) {
         ) : null}
       </div>
 
-      <div className="form-row mt-2">
+      <DivInline className="mt-2">
         {schedule ? null : (
           <button
             className="btn btn-secondary col font-weight-bold"
@@ -193,7 +193,7 @@ export function FormSales(props: InputProps) {
             Gerar Venda
           </button>
         </div>
-      </div>
+      </DivInline>
 
       <div className="mt-3">{alert}</div>
     </div>

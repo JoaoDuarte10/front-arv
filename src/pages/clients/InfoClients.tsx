@@ -7,6 +7,9 @@ import { ReduceStore } from "../../app/store";
 import { format } from "date-fns";
 import { ComeBack } from "../../components/ComeBack";
 import { ContainerMain } from "../../components/divs/ContainerMain";
+import { LabelSmall } from "../../components/labels/LabelSmal";
+import { LabelForm } from "../../components/labels/LabelForm";
+import { DivInline } from "../../components/divs/DivInline";
 
 export function InfoClients() {
   const { clientId } = useParams();
@@ -35,58 +38,49 @@ export function InfoClients() {
 
       {client ? (
         <div className="container_info_client">
-          <h6 className="label_info_client">
-            Nome: <small className="text-muted h6 mb-3">{client.name}</small>
-          </h6>
-          <div className="form-row">
-            <h6 className="label_info_client col">
-              Email:{" "}
-              <small className="text-muted h6 mb-3">{client.email}</small>
-            </h6>
-            <h6 className="label_info_client col">
-              Celular:{" "}
-              <small className="text-muted h6 mb-3">{client.phone}</small>
-            </h6>
-          </div>
-          <div className="form-row">
-            <h6 className="label_info_client col">
-              Endereço:{" "}
-              <small className="text-muted h6 mb-3">{client.address}</small>
-            </h6>
-            <h6 className="label_info_client col">
-              Número:{" "}
-              <small className="text-muted h6 mb-3">
-                {client.addressnumber}
-              </small>
-            </h6>
-          </div>
-          <h6 className="label_info_client">
-            Segmento:{" "}
-            <small className="text-muted h6 mb-3">
-              {client.segment || "Não tem um segmento"}
-            </small>
-          </h6>
-          <h6 className="label_info_client">
-            Criado em:{" "}
-            <small className="text-muted h6 mb-3">
-              {format(new Date(client.created_at), "dd/MM/yyyy 'às' HH:mm'h'")}
-            </small>
-          </h6>
-          <h6 className="label_info_client">
-            Última atualização:{" "}
-            <small className="text-muted h6 mb-3">
-              {format(
-                new Date(client.updated_at),
+          <LabelForm text="Nome">
+            <LabelSmall text={client.name} />
+          </LabelForm>
+          <DivInline>
+            <LabelForm text="E-mail" className="col">
+              <LabelSmall text={client.email} />
+            </LabelForm>
+            <LabelForm text="Celular" className="col">
+              <LabelSmall text={client.phone} />
+            </LabelForm>
+          </DivInline>
+          <DivInline>
+            <LabelForm text="Endereço" className="col">
+              <LabelSmall text={client.address} />
+            </LabelForm>
+            <LabelForm text="Número" className="col">
+              <LabelSmall text={client.addressnumber} />
+            </LabelForm>
+          </DivInline>
+          <LabelForm text="Segmento">
+            <LabelSmall text={client.segment} />
+          </LabelForm>
+          <LabelForm text="Criado em">
+            <LabelSmall
+              text={format(
+                new Date(client.created_at),
                 "dd/MM/yyyy 'às' HH:mm'h'"
-              ) || "Nenhuma atualização"}
-            </small>
-          </h6>
-          <h6 className="label_info_client">
-            Observação:{" "}
-            <small className="text-muted h6 mb-3">
-              {client.note || "Nenhuma obervação"}
-            </small>
-          </h6>
+              )}
+            />
+          </LabelForm>
+          <LabelForm text="Última atualização">
+            <LabelSmall
+              text={
+                format(
+                  new Date(client.updated_at),
+                  "dd/MM/yyyy 'às' HH:mm'h'"
+                ) || "Nenhuma atualização"
+              }
+            />
+          </LabelForm>
+          <LabelForm text="Observação">
+            <LabelSmall text={client.note || "Nenhuma observação"} />
+          </LabelForm>
         </div>
       ) : null}
     </ContainerMain>
