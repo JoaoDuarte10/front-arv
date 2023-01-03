@@ -13,7 +13,7 @@ import { ScheduleInterface } from "../service/schedule";
 import { format } from "date-fns";
 import { InputText } from "./inputs/InputText";
 import { DivInline } from "./divs/DivInline";
-import { ContainerCardWhite } from './divs/ContainerCardWhite';
+import { ContainerCardWhite } from "./divs/ContainerCardWhite";
 
 type InputProps = {
   clientService: ClientService;
@@ -266,7 +266,7 @@ export function FormSchedule(props: InputProps) {
         </DivInline>
 
         <div className="mt-3">{alert}</div>
-      </ ContainerCardWhite>
+      </ContainerCardWhite>
     </div>
   );
 }

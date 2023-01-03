@@ -3,7 +3,7 @@ import React from "react";
 export function LabelForm(props: {
   text: string;
   className?: string;
-  children: JSX.Element;
+  children?: JSX.Element;
 }) {
   return (
     <h6

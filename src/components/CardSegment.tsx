@@ -66,8 +66,8 @@ export function CardSegment(props: InputProps) {
               label="Digite o segmento"
               required={true}
             />
-            <DivInline>
-              <div className="form-group col">
+            <DivInline className="mt-3">
+              <div className="col">
                 <button
                   type="reset"
                   onClick={() => {
@@ -81,7 +81,7 @@ export function CardSegment(props: InputProps) {
                   Fechar
                 </button>
               </div>
-              <div className="form-group col">
+              <div className="col">
                 <button
                   className="btn btn-primary col p-2"
                   type="button"

@@ -14,6 +14,27 @@ export type SalesInterface = {
   created_at: string;
 };
 
+export type SalesReportsInterface = {
+  basicInfos: {
+    total: number;
+    quantity: number;
+    average: number;
+    countClients: number;
+    biggestValueSale: number;
+    lowestValueSales: number;
+  };
+  biggestTotalWithDate: {
+    total: number;
+    countTotal: number;
+    date: string;
+  };
+  lowestTotalWithDate: {
+    total: number;
+    countTotal: number;
+    date: string;
+  };
+};
+
 export class SalesService {
   private accessToken: string = "";
 
@@ -137,6 +158,28 @@ export class SalesService {
     return response;
   }
 
+  async findPending(): Promise<Response<SalesInterface[]>> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .get(`${this.baseUri}/api/sales/pending`, {
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
+
   async registerPayment(idsales: number): Promise<Response<SalesInterface[]>> {
     let response: Response = {} as Response;
     try {
@@ -193,5 +236,31 @@ export class SalesService {
       .filter(item => !!item)
       .reduce((acc, item) => acc + item, 0)
       .toLocaleString("pt-br", { style: "currency", currency: "BRL" });
+  }
+
+  async findReports(
+    date1: string,
+    date2: string
+  ): Promise<Response<SalesReportsInterface>> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .get(`${this.baseUri}/api/sales/reports`, {
+          params: { date1, date2 },
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
   }
 }

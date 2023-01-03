@@ -16,6 +16,8 @@ import { format } from "date-fns";
 import { ContainerMain } from "../components/divs/ContainerMain";
 import { CircularIndeterminate } from "../components/loaders/CircularLoader";
 import { DivInline } from "../components/divs/DivInline";
+import { LabelForm } from "../components/labels/LabelForm";
+import { LabelSmall } from "../components/labels/LabelSmal";
 
 type InputProps = {
   segmentService: SegmentService;
@@ -222,22 +224,20 @@ export function Segment(props: InputProps) {
         segments.map(segment => {
           return (
             <div className="container_segment" key={segment.idsegments}>
-              <h6 className="text-primary font-weight-bold">
-                Segmento:{" "}
-                <small className="text-dark text-muted h6">
-                  {segment.name}
-                </small>
-              </h6>
-              <h6 className="text-primary font-weight-bold">
-                Criado em:{" "}
-                <small className="text-dark text-muted h6">
-                  {format(
+              <LabelForm text="Segmento" className="mb-2 pb-2 border-bottom">
+                <LabelSmall text={segment.name} />
+              </LabelForm>
+
+              <LabelForm text="Criado em" className="mb-2 pb-2 border-bottom">
+                <LabelSmall
+                  text={format(
                     new Date(segment.createdAt),
                     "dd/MM/yyyy 'às' HH:mm'h'"
                   )}
-                </small>
-              </h6>
-              <DivInline className="pt-2 mt-2 border-top">
+                />
+              </LabelForm>
+
+              <DivInline>
                 <button
                   className="btn btn-outline-primary font-weight-bold"
                   data-toggle="modal"

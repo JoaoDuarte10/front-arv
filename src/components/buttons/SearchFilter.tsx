@@ -19,7 +19,8 @@ export function SearchFilterButton(props: InputProps) {
         style={{
           display: "flex",
           alignItems: "center",
-          borderRadius: "15px"
+          borderRadius: "15px",
+          fontSize: "13px"
         }}
         onClick={props.onClick}
         key={randomId()}

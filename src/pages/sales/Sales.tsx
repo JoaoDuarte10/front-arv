@@ -167,6 +167,25 @@ export function Sales(props: {
     }
   };
 
+  const fetchPenging = async () => {
+    setLoader(<CircularIndeterminate />);
+    const { success, data, error, notFound } = await salesService.findPending();
+    setLoader(null);
+
+    if (success) {
+      setSales(data);
+      setAlert(<AlertSuccess title="Pesquisa atualizada" />);
+    }
+    if (notFound) {
+      setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
+    }
+    if (error) {
+      setAlert(
+        <AlertError title="Não foi possível processar sua requisição." />
+      );
+    }
+  };
+
   if (alert) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
   }
@@ -206,6 +225,10 @@ export function Sales(props: {
             setSearchFilterClientEnable(!searchFilterClientEnable);
           }}
           text="Cliente"
+        />
+        <SearchFilterButton
+          onClick={(e: React.BaseSyntheticEvent) => fetchPenging()}
+          text="Pendentes"
         />
         <ClearSearchFilterButton
           onClick={(e: React.BaseSyntheticEvent) => {

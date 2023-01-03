@@ -30,7 +30,7 @@ export function GenericButton(props: InputProps) {
     <button
       className={`btn btn${variant ? "-" + variant : ""}${"-" +
         color} font-weight-bold`}
-      style={style}
+      style={{ fontSize: "13px", ...style }}
       onClick={onClick}
     >
       {text}

@@ -7,8 +7,8 @@ import { ClientsInterface } from "../pages/clients/Clients";
 import { ComboBox } from "./ComboBox";
 import { SegmentInterface } from "../service/segment";
 import ComboBoxList from "./inputs/InputAutocompleteList";
-import { ContainerCardWhite } from './divs/ContainerCardWhite';
-import { DivInline } from './divs/DivInline';
+import { ContainerCardWhite } from "./divs/ContainerCardWhite";
+import { DivInline } from "./divs/DivInline";
 
 type Response = {
   success: boolean;
@@ -179,9 +179,9 @@ export function FormClient(props: InputProps) {
             {props.edit ? "Salvar" : "Criar"}
           </button>
         </div>
-      </ DivInline>
+      </DivInline>
 
       <div className="mt-2">{props.alert}</div>
-    </ ContainerCardWhite>
+    </ContainerCardWhite>
   );
 }

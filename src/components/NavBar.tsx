@@ -221,7 +221,7 @@ export function NavBarResponsive(props: any) {
                 className="btn-list-sub-item"
                 onClick={e => {
                   closeItens();
-                  navigate("/reports");
+                  navigate("/sales-reports");
                 }}
                 style={{ outline: "none" }}
               >

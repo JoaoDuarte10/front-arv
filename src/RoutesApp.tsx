@@ -24,6 +24,7 @@ import { Schedules } from "./pages/schedules/Schedule";
 import { CreateSchedule } from "./pages/schedules/CreateSchedule";
 import { ScheduleService } from "./service/schedule";
 import { ScheduleHistory } from "./pages/schedules/History";
+import { SalesReports } from "./pages/reports/SalesReports";
 
 export function RoutesApp() {
   const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
@@ -147,6 +148,18 @@ export function RoutesApp() {
             }
           />
           <Route
+            path="/sales-reports"
+            element={
+              <PrivateRoute>
+                {navBar}
+                <SalesReports
+                  // clientService={clientService}
+                  salesService={salesService}
+                />
+              </PrivateRoute>
+            }
+          />
+          <Route
             path="/schedules"
             element={
               <PrivateRoute>
@@ -177,10 +190,7 @@ export function RoutesApp() {
             element={
               <PrivateRoute>
                 {navBar}
-                <ScheduleHistory
-                  // clientService={clientService}
-                  scheduleService={scheduleService}
-                />
+                <ScheduleHistory scheduleService={scheduleService} />
               </PrivateRoute>
             }
           />

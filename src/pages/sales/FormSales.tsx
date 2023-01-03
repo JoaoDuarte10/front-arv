@@ -189,6 +189,9 @@ export function FormSales(props: InputProps) {
                 clearFields();
               }
             }}
+            style={{
+              fontSize: "13px"
+            }}
           >
             Gerar Venda
           </button>

@@ -39,7 +39,7 @@ export function TableSales(props: InputProps) {
       <Table aria-label="collapsible table">
         <TableHead
           style={{
-            backgroundColor: "#4083be"
+            backgroundColor: "#0275d8"
           }}
         >
           <TableRow>
@@ -214,7 +214,8 @@ function Row(props: {
                   <button
                     className="btn btn-success"
                     style={{
-                      borderRadius: "15px"
+                      borderRadius: "15px",
+                      fontSize: "13px"
                     }}
                     onClick={(e: React.SyntheticEvent) =>
                       registerPayment(row.idsales)

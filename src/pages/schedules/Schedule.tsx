@@ -500,7 +500,7 @@ export function Schedules(props: {
                   </DivInline>
                 ) : null}
 
-                <LabelForm text="Criado em">
+                <LabelForm text="Criado em" className="border-bottom pb-2 mb-2">
                   <LabelSmall
                     text={format(
                       new Date(schedule.createdAt as string),

@@ -1,0 +1,16 @@
+.group_reports {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+}
+
+.items_reports {
+    background-color: white;
+    box-shadow: 1px 1px 4px gray;
+    border-left: #0275d8 5px solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    min-width: 330px;
+    min-height: 70px;
+}
