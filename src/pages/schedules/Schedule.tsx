@@ -478,23 +478,35 @@ export function Schedules(props: {
                   <LabelSmall text={schedule.description} />
                 </LabelForm>
 
-                <DivInline className="border-bottom mb-2">
-                  <LabelForm text="Data" className="col">
+                <DivInline className="row">
+                  <LabelForm
+                    text="Data"
+                    className="col-sm-6 pb-2 border-bottom"
+                  >
                     <LabelSmall
                       text={format(new Date(schedule.date), "dd/MM/yyyy")}
                     />
                   </LabelForm>
-                  <LabelForm text="Data" className="col">
+                  <LabelForm
+                    text="Horário"
+                    className="col-sm-6 pb-2 border-bottom"
+                  >
                     <LabelSmall text={schedule.time} />
                   </LabelForm>
                 </DivInline>
 
                 {schedule.pacote ? (
-                  <DivInline className="border-bottom mb-2">
-                    <LabelForm text="Atendimentos" className="col">
+                  <DivInline className="row">
+                    <LabelForm
+                      text="Atendimentos"
+                      className="col-sm-6 pb-2 border-bottom"
+                    >
                       <LabelSmall text={schedule.totalAtendenceCount} />
                     </LabelForm>
-                    <LabelForm text="Atual" className="col">
+                    <LabelForm
+                      text="Atual"
+                      className="col-sm-6 pb-2 border-bottom"
+                    >
                       <LabelSmall text={schedule.atendenceCount as number} />
                     </LabelForm>
                   </DivInline>

@@ -65,28 +65,28 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
                   </small>
                 </h6>
 
-                <DivInline className="border-bottom mb-2">
-                  <h6 className="text-primary font-weight-bold col">
+                <DivInline className="row">
+                  <h6 className="text-primary font-weight-bold col-sm-6 border-bottom mb-2 pb-2">
                     Data:{" "}
                     <small className="text-muted h6">
                       {format(new Date(schedule.date), "dd/MM/yyyy")}
                     </small>
                   </h6>
-                  <h6 className="text-primary font-weight-bold col">
+                  <h6 className="text-primary font-weight-bold col-sm-6 border-bottom mb-2 pb-2">
                     Horário:{" "}
                     <small className="text-muted h6">{schedule.time}h</small>
                   </h6>
                 </DivInline>
 
                 {schedule.pacote ? (
-                  <DivInline className="border-bottom mb-2">
-                    <h6 className="text-primary font-weight-bold col">
+                  <DivInline className="row">
+                    <h6 className="text-primary font-weight-bold col-sm-6 border-bottom mb-2 pb-2">
                       Atendimentos:{" "}
                       <small className="text-muted h6">
                         {schedule.totalAtendenceCount}
                       </small>
                     </h6>
-                    <h6 className="text-primary font-weight-bold col">
+                    <h6 className="text-primary font-weight-bold col-sm-6 border-bottom mb-2 pb-2">
                       Realizados:{" "}
                       <small className="text-muted h6">
                         {schedule.atendenceCount}

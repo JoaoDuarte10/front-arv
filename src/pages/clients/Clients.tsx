@@ -146,16 +146,22 @@ export function Clients(props: {
                 </div>
 
                 <div className="info_clients">
-                  <DivInline>
-                    <LabelForm text="Nome" className="col">
+                  <DivInline className="row">
+                    <LabelForm
+                      text="Nome"
+                      className="col-sm-6 pb-2 border-bottom"
+                    >
                       <LabelSmall text={client.name} />
                     </LabelForm>
-                    <LabelForm text="Celular" className="col">
+                    <LabelForm
+                      text="Celular"
+                      className="col-sm-6 pb-2 border-bottom"
+                    >
                       <LabelSmall text={client.phone} />
                     </LabelForm>
                   </DivInline>
                   {client.segment ? (
-                    <LabelForm text="Segmento">
+                    <LabelForm text="Segmento" className="pb-2 border-bottom">
                       <LabelSmall text={client.segment} />
                     </LabelForm>
                   ) : null}

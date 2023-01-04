@@ -38,29 +38,29 @@ export function InfoClients() {
 
       {client ? (
         <div className="container_info_client">
-          <LabelForm text="Nome">
+          <LabelForm text="Nome" className="pb-2 border-bottom">
             <LabelSmall text={client.name} />
           </LabelForm>
-          <DivInline>
-            <LabelForm text="E-mail" className="col">
+          <DivInline className="row">
+            <LabelForm text="E-mail" className="col-sm-6 pb-2 border-bottom">
               <LabelSmall text={client.email} />
             </LabelForm>
-            <LabelForm text="Celular" className="col">
+            <LabelForm text="Celular" className="col-sm-6 pb-2 border-bottom">
               <LabelSmall text={client.phone} />
             </LabelForm>
           </DivInline>
-          <DivInline>
-            <LabelForm text="Endereço" className="col">
+          <DivInline className="row">
+            <LabelForm text="Endereço" className="col-sm-6 pb-2 border-bottom">
               <LabelSmall text={client.address} />
             </LabelForm>
-            <LabelForm text="Número" className="col">
+            <LabelForm text="Número" className="col-sm-6 pb-2 border-bottom">
               <LabelSmall text={client.addressnumber} />
             </LabelForm>
           </DivInline>
-          <LabelForm text="Segmento">
-            <LabelSmall text={client.segment} />
+          <LabelForm text="Segmento" className="pb-2 border-bottom">
+            <LabelSmall text={client.segment || "Nenhum segmento"} />
           </LabelForm>
-          <LabelForm text="Criado em">
+          <LabelForm text="Criado em" className="pb-2 border-bottom">
             <LabelSmall
               text={format(
                 new Date(client.created_at),
@@ -68,7 +68,7 @@ export function InfoClients() {
               )}
             />
           </LabelForm>
-          <LabelForm text="Última atualização">
+          <LabelForm text="Última atualização" className="pb-2 border-bottom">
             <LabelSmall
               text={
                 format(

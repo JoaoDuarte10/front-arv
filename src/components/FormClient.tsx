@@ -4,7 +4,6 @@ import InputMaskPhone from "./inputs/InputMaskPhone";
 import InputMaskNumber from "./inputs/InputMaskNumber";
 import TextFieldMultiline from "./inputs/TextFieldMultiline";
 import { ClientsInterface } from "../pages/clients/Clients";
-import { ComboBox } from "./ComboBox";
 import { SegmentInterface } from "../service/segment";
 import ComboBoxList from "./inputs/InputAutocompleteList";
 import { ContainerCardWhite } from "./divs/ContainerCardWhite";
@@ -152,7 +151,7 @@ export function FormClient(props: InputProps) {
               clearFields();
             }}
           >
-            Limpar Campos
+            Limpar
           </button>
         </div>
         <div className="col">

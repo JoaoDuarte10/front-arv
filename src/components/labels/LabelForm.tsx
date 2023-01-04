@@ -4,13 +4,15 @@ export function LabelForm(props: {
   text: string;
   className?: string;
   children?: JSX.Element;
+  style?: object;
 }) {
   return (
     <h6
       style={{
         fontSize: "1em",
         color: "#0275d8",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        ...props.style
       }}
       className={props.className}
     >

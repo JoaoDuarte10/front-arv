@@ -9,7 +9,6 @@ import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { AlertError } from "../../components/alerts/AlertError";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
-import { ContainerCardWhite } from "../../components/divs/ContainerCardWhite";
 import { TIMEOUT } from "../../utils/constants";
 import { randomId } from "../../utils/random";
 import { LabelForm } from "../../components/labels/LabelForm";
@@ -259,22 +258,6 @@ export function SalesReports(props: { salesService: SalesService }) {
                 <LabelSmall text={report.basicInfos.countClients} />
               </LabelForm>
             </div>
-            {/* <div className="items_reports">
-                            <LabelForm text="Maior venda">
-                                <LabelSmall text={report.basicInfos.biggestValueSale.toLocaleString("pt-BR", {
-                                    style: "currency",
-                                    currency: "BRL"
-                                })} />
-                            </LabelForm>
-                        </div>
-                        <div className="items_reports">
-                            <LabelForm text="Menor venda">
-                                <LabelSmall text={report.basicInfos.lowestValueSales.toLocaleString("pt-BR", {
-                                    style: "currency",
-                                    currency: "BRL"
-                                })} />
-                            </LabelForm>
-                        </div> */}
             <div className="items_reports">
               <h6
                 style={{

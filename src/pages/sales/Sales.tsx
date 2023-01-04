@@ -273,19 +273,8 @@ export function Sales(props: {
 
       <Collapse in={searchFilterPeriodEnable} timeout="auto" unmountOnExit>
         <div className="filter_buttons">
-          <div
-            style={{
-              display: "flex",
-              // justifyContent: "space-between",
-              width: "360px",
-              alignItems: "flex-end"
-            }}
-          >
-            <div
-              style={{
-                display: "block"
-              }}
-            >
+          <div className="row">
+            <div className="col-sm-3">
               <small className="font-weight-bold">Inicial</small>
               <FullWidthTextField
                 type="date"
@@ -296,30 +285,29 @@ export function Sales(props: {
                 value={period.date1}
               />
             </div>
-            <div
-              style={{
-                display: "block",
-                marginLeft: "10px"
-              }}
-            >
+            <div className="col-sm-4">
               <small className="font-weight-bold">Final</small>
-
-              <FullWidthTextField
-                type="date"
-                fnChange={(e: React.BaseSyntheticEvent) =>
-                  setPeriod({ date1: period.date1, date2: e.target.value })
-                }
-                label=""
-                value={period.date2}
-              />
+              <div className="d-flex">
+                <FullWidthTextField
+                  type="date"
+                  fnChange={(e: React.BaseSyntheticEvent) =>
+                    setPeriod({ date1: period.date1, date2: e.target.value })
+                  }
+                  label=""
+                  value={period.date2}
+                />
+                <SearchButton
+                  onClick={(e: React.BaseSyntheticEvent) =>
+                    fetchSalesByPeriod()
+                  }
+                  style={{
+                    height: "55px",
+                    marginTop: "5px"
+                  }}
+                />
+              </div>
             </div>
-            <SearchButton
-              onClick={(e: React.BaseSyntheticEvent) => fetchSalesByPeriod()}
-              style={{
-                height: "55px",
-                marginBottom: "5px"
-              }}
-            />
+            <div className="col-sm-2"></div>
           </div>
           <button
             className="btn btn-secondary mt-2"
@@ -389,25 +377,25 @@ export function Sales(props: {
           {sales.length > 0 ? sales.length : null}
           <br />
           {sales.length &&
-          sales.filter(sale => sale.payment_status === "PENDING").length ? (
+            sales.filter(sale => sale.payment_status === "PENDING").length ? (
             <div className="mt-2 mb-2">
               <strong>Total a receber: </strong>{" "}
               {sales.length > 0
                 ? salesService.countTotalValueSales(
-                    sales
-                      .filter(sale => sale.payment_status === "PENDING")
-                      .map(sale => Number(sale.total))
-                  )
+                  sales
+                    .filter(sale => sale.payment_status === "PENDING")
+                    .map(sale => Number(sale.total))
+                )
                 : null}
             </div>
           ) : null}
           <strong>Total recebido:</strong>{" "}
           {sales.length > 0
             ? salesService.countTotalValueSales(
-                sales
-                  .filter(sale => sale.payment_status === "PAID")
-                  .map(sale => Number(sale.total))
-              )
+              sales
+                .filter(sale => sale.payment_status === "PAID")
+                .map(sale => Number(sale.total))
+            )
             : null}
         </div>
       ) : (

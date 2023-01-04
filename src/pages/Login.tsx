@@ -3,8 +3,7 @@ import "../css/main.css";
 import React, { useState } from "react";
 import logo from "../img/raise-value-logo.png";
 import { IconButton } from "@material-ui/core";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { useDispatch } from "react-redux";
 import { loginAdded } from "../reducers/authenticated-slice";
 import { CircularIndeterminate } from "../components/loaders/CircularLoader";
@@ -20,11 +19,11 @@ export function Login(props: { loginService: LoginService }) {
     password: "",
     showPassword: false
   });
-  const [loaderSignIn, setLoaderSignIn] = useState<boolean>(false);
   const [invalidCredentials, setinvalidCredentials] = useState<boolean | null>(
     null
   );
   const [serverError, setServerError] = useState<boolean>(false);
+  const [loader, setLoader] = useState<JSX.Element | null>(null);
 
   const dispatch = useDispatch();
   let navigate = useNavigate();
@@ -37,12 +36,12 @@ export function Login(props: { loginService: LoginService }) {
   };
 
   const signIn = async () => {
-    setLoaderSignIn(true);
+    setLoader(<CircularIndeterminate />);
     const { data, unauthorized, error } = await loginService.signIn({
       user,
       password: password.password
     });
-    setLoaderSignIn(false);
+    setLoader(null);
 
     if (unauthorized) {
       setinvalidCredentials(true);
@@ -57,13 +56,6 @@ export function Login(props: { loginService: LoginService }) {
     dispatch(loginAdded({ access_token: data.access_token, refreshToken: "" }));
     navigate("/home", { replace: true });
   };
-
-  let loader = null;
-  if (loaderSignIn) {
-    loader = <CircularIndeterminate />;
-  } else {
-    loader = null;
-  }
 
   if (invalidCredentials) {
     setTimeout(() => setinvalidCredentials(null), TIMEOUT.THREE_SECCONDS);
@@ -169,7 +161,7 @@ export function Login(props: { loginService: LoginService }) {
         </form>
       </div>
       <p className="mt-5 mb-3 text-center text-white">
-        ARV - Controll &copy; 2022
+        ARV Controll &copy; 2023
       </p>
     </div>
   );
