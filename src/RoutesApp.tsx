@@ -86,7 +86,7 @@ export function RoutesApp() {
             element={
               <PrivateRoute>
                 {navBar}
-                <InfoClients />
+                <InfoClients salesService={salesService}/>
               </PrivateRoute>
             }
           />

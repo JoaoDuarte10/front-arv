@@ -102,7 +102,7 @@ export function Clients(props: {
                 <div className="actions_client remove-style-link">
                   <Link
                     style={{
-                      border: "1px solid blue",
+                      border: "1px solid #0275d8",
                       padding: "5px",
                       borderRadius: "15px"
                     }}

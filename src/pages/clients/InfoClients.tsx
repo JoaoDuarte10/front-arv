@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { useParams, useNavigate } from "react-router-dom";
@@ -10,13 +10,31 @@ import { ContainerMain } from "../../components/divs/ContainerMain";
 import { LabelSmall } from "../../components/labels/LabelSmal";
 import { LabelForm } from "../../components/labels/LabelForm";
 import { DivInline } from "../../components/divs/DivInline";
+import { SalesService, SalesInterface } from '../../service/sales';
+import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
+import { AlertError } from "../../components/alerts/AlertError";
+import { AlertInfo } from "../../components/alerts/AlertInfo";
+import { AlertSuccess } from "../../components/alerts/AlertSuccess";
+import { TableSales } from '../../components/sales/TableSales';
+import { SearchFilterButton } from '../../components/buttons/SearchFilter';
+import { TIMEOUT } from '../../utils/constants';
+import { ClearSearchFilterButton } from '../../components/buttons/ClearSearchFilter';
 
-export function InfoClients() {
+export function InfoClients(props: {
+  salesService: SalesService;
+  // clientService: ClientService;
+}) {
+  const { salesService } = props;
+
   const { clientId } = useParams();
   const navigate = useNavigate();
 
   const clients = useSelector((state: ReduceStore) => state.client);
   const client = clients.find(item => item.idclients === Number(clientId));
+  const [sales, setSales] = useState<SalesInterface[]>([]);
+
+  const [alert, setAlert] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<JSX.Element | null>(null);
 
   useEffect(() => {
     if (!clientId || !client) {
@@ -24,8 +42,37 @@ export function InfoClients() {
     }
   }, []);
 
+  const fetchSalesByClient = async () => {
+    setLoader(<CircularIndeterminate />);
+    const {
+      success,
+      data,
+      error,
+      notFound,
+    } = await salesService.findByClient(Number(clientId));
+    setLoader(null);
+
+    if (success) {
+      setSales(data);
+      setAlert(<AlertSuccess title="Pesquisa atualizada" />);
+    }
+    if (notFound) {
+      setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
+    }
+    if (error) {
+      setAlert(
+        <AlertError title="Não foi possível processar sua requisição." />
+      );
+    }
+  };
+
+  if (alert) {
+    setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
+  }
+
   return (
     <ContainerMain>
+      {loader}
       <Breadcumb
         page={[
           { link: "/clients", name: "Clientes" },
@@ -83,6 +130,34 @@ export function InfoClients() {
           </LabelForm>
         </div>
       ) : null}
+
+      <hr className="mt-4" />
+
+      {alert}
+
+      <div>
+        <SearchFilterButton
+          onClick={(e: React.BaseSyntheticEvent) => fetchSalesByClient()}
+          text="Vendas do cliente"
+        />
+        <ClearSearchFilterButton
+          onClick={(e: React.BaseSyntheticEvent) => setSales([])}
+        />
+
+        {sales.length ? (
+          <div>
+            <TableSales sales={sales} salesService={salesService} />
+
+            <strong>Total:</strong>{" "}
+            {salesService.countTotalValueSales(
+              sales
+                .filter(sale => sale.payment_status === "PAID")
+                .map(sale => Number(sale.total))
+            )}
+          </div>
+        ) : null}
+
+      </div>
     </ContainerMain>
   );
 }
