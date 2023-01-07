@@ -44,11 +44,12 @@ export function RoutesApp() {
     API_RV_BASE_URI,
     localStorageService
   );
+  const ruleService = new RulesService(localStorageService)
 
   const navBar = (
     <NavBarResponsive
       localStorageService={localStorageService}
-      ruleService={new RulesService(localStorageService)}
+      ruleService={ruleService}
     />
   );
 
@@ -63,7 +64,7 @@ export function RoutesApp() {
           <Route
             path="/home"
             element={
-              <PrivateRoute>
+              <PrivateRoute >
                 {navBar}
                 <Home />
               </PrivateRoute>
@@ -72,7 +73,7 @@ export function RoutesApp() {
           <Route
             path="/clients"
             element={
-              <PrivateRoute>
+              <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
                 {navBar}
                 <Clients
                   clientService={clientService}
@@ -84,7 +85,7 @@ export function RoutesApp() {
           <Route
             path="/info-client/:clientId"
             element={
-              <PrivateRoute>
+              <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
                 {navBar}
                 <InfoClients salesService={salesService}/>
               </PrivateRoute>
@@ -93,7 +94,7 @@ export function RoutesApp() {
           <Route
             path="/create-client"
             element={
-              <PrivateRoute>
+              <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
                 {navBar}
                 <CreateClient
                   clientService={clientService}
@@ -105,7 +106,7 @@ export function RoutesApp() {
           <Route
             path="/edit-client/:clientId"
             element={
-              <PrivateRoute>
+              <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
                 {navBar}
                 <EditClient
                   clientService={clientService}
@@ -117,7 +118,7 @@ export function RoutesApp() {
           <Route
             path="/segments"
             element={
-              <PrivateRoute>
+              <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
                 {navBar}
                 <Segment segmentService={segmentService} />
               </PrivateRoute>
@@ -126,7 +127,7 @@ export function RoutesApp() {
           <Route
             path="/sales"
             element={
-              <PrivateRoute>
+              <PrivateRoute rules={[ruleService.ruleWithPage("sales")]}>
                 {navBar}
                 <Sales
                   salesService={salesService}
@@ -138,7 +139,7 @@ export function RoutesApp() {
           <Route
             path="/create-sale"
             element={
-              <PrivateRoute>
+              <PrivateRoute rules={[ruleService.ruleWithPage("sales")]}>
                 {navBar}
                 <CreateSales
                   clientService={clientService}
@@ -150,7 +151,7 @@ export function RoutesApp() {
           <Route
             path="/sales-reports"
             element={
-              <PrivateRoute>
+              <PrivateRoute rules={[ruleService.ruleWithPage("sales")]}>
                 {navBar}
                 <SalesReports
                   // clientService={clientService}
@@ -162,7 +163,7 @@ export function RoutesApp() {
           <Route
             path="/schedules"
             element={
-              <PrivateRoute>
+              <PrivateRoute rules={[ruleService.ruleWithPage("schedules")]}>
                 {navBar}
                 <Schedules
                   clientService={clientService}
@@ -176,7 +177,7 @@ export function RoutesApp() {
           <Route
             path="/create-schedule"
             element={
-              <PrivateRoute>
+              <PrivateRoute rules={[ruleService.ruleWithPage("schedules")]}>
                 {navBar}
                 <CreateSchedule
                   clientService={clientService}
@@ -188,7 +189,7 @@ export function RoutesApp() {
           <Route
             path="/schedule-history"
             element={
-              <PrivateRoute>
+              <PrivateRoute rules={[ruleService.ruleWithPage("schedules")]}>
                 {navBar}
                 <ScheduleHistory scheduleService={scheduleService} />
               </PrivateRoute>

@@ -94,7 +94,7 @@ export function Schedules(props: {
     const { success, data } = await scheduleService.expireds();
 
     if (success) {
-      setSchedules([...schedules, ...data]);
+      setSchedules(data);
     }
   };
 
@@ -212,6 +212,7 @@ export function Schedules(props: {
       setAlert(
         <AlertSuccess title="Agenda excluída com sucesso. Atualize a pesquisa." />
       );
+      await fetchExpireds();
       return true;
     }
     if (error) {

@@ -15,7 +15,12 @@ export class RulesService {
   ruleWithPage(page: string): string {
     switch (page) {
       case "schedule":
+      case "schedules":
         return "schedule";
+      case "clients":
+        return "clients";
+      case "sales":
+        return "sales";
       default:
         return "";
     }

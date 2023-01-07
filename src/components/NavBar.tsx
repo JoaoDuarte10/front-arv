@@ -5,10 +5,11 @@ import { useSelector } from "react-redux";
 import { ReduceStore } from "../app/store";
 import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
 import Collapse from "@mui/material/Collapse";
+import { LocalStorageService } from '../service/local-storage';
+import { RulesService } from '../service/rules';
 
-export function NavBarResponsive(props: any) {
-  const { localStorageService } = props;
-  const { ruleService } = props;
+export function NavBarResponsive(props: { localStorageService: LocalStorageService, ruleService: RulesService }) {
+  const { localStorageService, ruleService } = props;
   const navigate = useNavigate();
 
   const [openSales, setOpenSales] = useState<boolean>(false);
@@ -134,102 +135,106 @@ export function NavBarResponsive(props: any) {
             </Collapse>
           </li>
         )}
-        <li className="nav-item remove-style-link" key="8795444">
-          <button
-            className="btn-list-item"
-            style={{ outline: "none" }}
-            onClick={e => setOpenClients(!openClients)}
-          >
-            Clientes
-            {openClients ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-          </button>
-          <Collapse in={openClients} timeout="auto" unmountOnExit>
-            <li className="sub-item" key="33745">
-              <button
-                className="btn-list-sub-item"
-                onClick={e => {
-                  closeItens();
-                  navigate("/create-client");
-                }}
-                style={{ outline: "none" }}
-              >
-                Novo Cliente
-              </button>
-            </li>
-            <li className="sub-item" key="3345">
-              <button
-                className="btn-list-sub-item"
-                onClick={e => {
-                  closeItens();
-                  navigate("/clients");
-                }}
-                style={{ outline: "none" }}
-              >
-                Seus Clientes
-              </button>
-            </li>
-            <li className="sub-item" key="434">
-              <button
-                className="btn-list-sub-item"
-                onClick={e => {
-                  closeItens();
-                  navigate("/segments");
-                }}
-                style={{ outline: "none" }}
-              >
-                Segmentos
-              </button>
-            </li>
-          </Collapse>
-        </li>
-        <li className="nav-item remove-style-link" key="136971">
-          <button
-            className="btn-list-item"
-            style={{ outline: "none" }}
-            onClick={e => setOpenSales(!openSales)}
-          >
-            Vendas
-            {openSales ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-          </button>
-          <Collapse in={openSales} timeout="auto" unmountOnExit>
-            <li className="sub-item" key="6948">
-              <button
-                className="btn-list-sub-item"
-                onClick={e => {
-                  closeItens();
-                  navigate("/create-sale");
-                }}
-                style={{ outline: "none" }}
-              >
-                Nova Venda
-              </button>
-            </li>
-            <li className="sub-item" key="3445">
-              <button
-                className="btn-list-sub-item"
-                onClick={e => {
-                  closeItens();
-                  navigate("/sales");
-                }}
-                style={{ outline: "none" }}
-              >
-                Suas Vendas
-              </button>
-            </li>
-            <li className="sub-item" key="346346">
-              <button
-                className="btn-list-sub-item"
-                onClick={e => {
-                  closeItens();
-                  navigate("/sales-reports");
-                }}
-                style={{ outline: "none" }}
-              >
-                Relatórios
-              </button>
-            </li>
-          </Collapse>
-        </li>
+        {rules.includes(ruleService.ruleWithPage("clients")) && (
+          <li className="nav-item remove-style-link" key="8795444">
+            <button
+              className="btn-list-item"
+              style={{ outline: "none" }}
+              onClick={e => setOpenClients(!openClients)}
+            >
+              Clientes
+              {openClients ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+            </button>
+            <Collapse in={openClients} timeout="auto" unmountOnExit>
+              <li className="sub-item" key="33745">
+                <button
+                  className="btn-list-sub-item"
+                  onClick={e => {
+                    closeItens();
+                    navigate("/create-client");
+                  }}
+                  style={{ outline: "none" }}
+                >
+                  Novo Cliente
+                </button>
+              </li>
+              <li className="sub-item" key="3345">
+                <button
+                  className="btn-list-sub-item"
+                  onClick={e => {
+                    closeItens();
+                    navigate("/clients");
+                  }}
+                  style={{ outline: "none" }}
+                >
+                  Seus Clientes
+                </button>
+              </li>
+              <li className="sub-item" key="434">
+                <button
+                  className="btn-list-sub-item"
+                  onClick={e => {
+                    closeItens();
+                    navigate("/segments");
+                  }}
+                  style={{ outline: "none" }}
+                >
+                  Segmentos
+                </button>
+              </li>
+            </Collapse>
+          </li>
+        )}
+        {rules.includes(ruleService.ruleWithPage("sales")) && (
+          <li className="nav-item remove-style-link" key="136971">
+            <button
+              className="btn-list-item"
+              style={{ outline: "none" }}
+              onClick={e => setOpenSales(!openSales)}
+            >
+              Vendas
+              {openSales ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+            </button>
+            <Collapse in={openSales} timeout="auto" unmountOnExit>
+              <li className="sub-item" key="6948">
+                <button
+                  className="btn-list-sub-item"
+                  onClick={e => {
+                    closeItens();
+                    navigate("/create-sale");
+                  }}
+                  style={{ outline: "none" }}
+                >
+                  Nova Venda
+                </button>
+              </li>
+              <li className="sub-item" key="3445">
+                <button
+                  className="btn-list-sub-item"
+                  onClick={e => {
+                    closeItens();
+                    navigate("/sales");
+                  }}
+                  style={{ outline: "none" }}
+                >
+                  Suas Vendas
+                </button>
+              </li>
+              <li className="sub-item" key="346346">
+                <button
+                  className="btn-list-sub-item"
+                  onClick={e => {
+                    closeItens();
+                    navigate("/sales-reports");
+                  }}
+                  style={{ outline: "none" }}
+                >
+                  Relatórios
+                </button>
+              </li>
+            </Collapse>
+          </li>
+        )}
         <li className="nav-item remove-style-link" key="6644855">
           <button
             className="btn-list-item btn-exit"

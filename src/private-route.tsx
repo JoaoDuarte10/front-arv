@@ -6,7 +6,8 @@ import { ReduceStore } from "./app/store";
 import { RulesService } from "./service/rules";
 import { LocalStorageService } from "./service/local-storage";
 
-export function PrivateRoute({ children, rules }: any) {
+export function PrivateRoute(props: { children: any, rules?: string[] }) {
+  const { children, rules } = props;
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
