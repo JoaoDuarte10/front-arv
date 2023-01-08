@@ -44,7 +44,7 @@ export function RoutesApp() {
     API_RV_BASE_URI,
     localStorageService
   );
-  const ruleService = new RulesService(localStorageService)
+  const ruleService = new RulesService(localStorageService);
 
   const navBar = (
     <NavBarResponsive
@@ -64,7 +64,7 @@ export function RoutesApp() {
           <Route
             path="/home"
             element={
-              <PrivateRoute >
+              <PrivateRoute>
                 {navBar}
                 <Home />
               </PrivateRoute>
@@ -87,7 +87,7 @@ export function RoutesApp() {
             element={
               <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
                 {navBar}
-                <InfoClients salesService={salesService}/>
+                <InfoClients salesService={salesService} />
               </PrivateRoute>
             }
           />

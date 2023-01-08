@@ -5,10 +5,13 @@ import { useSelector } from "react-redux";
 import { ReduceStore } from "../app/store";
 import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
 import Collapse from "@mui/material/Collapse";
-import { LocalStorageService } from '../service/local-storage';
-import { RulesService } from '../service/rules';
+import { LocalStorageService } from "../service/local-storage";
+import { RulesService } from "../service/rules";
 
-export function NavBarResponsive(props: { localStorageService: LocalStorageService, ruleService: RulesService }) {
+export function NavBarResponsive(props: {
+  localStorageService: LocalStorageService;
+  ruleService: RulesService;
+}) {
   const { localStorageService, ruleService } = props;
   const navigate = useNavigate();
 

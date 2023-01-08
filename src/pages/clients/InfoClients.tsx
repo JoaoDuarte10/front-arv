@@ -10,15 +10,15 @@ import { ContainerMain } from "../../components/divs/ContainerMain";
 import { LabelSmall } from "../../components/labels/LabelSmal";
 import { LabelForm } from "../../components/labels/LabelForm";
 import { DivInline } from "../../components/divs/DivInline";
-import { SalesService, SalesInterface } from '../../service/sales';
-import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
+import { SalesService, SalesInterface } from "../../service/sales";
+import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { AlertError } from "../../components/alerts/AlertError";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
-import { TableSales } from '../../components/sales/TableSales';
-import { SearchFilterButton } from '../../components/buttons/SearchFilter';
-import { TIMEOUT } from '../../utils/constants';
-import { ClearSearchFilterButton } from '../../components/buttons/ClearSearchFilter';
+import { TableSales } from "../../components/sales/TableSales";
+import { SearchFilterButton } from "../../components/buttons/SearchFilter";
+import { TIMEOUT } from "../../utils/constants";
+import { ClearSearchFilterButton } from "../../components/buttons/ClearSearchFilter";
 
 export function InfoClients(props: {
   salesService: SalesService;
@@ -44,12 +44,33 @@ export function InfoClients(props: {
 
   const fetchSalesByClient = async () => {
     setLoader(<CircularIndeterminate />);
+    const { success, data, error, notFound } = await salesService.findByClient(
+      Number(clientId)
+    );
+    setLoader(null);
+
+    if (success) {
+      setSales(data);
+      setAlert(<AlertSuccess title="Pesquisa atualizada" />);
+    }
+    if (notFound) {
+      setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
+    }
+    if (error) {
+      setAlert(
+        <AlertError title="Não foi possível processar sua requisição." />
+      );
+    }
+  };
+
+  const fetchSalesPending = async () => {
+    setLoader(<CircularIndeterminate />);
     const {
       success,
       data,
       error,
-      notFound,
-    } = await salesService.findByClient(Number(clientId));
+      notFound
+    } = await salesService.findPendingByClient(Number(clientId));
     setLoader(null);
 
     if (success) {
@@ -140,6 +161,10 @@ export function InfoClients(props: {
           onClick={(e: React.BaseSyntheticEvent) => fetchSalesByClient()}
           text="Vendas do cliente"
         />
+        <SearchFilterButton
+          onClick={(e: React.BaseSyntheticEvent) => fetchSalesPending()}
+          text="Vendas pendentes"
+        />
         <ClearSearchFilterButton
           onClick={(e: React.BaseSyntheticEvent) => setSales([])}
         />
@@ -147,7 +172,6 @@ export function InfoClients(props: {
         {sales.length ? (
           <div>
             <TableSales sales={sales} salesService={salesService} />
-
             <strong>Total:</strong>{" "}
             {salesService.countTotalValueSales(
               sales
@@ -156,7 +180,6 @@ export function InfoClients(props: {
             )}
           </div>
         ) : null}
-
       </div>
     </ContainerMain>
   );

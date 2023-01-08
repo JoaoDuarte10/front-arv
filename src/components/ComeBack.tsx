@@ -9,7 +9,7 @@ export function ComeBack() {
     <button
       className="btn btn-primary d-flex flex-row align-items-center"
       onClick={() => navigate(-1)}
-      style={{ borderRadius: '15px' }}
+      style={{ borderRadius: "15px" }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

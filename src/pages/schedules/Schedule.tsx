@@ -338,19 +338,23 @@ export function Schedules(props: {
               label=""
               value={date}
             />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              marginTop: "10px"
+            }}
+          >
+            <button
+              className="btn btn-secondary"
+              onClick={e => closeActionButtons()}
+            >
+              Fechar
+            </button>
             <SearchButton
               onClick={(e: React.BaseSyntheticEvent) => fetchByDate()}
-              style={{
-                margin: "5px 0"
-              }}
             />
           </div>
-          <button
-            className="btn btn-secondary mt-2"
-            onClick={e => closeActionButtons()}
-          >
-            Fechar
-          </button>
         </div>
       </Collapse>
 
@@ -388,19 +392,23 @@ export function Schedules(props: {
               }}
               value={clientSelected.label}
             />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              marginTop: "10px"
+            }}
+          >
+            <button
+              className="btn btn-secondary"
+              onClick={e => closeActionButtons()}
+            >
+              Fechar
+            </button>
             <SearchButton
               onClick={(e: React.BaseSyntheticEvent) => fetchByClient()}
-              style={{
-                margin: "5px 0"
-              }}
             />
           </div>
-          <button
-            className="btn btn-secondary mt-2"
-            onClick={e => closeActionButtons()}
-          >
-            Fechar
-          </button>
         </div>
       </Collapse>
 
