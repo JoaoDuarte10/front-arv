@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ContainerMain } from "../../components/divs/ContainerMain";
 import { ScheduleService, ScheduleInterface } from "../../service/schedule";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
@@ -7,6 +7,10 @@ import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { format } from "date-fns";
 import { DivInline } from "../../components/divs/DivInline";
+import { SearchFilterButton } from "../../components/buttons/SearchFilter";
+import * as dateFns from "date-fns";
+import { AlertSuccess } from "../../components/alerts/AlertSuccess";
+import { TIMEOUT } from "../../utils/constants";
 
 export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
   const { scheduleService } = props;
@@ -28,9 +32,27 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
     }
   };
 
-  useEffect(() => {
-    fetchSchedules();
-  }, []);
+  const fetchSfetchMostRecentFromchedules = async (date: Date) => {
+    setLoader(<CircularIndeterminate />);
+    const {
+      success,
+      data,
+      notFound
+    } = await scheduleService.fetchMostRecentFrom(date);
+    setLoader(null);
+
+    if (success) {
+      setSchedules(data);
+      setAlert(<AlertSuccess title="Pesquisa atualizada." />);
+    }
+    if (notFound) {
+      setAlert(<AlertInfo title="Nenhuma agenda encontrada." />);
+    }
+  };
+
+  if (alert) {
+    setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
+  }
 
   return (
     <ContainerMain>
@@ -43,6 +65,31 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
       <TitlePrincipal title="Histórico de agendas" />
 
       {loader}
+
+      <div className="filter_buttons">
+        <SearchFilterButton
+          onClick={(e: React.BaseSyntheticEvent) => {
+            const dateFrom = dateFns.subDays(new Date(), 15);
+            fetchSfetchMostRecentFromchedules(dateFrom);
+          }}
+          text="Últimos 15 dias"
+        />
+        <SearchFilterButton
+          onClick={(e: React.BaseSyntheticEvent) => {
+            const dateFrom = dateFns.subDays(new Date(), 30);
+            fetchSfetchMostRecentFromchedules(dateFrom);
+          }}
+          text="Últimos 30 dias"
+        />
+        <SearchFilterButton
+          onClick={(e: React.BaseSyntheticEvent) => {
+            const dateFrom = dateFns.subDays(new Date(), 60);
+            fetchSfetchMostRecentFromchedules(dateFrom);
+          }}
+          text="Últimos 60 dias"
+        />
+      </div>
+
       {alert}
 
       {schedules.length
@@ -96,7 +143,7 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
                 ) : null}
 
                 <h6 className="text-primary font-weight-bold border-bottom mb-2 pb-2">
-                  Criado em:{" "}
+                  Criada em:{" "}
                   <small className="text-muted h6">
                     {format(
                       new Date(schedule.createdAt as string),
@@ -104,7 +151,7 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
                     )}
                   </small>
                 </h6>
-                <h6 className="text-primary font-weight-bold border-bottom mb-2 pb-2">
+                <h6 className="text-primary font-weight-bold">
                   Finalizada em:{" "}
                   <small className="text-muted h6">
                     {format(

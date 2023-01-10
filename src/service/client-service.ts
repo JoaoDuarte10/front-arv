@@ -59,7 +59,7 @@ export class ClientService {
     return response;
   }
 
-  async createClinet(params: {
+  async createClient(params: {
     name: string;
     email: string;
     phone: string;
@@ -123,7 +123,7 @@ export class ClientService {
     return response;
   }
 
-  async editClinet(params: {
+  async editClient(params: {
     idclients: number;
     name: string;
     email: string;

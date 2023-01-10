@@ -82,7 +82,7 @@ export function EditClient(props: {
     params.event.preventDefault();
 
     setLoader(<CircularIndeterminate />);
-    const { error, conflict, badRequest } = await clientService.editClinet({
+    const { error, conflict, badRequest } = await clientService.editClient({
       idclients: params.idclients,
       name: params.name,
       email: params.email,

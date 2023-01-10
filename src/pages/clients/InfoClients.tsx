@@ -154,8 +154,6 @@ export function InfoClients(props: {
 
       <hr className="mt-4" />
 
-      {alert}
-
       <div>
         <SearchFilterButton
           onClick={(e: React.BaseSyntheticEvent) => fetchSalesByClient()}
@@ -168,6 +166,8 @@ export function InfoClients(props: {
         <ClearSearchFilterButton
           onClick={(e: React.BaseSyntheticEvent) => setSales([])}
         />
+
+        {alert}
 
         {sales.length ? (
           <div>

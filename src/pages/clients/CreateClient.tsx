@@ -71,7 +71,7 @@ export function CreateClient(props: {
     params.event.preventDefault();
 
     setLoader(<CircularIndeterminate />);
-    const { error, conflict, badRequest } = await clientService.createClinet({
+    const { error, conflict, badRequest } = await clientService.createClient({
       name: params.name,
       email: params.email,
       phone: params.phone,

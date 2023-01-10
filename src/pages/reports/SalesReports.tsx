@@ -223,8 +223,6 @@ export function SalesReports(props: { salesService: SalesService }) {
           key={randomId()}
           style={{
             marginTop: "15px"
-            // padding: '5px',
-            // backgroundColor: 'green'
           }}
         >
           <div className="group_reports">

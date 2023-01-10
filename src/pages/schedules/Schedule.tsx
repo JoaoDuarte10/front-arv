@@ -500,7 +500,7 @@ export function Schedules(props: {
                     text="Horário"
                     className="col-sm-6 pb-2 border-bottom"
                   >
-                    <LabelSmall text={schedule.time} />
+                    <LabelSmall text={schedule.time + "h"} />
                   </LabelForm>
                 </DivInline>
 
