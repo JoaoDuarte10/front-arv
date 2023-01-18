@@ -263,7 +263,7 @@ export function Sales(props: {
             }}
           >
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary font-weight-bold"
               onClick={e => closeActionButtons()}
             >
               Fechar
@@ -315,7 +315,7 @@ export function Sales(props: {
             }}
           >
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary font-weight-bold"
               onClick={e => closeActionButtons()}
             >
               Fechar
@@ -369,7 +369,7 @@ export function Sales(props: {
             }}
           >
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary font-weight-bold"
               onClick={e => closeActionButtons()}
             >
               Fechar

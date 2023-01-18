@@ -346,7 +346,7 @@ export function Schedules(props: {
             }}
           >
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary font-weight-bold"
               onClick={e => closeActionButtons()}
             >
               Fechar
@@ -400,7 +400,7 @@ export function Schedules(props: {
             }}
           >
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary font-weight-bold"
               onClick={e => closeActionButtons()}
             >
               Fechar
@@ -415,7 +415,7 @@ export function Schedules(props: {
       {alert}
 
       {schedules.length
-        ? schedules.map(schedule => {
+        ? schedules.map((schedule) => {
             return (
               <div className="schedule_card" key={schedule.idschedules}>
                 {schedule.expired ? (
@@ -493,7 +493,7 @@ export function Schedules(props: {
                     className="col-sm-6 pb-2 border-bottom"
                   >
                     <LabelSmall
-                      text={format(new Date(schedule.date), "dd/MM/yyyy")}
+                      text={format(new Date(schedule.date.replace('Z', '')), "dd/MM/yyyy")}
                     />
                   </LabelForm>
                   <LabelForm
@@ -524,9 +524,9 @@ export function Schedules(props: {
                 <LabelForm text="Criado em" className="border-bottom pb-2 mb-2">
                   <LabelSmall
                     text={format(
-                      new Date(schedule.createdAt as string),
+                      new Date(schedule.createdAt ? schedule.createdAt.replace('Z', '') : schedule.createdAt as string),
                       "dd/MM/yyyy 'às' HH:mm'h'"
-                    )}
+                    ).toString()}
                   />
                 </LabelForm>
 

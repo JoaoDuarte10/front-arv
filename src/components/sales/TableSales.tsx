@@ -197,7 +197,7 @@ function Row(props: {
                 </small>{" "}
                 <small>
                   {format(
-                    new Date(row.info[0].createdAt),
+                    new Date(row.info[0].createdAt.replace('Z', '')),
                     "dd/MM/yyyy 'às' HH:mm'h'"
                   )}
                 </small>
