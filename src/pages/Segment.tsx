@@ -231,7 +231,7 @@ export function Segment(props: InputProps) {
               <LabelForm text="Criado em" className="mb-2 pb-2 border-bottom">
                 <LabelSmall
                   text={format(
-                    new Date(segment.createdAt),
+                    new Date(segment.createdAt.replace("Z", "")),
                     "dd/MM/yyyy 'às' HH:mm'h'"
                   )}
                 />

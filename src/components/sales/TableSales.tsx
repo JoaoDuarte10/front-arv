@@ -197,7 +197,7 @@ function Row(props: {
                 </small>{" "}
                 <small>
                   {format(
-                    new Date(row.info[0].createdAt.replace('Z', '')),
+                    new Date(row.info[0].createdAt.replace("Z", "")),
                     "dd/MM/yyyy 'às' HH:mm'h'"
                   )}
                 </small>
@@ -294,7 +294,10 @@ function Row(props: {
                         {info.payment_status === "PAID" ? "Sim" : "Não"}
                       </TableCell>
                       <TableCell component="th" scope="row" align="right">
-                        {format(new Date(info.payment_date), "dd/MM/yyyy")}
+                        {format(
+                          new Date(info.payment_date.replace("Z", "")),
+                          "dd/MM/yyyy"
+                        )}
                       </TableCell>
                       <TableCell component="th" scope="row" align="right">
                         {info.total.toLocaleString("pt-BR", {

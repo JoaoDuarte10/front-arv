@@ -131,7 +131,7 @@ export function InfoClients(props: {
           <LabelForm text="Criado em" className="pb-2 border-bottom">
             <LabelSmall
               text={format(
-                new Date(client.created_at),
+                new Date(client.created_at.replace("Z", "")),
                 "dd/MM/yyyy 'às' HH:mm'h'"
               )}
             />
@@ -140,7 +140,7 @@ export function InfoClients(props: {
             <LabelSmall
               text={
                 format(
-                  new Date(client.updated_at),
+                  new Date(client.updated_at.replace("Z", "")),
                   "dd/MM/yyyy 'às' HH:mm'h'"
                 ) || "Nenhuma atualização"
               }

@@ -19,19 +19,6 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
   const [loader, setLoader] = useState<JSX.Element | null>(null);
   const [alert, setAlert] = useState<JSX.Element | null>(null);
 
-  const fetchSchedules = async () => {
-    setLoader(<CircularIndeterminate />);
-    const { success, data, notFound } = await scheduleService.fetchAllHistory();
-    setLoader(null);
-
-    if (success) {
-      setSchedules(data);
-    }
-    if (notFound) {
-      setAlert(<AlertInfo title="Nenhuma agenda encontrada." />);
-    }
-  };
-
   const fetchSfetchMostRecentFromchedules = async (date: Date) => {
     setLoader(<CircularIndeterminate />);
     const {
@@ -116,7 +103,10 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
                   <h6 className="text-primary font-weight-bold col-sm-6 border-bottom mb-2 pb-2">
                     Data:{" "}
                     <small className="text-muted h6">
-                      {format(new Date(schedule.date), "dd/MM/yyyy")}
+                      {format(
+                        new Date(schedule.date.replace("Z", "")),
+                        "dd/MM/yyyy"
+                      )}
                     </small>
                   </h6>
                   <h6 className="text-primary font-weight-bold col-sm-6 border-bottom mb-2 pb-2">
@@ -146,7 +136,11 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
                   Criada em:{" "}
                   <small className="text-muted h6">
                     {format(
-                      new Date(schedule.createdAt as string),
+                      new Date(
+                        schedule.createdAt
+                          ? schedule.createdAt.replace("Z", "")
+                          : (schedule.createdAt as string)
+                      ),
                       "dd/MM/yyyy 'às' HH:mm'h'"
                     )}
                   </small>
@@ -155,7 +149,11 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
                   Finalizada em:{" "}
                   <small className="text-muted h6">
                     {format(
-                      new Date(schedule.updatedAt as string),
+                      new Date(
+                        schedule.updatedAt
+                          ? schedule.updatedAt.replace("Z", "")
+                          : (schedule.updatedAt as string)
+                      ),
                       "dd/MM/yyyy 'às' HH:mm'h'"
                     )}
                   </small>

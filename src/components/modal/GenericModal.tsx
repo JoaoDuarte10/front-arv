@@ -18,7 +18,7 @@ type InputProps = {
   styleBtn?: any;
   openModal: boolean;
   setOpenModal: any;
-  key: number
+  key: number;
 };
 
 export function GenericModal(props: InputProps) {

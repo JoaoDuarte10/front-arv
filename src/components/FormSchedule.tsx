@@ -74,7 +74,7 @@ export function FormSchedule(props: InputProps) {
       setClientName(schedule.clientName);
       setDescription(schedule.description);
       setTime(schedule.time);
-      setDate(format(new Date(schedule.date), "yyyy-MM-dd"));
+      setDate(format(new Date(schedule.date.replace("Z", "")), "yyyy-MM-dd"));
       setPacote(schedule.pacote);
       setAtendenceCount(schedule.atendenceCount || 0);
       setTotalAtendenceCount(schedule.totalAtendenceCount);

@@ -42,7 +42,7 @@ export function FormSales(props: InputProps) {
   useEffect(() => {
     if (schedule) {
       setDescription(schedule.description);
-      setDate(format(new Date(schedule.date.replace('Z', '')), "yyyy-MM-dd"));
+      setDate(format(new Date(schedule.date.replace("Z", "")), "yyyy-MM-dd"));
       setPrice("");
       setPaymentDate("");
       setClientSelected({
@@ -176,7 +176,7 @@ export function FormSales(props: InputProps) {
         <div className="col">
           <button
             className="btn btn-primary col font-weight-bold"
-            onClick={async (e) => {
+            onClick={async e => {
               const result = await onChange({
                 idclients: clientSelected.idclients,
                 description,

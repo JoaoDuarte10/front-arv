@@ -269,7 +269,7 @@ export function SalesReports(props: { salesService: SalesService }) {
               <LabelForm text="Dia">
                 <LabelSmall
                   text={dateFns.format(
-                    new Date(report.biggestTotalWithDate.date),
+                    new Date(report.biggestTotalWithDate.date.replace("Z", "")),
                     "dd/MM/yyyy"
                   )}
                 />
@@ -304,7 +304,7 @@ export function SalesReports(props: { salesService: SalesService }) {
               <LabelForm text="Dia">
                 <LabelSmall
                   text={dateFns.format(
-                    new Date(report.lowestTotalWithDate.date),
+                    new Date(report.lowestTotalWithDate.date.replace("Z", "")),
                     "dd/MM/yyyy"
                   )}
                 />
