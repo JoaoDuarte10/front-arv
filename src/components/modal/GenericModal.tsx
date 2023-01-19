@@ -2,18 +2,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 
-// const style = {
-//     position: "absolute" as "absolute",
-//     top: "50%",
-//     left: "50%",
-//     transform: "translate(-50%, -50%)",
-//     bgcolor: "background.paper",
-//     borderRadius: "5px",
-//     boxShadow: 24,
-//     minWidth: '300px',
-//     fontFamily: 'Montserrat'
-// };
-
 export enum ColorsBootstrap {
   success = "success",
   primary = "primary",
@@ -30,6 +18,7 @@ type InputProps = {
   styleBtn?: any;
   openModal: boolean;
   setOpenModal: any;
+  key: number
 };
 
 export function GenericModal(props: InputProps) {
@@ -40,13 +29,14 @@ export function GenericModal(props: InputProps) {
     styleModal,
     styleBtn,
     openModal,
-    setOpenModal
+    setOpenModal,
+    key
   } = props;
 
   return (
-    <Box>
+    <Box key={key}>
       <button
-        onClick={setOpenModal}
+        onClick={e => setOpenModal(true)}
         className={`btn btn-${color} font-weight-bold`}
         style={styleBtn}
       >

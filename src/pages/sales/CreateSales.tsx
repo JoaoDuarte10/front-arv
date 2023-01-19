@@ -56,7 +56,7 @@ export function CreateSales(props: {
     total: number;
     paymentPending: boolean;
     paymentDate: string;
-  }) => {
+  }): Promise<boolean> => {
     setLoader(<CircularIndeterminate />);
     const { success, error, badRequest } = await salesService.create({
       idclients: params.idclients || null,
@@ -70,6 +70,7 @@ export function CreateSales(props: {
 
     if (success) {
       setAlert(<AlertSuccess title="Venda criada com sucesso." />);
+      return true;
     }
 
     if (error) {
@@ -79,6 +80,7 @@ export function CreateSales(props: {
     if (badRequest) {
       setAlert(<AlertInfo title="Preencha os campos corretamente." />);
     }
+    return false;
   };
 
   if (alert) {

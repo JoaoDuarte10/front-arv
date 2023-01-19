@@ -36,6 +36,8 @@ import {
 import { GenericButton } from "../../components/buttons/GenericButton";
 import { LabelForm } from "../../components/labels/LabelForm";
 import { LabelSmall } from "../../components/labels/LabelSmal";
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 
 export function Schedules(props: {
   clientService: ClientService;
@@ -63,8 +65,8 @@ export function Schedules(props: {
   const [alert, setAlert] = useState<JSX.Element | null>(null);
   const [loader, setLoader] = useState<JSX.Element | null>(null);
 
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [openModalSale, setOpenModalSale] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<any>({});
+  const [openModalSale, setOpenModalSale] = useState<any>({});
 
   const [schedules, setSchedules] = useState<ScheduleInterface[]>([]);
 
@@ -415,169 +417,172 @@ export function Schedules(props: {
       {alert}
 
       {schedules.length
-        ? schedules.map((schedule) => {
-            return (
-              <div className="schedule_card" key={schedule.idschedules}>
-                {schedule.expired ? (
-                  <small className="h6 text-danger font-weight-bold pulse">
-                    Horário expirado
-                  </small>
+        ? schedules.map((schedule: ScheduleInterface) => {
+          return (
+            <div className="schedule_card" key={schedule.idschedules}>
+              {schedule.expired ? (
+                <small className="h6 text-danger font-weight-bold pulse">
+                  Horário expirado
+                </small>
+              ) : null}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end"
+                }}
+              >
+                {schedule.phone ? (
+                  <WhatsAppIconButton
+                    onClick={(e: React.SyntheticEvent) => {
+                      whatsAppService.redirectToWhatsappWithMessage({
+                        event: e,
+                        client:
+                          schedule.clientName || (schedule.name as string),
+                        phone: schedule.phone as string,
+                        date: schedule.date,
+                        time: schedule.time,
+                        totalAtendenceCount: schedule.totalAtendenceCount,
+                        atendenceCount: schedule.atendenceCount as number,
+                        description: schedule.description
+                      });
+                    }}
+                  />
                 ) : null}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-end"
-                  }}
+
+                <BasicEditModal>
+                  <FormSchedule
+                    clientService={clientService}
+                    alert={alert}
+                    edit={true}
+                    onChange={onChangeSchedule}
+                    schedule={schedule}
+                  />
+                </BasicEditModal>
+
+                <BasicDeleteModal
+                  btnName="Excluir"
+                  onChange={(e: React.SyntheticEvent) =>
+                    onDelete(schedule.idschedules || 0)
+                  }
                 >
-                  {schedule.phone ? (
-                    <WhatsAppIconButton
-                      onClick={(e: React.SyntheticEvent) => {
-                        whatsAppService.redirectToWhatsappWithMessage({
-                          event: e,
-                          client:
-                            schedule.clientName || (schedule.name as string),
-                          phone: schedule.phone as string,
-                          date: schedule.date,
-                          time: schedule.time,
-                          totalAtendenceCount: schedule.totalAtendenceCount,
-                          atendenceCount: schedule.atendenceCount as number,
-                          description: schedule.description
-                        });
-                      }}
-                    />
-                  ) : null}
-
-                  <BasicEditModal>
-                    <FormSchedule
-                      clientService={clientService}
-                      alert={alert}
-                      edit={true}
-                      onChange={onChangeSchedule}
-                      schedule={schedule}
-                    />
-                  </BasicEditModal>
-
-                  <BasicDeleteModal
-                    btnName="Excluir"
-                    onChange={(e: React.SyntheticEvent) =>
-                      onDelete(schedule.idschedules || 0)
-                    }
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                    sx={{ color: "red" }}
                   >
-                    <Typography
-                      id="modal-modal-title"
-                      variant="h6"
-                      component="h2"
-                      sx={{ color: "red" }}
-                    >
-                      Excluir Agenda
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                      Tem certeza que deseja excluir essa agenda?
-                    </Typography>
-                  </BasicDeleteModal>
-                </div>
+                    Excluir Agenda
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    Tem certeza que deseja excluir essa agenda?
+                  </Typography>
+                </BasicDeleteModal>
+              </div>
 
-                <LabelForm text="Cliente" className="pb-2 border-bottom">
+              <LabelForm text="Cliente" className="pb-2 border-bottom">
+                <LabelSmall
+                  text={schedule.name || (schedule.clientName as string)}
+                />
+              </LabelForm>
+              <LabelForm text="Descrição" className="pb-2 border-bottom">
+                <LabelSmall text={schedule.description} />
+              </LabelForm>
+
+              <DivInline className="row">
+                <LabelForm
+                  text="Data"
+                  className="col-sm-6 pb-2 border-bottom"
+                >
                   <LabelSmall
-                    text={schedule.name || (schedule.clientName as string)}
+                    text={format(new Date(schedule.date.replace('Z', '')), "dd/MM/yyyy")}
                   />
                 </LabelForm>
-                <LabelForm text="Descrição" className="pb-2 border-bottom">
-                  <LabelSmall text={schedule.description} />
+                <LabelForm
+                  text="Horário"
+                  className="col-sm-6 pb-2 border-bottom"
+                >
+                  <LabelSmall text={schedule.time + "h"} />
                 </LabelForm>
+              </DivInline>
 
+              {schedule.pacote ? (
                 <DivInline className="row">
                   <LabelForm
-                    text="Data"
+                    text="Atendimentos"
                     className="col-sm-6 pb-2 border-bottom"
                   >
-                    <LabelSmall
-                      text={format(new Date(schedule.date.replace('Z', '')), "dd/MM/yyyy")}
-                    />
+                    <LabelSmall text={schedule.totalAtendenceCount} />
                   </LabelForm>
                   <LabelForm
-                    text="Horário"
+                    text="Atual"
                     className="col-sm-6 pb-2 border-bottom"
                   >
-                    <LabelSmall text={schedule.time + "h"} />
+                    <LabelSmall text={schedule.atendenceCount as number} />
                   </LabelForm>
                 </DivInline>
+              ) : null}
 
-                {schedule.pacote ? (
-                  <DivInline className="row">
-                    <LabelForm
-                      text="Atendimentos"
-                      className="col-sm-6 pb-2 border-bottom"
-                    >
-                      <LabelSmall text={schedule.totalAtendenceCount} />
-                    </LabelForm>
-                    <LabelForm
-                      text="Atual"
-                      className="col-sm-6 pb-2 border-bottom"
-                    >
-                      <LabelSmall text={schedule.atendenceCount as number} />
-                    </LabelForm>
-                  </DivInline>
-                ) : null}
+              <LabelForm text="Criado em" className="border-bottom pb-2 mb-2">
+                <LabelSmall
+                  text={format(
+                    new Date(schedule.createdAt ? schedule.createdAt.replace('Z', '') : schedule.createdAt as string),
+                    "dd/MM/yyyy 'às' HH:mm'h'"
+                  ).toString()}
+                />
+              </LabelForm>
 
-                <LabelForm text="Criado em" className="border-bottom pb-2 mb-2">
-                  <LabelSmall
-                    text={format(
-                      new Date(schedule.createdAt ? schedule.createdAt.replace('Z', '') : schedule.createdAt as string),
-                      "dd/MM/yyyy 'às' HH:mm'h'"
-                    ).toString()}
-                  />
-                </LabelForm>
-
-                <DivInline style={{ marginLeft: "2px", marginTop: "15px" }}>
-                  <GenericModal
-                    btnOpenName="Finalizar"
+              <DivInline style={{ marginLeft: "2px", marginTop: "15px" }}>
+                <GenericModal
+                  btnOpenName="Finalizar"
+                  color={ColorsBootstrap.primary}
+                  styleModal={{ padding: "20px" }}
+                  styleBtn={{ marginRight: "10px" }}
+                  openModal={openModal[schedule.idschedules as number]}
+                  setOpenModal={(value: boolean) => setOpenModal({ ...openModalSale, [schedule.idschedules as number]: value })}
+                  key={schedule.idschedules || 0}
+                >
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                    sx={{ color: "#0275d8" }}
+                  >
+                    Finalizar agenda
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    Tem certeza que deseja finalizar essa agenda?
+                  </Typography>
+                  <GenericButton
                     color={ColorsBootstrap.primary}
-                    styleModal={{ padding: "20px" }}
-                    styleBtn={{ marginRight: "10px" }}
-                    openModal={openModal}
-                    setOpenModal={setOpenModal}
-                  >
-                    <Typography
-                      id="modal-modal-title"
-                      variant="h6"
-                      component="h2"
-                      sx={{ color: "#0275d8" }}
-                    >
-                      Finalizar agenda
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                      Tem certeza que deseja finalizar essa agenda?
-                    </Typography>
-                    <GenericButton
-                      color={ColorsBootstrap.primary}
-                      onClick={(e: React.BaseSyntheticEvent) =>
-                        finish(schedule.idschedules as number)
-                      }
-                      text="Finalizar"
-                      style={{
-                        marginTop: "15px"
-                      }}
-                    />
-                  </GenericModal>
-                  <GenericModal
-                    btnOpenName="Gerar venda"
-                    color={ColorsBootstrap.success}
-                    openModal={openModalSale}
-                    setOpenModal={setOpenModalSale}
-                  >
-                    <FormSales
-                      clients={clients}
-                      onChange={onCreateSale}
-                      alert={alert}
-                      schedule={schedule}
-                    />
-                  </GenericModal>
-                </DivInline>
-              </div>
-            );
-          })
+                    onClick={(e: React.BaseSyntheticEvent) =>
+                      finish(schedule.idschedules as number)
+                    }
+                    text="Finalizar"
+                    style={{
+                      marginTop: "15px"
+                    }}
+                  />
+                </GenericModal>
+
+                <GenericModal
+                  btnOpenName="Gerar venda"
+                  color={ColorsBootstrap.success}
+                  openModal={openModalSale[schedule.idschedules as number]}
+                  setOpenModal={(value: boolean) => setOpenModalSale({ ...openModalSale, [schedule.idschedules as number]: value })}
+                  key={schedule.idschedules || 0}
+                >
+                  <FormSales
+                    clients={clients}
+                    onChange={onCreateSale}
+                    alert={alert}
+                    schedule={schedule}
+                  />
+                </GenericModal>
+              </DivInline>
+            </div>
+          );
+        })
         : null}
     </ContainerMain>
   );
