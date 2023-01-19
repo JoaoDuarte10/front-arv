@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../css/main.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ReduceStore } from "../app/store";
 import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
@@ -239,17 +239,14 @@ export function NavBarResponsive(props: {
           </li>
         )}
         <li className="nav-item remove-style-link" key="6644855">
-          <button
-            className="btn-list-item btn-exit"
-            onClick={e => {
-              localStorageService.clearUser();
-              closeNavResponsive();
-              navigate("/login");
-            }}
-            style={{ outline: "none" }}
+          <a href={process.env.REACT_APP_BASE_URL + '/login'} rel="noopener noreferrer" onClick={e => {
+            localStorageService.clearUser();
+            closeNavResponsive();
+          }}
+          className="btn-list-item btn-exit"
           >
             Sair
-          </button>
+          </a>
         </li>
       </ul>
     </div>

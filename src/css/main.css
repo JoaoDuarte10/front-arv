@@ -17,7 +17,7 @@
 }
 
 #img-logo {
-  width: 200px;
+  width: 350px;
 }
 
 #btn_group {
@@ -28,7 +28,8 @@
 
 #btn_login {
   border-radius: 15px;
-  width: 200px;
+  width: 100%;
+  font-weight: bold;
   padding: 8px;
 }
 

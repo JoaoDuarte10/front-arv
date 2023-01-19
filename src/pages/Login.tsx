@@ -24,6 +24,7 @@ export function Login(props: { loginService: LoginService }) {
   );
   const [serverError, setServerError] = useState<boolean>(false);
   const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [alert, setAlert] = useState<JSX.Element | null>(null);
 
   const dispatch = useDispatch();
   let navigate = useNavigate();
@@ -37,32 +38,28 @@ export function Login(props: { loginService: LoginService }) {
 
   const signIn = async () => {
     setLoader(<CircularIndeterminate />);
-    const { data, unauthorized, error } = await loginService.signIn({
+    const { success, data, unauthorized, error } = await loginService.signIn({
       user,
       password: password.password
     });
     setLoader(null);
 
+    if (success) {
+      dispatch(loginAdded({ access_token: data.access_token, refreshToken: "" }));
+      navigate("/home", { replace: true });
+    }
+
     if (unauthorized) {
-      setinvalidCredentials(true);
-      return;
+      setAlert(<AlertError title="Nome ou senha inválidos." />)
     }
 
     if (error) {
-      setServerError(true);
-      return;
+      setAlert(<AlertError title="Erro ao processar sua requisição." />)
     }
-
-    dispatch(loginAdded({ access_token: data.access_token, refreshToken: "" }));
-    navigate("/home", { replace: true });
   };
 
-  if (invalidCredentials) {
-    setTimeout(() => setinvalidCredentials(null), TIMEOUT.THREE_SECCONDS);
-  }
-
-  if (serverError) {
-    setTimeout(() => setServerError(false), TIMEOUT.THREE_SECCONDS);
+  if (alert) {
+    setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
   }
 
   return (
@@ -151,16 +148,11 @@ export function Login(props: { loginService: LoginService }) {
             </button>
           </div>
           <div className="mt-3">
-            {invalidCredentials ? (
-              <AlertError title="Usuário ou senha incorretos!" />
-            ) : null}
-            {serverError === true ? (
-              <AlertError title="Erro ao processar sua requisição." />
-            ) : null}
+            {alert}
           </div>
         </form>
       </div>
-      <p className="mt-5 mb-3 text-center text-white">
+      <p className="mt-5 mb-5 text-center text-white">
         ARV Controll &copy; 2023
       </p>
     </div>
