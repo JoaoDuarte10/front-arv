@@ -41,8 +41,8 @@ export function FormSchedule(props: InputProps) {
   const [status, setStatus] = useState<string>("");
   const [clientSelected, setClientSelected] = useState<{
     label: string;
-    idclients: number;
-  }>({ label: "", idclients: 0 });
+    idclients: number | null;
+  }>({ label: "", idclients: null });
 
   const [loader, setLoader] = useState<JSX.Element | null>(null);
 
@@ -81,7 +81,7 @@ export function FormSchedule(props: InputProps) {
       setStatus(schedule.status);
       setClientSelected({
         label: schedule.name || schedule.clientName || "",
-        idclients: schedule.idclients || 0
+        idclients: schedule.idclients || null
       });
     }
   }, []);
@@ -95,7 +95,7 @@ export function FormSchedule(props: InputProps) {
     setAtendenceCount(0);
     setTotalAtendenceCount(0);
     setStatus("");
-    setClientSelected({ label: "", idclients: 0 });
+    setClientSelected({ label: "", idclients: null });
   };
 
   return (
@@ -134,7 +134,7 @@ export function FormSchedule(props: InputProps) {
             ) => {
               if (typeof item === "string") {
                 setClientName(item);
-                setClientSelected({ label: item, idclients: 0 });
+                setClientSelected({ label: item, idclients: null });
               } else {
                 setClientSelected({
                   label: item.label,
