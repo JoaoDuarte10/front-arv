@@ -30,7 +30,7 @@ export type ClientsInterface = {
   addressnumber: number;
   note: string;
   created_at: string;
-  updated_at: string;
+  updated_at?: string;
 };
 
 export function Clients(props: {
