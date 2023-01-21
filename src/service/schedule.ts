@@ -103,7 +103,7 @@ export class ScheduleService {
     return response;
   }
 
-  async fetchByClient(
+  async fetchByIdClient(
     idclients: number
   ): Promise<Response<ScheduleInterface[]>> {
     let response: Response = {} as Response;
@@ -111,6 +111,31 @@ export class ScheduleService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/client`, {
           params: { idclients },
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
+
+  async fetchByClientName(
+    clientName: string
+  ): Promise<Response<ScheduleInterface[]>> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .get(`${this.baseUri}/api/schedule/client/name`, {
+          params: { clientName },
           headers: {
             Authorization: `Bearer ${this.accessToken}`
           }

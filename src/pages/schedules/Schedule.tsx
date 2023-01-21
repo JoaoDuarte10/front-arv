@@ -36,8 +36,7 @@ import {
 import { GenericButton } from "../../components/buttons/GenericButton";
 import { LabelForm } from "../../components/labels/LabelForm";
 import { LabelSmall } from "../../components/labels/LabelSmal";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
+import { randomId } from "../../utils/random";
 
 export function Schedules(props: {
   clientService: ClientService;
@@ -59,8 +58,8 @@ export function Schedules(props: {
   const [date, setDate] = useState<string>("");
   const [clientSelected, setClientSelected] = useState<{
     label: string;
-    idclients: number;
-  }>({ label: "", idclients: 0 });
+    idclients: number | null;
+  }>({ label: "", idclients: null });
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
   const [loader, setLoader] = useState<JSX.Element | null>(null);
@@ -143,7 +142,9 @@ export function Schedules(props: {
       error,
       badRequest,
       notFound
-    } = await scheduleService.fetchByClient(clientSelected.idclients);
+    } = clientSelected.idclients
+      ? await scheduleService.fetchByIdClient(clientSelected.idclients)
+      : await scheduleService.fetchByClientName(clientSelected.label);
     setLoader(null);
 
     if (success) {
@@ -379,13 +380,18 @@ export function Schedules(props: {
                 e: React.BaseSyntheticEvent,
                 item: { label: string; idclients: number }
               ) => {
-                if (item) {
+                if (typeof item === "object") {
                   setClientSelected({
                     label: item.label,
                     idclients: item.idclients
                   });
+                } else if (typeof item === "string") {
+                  setClientSelected({
+                    label: item,
+                    idclients: null
+                  });
                 } else {
-                  setClientSelected({ label: "", idclients: 0 });
+                  setClientSelected({ label: "", idclients: null });
                 }
               }}
               style={{
@@ -419,7 +425,7 @@ export function Schedules(props: {
       {schedules.length
         ? schedules.map((schedule: ScheduleInterface) => {
             return (
-              <div className="schedule_card" key={schedule.idschedules}>
+              <div className="schedule_card" key={randomId()}>
                 {schedule.expired ? (
                   <small className="h6 text-danger font-weight-bold pulse">
                     Horário expirado
@@ -545,14 +551,15 @@ export function Schedules(props: {
                     color={ColorsBootstrap.primary}
                     styleModal={{ padding: "20px" }}
                     styleBtn={{ marginRight: "10px" }}
-                    openModal={openModal[schedule.idschedules as number]}
+                    openModal={
+                      openModal[schedule.idschedules as number] || false
+                    }
                     setOpenModal={(value: boolean) =>
                       setOpenModal({
                         ...openModalSale,
                         [schedule.idschedules as number]: value
                       })
                     }
-                    key={schedule.idschedules || 0}
                   >
                     <Typography
                       id="modal-modal-title"
@@ -580,14 +587,15 @@ export function Schedules(props: {
                   <GenericModal
                     btnOpenName="Gerar venda"
                     color={ColorsBootstrap.success}
-                    openModal={openModalSale[schedule.idschedules as number]}
+                    openModal={
+                      openModalSale[schedule.idschedules as number] || false
+                    }
                     setOpenModal={(value: boolean) =>
                       setOpenModalSale({
                         ...openModalSale,
                         [schedule.idschedules as number]: value
                       })
                     }
-                    key={schedule.idschedules || 0}
                   >
                     <FormSales
                       clients={clients}
