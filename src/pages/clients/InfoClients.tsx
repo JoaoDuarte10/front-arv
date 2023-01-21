@@ -139,10 +139,12 @@ export function InfoClients(props: {
           <LabelForm text="Última atualização" className="pb-2 border-bottom">
             <LabelSmall
               text={
-                client.updated_at ? format(
-                  new Date(client.updated_at.replace("Z", "")),
-                  "dd/MM/yyyy 'às' HH:mm'h'"
-                ) : "Nenhuma atualização"
+                client.updated_at
+                  ? format(
+                      new Date(client.updated_at.replace("Z", "")),
+                      "dd/MM/yyyy 'às' HH:mm'h'"
+                    )
+                  : "Nenhuma atualização"
               }
             />
           </LabelForm>

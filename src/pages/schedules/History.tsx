@@ -11,6 +11,7 @@ import { SearchFilterButton } from "../../components/buttons/SearchFilter";
 import * as dateFns from "date-fns";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { TIMEOUT } from "../../utils/constants";
+import { randomId } from "../../utils/random";
 
 export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
   const { scheduleService } = props;
@@ -82,7 +83,10 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
       {schedules.length
         ? schedules.map(schedule => {
             return (
-              <div className="schedule_card" key={schedule.idschedules}>
+              <div
+                className="schedule_card"
+                key={schedule.idschedules + randomId()}
+              >
                 {schedule.pacote ? (
                   <h6 className="text-danger font-weight-bold mb-3">Pacote</h6>
                 ) : null}

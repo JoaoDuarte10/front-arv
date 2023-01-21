@@ -45,16 +45,18 @@ export function Login(props: { loginService: LoginService }) {
     setLoader(null);
 
     if (success) {
-      dispatch(loginAdded({ access_token: data.access_token, refreshToken: "" }));
+      dispatch(
+        loginAdded({ access_token: data.access_token, refreshToken: "" })
+      );
       navigate("/home", { replace: true });
     }
 
     if (unauthorized) {
-      setAlert(<AlertError title="Nome ou senha inválidos." />)
+      setAlert(<AlertError title="Nome ou senha inválidos." />);
     }
 
     if (error) {
-      setAlert(<AlertError title="Erro ao processar sua requisição." />)
+      setAlert(<AlertError title="Erro ao processar sua requisição." />);
     }
   };
 
@@ -147,9 +149,7 @@ export function Login(props: { loginService: LoginService }) {
               Entrar
             </button>
           </div>
-          <div className="mt-3">
-            {alert}
-          </div>
+          <div className="mt-3">{alert}</div>
         </form>
       </div>
       <p className="mt-5 mb-5 text-center text-white">

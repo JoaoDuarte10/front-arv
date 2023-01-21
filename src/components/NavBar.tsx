@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "../css/main.css";
-import { useNavigate, redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ReduceStore } from "../app/store";
 import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
 import Collapse from "@mui/material/Collapse";
 import { LocalStorageService } from "../service/local-storage";
 import { RulesService } from "../service/rules";
+import { randomId } from "../utils/random";
 
 export function NavBarResponsive(props: {
   localStorageService: LocalStorageService;
@@ -89,7 +90,7 @@ export function NavBarResponsive(props: {
           </button>
         </li>
         {rules.includes(ruleService.ruleWithPage("schedule")) && (
-          <li className="nav-item remove-style-link" key="8979951462">
+          <li className="nav-item remove-style-link" key={randomId()}>
             <button
               className="btn-list-item"
               style={{ outline: "none" }}
@@ -99,47 +100,51 @@ export function NavBarResponsive(props: {
               {openSchedules ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
             </button>
             <Collapse in={openSchedules} timeout="auto" unmountOnExit>
-              <li className="sub-item" data-dismiss="modal" key="2369874">
-                <button
-                  className="btn-list-sub-item"
-                  onClick={e => {
-                    closeItens();
-                    navigate("/create-schedule");
-                  }}
-                  style={{ outline: "none" }}
-                >
-                  Nova Agenda
-                </button>
-              </li>
-              <li className="sub-item" data-dismiss="modal" key="278534">
-                <button
-                  className="btn-list-sub-item"
-                  onClick={e => {
-                    closeItens();
-                    navigate("/schedules");
-                  }}
-                  style={{ outline: "none" }}
-                >
-                  Suas Agendas
-                </button>
-              </li>
-              <li className="sub-item" data-dismiss="modal" key="278534">
-                <button
-                  className="btn-list-sub-item"
-                  onClick={e => {
-                    closeItens();
-                    navigate("/schedule-history");
-                  }}
-                  style={{ outline: "none" }}
-                >
-                  Histórico
-                </button>
-              </li>
+              <ul
+                style={{ listStyle: "none", listStyleType: "none", padding: 0 }}
+              >
+                <li className="sub-item" data-dismiss="modal" key={randomId()}>
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/create-schedule");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Nova Agenda
+                  </button>
+                </li>
+                <li className="sub-item" data-dismiss="modal" key={randomId()}>
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/schedules");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Suas Agendas
+                  </button>
+                </li>
+                <li className="sub-item" data-dismiss="modal" key={randomId()}>
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/schedule-history");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Histórico
+                  </button>
+                </li>
+              </ul>
             </Collapse>
           </li>
         )}
         {rules.includes(ruleService.ruleWithPage("clients")) && (
-          <li className="nav-item remove-style-link" key="8795444">
+          <li className="nav-item remove-style-link" key={randomId()}>
             <button
               className="btn-list-item"
               style={{ outline: "none" }}
@@ -149,47 +154,51 @@ export function NavBarResponsive(props: {
               {openClients ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
             </button>
             <Collapse in={openClients} timeout="auto" unmountOnExit>
-              <li className="sub-item" key="33745">
-                <button
-                  className="btn-list-sub-item"
-                  onClick={e => {
-                    closeItens();
-                    navigate("/create-client");
-                  }}
-                  style={{ outline: "none" }}
-                >
-                  Novo Cliente
-                </button>
-              </li>
-              <li className="sub-item" key="3345">
-                <button
-                  className="btn-list-sub-item"
-                  onClick={e => {
-                    closeItens();
-                    navigate("/clients");
-                  }}
-                  style={{ outline: "none" }}
-                >
-                  Seus Clientes
-                </button>
-              </li>
-              <li className="sub-item" key="434">
-                <button
-                  className="btn-list-sub-item"
-                  onClick={e => {
-                    closeItens();
-                    navigate("/segments");
-                  }}
-                  style={{ outline: "none" }}
-                >
-                  Segmentos
-                </button>
-              </li>
+              <ul
+                style={{ listStyle: "none", listStyleType: "none", padding: 0 }}
+              >
+                <li className="sub-item" key="33745">
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/create-client");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Novo Cliente
+                  </button>
+                </li>
+                <li className="sub-item" key="3345">
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/clients");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Seus Clientes
+                  </button>
+                </li>
+                <li className="sub-item" key="434">
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/segments");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Segmentos
+                  </button>
+                </li>
+              </ul>
             </Collapse>
           </li>
         )}
         {rules.includes(ruleService.ruleWithPage("sales")) && (
-          <li className="nav-item remove-style-link" key="136971">
+          <li className="nav-item remove-style-link" key={randomId()}>
             <button
               className="btn-list-item"
               style={{ outline: "none" }}
@@ -199,51 +208,58 @@ export function NavBarResponsive(props: {
               {openSales ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
             </button>
             <Collapse in={openSales} timeout="auto" unmountOnExit>
-              <li className="sub-item" key="6948">
-                <button
-                  className="btn-list-sub-item"
-                  onClick={e => {
-                    closeItens();
-                    navigate("/create-sale");
-                  }}
-                  style={{ outline: "none" }}
-                >
-                  Nova Venda
-                </button>
-              </li>
-              <li className="sub-item" key="3445">
-                <button
-                  className="btn-list-sub-item"
-                  onClick={e => {
-                    closeItens();
-                    navigate("/sales");
-                  }}
-                  style={{ outline: "none" }}
-                >
-                  Suas Vendas
-                </button>
-              </li>
-              <li className="sub-item" key="346346">
-                <button
-                  className="btn-list-sub-item"
-                  onClick={e => {
-                    closeItens();
-                    navigate("/sales-reports");
-                  }}
-                  style={{ outline: "none" }}
-                >
-                  Relatórios
-                </button>
-              </li>
+              <ul
+                style={{ listStyle: "none", listStyleType: "none", padding: 0 }}
+              >
+                <li className="sub-item" key="6948">
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/create-sale");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Nova Venda
+                  </button>
+                </li>
+                <li className="sub-item" key="3445">
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/sales");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Suas Vendas
+                  </button>
+                </li>
+                <li className="sub-item" key="346346">
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/sales-reports");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Relatórios
+                  </button>
+                </li>
+              </ul>
             </Collapse>
           </li>
         )}
         <li className="nav-item remove-style-link" key="6644855">
-          <a href={process.env.REACT_APP_BASE_URL + '/login'} rel="noopener noreferrer" onClick={e => {
-            localStorageService.clearUser();
-            closeNavResponsive();
-          }}
-          className="btn-list-item btn-exit"
+          <a
+            href={process.env.REACT_APP_BASE_URL + "/login"}
+            rel="noopener noreferrer"
+            onClick={e => {
+              localStorageService.clearUser();
+              closeNavResponsive();
+            }}
+            className="btn-list-item btn-exit"
           >
             Sair
           </a>

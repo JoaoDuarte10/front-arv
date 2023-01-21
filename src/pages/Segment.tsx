@@ -18,6 +18,7 @@ import { CircularIndeterminate } from "../components/loaders/CircularLoader";
 import { DivInline } from "../components/divs/DivInline";
 import { LabelForm } from "../components/labels/LabelForm";
 import { LabelSmall } from "../components/labels/LabelSmal";
+import { randomId } from "../utils/random";
 
 type InputProps = {
   segmentService: SegmentService;
@@ -223,7 +224,10 @@ export function Segment(props: InputProps) {
       {segments.length ? (
         segments.map(segment => {
           return (
-            <div className="container_segment" key={segment.idsegments}>
+            <div
+              className="container_segment"
+              key={segment.idsegments + randomId()}
+            >
               <LabelForm text="Segmento" className="mb-2 pb-2 border-bottom">
                 <LabelSmall text={segment.name} />
               </LabelForm>

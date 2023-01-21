@@ -19,6 +19,7 @@ import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { LabelForm } from "../../components/labels/LabelForm";
 import { LabelSmall } from "../../components/labels/LabelSmal";
 import { DivInline } from "../../components/divs/DivInline";
+import { randomId } from "../../utils/random";
 
 export type ClientsInterface = {
   idclients: number;
@@ -98,7 +99,10 @@ export function Clients(props: {
       {clients.length
         ? clients.map(client => {
             return (
-              <div className="container_client" key={client.idclients}>
+              <div
+                className="container_client"
+                key={client.idclients + randomId()}
+              >
                 <div className="actions_client remove-style-link">
                   <Link
                     style={{

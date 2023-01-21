@@ -18,7 +18,6 @@ type InputProps = {
   styleBtn?: any;
   openModal: boolean;
   setOpenModal: any;
-  key: number;
 };
 
 export function GenericModal(props: InputProps) {
@@ -29,12 +28,11 @@ export function GenericModal(props: InputProps) {
     styleModal,
     styleBtn,
     openModal,
-    setOpenModal,
-    key
+    setOpenModal
   } = props;
 
   return (
-    <Box key={key}>
+    <Box>
       <button
         onClick={e => setOpenModal(true)}
         className={`btn btn-${color} font-weight-bold`}

@@ -72,7 +72,7 @@ export function TableSales(props: InputProps) {
         <TableBody>
           {sales.map(sale => (
             <Row
-              key={sale.idsales}
+              key={sale.idsales + randomId()}
               row={createData(sale)}
               salesService={salesService}
             />
