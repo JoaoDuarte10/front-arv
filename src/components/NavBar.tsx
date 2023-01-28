@@ -20,11 +20,13 @@ export function NavBarResponsive(props: {
   const [openClients, setOpenClients] = useState<boolean>(false);
   const [openSchedules, setOpenSchedules] = useState<boolean>(false);
   const [openResponsive, setOpenResponsive] = useState<boolean>(false);
+  const [openOutgoing, setOpenOutgoing] = useState<boolean>(false);
 
   const closeItens = () => {
     setOpenSales(false);
     setOpenClients(false);
     setOpenSchedules(false);
+    setOpenOutgoing(false);
     closeNavResponsive();
   };
 
@@ -247,6 +249,60 @@ export function NavBarResponsive(props: {
                     Relatórios
                   </button>
                 </li>
+              </ul>
+            </Collapse>
+          </li>
+        )}
+        {rules.includes(ruleService.ruleWithPage("outgoing")) && (
+          <li className="nav-item remove-style-link" key={randomId()}>
+            <button
+              className="btn-list-item"
+              style={{ outline: "none" }}
+              onClick={e => setOpenOutgoing(!openOutgoing)}
+            >
+              Despesas
+              {openOutgoing ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+            </button>
+            <Collapse in={openOutgoing} timeout="auto" unmountOnExit>
+              <ul
+                style={{ listStyle: "none", listStyleType: "none", padding: 0 }}
+              >
+                <li className="sub-item" key="6948">
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/create-outgoing");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Nova despesa
+                  </button>
+                </li>
+                <li className="sub-item" key="3445">
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/outgoings");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Suas despesas
+                  </button>
+                </li>
+                {/* <li className="sub-item" key="346346">
+                <button
+                  className="btn-list-sub-item"
+                  onClick={e => {
+                    closeItens();
+                    navigate("/sales-reports");
+                  }}
+                  style={{ outline: "none" }}
+                >
+                  Relatórios
+                </button>
+              </li> */}
               </ul>
             </Collapse>
           </li>

@@ -135,7 +135,7 @@ export function Sales(props: {
       );
     }
     if (badRequest) {
-      setAlert(<AlertInfo title="pPreencha os campos corretamente." />);
+      setAlert(<AlertInfo title="Preencha os campos corretamente." />);
     }
   };
 

@@ -19,7 +19,6 @@
 }
 
 .container-main {
-    // max-width: 1200px;
     margin: 0 auto 0 200px;
     padding: 30px 30px;
     height: 100%;
@@ -46,8 +45,8 @@
 }
 
 .loader {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #546068; /* Blue */
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #546068;
     border-radius: 50%;
     width: 120px;
     height: 120px;

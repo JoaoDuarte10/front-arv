@@ -25,6 +25,7 @@ import { AlertSuccess } from "../alerts/AlertSuccess";
 import { TIMEOUT } from "../../utils/constants";
 import { BasicDeleteModal } from "../modal/BasicDeleteModal";
 import { CircularIndeterminate } from "../loaders/CircularLoader";
+import TablePagination from "@mui/material/TablePagination";
 
 type InputProps = {
   sales: SalesInterface[];
@@ -33,6 +34,20 @@ type InputProps = {
 
 export function TableSales(props: InputProps) {
   const { sales, salesService } = props;
+
+  const [page, setPage] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   return (
     <TableContainer component={Paper} className="mt-4 mb-4">
@@ -70,15 +85,28 @@ export function TableSales(props: InputProps) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {sales.map(sale => (
-            <Row
-              key={sale.idsales + randomId()}
-              row={createData(sale)}
-              salesService={salesService}
-            />
-          ))}
+          {sales
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map(sale => (
+              <Row
+                key={sale.idsales + randomId()}
+                row={createData(sale)}
+                salesService={salesService}
+              />
+            ))}
         </TableBody>
       </Table>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={sales.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        aria-label="Deee"
+        labelRowsPerPage="Linhas por página"
+      />
     </TableContainer>
   );
 }

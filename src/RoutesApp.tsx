@@ -25,6 +25,9 @@ import { CreateSchedule } from "./pages/schedules/CreateSchedule";
 import { ScheduleService } from "./service/schedule";
 import { ScheduleHistory } from "./pages/schedules/History";
 import { SalesReports } from "./pages/reports/SalesReports";
+import { OutgoingService } from "./service/outgoing";
+import { Outgoing } from "./pages/outgoing/Outgoing";
+import { CreateOutgoing } from "./pages/outgoing/CreateOutgoing";
 
 export function RoutesApp() {
   const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
@@ -45,6 +48,10 @@ export function RoutesApp() {
     localStorageService
   );
   const ruleService = new RulesService(localStorageService);
+  const outgoingService = new OutgoingService(
+    API_RV_BASE_URI,
+    localStorageService
+  );
 
   const navBar = (
     <NavBarResponsive
@@ -192,6 +199,24 @@ export function RoutesApp() {
               <PrivateRoute rules={[ruleService.ruleWithPage("schedules")]}>
                 {navBar}
                 <ScheduleHistory scheduleService={scheduleService} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/create-outgoing"
+            element={
+              <PrivateRoute rules={[ruleService.ruleWithPage("outgoing")]}>
+                {navBar}
+                <CreateOutgoing outgoingService={outgoingService} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/outgoings"
+            element={
+              <PrivateRoute rules={[ruleService.ruleWithPage("outgoing")]}>
+                {navBar}
+                <Outgoing outgoingService={outgoingService} />
               </PrivateRoute>
             }
           />

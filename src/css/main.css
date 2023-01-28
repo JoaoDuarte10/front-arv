@@ -17,7 +17,7 @@
 }
 
 #img-logo {
-  width: 350px;
+  width: 200px;
 }
 
 #btn_group {
@@ -28,8 +28,7 @@
 
 #btn_login {
   border-radius: 15px;
-  width: 100%;
-  font-weight: bold;
+  width: 200px;
   padding: 8px;
 }
 
@@ -318,8 +317,8 @@
 }
 
 .loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #546068; /* Blue */
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #546068;
   border-radius: 50%;
   width: 120px;
   height: 120px;
