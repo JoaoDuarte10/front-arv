@@ -390,13 +390,13 @@ export function Sales(props: {
           {sales.length > 0 ? sales.length : null}
           <br />
           {sales.length &&
-          sales.filter(sale => sale.payment_status === "PENDING").length ? (
+          sales.filter(sale => sale.paymentStatus === "PENDING").length ? (
             <div className="mt-2 mb-2">
               <strong>Total a receber: </strong>{" "}
               {sales.length > 0
                 ? salesService.countTotalValueSales(
                     sales
-                      .filter(sale => sale.payment_status === "PENDING")
+                      .filter(sale => sale.paymentStatus === "PENDING")
                       .map(sale => Number(sale.total))
                   )
                 : null}
@@ -406,7 +406,7 @@ export function Sales(props: {
           {sales.length > 0
             ? salesService.countTotalValueSales(
                 sales
-                  .filter(sale => sale.payment_status === "PAID")
+                  .filter(sale => sale.paymentStatus === "PAID")
                   .map(sale => Number(sale.total))
               )
             : null}

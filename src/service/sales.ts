@@ -1,6 +1,7 @@
 import { Response, normalizeResponse } from "./fetch";
 import axios from "axios";
 import { LocalStorageService } from "./local-storage";
+import { OutgoingPaymentMethodEnums } from "./outgoing";
 
 export type SalesInterface = {
   idsales: number;
@@ -9,9 +10,10 @@ export type SalesInterface = {
   description: string;
   date: string;
   total: number;
-  payment_status: string;
-  payment_date: string;
-  created_at: string;
+  paymentStatus: string;
+  paymentDate: string;
+  paymentMethod: OutgoingPaymentMethodEnums;
+  createdAt: string;
 };
 
 export type SalesReportsInterface = {
@@ -53,6 +55,7 @@ export class SalesService {
     total: number;
     paymentPending: boolean;
     paymentDate: string;
+    paymentMethod: OutgoingPaymentMethodEnums;
   }): Promise<Response> {
     let response: Response = {} as Response;
     try {
@@ -65,7 +68,8 @@ export class SalesService {
             date: params.date,
             total: params.total,
             paymentStatus: params.paymentPending ? "PAID" : "PENDING",
-            paymentDate: params.paymentDate || null
+            paymentDate: params.paymentDate || null,
+            paymentMethod: params.paymentMethod
           },
           {
             headers: {

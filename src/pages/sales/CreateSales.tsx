@@ -14,12 +14,17 @@ import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { FormSales } from "./FormSales";
+import {
+  OutgoingPaymentMethodEnums,
+  OutgoingService
+} from "../../service/outgoing";
 
 export function CreateSales(props: {
   clientService: ClientService;
   salesService: SalesService;
+  outgoingService: OutgoingService;
 }) {
-  const { clientService, salesService } = props;
+  const { clientService, salesService, outgoingService } = props;
   const dispatch = useDispatch();
 
   const clientsCache = useSelector((state: ReduceStore) => state.client);
@@ -56,6 +61,7 @@ export function CreateSales(props: {
     total: number;
     paymentPending: boolean;
     paymentDate: string;
+    paymentMethod: OutgoingPaymentMethodEnums;
   }): Promise<boolean> => {
     setLoader(<CircularIndeterminate />);
     const { success, error, badRequest } = await salesService.create({
@@ -64,7 +70,8 @@ export function CreateSales(props: {
       date: params.date,
       total: params.total,
       paymentPending: params.paymentPending,
-      paymentDate: params.paymentDate
+      paymentDate: params.paymentDate,
+      paymentMethod: params.paymentMethod
     });
     setLoader(null);
 
@@ -98,7 +105,12 @@ export function CreateSales(props: {
       />
       <TitlePrincipal title="Nova venda" />
 
-      <FormSales clients={clients} onChange={onCreate} alert={alert} />
+      <FormSales
+        clients={clients}
+        onChange={onCreate}
+        alert={alert}
+        outgoingService={outgoingService}
+      />
     </ContainerMain>
   );
 }

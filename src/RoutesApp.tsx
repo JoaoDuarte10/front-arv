@@ -151,6 +151,7 @@ export function RoutesApp() {
                 <CreateSales
                   clientService={clientService}
                   salesService={salesService}
+                  outgoingService={outgoingService}
                 />
               </PrivateRoute>
             }
@@ -177,6 +178,7 @@ export function RoutesApp() {
                   scheduleService={scheduleService}
                   whatsAppService={whatsAppService}
                   salesService={salesService}
+                  outgoingService={outgoingService}
                 />
               </PrivateRoute>
             }

@@ -9,7 +9,7 @@ export class LoginService {
     try {
       const { data, status } = await axios
         .post(`${this.baseUri}/api/users/login`, {
-          username: params.user,
+          username: params.user.trim(),
           password: params.password
         })
         .then(res => ({ data: res.data, status: res.status }))

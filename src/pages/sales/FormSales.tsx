@@ -9,26 +9,40 @@ import { ScheduleInterface } from "../../service/schedule";
 import { format } from "date-fns";
 import { InputText } from "../../components/inputs/InputText";
 import { DivInline } from "../../components/divs/DivInline";
+import {
+  OutgoingPaymentMethodEnums,
+  OutgoingService
+} from "../../service/outgoing";
+import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 
 type InputProps = {
   clients: ClientsInterface[];
   onChange: any;
   alert: JSX.Element | null;
   schedule?: ScheduleInterface;
+  outgoingService: OutgoingService;
 };
 
 export function FormSales(props: InputProps) {
-  const { clients, onChange, alert, schedule } = props;
+  const { clients, onChange, alert, schedule, outgoingService } = props;
 
   const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [paymentDate, setPaymentDate] = useState<string>("");
   const [paymentPending, setPaymentPending] = useState<boolean>(false);
+  const [paymentMethods, setPaymentMethods] = useState<
+    OutgoingPaymentMethodEnums | string
+  >("");
+  const [paymentMethodSelected, setPaymentMethodSelected] = useState<string>(
+    ""
+  );
   const [clientSelected, setClientSelected] = useState<{
     label: string;
     idclients: number | null;
   }>({ label: "", idclients: null });
+
+  const [loader, setLoader] = useState<JSX.Element | null>(null);
 
   const clearFields = () => {
     setDescription("");
@@ -37,9 +51,21 @@ export function FormSales(props: InputProps) {
     setPaymentPending(false);
     setPaymentDate("");
     setClientSelected({ label: "", idclients: 0 });
+    setPaymentMethodSelected("");
+  };
+
+  const fetchPaymentMethodsEnums = async () => {
+    setLoader(<CircularIndeterminate />);
+    const { success, data } = await outgoingService.fetchPaymentMethodEnums();
+    setLoader(null);
+
+    if (success) {
+      setPaymentMethods(data);
+    }
   };
 
   useEffect(() => {
+    fetchPaymentMethodsEnums();
     if (schedule) {
       setDescription(schedule.description);
       setDate(format(new Date(schedule.date.replace("Z", "")), "yyyy-MM-dd"));
@@ -54,6 +80,7 @@ export function FormSales(props: InputProps) {
 
   return (
     <div className="form_sales">
+      {loader}
       <small className="font-weight-bold pb-4">
         Os campos que possuem " * " são obrigatórios!
       </small>
@@ -129,11 +156,28 @@ export function FormSales(props: InputProps) {
             fnChange={(e: React.BaseSyntheticEvent) => {
               setDate(e.target.value);
             }}
+            helperText="Escolha a data"
           />
         </div>
       </DivInline>
 
-      <div className="payment_form">
+      <ComboBoxList
+        options={Object.keys(paymentMethods).map((method: string) => {
+          return {
+            label: method
+          };
+        })}
+        label={"Forma de pagamento *"}
+        value={paymentMethodSelected}
+        onChange={(e: React.BaseSyntheticEvent, item: { label: string }) => {
+          if (item && item.label) {
+            setPaymentMethodSelected(item.label as OutgoingPaymentMethodEnums);
+          }
+        }}
+        className="mb-2"
+      />
+
+      <div className="payment_form mt-1">
         <FormControlLabel
           control={
             <Checkbox
@@ -166,12 +210,14 @@ export function FormSales(props: InputProps) {
 
       <DivInline className="mt-2">
         {schedule ? null : (
-          <button
-            className="btn btn-secondary col font-weight-bold"
-            onClick={async (e: React.SyntheticEvent) => clearFields()}
-          >
-            Limpar
-          </button>
+          <div className="col">
+            <button
+              className="btn btn-secondary col font-weight-bold"
+              onClick={async (e: React.SyntheticEvent) => clearFields()}
+            >
+              Limpar
+            </button>
+          </div>
         )}
         <div className="col">
           <button
@@ -183,7 +229,8 @@ export function FormSales(props: InputProps) {
                 date,
                 total: parseInt(price.substring(2).replace(/\.|,/g, "")) / 100,
                 paymentPending,
-                paymentDate
+                paymentDate,
+                paymentMethod: paymentMethodSelected
               });
               if (result) {
                 clearFields();

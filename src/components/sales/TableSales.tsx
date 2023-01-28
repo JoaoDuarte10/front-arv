@@ -120,9 +120,10 @@ function createData(sale: SalesInterface) {
     info: [
       {
         total: Number(sale.total),
-        payment_status: sale.payment_status,
-        payment_date: sale.payment_date,
-        createdAt: sale.created_at
+        paymentStatus: sale.paymentStatus,
+        paymentDate: sale.paymentDate,
+        paymentMethod: sale.paymentMethod,
+        createdAt: sale.createdAt
       }
     ]
   };
@@ -208,7 +209,7 @@ function Row(props: {
           })}
         </TableCell>
         <TableCell align="center">
-          {row.info[0].payment_status === "PAID" ? (
+          {row.info[0].paymentStatus === "PAID" ? (
             <CheckCircle htmlColor="#5cb85c" />
           ) : (
             <Cancel htmlColor="#f0ad4e" />
@@ -238,7 +239,7 @@ function Row(props: {
                   margin: "10px 0"
                 }}
               >
-                {row.info[0].payment_status === "PAID" ? null : (
+                {row.info[0].paymentStatus === "PAID" ? null : (
                   <button
                     className="btn btn-success"
                     style={{
@@ -290,6 +291,15 @@ function Row(props: {
                           color: "#4083be"
                         }}
                       >
+                        Forma de Pagamento
+                      </strong>
+                    </TableCell>
+                    <TableCell align="right" variant="body">
+                      <strong
+                        style={{
+                          color: "#4083be"
+                        }}
+                      >
                         Pagamento recebido
                       </strong>
                     </TableCell>
@@ -299,7 +309,7 @@ function Row(props: {
                           color: "#4083be"
                         }}
                       >
-                        {row.info[0].payment_status === "PAID"
+                        {row.info[0].paymentStatus === "PAID"
                           ? "Data do pagamento"
                           : "Previsão de pagamento"}
                       </strong>
@@ -319,11 +329,14 @@ function Row(props: {
                   {row.info.map(info => (
                     <TableRow key={randomId()}>
                       <TableCell component="th" scope="row" align="right">
-                        {info.payment_status === "PAID" ? "Sim" : "Não"}
+                        {info.paymentMethod || "Não registrado"}
+                      </TableCell>
+                      <TableCell component="th" scope="row" align="right">
+                        {info.paymentStatus === "PAID" ? "Sim" : "Não"}
                       </TableCell>
                       <TableCell component="th" scope="row" align="right">
                         {format(
-                          new Date(info.payment_date.replace("Z", "")),
+                          new Date(info.paymentDate.replace("Z", "")),
                           "dd/MM/yyyy"
                         )}
                       </TableCell>

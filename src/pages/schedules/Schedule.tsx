@@ -37,18 +37,24 @@ import { GenericButton } from "../../components/buttons/GenericButton";
 import { LabelForm } from "../../components/labels/LabelForm";
 import { LabelSmall } from "../../components/labels/LabelSmal";
 import { randomId } from "../../utils/random";
+import {
+  OutgoingPaymentMethodEnums,
+  OutgoingService
+} from "../../service/outgoing";
 
 export function Schedules(props: {
   clientService: ClientService;
   scheduleService: ScheduleService;
   whatsAppService: WhatsAppService;
   salesService: SalesService;
+  outgoingService: OutgoingService;
 }) {
   const {
     scheduleService,
     clientService,
     whatsAppService,
-    salesService
+    salesService,
+    outgoingService
   } = props;
 
   const dispatch = useDispatch();
@@ -257,6 +263,7 @@ export function Schedules(props: {
     total: number;
     paymentPending: boolean;
     paymentDate: string;
+    paymentMethod: OutgoingPaymentMethodEnums;
   }) => {
     setLoader(<CircularIndeterminate />);
     const { success, error, badRequest } = await salesService.create({
@@ -265,7 +272,8 @@ export function Schedules(props: {
       date: params.date,
       total: params.total,
       paymentPending: params.paymentPending,
-      paymentDate: params.paymentDate
+      paymentDate: params.paymentDate,
+      paymentMethod: params.paymentMethod
     });
     setLoader(null);
 
@@ -602,6 +610,7 @@ export function Schedules(props: {
                       onChange={onCreateSale}
                       alert={alert}
                       schedule={schedule}
+                      outgoingService={outgoingService}
                     />
                   </GenericModal>
                 </DivInline>

@@ -177,7 +177,7 @@ export function InfoClients(props: {
             <strong>Total:</strong>{" "}
             {salesService.countTotalValueSales(
               sales
-                .filter(sale => sale.payment_status === "PAID")
+                .filter(sale => sale.paymentStatus === "PAID")
                 .map(sale => Number(sale.total))
             )}
           </div>
