@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -12,15 +12,23 @@ import Paper from "@mui/material/Paper";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
 import { randomId } from "../../utils/random";
 import { format } from "date-fns";
-import { OutgoingInterface } from "../../service/outgoing";
+import { OutgoingInterface, OutgoingService } from "../../service/outgoing";
 import TablePagination from "@mui/material/TablePagination";
+import { CircularIndeterminate } from "../loaders/CircularLoader";
+import { AlertSuccess } from "../alerts/AlertSuccess";
+import { AlertInfo } from "../alerts/AlertInfo";
+import { AlertError } from "../alerts/AlertError";
+import { BasicDeleteModal } from "../modal/BasicDeleteModal";
+import Typography from "@mui/material/Typography";
+import { TIMEOUT } from "../../utils/constants";
 
 type InputProps = {
   outgoings: OutgoingInterface[];
+  outgoingService: OutgoingService;
 };
 
 export function TableOutgoing(props: InputProps) {
-  const { outgoings } = props;
+  const { outgoingService, outgoings } = props;
 
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
@@ -70,6 +78,7 @@ export function TableOutgoing(props: InputProps) {
               <Row
                 key={outgoing.idoutgoing + randomId()}
                 row={createData(outgoing)}
+                outgoingService={outgoingService}
               />
             ))}
         </TableBody>
@@ -104,12 +113,45 @@ function createData(outgoing: OutgoingInterface) {
   };
 }
 
-function Row(props: { row: ReturnType<typeof createData> }) {
-  const { row } = props;
+function Row(props: {
+  row: ReturnType<typeof createData>;
+  outgoingService: OutgoingService;
+}) {
+  const { row, outgoingService } = props;
   const [open, setOpen] = useState<boolean>(false);
+
+  const [alert, setAlert] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<JSX.Element | null>(null);
+
+  const onDelete = async (idoutgoing: number): Promise<void> => {
+    setLoader(<CircularIndeterminate />);
+    const { success, error, notFound } = await outgoingService.delete(
+      idoutgoing
+    );
+    setLoader(null);
+
+    if (success) {
+      setAlert(
+        <AlertSuccess title="Despesa excluída com sucesso. Atualize a pesquisa." />
+      );
+    }
+    if (notFound) {
+      setAlert(<AlertInfo title="Despesa não encontrada." />);
+    }
+    if (error) {
+      setAlert(
+        <AlertError title="Não foi possível processar sua requisição." />
+      );
+    }
+  };
+
+  if (alert) {
+    setTimeout(() => setAlert(null), TIMEOUT.FIVE_SECCONDS);
+  }
 
   return (
     <React.Fragment>
+      {loader}
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
           <IconButton
@@ -150,6 +192,36 @@ function Row(props: { row: ReturnType<typeof createData> }) {
                   )}
                 </small>
               </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  margin: "10px 0"
+                }}
+              >
+                <BasicDeleteModal
+                  btnName="Excluir"
+                  onChange={(e: React.SyntheticEvent) =>
+                    onDelete(row.idoutgoing as number)
+                  }
+                >
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                    sx={{ color: "red" }}
+                  >
+                    Excluir Despesa
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    Tem certeza que deseja excluir essa despesa?
+                  </Typography>
+                </BasicDeleteModal>
+              </div>
+
+              {alert}
 
               <Table size="small" aria-label="purchases">
                 <TableHead>

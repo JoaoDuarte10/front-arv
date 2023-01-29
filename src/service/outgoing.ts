@@ -184,4 +184,27 @@ export class OutgoingService {
     }
     return response;
   }
+
+  async delete(idoutgoing: number): Promise<Response<OutgoingInterface[]>> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .delete(`${this.baseUri}/api/outgoing`, {
+          params: { idoutgoing },
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
 }

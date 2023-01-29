@@ -241,7 +241,11 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
         </div>
       </Collapse>
 
-      {outgoing.length ? <TableOutgoing outgoings={outgoing} /> : null}
+      {alert}
+
+      {outgoing.length ? (
+        <TableOutgoing outgoings={outgoing} outgoingService={outgoingService} />
+      ) : null}
     </ContainerMain>
   );
 }
