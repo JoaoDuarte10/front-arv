@@ -356,12 +356,12 @@ export function Schedules(props: {
               marginTop: "10px"
             }}
           >
-            <button
-              className="btn btn-secondary font-weight-bold"
-              onClick={e => closeActionButtons()}
-            >
-              Fechar
-            </button>
+            <GenericButton
+              text="Fechar"
+              color={ColorsBootstrap.secondary}
+              onClick={(e: React.BaseSyntheticEvent) => closeActionButtons()}
+              col={false}
+            />
             <SearchButton
               onClick={(e: React.BaseSyntheticEvent) => fetchByDate()}
             />
@@ -415,12 +415,12 @@ export function Schedules(props: {
               marginTop: "10px"
             }}
           >
-            <button
-              className="btn btn-secondary font-weight-bold"
-              onClick={e => closeActionButtons()}
-            >
-              Fechar
-            </button>
+            <GenericButton
+              text="Fechar"
+              color={ColorsBootstrap.secondary}
+              onClick={(e: React.BaseSyntheticEvent) => closeActionButtons()}
+              col={false}
+            />
             <SearchButton
               onClick={(e: React.BaseSyntheticEvent) => fetchByClient()}
             />

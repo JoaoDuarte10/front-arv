@@ -291,18 +291,6 @@ export function NavBarResponsive(props: {
                     Suas despesas
                   </button>
                 </li>
-                {/* <li className="sub-item" key="346346">
-                <button
-                  className="btn-list-sub-item"
-                  onClick={e => {
-                    closeItens();
-                    navigate("/sales-reports");
-                  }}
-                  style={{ outline: "none" }}
-                >
-                  Relatórios
-                </button>
-              </li> */}
               </ul>
             </Collapse>
           </li>

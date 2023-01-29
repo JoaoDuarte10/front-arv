@@ -19,10 +19,6 @@ export function Login(props: { loginService: LoginService }) {
     password: "",
     showPassword: false
   });
-  const [invalidCredentials, setinvalidCredentials] = useState<boolean | null>(
-    null
-  );
-  const [serverError, setServerError] = useState<boolean>(false);
   const [loader, setLoader] = useState<JSX.Element | null>(null);
   const [alert, setAlert] = useState<JSX.Element | null>(null);
 
@@ -139,16 +135,14 @@ export function Login(props: { loginService: LoginService }) {
               </div>
             </div>
           </div>
-          <div id="btn_group">
-            <button
-              type="button"
-              className="btn btn-primary mt-2"
-              id="btn_login"
-              onClick={signIn}
-            >
-              Entrar
-            </button>
-          </div>
+          <button
+            type="button"
+            className="btn btn-primary mt-2"
+            id="btn_login"
+            onClick={signIn}
+          >
+            Entrar
+          </button>
           <div className="mt-3">{alert}</div>
         </form>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { OutgoingService, OutgoingInterface } from "../../service/outgoing";
 import { ContainerMain } from "../../components/divs/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
@@ -14,7 +14,7 @@ import { Collapse } from "@material-ui/core";
 import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
 import { SearchButton } from "../../components/buttons/SearchButton";
 import { TableOutgoing } from "../../components/outgoing/TableOutgoing";
-import { countTotalValues } from '../../utils/sum';
+import { countTotalValues } from "../../utils/sum";
 
 export function Outgoing(props: { outgoingService: OutgoingService }) {
   const { outgoingService } = props;
@@ -246,12 +246,12 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
 
       {outgoing.length ? (
         <div>
-          <TableOutgoing outgoings={outgoing} outgoingService={outgoingService} />
+          <TableOutgoing
+            outgoings={outgoing}
+            outgoingService={outgoingService}
+          />
           <strong>Total:</strong>{" "}
-          {countTotalValues(
-            outgoing
-              .map(item => Number(item.total))
-          )}
+          {countTotalValues(outgoing.map(item => Number(item.total)))}
         </div>
       ) : null}
     </ContainerMain>

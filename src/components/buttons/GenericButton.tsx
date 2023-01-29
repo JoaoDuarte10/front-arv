@@ -21,16 +21,17 @@ type InputProps = {
   variant?: Variant;
   onClick: any;
   style?: any;
+  col?: boolean;
 };
 
 export function GenericButton(props: InputProps) {
-  const { text, color, variant, onClick, style } = props;
+  const { text, color, variant, onClick, style, col: col = true } = props;
 
   return (
     <button
       className={`btn btn${variant ? "-" + variant : ""}${"-" +
-        color} font-weight-bold`}
-      style={{ fontSize: "13px", ...style }}
+        color} font-weight-bold ${col ? "col" : null}`}
+      style={{ ...style }}
       onClick={onClick}
     >
       {text}

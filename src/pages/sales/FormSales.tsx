@@ -14,6 +14,8 @@ import {
   OutgoingService
 } from "../../service/outgoing";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
+import { GenericButton } from "../../components/buttons/GenericButton";
+import { ColorsBootstrap } from "../../components/modal/GenericModal";
 
 type InputProps = {
   clients: ClientsInterface[];
@@ -211,18 +213,20 @@ export function FormSales(props: InputProps) {
       <DivInline className="mt-2">
         {schedule ? null : (
           <div className="col">
-            <button
-              className="btn btn-secondary col font-weight-bold"
-              onClick={async (e: React.SyntheticEvent) => clearFields()}
-            >
-              Limpar
-            </button>
+            <GenericButton
+              text="Limpar"
+              color={ColorsBootstrap.secondary}
+              onClick={(e: React.SyntheticEvent) => {
+                clearFields();
+              }}
+            />
           </div>
         )}
         <div className="col">
-          <button
-            className="btn btn-primary col font-weight-bold"
-            onClick={async e => {
+          <GenericButton
+            text="Gerar Venda"
+            color={ColorsBootstrap.primary}
+            onClick={async (e: React.BaseSyntheticEvent) => {
               const result = await onChange({
                 idclients: clientSelected.idclients,
                 description,
@@ -236,9 +240,7 @@ export function FormSales(props: InputProps) {
                 clearFields();
               }
             }}
-          >
-            Gerar Venda
-          </button>
+          />
         </div>
       </DivInline>
 

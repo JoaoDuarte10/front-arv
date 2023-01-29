@@ -14,6 +14,8 @@ import { format } from "date-fns";
 import { InputText } from "./inputs/InputText";
 import { DivInline } from "./divs/DivInline";
 import { ContainerCardWhite } from "./divs/ContainerCardWhite";
+import { GenericButton } from "./buttons/GenericButton";
+import { ColorsBootstrap } from "./modal/GenericModal";
 
 type InputProps = {
   clientService: ClientService;
@@ -185,7 +187,7 @@ export function FormSchedule(props: InputProps) {
             <FormControlLabel
               control={
                 <Checkbox
-                  onChange={(e: any) => {
+                  onChange={(e: React.BaseSyntheticEvent) => {
                     setPacote(!pacote);
                   }}
                   color="primary"
@@ -209,7 +211,7 @@ export function FormSchedule(props: InputProps) {
                 }}
                 className="col"
               />
-              {edit ? (
+              {edit && (
                 <ComboBoxList
                   options={atendenceOptions}
                   label="Atendimento atual"
@@ -221,27 +223,27 @@ export function FormSchedule(props: InputProps) {
                   }}
                   className="col"
                 />
-              ) : null}
+              )}
             </DivInline>
           ) : null}
         </div>
 
         <DivInline>
-          {edit ? null : (
+          {!edit && (
             <div className="col">
-              <button
-                className="btn btn-secondary col font-weight-bold"
-                onClick={async (e: React.SyntheticEvent) => {
+              <GenericButton
+                text="Limpar"
+                color={ColorsBootstrap.secondary}
+                onClick={(e: React.SyntheticEvent) => {
                   clearFields();
                 }}
-              >
-                Limpar
-              </button>
+              />
             </div>
           )}
           <div className="col">
-            <button
-              className="btn btn-primary col font-weight-bold"
+            <GenericButton
+              text={edit ? "Salvar" : "Criar"}
+              color={ColorsBootstrap.primary}
               onClick={async (e: React.SyntheticEvent) => {
                 const result = await onChange({
                   idschedules,
@@ -259,9 +261,7 @@ export function FormSchedule(props: InputProps) {
                   clearFields();
                 }
               }}
-            >
-              {edit ? "Salvar" : "Criar"}
-            </button>
+            />
           </div>
         </DivInline>
 

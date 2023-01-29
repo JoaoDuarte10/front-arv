@@ -20,6 +20,8 @@ import { TIMEOUT } from "../../utils/constants";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { TableSales } from "../../components/sales/TableSales";
 import { Collapse } from "@material-ui/core";
+import { ColorsBootstrap } from "../../components/modal/GenericModal";
+import { GenericButton } from "../../components/buttons/GenericButton";
 
 export function Sales(props: {
   salesService: SalesService;
@@ -262,12 +264,14 @@ export function Sales(props: {
               marginTop: "10px"
             }}
           >
-            <button
-              className="btn btn-secondary font-weight-bold"
-              onClick={e => closeActionButtons()}
-            >
-              Fechar
-            </button>
+            <GenericButton
+              text="Fechar"
+              color={ColorsBootstrap.secondary}
+              onClick={(e: React.SyntheticEvent) => {
+                closeActionButtons();
+              }}
+              col={false}
+            />
             <SearchButton
               onClick={(e: React.BaseSyntheticEvent) => fetchSalesByDate()}
             />
@@ -314,12 +318,14 @@ export function Sales(props: {
               marginTop: "10px"
             }}
           >
-            <button
-              className="btn btn-secondary font-weight-bold"
-              onClick={e => closeActionButtons()}
-            >
-              Fechar
-            </button>
+            <GenericButton
+              text="Fechar"
+              color={ColorsBootstrap.secondary}
+              onClick={(e: React.SyntheticEvent) => {
+                closeActionButtons();
+              }}
+              col={false}
+            />
             <SearchButton
               onClick={(e: React.BaseSyntheticEvent) => fetchSalesByPeriod()}
             />
@@ -368,12 +374,14 @@ export function Sales(props: {
               marginTop: "10px"
             }}
           >
-            <button
-              className="btn btn-secondary font-weight-bold"
-              onClick={e => closeActionButtons()}
-            >
-              Fechar
-            </button>
+            <GenericButton
+              text="Fechar"
+              color={ColorsBootstrap.secondary}
+              onClick={(e: React.SyntheticEvent) => {
+                closeActionButtons();
+              }}
+              col={false}
+            />
             <SearchButton
               onClick={(e: React.BaseSyntheticEvent) => fetchSalesByClient()}
             />

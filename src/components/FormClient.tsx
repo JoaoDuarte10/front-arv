@@ -8,6 +8,8 @@ import { SegmentInterface } from "../service/segment";
 import ComboBoxList from "./inputs/InputAutocompleteList";
 import { ContainerCardWhite } from "./divs/ContainerCardWhite";
 import { DivInline } from "./divs/DivInline";
+import { GenericButton } from "./buttons/GenericButton";
+import { ColorsBootstrap } from "./modal/GenericModal";
 
 type Response = {
   success: boolean;
@@ -22,6 +24,8 @@ type InputProps = {
 };
 
 export function FormClient(props: InputProps) {
+  const { edit, alert, requestClient, client, segments } = props;
+
   const [idclients, setIdClients] = useState<number>();
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -33,23 +37,23 @@ export function FormClient(props: InputProps) {
   const [segmentSelected, setSegmentSelected] = useState<string>("");
 
   useEffect(() => {
-    if (props.edit && props.client) {
-      const findSegment: SegmentInterface | undefined = props.segments.find(
+    if (edit && client) {
+      const findSegment: SegmentInterface | undefined = segments.find(
         segment => {
-          if (props.client) return segment.name === props.client.name;
+          if (client) return segment.name === client.name;
         }
       );
       if (findSegment) {
         setSegment(findSegment.idsegments);
       }
-      setIdClients(props.client.idclients);
-      setName(props.client.name);
-      setEmail(props.client.email);
-      setPhone(props.client.phone);
-      setAddress(props.client.address);
-      setAddressNumber(props.client.addressnumber);
-      setNote(props.client.note);
-      setSegmentSelected(props.client.segment);
+      setIdClients(client.idclients);
+      setName(client.name);
+      setEmail(client.email);
+      setPhone(client.phone);
+      setAddress(client.address);
+      setAddressNumber(client.addressnumber);
+      setNote(client.note);
+      setSegmentSelected(client.segment);
     }
   }, []);
 
@@ -112,10 +116,10 @@ export function FormClient(props: InputProps) {
           />
         </div>
       </div>
-      {props.segments.length ? (
+      {segments.length ? (
         <ComboBoxList
           label="Selecionar segmento"
-          options={props.segments.map(item => {
+          options={segments.map(item => {
             return {
               label: item.name,
               idsegments: item.idsegments
@@ -145,20 +149,20 @@ export function FormClient(props: InputProps) {
       />
       <DivInline className="mt-2">
         <div className="col">
-          <button
-            className="btn btn-secondary col font-weight-bold"
-            onClick={async (e: React.SyntheticEvent) => {
+          <GenericButton
+            text="Limpar"
+            color={ColorsBootstrap.secondary}
+            onClick={(e: React.SyntheticEvent) => {
               clearFields();
             }}
-          >
-            Limpar
-          </button>
+          />
         </div>
         <div className="col">
-          <button
-            className="btn btn-primary col font-weight-bold"
+          <GenericButton
+            text={edit ? "Salvar" : "Criar"}
+            color={ColorsBootstrap.primary}
             onClick={async (e: React.SyntheticEvent) => {
-              const result = await props.requestClient({
+              const result = await requestClient({
                 event: e,
                 idclients,
                 name,
@@ -174,13 +178,11 @@ export function FormClient(props: InputProps) {
                 clearFields();
               }
             }}
-          >
-            {props.edit ? "Salvar" : "Criar"}
-          </button>
+          />
         </div>
       </DivInline>
 
-      <div className="mt-2">{props.alert}</div>
+      <div className="mt-2">{alert}</div>
     </ContainerCardWhite>
   );
 }
