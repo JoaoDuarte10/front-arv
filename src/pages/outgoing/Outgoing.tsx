@@ -14,6 +14,7 @@ import { Collapse } from "@material-ui/core";
 import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
 import { SearchButton } from "../../components/buttons/SearchButton";
 import { TableOutgoing } from "../../components/outgoing/TableOutgoing";
+import { countTotalValues } from '../../utils/sum';
 
 export function Outgoing(props: { outgoingService: OutgoingService }) {
   const { outgoingService } = props;
@@ -244,7 +245,14 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       {alert}
 
       {outgoing.length ? (
-        <TableOutgoing outgoings={outgoing} outgoingService={outgoingService} />
+        <div>
+          <TableOutgoing outgoings={outgoing} outgoingService={outgoingService} />
+          <strong>Total:</strong>{" "}
+          {countTotalValues(
+            outgoing
+              .map(item => Number(item.total))
+          )}
+        </div>
       ) : null}
     </ContainerMain>
   );
