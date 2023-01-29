@@ -9,7 +9,7 @@ import { AlertError } from "../../components/alerts/AlertError";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { ClearSearchFilterButton } from "../../components/buttons/ClearSearchFilter";
 import { SearchFilterButton } from "../../components/buttons/SearchFilter";
-import { Collapse } from "@material-ui/core";
+import { Collapse } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { SearchButton } from "../../components/buttons/SearchButton";
 import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";

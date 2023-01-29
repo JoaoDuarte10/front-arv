@@ -10,7 +10,7 @@ import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { AlertError } from "../../components/alerts/AlertError";
 import { SearchFilterButton } from "../../components/buttons/SearchFilter";
 import { ClearSearchFilterButton } from "../../components/buttons/ClearSearchFilter";
-import { Collapse } from "@material-ui/core";
+import { Collapse } from "@mui/material";
 import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
 import { SearchButton } from "../../components/buttons/SearchButton";
 import { TableOutgoing } from "../../components/outgoing/TableOutgoing";

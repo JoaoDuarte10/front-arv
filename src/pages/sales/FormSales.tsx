@@ -1,4 +1,4 @@
-import { FormControlLabel, Checkbox } from "@material-ui/core";
+import { FormControlLabel, Checkbox } from "@mui/material";
 import ComboBoxList from "../../components/inputs/InputAutocompleteList";
 import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
 import TextFieldMultiline from "../../components/inputs/TextFieldMultiline";

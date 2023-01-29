@@ -21,7 +21,9 @@ export function ComboBox(props: InputProps) {
       id="combo-box-demo"
       freeSolo
       options={options}
-      renderInput={params => <TextField {...params} label={title} />}
+      renderInput={params => (
+        <TextField variant="outlined" {...params} label={title} />
+      )}
       value={value}
       onInputChange={selectValue}
       onChange={selectValue}

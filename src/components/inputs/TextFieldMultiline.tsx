@@ -27,6 +27,7 @@ export default function TextFieldMultiline({
       }}
     >
       <TextField
+        variant="outlined"
         fullWidth
         label={label}
         id="fullWidth"

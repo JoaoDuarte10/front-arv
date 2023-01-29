@@ -2,8 +2,8 @@ import "../css/main.css";
 
 import React, { useState } from "react";
 import logo from "../img/raise-value-logo.png";
-import { IconButton } from "@material-ui/core";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { loginAdded } from "../reducers/authenticated-slice";
 import { CircularIndeterminate } from "../components/loaders/CircularLoader";
@@ -129,6 +129,7 @@ export function Login(props: { loginService: LoginService }) {
                   }
                   onMouseDown={e => e.preventDefault()}
                   className="input-group-text"
+                  size="large"
                 >
                   {password.showPassword ? <Visibility /> : <VisibilityOff />}
                 </IconButton>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
+import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { ReduceStore } from "../app/store";
 import { ClientsInterface } from "../pages/clients/Clients";

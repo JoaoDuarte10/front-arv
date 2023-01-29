@@ -27,6 +27,7 @@ export default function FullWidthTextField({
       }}
     >
       <TextField
+        variant="outlined"
         type={type}
         fullWidth
         label={label}

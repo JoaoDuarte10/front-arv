@@ -15,7 +15,7 @@ import {
   KeyboardArrowUp,
   CheckCircle,
   Cancel
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { SalesInterface, SalesService } from "../../service/sales";
 import { randomId } from "../../utils/random";
 import { format } from "date-fns";

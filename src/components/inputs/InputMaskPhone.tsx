@@ -18,7 +18,7 @@ export default function InputMaskPhone({ label, fnChange, value }: Props) {
       }}
     >
       <InputMask mask="(99) 9 9999-9999" onChange={fnChange} value={value}>
-        {() => <TextField fullWidth label={label} />}
+        {() => <TextField variant="outlined" fullWidth label={label} />}
       </InputMask>
     </Box>
   );

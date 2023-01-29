@@ -9,7 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { randomId } from "../../utils/random";
 import { format } from "date-fns";
 import { OutgoingInterface, OutgoingService } from "../../service/outgoing";

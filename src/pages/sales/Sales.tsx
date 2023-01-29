@@ -19,7 +19,7 @@ import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { TIMEOUT } from "../../utils/constants";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { TableSales } from "../../components/sales/TableSales";
-import { Collapse } from "@material-ui/core";
+import { Collapse } from "@mui/material";
 import { ColorsBootstrap } from "../../components/modal/GenericModal";
 import { GenericButton } from "../../components/buttons/GenericButton";
 

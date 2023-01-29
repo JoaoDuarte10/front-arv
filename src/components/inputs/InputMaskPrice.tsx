@@ -18,7 +18,7 @@ export default function InputMaskPrice({ label, fnChange, value }: Props) {
       }}
     >
       <InputMask mask="R$" onChange={fnChange} value={value}>
-        {() => <TextField fullWidth label={label} />}
+        {() => <TextField variant="outlined" fullWidth label={label} />}
       </InputMask>
     </Box>
   );

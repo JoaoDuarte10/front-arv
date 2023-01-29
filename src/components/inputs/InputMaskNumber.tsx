@@ -1,7 +1,7 @@
 import * as React from "react";
 import TextField from "@mui/material/TextField";
 import InputMask from "react-input-mask";
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 
 type Props = {
   label: string;
@@ -25,7 +25,7 @@ export default function InputMaskNumber({ label, fnChange, value }: Props) {
         required={true}
         value={value}
       >
-        {() => <TextField fullWidth label={label} />}
+        {() => <TextField variant="outlined" fullWidth label={label} />}
       </InputMask>
     </Box>
   );

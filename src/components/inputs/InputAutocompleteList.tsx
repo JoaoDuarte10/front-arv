@@ -18,7 +18,9 @@ export default function ComboBoxList(props: InputProps) {
     <Autocomplete
       disablePortal
       options={options}
-      renderInput={params => <TextField {...params} label={label} />}
+      renderInput={params => (
+        <TextField variant="outlined" {...params} label={label} />
+      )}
       value={value}
       onInputChange={onChange}
       onChange={onChange}
