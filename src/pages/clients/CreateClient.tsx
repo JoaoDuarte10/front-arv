@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReduceStore } from "../../app/store";
 import { SegmentService, SegmentInterface } from "../../service/segment";
 import { segmentAdded } from "../../reducers/segment-sclice";
-import { ContainerMain } from "../../components/divs/ContainerMain";
+import { ContainerMain } from "../../components/containers/ContainerMain";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 
 export type CreateClientRequest = {

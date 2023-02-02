@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SalesService, SalesInterface } from "../../service/sales";
-import { ContainerMain } from "../../components/divs/ContainerMain";
+import { ContainerMain } from "../../components/containers/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { SearchFilterButton } from "../../components/buttons/SearchFilter";

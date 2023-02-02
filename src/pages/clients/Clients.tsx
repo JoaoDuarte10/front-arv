@@ -12,13 +12,13 @@ import { TIMEOUT } from "../../utils/constants";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { AlertError } from "../../components/alerts/AlertError";
 import { ReduceStore } from "../../app/store";
-import { ContainerMain } from "../../components/divs/ContainerMain";
+import { ContainerMain } from "../../components/containers/ContainerMain";
 import { EditIconButton } from "../../components/buttons/EditIconButton";
 import { WhatsAppIconButton } from "../../components/buttons/WhatsAppIconButton";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { LabelForm } from "../../components/labels/LabelForm";
 import { LabelSmall } from "../../components/labels/LabelSmal";
-import { DivInline } from "../../components/divs/DivInline";
+import { DivInline } from "../../components/containers/DivInline";
 import { randomId } from "../../utils/random";
 
 export type ClientsInterface = {

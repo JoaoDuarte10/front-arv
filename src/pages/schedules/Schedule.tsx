@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ContainerMain } from "../../components/divs/ContainerMain";
+import { ContainerMain } from "../../components/containers/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { ScheduleInterface, ScheduleService } from "../../service/schedule";
@@ -28,7 +28,7 @@ import { BasicEditModal } from "../../components/modal/BasicEditModal";
 import { WhatsAppService } from "../../service/whatsapp";
 import { FormSales } from "../sales/FormSales";
 import { SalesService } from "../../service/sales";
-import { DivInline } from "../../components/divs/DivInline";
+import { DivInline } from "../../components/containers/DivInline";
 import {
   ColorsBootstrap,
   GenericModal

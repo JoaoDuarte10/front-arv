@@ -13,7 +13,7 @@ import { ComeBack } from "../../components/ComeBack";
 import { clearClient, clientAdded } from "../../reducers/clients-slice";
 import { SegmentService, SegmentInterface } from "../../service/segment";
 import { segmentAdded } from "../../reducers/segment-sclice";
-import { ContainerMain } from "../../components/divs/ContainerMain";
+import { ContainerMain } from "../../components/containers/ContainerMain";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 
 export type EditClientRequest = {

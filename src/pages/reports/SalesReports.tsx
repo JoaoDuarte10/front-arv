@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ContainerMain } from "../../components/divs/ContainerMain";
+import { ContainerMain } from "../../components/containers/ContainerMain";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { Breadcumb } from "../../components/Breadcumb";
 import { SearchFilterButton } from "../../components/buttons/SearchFilter";

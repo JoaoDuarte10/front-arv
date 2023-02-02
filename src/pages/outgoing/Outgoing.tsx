@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { OutgoingService, OutgoingInterface } from "../../service/outgoing";
-import { ContainerMain } from "../../components/divs/ContainerMain";
+import { ContainerMain } from "../../components/containers/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { TIMEOUT } from "../../utils/constants";

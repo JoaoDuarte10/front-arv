@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { ContainerMain } from "../../components/divs/ContainerMain";
+import { ContainerMain } from "../../components/containers/ContainerMain";
 import { ScheduleService, ScheduleInterface } from "../../service/schedule";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { Breadcumb } from "../../components/Breadcumb";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { format } from "date-fns";
-import { DivInline } from "../../components/divs/DivInline";
+import { DivInline } from "../../components/containers/DivInline";
 import { SearchFilterButton } from "../../components/buttons/SearchFilter";
 import * as dateFns from "date-fns";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";

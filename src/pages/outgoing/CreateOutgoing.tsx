@@ -4,13 +4,13 @@ import {
   OutgoingInstallmentEnums,
   OutgoingPaymentMethodEnums
 } from "../../service/outgoing";
-import { ContainerMain } from "../../components/divs/ContainerMain";
+import { ContainerMain } from "../../components/containers/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { TIMEOUT } from "../../utils/constants";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import ComboBoxList from "../../components/inputs/InputAutocompleteList";
-import { DivInline } from "../../components/divs/DivInline";
+import { DivInline } from "../../components/containers/DivInline";
 import TextFieldMultiline from "../../components/inputs/TextFieldMultiline";
 import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
 import { mask } from "../../service/mask-money";

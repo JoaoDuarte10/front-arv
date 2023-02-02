@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ContainerMain } from "../../components/divs/ContainerMain";
+import { ContainerMain } from "../../components/containers/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { ClientService } from "../../service/client-service";

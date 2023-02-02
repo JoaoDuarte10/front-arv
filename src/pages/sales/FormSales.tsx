@@ -8,7 +8,7 @@ import { ClientsInterface } from "../clients/Clients";
 import { ScheduleInterface } from "../../service/schedule";
 import { format } from "date-fns";
 import { InputText } from "../../components/inputs/InputText";
-import { DivInline } from "../../components/divs/DivInline";
+import { DivInline } from "../../components/containers/DivInline";
 import {
   OutgoingPaymentMethodEnums,
   OutgoingService
