@@ -1,16 +1,7 @@
 import axios from "axios";
-import { HTTP_RESPONSE } from "../utils/constants";
-import { LocalStorageService } from "./local-storage";
-
-export type Response = {
-  success: boolean;
-  data: any;
-  unauthorized: boolean;
-  error: boolean;
-  message: null;
-  conflict: boolean;
-  badRequest: boolean;
-};
+import { LocalStorageService } from "../../localStorage/local-storage";
+import { Response } from "../../http/types";
+import { normalizeResponse } from "../../http/fetch";
 
 export class ClientService {
   private accessToken: string = "";
@@ -24,15 +15,7 @@ export class ClientService {
   }
 
   async fetchAllClients(): Promise<Response> {
-    const response = {
-      success: false,
-      data: null,
-      unauthorized: true,
-      error: false,
-      message: null,
-      conflict: false,
-      badRequest: false
-    };
+    let response: Response = {} as Response;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/client/all`, {
@@ -46,12 +29,7 @@ export class ClientService {
           status: err.response ? err.response.status : err.response
         }));
 
-      if (status === HTTP_RESPONSE.SUCCESS) {
-        response.unauthorized = false;
-      }
-
-      response.success = true;
-      response.data = data;
+      response = normalizeResponse(data, status);
     } catch (error) {
       response.error = true;
       response.message = error.message;
@@ -68,15 +46,7 @@ export class ClientService {
     note: string | null;
     idsegment: number | null;
   }): Promise<Response> {
-    const response = {
-      success: false,
-      data: null,
-      unauthorized: true,
-      error: false,
-      message: null,
-      conflict: false,
-      badRequest: false
-    };
+    let response: Response = {} as Response;
     try {
       const { data, status } = await axios
         .post(
@@ -102,20 +72,7 @@ export class ClientService {
           status: err.response ? err.response.status : err.response
         }));
 
-      if (status === HTTP_RESPONSE.SUCCESS) {
-        response.unauthorized = false;
-      }
-
-      if (status === HTTP_RESPONSE.CONFLICT) {
-        response.conflict = true;
-      }
-
-      if (status === HTTP_RESPONSE.BAD_REQUEST) {
-        response.badRequest = true;
-      }
-
-      response.success = true;
-      response.data = data;
+      response = normalizeResponse(data, status);
     } catch (error) {
       response.error = true;
       response.message = error.message;
@@ -133,15 +90,7 @@ export class ClientService {
     note: string | null;
     idsegment: number | null;
   }): Promise<Response> {
-    const response = {
-      success: false,
-      data: null,
-      unauthorized: true,
-      error: false,
-      message: null,
-      conflict: false,
-      badRequest: false
-    };
+    let response: Response = {} as Response;
     try {
       const { data, status } = await axios
         .put(
@@ -168,20 +117,7 @@ export class ClientService {
           status: err.response ? err.response.status : err.response
         }));
 
-      if (status === HTTP_RESPONSE.SUCCESS) {
-        response.unauthorized = false;
-      }
-
-      if (status === HTTP_RESPONSE.CONFLICT) {
-        response.conflict = true;
-      }
-
-      if (status === HTTP_RESPONSE.BAD_REQUEST) {
-        response.badRequest = true;
-      }
-
-      response.success = true;
-      response.data = data;
+      response = normalizeResponse(data, status);
     } catch (error) {
       response.error = true;
       response.message = error.message;
@@ -190,15 +126,7 @@ export class ClientService {
   }
 
   async deleteClient(idclients: number): Promise<Response> {
-    const response = {
-      success: false,
-      data: null,
-      unauthorized: true,
-      error: false,
-      message: null,
-      conflict: false,
-      badRequest: false
-    };
+    let response: Response = {} as Response;
     try {
       const { data, status } = await axios
         .delete(`${this.baseUri}/api/client`, {
@@ -215,20 +143,7 @@ export class ClientService {
           status: err.response ? err.response.status : err.response
         }));
 
-      if (status === HTTP_RESPONSE.SUCCESS) {
-        response.unauthorized = false;
-      }
-
-      if (status === HTTP_RESPONSE.CONFLICT) {
-        response.conflict = true;
-      }
-
-      if (status === HTTP_RESPONSE.BAD_REQUEST) {
-        response.badRequest = true;
-      }
-
-      response.success = true;
-      response.data = data;
+      response = normalizeResponse(data, status);
     } catch (error) {
       response.error = true;
       response.message = error.message;

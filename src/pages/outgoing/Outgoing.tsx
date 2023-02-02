@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { OutgoingService, OutgoingInterface } from "../../service/outgoing";
+import { OutgoingService } from "../../service/api/outgoing/outgoing";
+import { OutgoingInterface } from "../../service/api/outgoing/types";
 import { ContainerMain } from "../../components/containers/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
@@ -39,7 +40,13 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
 
   const fetchAll = async () => {
     setLoader(<CircularIndeterminate />);
-    const { success, data, notFound, error } = await outgoingService.fetchAll();
+    const {
+      success,
+      data,
+      notFound,
+      error,
+      badRequest
+    } = await outgoingService.fetchAll();
     setLoader(null);
 
     if (success) {
@@ -49,6 +56,10 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
 
     if (notFound) {
       setAlert(<AlertInfo title="Nenhuma despesa encontrada" />);
+    }
+
+    if (badRequest) {
+      setAlert(<AlertInfo title="Preencha os campos corretamente" />);
     }
 
     if (error) {
@@ -62,13 +73,18 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       success,
       data,
       notFound,
-      error
+      error,
+      badRequest
     } = await outgoingService.fetchByDate(date as any);
     setLoader(null);
 
     if (success) {
       setOutgoing(data);
       setAlert(<AlertSuccess title="Pesquisa atualizada." />);
+    }
+
+    if (badRequest) {
+      setAlert(<AlertInfo title="Preencha os campos corretamente" />);
     }
 
     if (notFound) {
@@ -86,7 +102,8 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       success,
       data,
       notFound,
-      error
+      error,
+      badRequest
     } = await outgoingService.fetchByPeriod(
       period.date1 as any,
       period.date2 as any
@@ -96,6 +113,10 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
     if (success) {
       setOutgoing(data);
       setAlert(<AlertSuccess title="Pesquisa atualizada." />);
+    }
+
+    if (badRequest) {
+      setAlert(<AlertInfo title="Preencha os campos corretamente" />);
     }
 
     if (notFound) {

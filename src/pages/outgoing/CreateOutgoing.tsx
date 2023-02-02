@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { OutgoingService } from "../../service/api/outgoing/outgoing";
 import {
-  OutgoingService,
   OutgoingInstallmentEnums,
   OutgoingPaymentMethodEnums
-} from "../../service/outgoing";
+} from "../../service/api/outgoing/types";
 import { ContainerMain } from "../../components/containers/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
@@ -13,7 +13,7 @@ import ComboBoxList from "../../components/inputs/InputAutocompleteList";
 import { DivInline } from "../../components/containers/DivInline";
 import TextFieldMultiline from "../../components/inputs/TextFieldMultiline";
 import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
-import { mask } from "../../service/mask-money";
+import { mask } from "../../utils/mask-money";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { AlertError } from "../../components/alerts/AlertError";

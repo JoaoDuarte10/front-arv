@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { ClientService } from "../../service/client-service";
+import { ClientService } from "../../service/api/client/client-service";
 import { useDispatch, useSelector } from "react-redux";
 import { clearClient, clientAdded } from "../../reducers/clients-slice";
 import { Link } from "react-router-dom";
-import { WhatsAppService } from "../../service/whatsapp";
+import { WhatsAppService } from "../../service/api/whatsapp/whatsapp";
 import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
 import Typography from "@mui/material/Typography";
 import { TIMEOUT } from "../../utils/constants";
@@ -20,19 +20,7 @@ import { LabelForm } from "../../components/labels/LabelForm";
 import { LabelSmall } from "../../components/labels/LabelSmal";
 import { DivInline } from "../../components/containers/DivInline";
 import { randomId } from "../../utils/random";
-
-export type ClientsInterface = {
-  idclients: number;
-  name: string;
-  email: string;
-  phone: string;
-  segment: string;
-  address: string;
-  addressnumber: number;
-  note: string;
-  created_at: string;
-  updated_at?: string;
-};
+import { ClientsInterface } from "../../service/api/client/types";
 
 export function Clients(props: {
   clientService: ClientService;

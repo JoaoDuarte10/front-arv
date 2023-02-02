@@ -1,31 +1,11 @@
-import { LocalStorageService } from "./local-storage";
+import { normalizeResponse } from "../../http/fetch";
 import axios from "axios";
-import { Response, normalizeResponse } from "./fetch";
+import { LocalStorageService } from "../../localStorage/local-storage";
+import { OutgoingPaymentMethodEnums } from "../outgoing/types";
+import { SalesInterface, SalesReportsInterface } from "./types";
+import { Response } from "../../http/types";
 
-export enum OutgoingInstallmentEnums {
-  A_VISTA = "À vista",
-  PARCELADO = "Parcelado"
-}
-
-export enum OutgoingPaymentMethodEnums {
-  CARTAO_DE_CREDITO = "Cartão de crédito",
-  DINHEIRO = "Dinheiro",
-  PIX = "PIX",
-  BOLETO = "Boleto"
-}
-
-export type OutgoingInterface = {
-  idoutgoing?: number;
-  description: string;
-  date: Date | string;
-  total: number;
-  paymentMethod: OutgoingPaymentMethodEnums;
-  installment: boolean | OutgoingInstallmentEnums;
-  createdAt?: string;
-  updatedAt?: string;
-};
-
-export class OutgoingService {
+export class SalesService {
   private accessToken: string = "";
 
   constructor(
@@ -36,18 +16,28 @@ export class OutgoingService {
     if (token) this.accessToken = token;
   }
 
-  async create(params: OutgoingInterface): Promise<Response> {
+  async create(params: {
+    idclients: number | null;
+    description: string;
+    date: string;
+    total: number;
+    paymentPending: boolean;
+    paymentDate: string;
+    paymentMethod: OutgoingPaymentMethodEnums;
+  }): Promise<Response> {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
         .post(
-          `${this.baseUri}/api/outgoing`,
+          `${this.baseUri}/api/sales`,
           {
+            idclients: params.idclients,
             description: params.description,
             date: params.date,
             total: params.total,
-            paymentMethod: params.paymentMethod,
-            installment: params.installment
+            paymentStatus: params.paymentPending ? "PAID" : "PENDING",
+            paymentDate: params.paymentDate || null,
+            paymentMethod: params.paymentMethod
           },
           {
             headers: {
@@ -68,79 +58,11 @@ export class OutgoingService {
     return response;
   }
 
-  async fetchPaymentMethodEnums(): Promise<
-    Response<OutgoingPaymentMethodEnums>
-  > {
+  async findByDate(date: string): Promise<Response<SalesInterface[]>> {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
-        .get(`${this.baseUri}/api/outgoing/payment-enums`, {
-          headers: {
-            Authorization: `Bearer ${this.accessToken}`
-          }
-        })
-        .then(res => ({ data: res.data, status: res.status }))
-        .catch(err => ({
-          data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
-        }));
-      response = normalizeResponse(data, status);
-    } catch (error) {
-      response.error = true;
-      response.message = error.message;
-    }
-    return response;
-  }
-
-  async fetchInstallmentEnums(): Promise<Response<OutgoingInstallmentEnums>> {
-    let response: Response = {} as Response;
-    try {
-      const { data, status } = await axios
-        .get(`${this.baseUri}/api/outgoing/installment-enums`, {
-          headers: {
-            Authorization: `Bearer ${this.accessToken}`
-          }
-        })
-        .then(res => ({ data: res.data, status: res.status }))
-        .catch(err => ({
-          data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
-        }));
-      response = normalizeResponse(data, status);
-    } catch (error) {
-      response.error = true;
-      response.message = error.message;
-    }
-    return response;
-  }
-
-  async fetchAll(): Promise<Response<OutgoingInterface[]>> {
-    let response: Response = {} as Response;
-    try {
-      const { data, status } = await axios
-        .get(`${this.baseUri}/api/outgoing/all`, {
-          headers: {
-            Authorization: `Bearer ${this.accessToken}`
-          }
-        })
-        .then(res => ({ data: res.data, status: res.status }))
-        .catch(err => ({
-          data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
-        }));
-      response = normalizeResponse(data, status);
-    } catch (error) {
-      response.error = true;
-      response.message = error.message;
-    }
-    return response;
-  }
-
-  async fetchByDate(date: Date): Promise<Response<OutgoingInterface[]>> {
-    let response: Response = {} as Response;
-    try {
-      const { data, status } = await axios
-        .get(`${this.baseUri}/api/outgoing/date`, {
+        .get(`${this.baseUri}/api/sales/date`, {
           params: { date },
           headers: {
             Authorization: `Bearer ${this.accessToken}`
@@ -159,14 +81,14 @@ export class OutgoingService {
     return response;
   }
 
-  async fetchByPeriod(
-    date1: Date,
-    date2: Date
-  ): Promise<Response<OutgoingInterface[]>> {
+  async findByPeriod(
+    date1: string,
+    date2: string
+  ): Promise<Response<SalesInterface[]>> {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
-        .get(`${this.baseUri}/api/outgoing/period`, {
+        .get(`${this.baseUri}/api/sales/period`, {
           params: { date1, date2 },
           headers: {
             Authorization: `Bearer ${this.accessToken}`
@@ -185,12 +107,143 @@ export class OutgoingService {
     return response;
   }
 
-  async delete(idoutgoing: number): Promise<Response<OutgoingInterface[]>> {
+  async findByClient(idclients: number): Promise<Response<SalesInterface[]>> {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios
-        .delete(`${this.baseUri}/api/outgoing`, {
-          params: { idoutgoing },
+        .get(`${this.baseUri}/api/sales/client`, {
+          params: { idclients },
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
+
+  async findPending(): Promise<Response<SalesInterface[]>> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .get(`${this.baseUri}/api/sales/pending`, {
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
+
+  async findPendingByClient(
+    idclients: number
+  ): Promise<Response<SalesInterface[]>> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .get(`${this.baseUri}/api/sales/pending/client`, {
+          params: { idclients },
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
+
+  async registerPayment(idsales: number): Promise<Response<SalesInterface[]>> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .post(
+          `${this.baseUri}/api/sales/register-payment`,
+          {
+            idsales
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.accessToken}`
+            }
+          }
+        )
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
+
+  async delete(idsales: number): Promise<Response<SalesInterface[]>> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .delete(`${this.baseUri}/api/sales`, {
+          params: { idsales },
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
+
+  countTotalValueSales(prices: number[]): string {
+    return prices
+      .filter(item => !!item)
+      .reduce((acc, item) => acc + item, 0)
+      .toLocaleString("pt-br", { style: "currency", currency: "BRL" });
+  }
+
+  async findReports(
+    date1: string,
+    date2: string
+  ): Promise<Response<SalesReportsInterface>> {
+    let response: Response = {} as Response;
+    try {
+      const { data, status } = await axios
+        .get(`${this.baseUri}/api/sales/reports`, {
+          params: { date1, date2 },
           headers: {
             Authorization: `Bearer ${this.accessToken}`
           }

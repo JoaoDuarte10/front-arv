@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SalesService, SalesInterface } from "../../service/sales";
+import { SalesService } from "../../service/api/sales/sales";
 import { ContainerMain } from "../../components/containers/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
@@ -10,8 +10,7 @@ import { SearchButton } from "../../components/buttons/SearchButton";
 import { useSelector, useDispatch } from "react-redux";
 import { ReduceStore } from "../../app/store";
 import { clearClient, clientAdded } from "../../reducers/clients-slice";
-import { ClientsInterface } from "../clients/Clients";
-import { ClientService } from "../../service/client-service";
+import { ClientService } from "../../service/api/client/client-service";
 import ComboBoxList from "../../components/inputs/InputAutocompleteList";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { AlertError } from "../../components/alerts/AlertError";
@@ -22,6 +21,8 @@ import { TableSales } from "../../components/sales/TableSales";
 import { Collapse } from "@mui/material";
 import { ColorsBootstrap } from "../../components/modal/GenericModal";
 import { GenericButton } from "../../components/buttons/GenericButton";
+import { ClientsInterface } from "../../service/api/client/types";
+import { SalesInterface } from "../../service/api/sales/types";
 
 export function Sales(props: {
   salesService: SalesService;

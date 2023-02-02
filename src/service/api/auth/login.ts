@@ -1,10 +1,12 @@
 import axios from "axios";
-import { Response, normalizeResponse } from "./fetch";
+import { normalizeResponse } from "../../http/fetch";
+import { Response } from "../../http/types";
+import { SignIn } from "./types";
 
 export class LoginService {
   constructor(private readonly baseUri: string) {}
 
-  async signIn(params: { user: string; password: string }): Promise<any> {
+  async signIn(params: SignIn): Promise<any> {
     let response: Response = {} as Response;
     try {
       const { data, status } = await axios

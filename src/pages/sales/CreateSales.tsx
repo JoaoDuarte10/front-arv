@@ -2,22 +2,20 @@ import React, { useEffect, useState } from "react";
 import { ContainerMain } from "../../components/containers/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { ClientService } from "../../service/client-service";
-import { ClientsInterface } from "../clients/Clients";
+import { ClientService } from "../../service/api/client/client-service";
+import { ClientsInterface } from "../../service/api/client/types";
 import { useDispatch, useSelector } from "react-redux";
 import { clearClient, clientAdded } from "../../reducers/clients-slice";
 import { ReduceStore } from "../../app/store";
 import { TIMEOUT } from "../../utils/constants";
-import { SalesService } from "../../service/sales";
+import { SalesService } from "../../service/api/sales/sales";
 import { AlertError } from "../../components/alerts/AlertError";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { FormSales } from "./FormSales";
-import {
-  OutgoingPaymentMethodEnums,
-  OutgoingService
-} from "../../service/outgoing";
+import { OutgoingService } from "../../service/api/outgoing/outgoing";
+import { OutgoingPaymentMethodEnums } from "../../service/api/outgoing/types";
 
 export function CreateSales(props: {
   clientService: ClientService;

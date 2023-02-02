@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { ContainerMain } from "../../components/containers/ContainerMain";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { ScheduleInterface, ScheduleService } from "../../service/schedule";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { AlertError } from "../../components/alerts/AlertError";
@@ -16,18 +15,17 @@ import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
 import ComboBoxList from "../../components/inputs/InputAutocompleteList";
 import { ReduceStore } from "../../app/store";
 import { useSelector, useDispatch } from "react-redux";
-import { ClientService } from "../../service/client-service";
+import { ClientService } from "../../service/api/client/client-service";
 import { clearClient, clientAdded } from "../../reducers/clients-slice";
-import { ClientsInterface } from "../clients/Clients";
 import { TIMEOUT } from "../../utils/constants";
 import { format } from "date-fns";
 import { WhatsAppIconButton } from "../../components/buttons/WhatsAppIconButton";
 import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
 import { FormSchedule } from "../../components/FormSchedule";
 import { BasicEditModal } from "../../components/modal/BasicEditModal";
-import { WhatsAppService } from "../../service/whatsapp";
+import { WhatsAppService } from "../../service/api/whatsapp/whatsapp";
 import { FormSales } from "../sales/FormSales";
-import { SalesService } from "../../service/sales";
+import { SalesService } from "../../service/api/sales/sales";
 import { DivInline } from "../../components/containers/DivInline";
 import {
   ColorsBootstrap,
@@ -37,10 +35,11 @@ import { GenericButton } from "../../components/buttons/GenericButton";
 import { LabelForm } from "../../components/labels/LabelForm";
 import { LabelSmall } from "../../components/labels/LabelSmal";
 import { randomId } from "../../utils/random";
-import {
-  OutgoingPaymentMethodEnums,
-  OutgoingService
-} from "../../service/outgoing";
+import { ClientsInterface } from "../../service/api/client/types";
+import { OutgoingService } from "../../service/api/outgoing/outgoing";
+import { OutgoingPaymentMethodEnums } from "../../service/api/outgoing/types";
+import { ScheduleService } from "../../service/api/schedule/schedule";
+import { ScheduleInterface } from "../../service/api/schedule/types";
 
 export function Schedules(props: {
   clientService: ClientService;

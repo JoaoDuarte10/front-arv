@@ -1,8 +1,8 @@
 import React from "react";
 
-import { SegmentInterface } from "../service/segment";
+import { SegmentInterface } from "../service/api/segment/types";
 import { InputText } from "./inputs/InputText";
-import { DivInline } from "./divs/DivInline";
+import { DivInline } from "./containers/DivInline";
 
 type InputProps = {
   editSegment: Function;

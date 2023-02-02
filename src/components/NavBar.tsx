@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 import { ReduceStore } from "../app/store";
 import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
 import Collapse from "@mui/material/Collapse";
-import { LocalStorageService } from "../service/local-storage";
-import { RulesService } from "../service/rules";
+import { LocalStorageService } from "../service/localStorage/local-storage";
+import { RulesService } from "../service/api/rules/rules";
 import { randomId } from "../utils/random";
 
 export function NavBarResponsive(props: {

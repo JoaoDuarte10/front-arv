@@ -1,4 +1,4 @@
-import { LocalStorageService } from "./local-storage";
+import { LocalStorageService } from "../../localStorage/local-storage";
 
 export class RulesService {
   private rules: string[] = [];

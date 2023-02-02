@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { validateToken } from "./reducers/authenticated-slice";
 import { ReduceStore } from "./app/store";
-import { RulesService } from "./service/rules";
-import { LocalStorageService } from "./service/local-storage";
+import { RulesService } from "./service/api/rules/rules";
+import { LocalStorageService } from "./service/localStorage/local-storage";
 
 export function PrivateRoute(props: { children: any; rules?: string[] }) {
   const { children, rules } = props;

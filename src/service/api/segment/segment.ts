@@ -1,12 +1,7 @@
-import { LocalStorageService } from "./local-storage";
+import { LocalStorageService } from "../../localStorage/local-storage";
 import axios from "axios";
-import { Response, normalizeResponse } from "./fetch";
-
-export type SegmentInterface = {
-  idsegments: number;
-  name: string;
-  createdAt: string;
-};
+import { normalizeResponse } from "../../http/fetch";
+import { Response } from "../../http/types";
 
 export class SegmentService {
   private accessToken: string = "";

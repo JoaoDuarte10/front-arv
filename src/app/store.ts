@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import clientReducer from "../reducers/clients-slice";
-import { ClientsInterface } from "../pages/clients/Clients";
+import { ClientsInterface } from "../service/api/client/types";
 import authenticatedReducer, {
   UserLogin
 } from "../reducers/authenticated-slice";
 import segmentReducer from "../reducers/segment-sclice";
-import { SegmentInterface } from "../service/segment";
+import { SegmentInterface } from "../service/api/segment/types";
 
 export const store = configureStore({
   reducer: {

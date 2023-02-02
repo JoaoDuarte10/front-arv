@@ -10,7 +10,7 @@ import { CircularIndeterminate } from "../components/loaders/CircularLoader";
 import { AlertError } from "../components/alerts/AlertError";
 import { TIMEOUT } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
-import { LoginService } from "../service/login";
+import { LoginService } from "../service/api/auth/login";
 
 export function Login(props: { loginService: LoginService }) {
   const { loginService } = props;

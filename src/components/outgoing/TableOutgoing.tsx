@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
@@ -12,7 +12,8 @@ import Paper from "@mui/material/Paper";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { randomId } from "../../utils/random";
 import { format } from "date-fns";
-import { OutgoingInterface, OutgoingService } from "../../service/outgoing";
+import { OutgoingService } from "../../service/api/outgoing/outgoing";
+import { OutgoingInterface } from "../../service/api/outgoing/types";
 import TablePagination from "@mui/material/TablePagination";
 import { CircularIndeterminate } from "../loaders/CircularLoader";
 import { AlertSuccess } from "../alerts/AlertSuccess";

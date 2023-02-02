@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ReducerActionType } from "./types/reducer-type";
-import { LocalStorageService } from "../service/local-storage";
-import { JwtService } from "../service/jwt";
+import { LocalStorageService } from "../service/localStorage/local-storage";
+import { JwtService } from "../service/jwt/jwt";
 
 type UserLoginInitial = {
   username?: string;

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ReducerActionType } from "./types/reducer-type";
-import { SegmentInterface } from "../service/segment";
+import { SegmentInterface } from "../service/api/segment/types";
 
 const initialState: SegmentInterface[] = [];
 

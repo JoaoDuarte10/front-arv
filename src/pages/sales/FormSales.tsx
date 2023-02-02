@@ -2,20 +2,18 @@ import { FormControlLabel, Checkbox } from "@mui/material";
 import ComboBoxList from "../../components/inputs/InputAutocompleteList";
 import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
 import TextFieldMultiline from "../../components/inputs/TextFieldMultiline";
-import { mask } from "../../service/mask-money";
+import { mask } from "../../utils/mask-money";
 import React, { useEffect, useState } from "react";
-import { ClientsInterface } from "../clients/Clients";
-import { ScheduleInterface } from "../../service/schedule";
 import { format } from "date-fns";
 import { InputText } from "../../components/inputs/InputText";
 import { DivInline } from "../../components/containers/DivInline";
-import {
-  OutgoingPaymentMethodEnums,
-  OutgoingService
-} from "../../service/outgoing";
+import { OutgoingService } from "../../service/api/outgoing/outgoing";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { GenericButton } from "../../components/buttons/GenericButton";
 import { ColorsBootstrap } from "../../components/modal/GenericModal";
+import { ClientsInterface } from "../../service/api/client/types";
+import { OutgoingPaymentMethodEnums } from "../../service/api/outgoing/types";
+import { ScheduleInterface } from "../../service/api/schedule/types";
 
 type InputProps = {
   clients: ClientsInterface[];

@@ -1,14 +1,5 @@
-import { HTTP_RESPONSE } from "../utils/constants";
-export type Response<T = any> = {
-  success: boolean;
-  data: T;
-  unauthorized: boolean;
-  error: boolean;
-  message: null;
-  conflict: boolean;
-  badRequest: boolean;
-  notFound: boolean;
-};
+import { HTTP_RESPONSE } from "../../utils/constants";
+import { Response } from "./types";
 
 export function normalizeResponse(data: any, status: number): Response {
   const response: Response = {

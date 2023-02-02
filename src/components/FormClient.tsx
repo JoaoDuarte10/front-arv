@@ -3,11 +3,11 @@ import FullWidthTextField from "./inputs/TextFieldFullWidth";
 import InputMaskPhone from "./inputs/InputMaskPhone";
 import InputMaskNumber from "./inputs/InputMaskNumber";
 import TextFieldMultiline from "./inputs/TextFieldMultiline";
-import { ClientsInterface } from "../pages/clients/Clients";
-import { SegmentInterface } from "../service/segment";
+import { ClientsInterface } from "../service/api/client/types";
+import { SegmentInterface } from "../service/api/segment/types";
 import ComboBoxList from "./inputs/InputAutocompleteList";
-import { ContainerCardWhite } from "./divs/ContainerCardWhite";
-import { DivInline } from "./divs/DivInline";
+import { ContainerCardWhite } from "./containers/ContainerCardWhite";
+import { DivInline } from "./containers/DivInline";
 import { GenericButton } from "./buttons/GenericButton";
 import { ColorsBootstrap } from "./modal/GenericModal";
 

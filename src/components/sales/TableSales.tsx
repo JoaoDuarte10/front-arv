@@ -16,7 +16,8 @@ import {
   CheckCircle,
   Cancel
 } from "@mui/icons-material";
-import { SalesInterface, SalesService } from "../../service/sales";
+import { SalesService } from "../../service/api/sales/sales";
+import { SalesInterface } from "../../service/api/sales/types";
 import { randomId } from "../../utils/random";
 import { format } from "date-fns";
 import { AlertError } from "../alerts/AlertError";

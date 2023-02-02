@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { ReduceStore } from "../app/store";
-import { ClientsInterface } from "../pages/clients/Clients";
 import { clearClient, clientAdded } from "../reducers/clients-slice";
 import ComboBoxList from "./inputs/InputAutocompleteList";
 import FullWidthTextField from "./inputs/TextFieldFullWidth";
 import TextFieldMultiline from "./inputs/TextFieldMultiline";
 import { CircularIndeterminate } from "./loaders/CircularLoader";
-import { ClientService } from "../service/client-service";
-import { ScheduleInterface } from "../service/schedule";
+import { ClientService } from "../service/api/client/client-service";
+import { ScheduleInterface } from "../service/api/schedule/types";
 import { format } from "date-fns";
 import { InputText } from "./inputs/InputText";
-import { DivInline } from "./divs/DivInline";
-import { ContainerCardWhite } from "./divs/ContainerCardWhite";
+import { DivInline } from "./containers/DivInline";
+import { ContainerCardWhite } from "./containers/ContainerCardWhite";
 import { GenericButton } from "./buttons/GenericButton";
 import { ColorsBootstrap } from "./modal/GenericModal";
+import { ClientsInterface } from "../service/api/client/types";
 
 type InputProps = {
   clientService: ClientService;

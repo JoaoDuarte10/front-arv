@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ContainerMain } from "../../components/containers/ContainerMain";
-import { ScheduleService, ScheduleInterface } from "../../service/schedule";
+import { ScheduleService } from "../../service/api/schedule/schedule";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { Breadcumb } from "../../components/Breadcumb";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
@@ -12,6 +12,7 @@ import * as dateFns from "date-fns";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { TIMEOUT } from "../../utils/constants";
 import { randomId } from "../../utils/random";
+import { ScheduleInterface } from "../../service/api/schedule/types";
 
 export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
   const { scheduleService } = props;
