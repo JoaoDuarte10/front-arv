@@ -29,30 +29,27 @@ import { OutgoingService } from "./service/api/outgoing/outgoing";
 import { Outgoing } from "./pages/outgoing/Outgoing";
 import { CreateOutgoing } from "./pages/outgoing/CreateOutgoing";
 
+const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
+const LOCAL_STORAGE_LOGIN_KEY = process.env
+  .REACT_APP_LOCAL_STORAGE_KEY as string;
+
+const loginService = new LoginService(API_RV_BASE_URI);
+const localStorageService = new LocalStorageService(LOCAL_STORAGE_LOGIN_KEY);
+const clientService = new ClientService(API_RV_BASE_URI, localStorageService);
+const whatsAppService = new WhatsAppService();
+const segmentService = new SegmentService(API_RV_BASE_URI, localStorageService);
+const salesService = new SalesService(API_RV_BASE_URI, localStorageService);
+const scheduleService = new ScheduleService(
+  API_RV_BASE_URI,
+  localStorageService
+);
+const ruleService = new RulesService(localStorageService);
+export const outgoingService = new OutgoingService(
+  API_RV_BASE_URI,
+  localStorageService
+);
+
 export function RoutesApp() {
-  const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
-  const LOCAL_STORAGE_LOGIN_KEY = process.env
-    .REACT_APP_LOCAL_STORAGE_KEY as string;
-
-  const loginService = new LoginService(API_RV_BASE_URI);
-  const localStorageService = new LocalStorageService(LOCAL_STORAGE_LOGIN_KEY);
-  const clientService = new ClientService(API_RV_BASE_URI, localStorageService);
-  const whatsAppService = new WhatsAppService();
-  const segmentService = new SegmentService(
-    API_RV_BASE_URI,
-    localStorageService
-  );
-  const salesService = new SalesService(API_RV_BASE_URI, localStorageService);
-  const scheduleService = new ScheduleService(
-    API_RV_BASE_URI,
-    localStorageService
-  );
-  const ruleService = new RulesService(localStorageService);
-  const outgoingService = new OutgoingService(
-    API_RV_BASE_URI,
-    localStorageService
-  );
-
   const navBar = (
     <NavBarResponsive
       localStorageService={localStorageService}

@@ -3,7 +3,7 @@ import axios from "axios";
 import { LocalStorageService } from "../../localStorage/local-storage";
 import { OutgoingPaymentMethodEnums } from "../outgoing/types";
 import { SalesInterface, SalesReportsInterface } from "./types";
-import { Response } from "../../http/types";
+import { HttpResponse } from "../../http/types";
 
 export class SalesService {
   private accessToken: string = "";
@@ -24,8 +24,8 @@ export class SalesService {
     paymentPending: boolean;
     paymentDate: string;
     paymentMethod: OutgoingPaymentMethodEnums;
-  }): Promise<Response> {
-    let response: Response = {} as Response;
+  }): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .post(
@@ -58,8 +58,8 @@ export class SalesService {
     return response;
   }
 
-  async findByDate(date: string): Promise<Response<SalesInterface[]>> {
-    let response: Response = {} as Response;
+  async findByDate(date: string): Promise<HttpResponse<SalesInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/sales/date`, {
@@ -84,8 +84,8 @@ export class SalesService {
   async findByPeriod(
     date1: string,
     date2: string
-  ): Promise<Response<SalesInterface[]>> {
-    let response: Response = {} as Response;
+  ): Promise<HttpResponse<SalesInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/sales/period`, {
@@ -107,8 +107,10 @@ export class SalesService {
     return response;
   }
 
-  async findByClient(idclients: number): Promise<Response<SalesInterface[]>> {
-    let response: Response = {} as Response;
+  async findByClient(
+    idclients: number
+  ): Promise<HttpResponse<SalesInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/sales/client`, {
@@ -130,8 +132,8 @@ export class SalesService {
     return response;
   }
 
-  async findPending(): Promise<Response<SalesInterface[]>> {
-    let response: Response = {} as Response;
+  async findPending(): Promise<HttpResponse<SalesInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/sales/pending`, {
@@ -154,8 +156,8 @@ export class SalesService {
 
   async findPendingByClient(
     idclients: number
-  ): Promise<Response<SalesInterface[]>> {
-    let response: Response = {} as Response;
+  ): Promise<HttpResponse<SalesInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/sales/pending/client`, {
@@ -177,8 +179,10 @@ export class SalesService {
     return response;
   }
 
-  async registerPayment(idsales: number): Promise<Response<SalesInterface[]>> {
-    let response: Response = {} as Response;
+  async registerPayment(
+    idsales: number
+  ): Promise<HttpResponse<SalesInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .post(
@@ -205,8 +209,8 @@ export class SalesService {
     return response;
   }
 
-  async delete(idsales: number): Promise<Response<SalesInterface[]>> {
-    let response: Response = {} as Response;
+  async delete(idsales: number): Promise<HttpResponse<SalesInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .delete(`${this.baseUri}/api/sales`, {
@@ -238,8 +242,8 @@ export class SalesService {
   async findReports(
     date1: string,
     date2: string
-  ): Promise<Response<SalesReportsInterface>> {
-    let response: Response = {} as Response;
+  ): Promise<HttpResponse<SalesReportsInterface>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/sales/reports`, {

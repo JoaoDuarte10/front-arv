@@ -1,7 +1,7 @@
 import { LocalStorageService } from "../../localStorage/local-storage";
 import axios from "axios";
 import { normalizeResponse } from "../../http/fetch";
-import { Response } from "../../http/types";
+import { HttpResponse } from "../../http/types";
 
 export class SegmentService {
   private accessToken: string = "";
@@ -14,8 +14,8 @@ export class SegmentService {
     if (token) this.accessToken = token;
   }
 
-  async getAll(): Promise<Response> {
-    let response: Response = {} as Response;
+  async getAll(): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/segments`, {
@@ -36,8 +36,8 @@ export class SegmentService {
     return response;
   }
 
-  async create(segment: string): Promise<Response> {
-    let response: Response = {} as Response;
+  async create(segment: string): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .post(
@@ -64,8 +64,8 @@ export class SegmentService {
     return response;
   }
 
-  async update(idsegments: number, segment: string): Promise<Response> {
-    let response: Response = {} as Response;
+  async update(idsegments: number, segment: string): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .put(
@@ -93,8 +93,8 @@ export class SegmentService {
     return response;
   }
 
-  async delete(idsegments: number): Promise<Response> {
-    let response: Response = {} as Response;
+  async delete(idsegments: number): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .delete(`${this.baseUri}/api/segments`, {

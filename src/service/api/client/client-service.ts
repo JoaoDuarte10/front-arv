@@ -1,6 +1,6 @@
 import axios from "axios";
 import { LocalStorageService } from "../../localStorage/local-storage";
-import { Response } from "../../http/types";
+import { HttpResponse } from "../../http/types";
 import { normalizeResponse } from "../../http/fetch";
 
 export class ClientService {
@@ -14,8 +14,8 @@ export class ClientService {
     if (token) this.accessToken = token;
   }
 
-  async fetchAllClients(): Promise<Response> {
-    let response: Response = {} as Response;
+  async fetchAllClients(): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/client/all`, {
@@ -45,8 +45,8 @@ export class ClientService {
     addressNumber: number;
     note: string | null;
     idsegment: number | null;
-  }): Promise<Response> {
-    let response: Response = {} as Response;
+  }): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .post(
@@ -89,8 +89,8 @@ export class ClientService {
     addressNumber: number;
     note: string | null;
     idsegment: number | null;
-  }): Promise<Response> {
-    let response: Response = {} as Response;
+  }): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .put(
@@ -125,8 +125,8 @@ export class ClientService {
     return response;
   }
 
-  async deleteClient(idclients: number): Promise<Response> {
-    let response: Response = {} as Response;
+  async deleteClient(idclients: number): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .delete(`${this.baseUri}/api/client`, {

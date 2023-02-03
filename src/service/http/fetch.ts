@@ -1,8 +1,8 @@
 import { HTTP_RESPONSE } from "../../utils/constants";
-import { Response } from "./types";
+import { HttpResponse } from "./types";
 
-export function normalizeResponse(data: any, status: number): Response {
-  const response: Response = {
+export function normalizeResponse(data: any, status: number): HttpResponse {
+  const response: HttpResponse = {
     success: false,
     data: null,
     unauthorized: false,

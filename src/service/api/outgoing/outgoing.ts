@@ -6,7 +6,7 @@ import {
   OutgoingPaymentMethodEnums,
   OutgoingInstallmentEnums
 } from "./types";
-import { Response } from "../../http/types";
+import { HttpResponse } from "../../http/types";
 
 export class OutgoingService {
   private accessToken: string = "";
@@ -19,8 +19,8 @@ export class OutgoingService {
     if (token) this.accessToken = token;
   }
 
-  async create(params: OutgoingInterface): Promise<Response> {
-    let response: Response = {} as Response;
+  async create(params: OutgoingInterface): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .post(
@@ -52,9 +52,9 @@ export class OutgoingService {
   }
 
   async fetchPaymentMethodEnums(): Promise<
-    Response<OutgoingPaymentMethodEnums>
+    HttpResponse<OutgoingPaymentMethodEnums>
   > {
-    let response: Response = {} as Response;
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/outgoing/payment-enums`, {
@@ -75,8 +75,10 @@ export class OutgoingService {
     return response;
   }
 
-  async fetchInstallmentEnums(): Promise<Response<OutgoingInstallmentEnums>> {
-    let response: Response = {} as Response;
+  async fetchInstallmentEnums(): Promise<
+    HttpResponse<OutgoingInstallmentEnums>
+  > {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/outgoing/installment-enums`, {
@@ -97,8 +99,8 @@ export class OutgoingService {
     return response;
   }
 
-  async fetchAll(): Promise<Response<OutgoingInterface[]>> {
-    let response: Response = {} as Response;
+  async fetchAll(): Promise<HttpResponse<OutgoingInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/outgoing/all`, {
@@ -119,8 +121,8 @@ export class OutgoingService {
     return response;
   }
 
-  async fetchByDate(date: Date): Promise<Response<OutgoingInterface[]>> {
-    let response: Response = {} as Response;
+  async fetchByDate(date: Date): Promise<HttpResponse<OutgoingInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/outgoing/date`, {
@@ -145,8 +147,8 @@ export class OutgoingService {
   async fetchByPeriod(
     date1: Date,
     date2: Date
-  ): Promise<Response<OutgoingInterface[]>> {
-    let response: Response = {} as Response;
+  ): Promise<HttpResponse<OutgoingInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/outgoing/period`, {
@@ -168,8 +170,8 @@ export class OutgoingService {
     return response;
   }
 
-  async delete(idoutgoing: number): Promise<Response<OutgoingInterface[]>> {
-    let response: Response = {} as Response;
+  async delete(idoutgoing: number): Promise<HttpResponse<OutgoingInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .delete(`${this.baseUri}/api/outgoing`, {

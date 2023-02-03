@@ -1,4 +1,4 @@
-export type Response<T = any> = {
+export type HttpResponse<T = any> = {
   success: boolean;
   data: T;
   unauthorized: boolean;

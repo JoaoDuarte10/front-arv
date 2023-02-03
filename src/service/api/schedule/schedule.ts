@@ -2,7 +2,7 @@ import { normalizeResponse } from "../../http/fetch";
 import { LocalStorageService } from "../../localStorage/local-storage";
 import axios from "axios";
 import { ScheduleInterface } from "./types";
-import { Response } from "../../http/types";
+import { HttpResponse } from "../../http/types";
 
 export class ScheduleService {
   private accessToken: string = "";
@@ -15,8 +15,8 @@ export class ScheduleService {
     if (token) this.accessToken = token;
   }
 
-  async create(params: ScheduleInterface): Promise<Response<void>> {
-    let response: Response = {} as Response;
+  async create(params: ScheduleInterface): Promise<HttpResponse<void>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .post(
@@ -50,8 +50,8 @@ export class ScheduleService {
     return response;
   }
 
-  async update(params: ScheduleInterface): Promise<Response<void>> {
-    let response: Response = {} as Response;
+  async update(params: ScheduleInterface): Promise<HttpResponse<void>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .put(
@@ -89,8 +89,8 @@ export class ScheduleService {
 
   async fetchByIdClient(
     idclients: number
-  ): Promise<Response<ScheduleInterface[]>> {
-    let response: Response = {} as Response;
+  ): Promise<HttpResponse<ScheduleInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/client`, {
@@ -114,8 +114,8 @@ export class ScheduleService {
 
   async fetchByClientName(
     clientName: string
-  ): Promise<Response<ScheduleInterface[]>> {
-    let response: Response = {} as Response;
+  ): Promise<HttpResponse<ScheduleInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/client/name`, {
@@ -137,8 +137,8 @@ export class ScheduleService {
     return response;
   }
 
-  async fetchByDate(date: string): Promise<Response<ScheduleInterface[]>> {
-    let response: Response = {} as Response;
+  async fetchByDate(date: string): Promise<HttpResponse<ScheduleInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/date`, {
@@ -160,8 +160,8 @@ export class ScheduleService {
     return response;
   }
 
-  async fetchAllExpireds(): Promise<Response<ScheduleInterface[]>> {
-    let response: Response = {} as Response;
+  async fetchAllExpireds(): Promise<HttpResponse<ScheduleInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/expireds`, {
@@ -182,8 +182,8 @@ export class ScheduleService {
     return response;
   }
 
-  async delete(idschedules: number): Promise<Response> {
-    let response: Response = {} as Response;
+  async delete(idschedules: number): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .delete(`${this.baseUri}/api/schedule`, {
@@ -205,8 +205,8 @@ export class ScheduleService {
     return response;
   }
 
-  async finish(idschedules: number): Promise<Response> {
-    let response: Response = {} as Response;
+  async finish(idschedules: number): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .post(
@@ -231,8 +231,8 @@ export class ScheduleService {
     return response;
   }
 
-  async expireds(): Promise<Response> {
-    let response: Response = {} as Response;
+  async expireds(): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/expireds`, {
@@ -253,8 +253,8 @@ export class ScheduleService {
     return response;
   }
 
-  async fetchAllHistory(): Promise<Response> {
-    let response: Response = {} as Response;
+  async fetchAllHistory(): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/finished`, {
@@ -275,8 +275,8 @@ export class ScheduleService {
     return response;
   }
 
-  async fetchMostRecentFrom(fromDate: Date): Promise<Response> {
-    let response: Response = {} as Response;
+  async fetchMostRecentFrom(fromDate: Date): Promise<HttpResponse> {
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/finished/from-date`, {

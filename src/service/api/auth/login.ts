@@ -1,13 +1,13 @@
 import axios from "axios";
 import { normalizeResponse } from "../../http/fetch";
-import { Response } from "../../http/types";
+import { HttpResponse } from "../../http/types";
 import { SignIn } from "./types";
 
 export class LoginService {
   constructor(private readonly baseUri: string) {}
 
   async signIn(params: SignIn): Promise<any> {
-    let response: Response = {} as Response;
+    let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
         .post(`${this.baseUri}/api/users/login`, {
