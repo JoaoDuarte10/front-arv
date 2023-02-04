@@ -180,13 +180,13 @@ export class SalesService {
   }
 
   async fetchByAllFilter(params: {
-    idclients: number,
-    date: string,
+    idclients: number;
+    date: string;
     period: {
-      date1: string,
-      date2: string,
-    },
-    pending: boolean
+      date1: string;
+      date2: string;
+    };
+    pending: boolean;
   }): Promise<HttpResponse<SalesInterface[]>> {
     let response: HttpResponse = {} as HttpResponse;
     try {

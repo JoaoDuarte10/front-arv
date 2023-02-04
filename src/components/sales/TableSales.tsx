@@ -28,7 +28,9 @@ import { BasicDeleteModal } from "../modal/BasicDeleteModal";
 import { CircularIndeterminate } from "../loaders/CircularLoader";
 import TablePagination from "@mui/material/TablePagination";
 
-import ptBR from 'date-fns/locale/pt-BR'
+import ptBR from "date-fns/locale/pt-BR";
+import { BasicPopover, SelectorPoppover } from "../popover/index";
+import { useNavigate } from "react-router-dom";
 
 type InputProps = {
   sales: SalesInterface[];
@@ -120,6 +122,7 @@ function createData(sale: SalesInterface) {
     client: sale.client,
     date: sale.date,
     description: sale.description,
+    idclients: sale.idclients,
     info: [
       {
         total: Number(sale.total),
@@ -137,6 +140,8 @@ function Row(props: {
   salesService: SalesService;
   keyId: string;
 }) {
+  const navigate = useNavigate();
+
   const { row, salesService, keyId } = props;
   const [open, setOpen] = useState<boolean>(false);
 
@@ -185,35 +190,61 @@ function Row(props: {
     }
   };
 
-  const copySale = async (e: React.BaseSyntheticEvent, sale: ReturnType<typeof createData>) => {
+  const copySale = async (
+    e: React.BaseSyntheticEvent,
+    sale: ReturnType<typeof createData>
+  ) => {
     e.preventDefault();
-    const saleIsPaid = sale.info[0].paymentStatus === 'PAID';
+    const saleIsPaid = sale.info[0].paymentStatus === "PAID";
     const saleInfo = `Olá ${sale.client}, tudo bem?
 
-Registrei uma nova venda para você referente à ${sale.description}, do dia ${new Date(row.date).toLocaleDateString("pt-BR", {
+Registrei uma nova venda para você referente à ${
+      sale.description
+    }, do dia ${new Date(row.date).toLocaleDateString("pt-BR", {
       timeZone: "UTC"
     })}.
 
-E gostaria de informar que o seu pagamento no valor de ${sale.info[0].total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} ${saleIsPaid ? `foi recebido ${formatDistance(new Date(sale.info[0].paymentDate), new Date(), { locale: ptBR, addSuffix: true })} :)` : 'ainda está pendente'}
+E gostaria de informar que o seu pagamento no valor de ${sale.info[0].total.toLocaleString(
+      "pt-BR",
+      { style: "currency", currency: "BRL" }
+    )} ${
+      saleIsPaid
+        ? `foi recebido ${formatDistance(
+            new Date(sale.info[0].paymentDate),
+            new Date(),
+            { locale: ptBR, addSuffix: true }
+          )} :)`
+        : "ainda está pendente"
+    }
 
-${saleIsPaid && sale.info[0].paymentMethod ? `Forma de pagamento: ${sale.info[0].paymentMethod}` : null}
+${
+  saleIsPaid && sale.info[0].paymentMethod
+    ? `Forma de pagamento: ${sale.info[0].paymentMethod}`
+    : ""
+}
 
 Código da venda: ${sale.idsales}
 
-Agradecemos a confiança!!!`
+Agradecemos a confiança!!!`;
 
+    unsecuredCopyToClipboard(saleInfo);
 
-    if (window.isSecureContext && navigator.clipboard) {
-      await navigator.clipboard.writeText(saleInfo)
-    } else {
-      unsecuredCopyToClipboard(saleInfo);
+    alert("Texto copiado!");
+  };
+
+  const unsecuredCopyToClipboard = (text: any) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand("copy");
+    } catch (err) {
+      console.error("Unable to copy to clipboard", err);
     }
-
-    alert('Texto copiado!')
-
-  }
-
-  const unsecuredCopyToClipboard = (text: any) => { const textArea = document.createElement("textarea"); textArea.value = text; document.body.appendChild(textArea); textArea.focus(); textArea.select(); try { document.execCommand('copy') } catch (err) { console.error('Unable to copy to clipboard', err) } document.body.removeChild(textArea) };
+    document.body.removeChild(textArea);
+  };
 
   if (alertInfo) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
@@ -234,8 +265,28 @@ Agradecemos a confiança!!!`
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {row.client}
+        <TableCell
+          component="th"
+          scope="row"
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center"
+          }}
+        >
+          <>
+            {row.client}
+            <BasicPopover
+              actions={[
+                {
+                  selector: SelectorPoppover.view,
+                  handleSubmit: () => {
+                    navigate(`/info-client/${row.idclients}`);
+                  }
+                }
+              ]}
+            />
+          </>
         </TableCell>
         <TableCell align="center">
           {new Date(row.date).toLocaleDateString("pt-BR", {
@@ -289,10 +340,11 @@ Agradecemos a confiança!!!`
                 )}
                 <button
                   className="btn btn-outline-primary"
-                  onClick={(e) => copySale(e, row)}
+                  onClick={e => copySale(e, row)}
                   style={{
                     borderRadius: "15px",
-                    fontSize: "13px"
+                    fontSize: "13px",
+                    margin: "0 10px"
                   }}
                 >
                   Copiar texto
@@ -398,6 +450,6 @@ Agradecemos a confiança!!!`
           </Collapse>
         </TableCell>
       </TableRow>
-    </React.Fragment >
+    </React.Fragment>
   );
 }

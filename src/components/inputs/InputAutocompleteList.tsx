@@ -14,7 +14,16 @@ type InputProps = {
 };
 
 export default function ComboBoxList(props: InputProps) {
-  const { options, label, value, onChange, style, className, small, disabled = false } = props;
+  const {
+    options,
+    label,
+    value,
+    onChange,
+    style,
+    className,
+    small,
+    disabled = false
+  } = props;
 
   return (
     <Autocomplete

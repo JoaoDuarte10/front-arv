@@ -4,7 +4,7 @@ import { Typography, Checkbox, FormControlLabel } from "@mui/material";
 import ComboBoxList from "../inputs/InputAutocompleteList";
 
 import * as S from "./style";
-import { randomId } from '../../utils/random';
+import { randomId } from "../../utils/random";
 
 export enum TypeMultiFilter {
   date = "date",
@@ -145,22 +145,20 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
         </div>
       ),
       check: (
-        <>
-          <FormControlLabel
-            control={
-              <Checkbox
-                onChange={filter.handleChangeValue}
-                color="primary"
-                checked={filter.value as boolean}
-              />
-            }
-            label=""
-            sx={{
-              paddingLeft: "5px"
-            }}
-            disabled={filter.disabled}
-          />
-        </>
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={filter.handleChangeValue}
+              color="primary"
+              checked={filter.value as boolean}
+            />
+          }
+          label=""
+          sx={{
+            paddingLeft: "5px"
+          }}
+          disabled={filter.disabled}
+        />
       )
     };
   };
@@ -203,7 +201,8 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
               >
                 <div
                   style={{
-                    width: filter.type === TypeMultiFilter.check ? '150px' : "80px",
+                    width:
+                      filter.type === TypeMultiFilter.check ? "150px" : "80px",
                     margin: "5px 0"
                   }}
                 >

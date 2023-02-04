@@ -174,8 +174,6 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       />
       <TitlePrincipal title="Despesas" />
 
-      {alert}
-
       <TableMultiFilter
         filters={[
           {
@@ -184,7 +182,8 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
             placeholder: "",
             type: TypeMultiFilter.date,
             handleChangeValue: (e: any) => setDate(e.target.value),
-            disabled: period.date1 || period.date2 || allOutgoingFilter ? true : false
+            disabled:
+              period.date1 || period.date2 || allOutgoingFilter ? true : false
           },
           {
             label: "Periodo",
@@ -222,6 +221,8 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
         }}
         handleSubmit={handleSubmitFilters}
       />
+
+      {alert}
 
       {outgoing.length ? (
         <div>

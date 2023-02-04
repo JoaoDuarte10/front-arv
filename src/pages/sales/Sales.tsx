@@ -36,16 +36,6 @@ export function Sales(props: {
 
   const dispatch = useDispatch();
 
-  const [searchFilterDateEnable, setSearchFilterDateEnable] = useState<boolean>(
-    false
-  );
-  const [searchFilterPeriodEnable, setSearchFilterPeriodEnable] = useState<
-    boolean
-  >(false);
-  const [searchFilterClientEnable, setSearchFilterClientEnable] = useState<
-    boolean
-  >(false);
-
   const [date, setDate] = useState<string>("");
   const [period, setPeriod] = useState<{ date1: string; date2: string }>({
     date1: "",
@@ -60,7 +50,20 @@ export function Sales(props: {
 
   const clientsCache = useSelector((state: ReduceStore) => state.client);
   const [clients, setClients] = useState<ClientsInterface[]>([]);
-  const [sales, setSales] = useState<SalesInterface[]>([]);
+  const [sales, setSales] = useState<SalesInterface[]>([
+    {
+      idsales: 40,
+      idclients: 75,
+      client: "Be Truck",
+      description: "Salário",
+      date: "2023-02-01T00:00:00.000Z",
+      total: 500,
+      paymentStatus: "PENDING",
+      paymentDate: "2023-02-06T00:00:00.000Z",
+      paymentMethod: "BILLET" as any,
+      createdAt: "2023-02-04T02:27:39.769Z"
+    }
+  ]);
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
   const [loader, setLoader] = useState<JSX.Element | null>(null);
@@ -190,7 +193,14 @@ export function Sales(props: {
 
   const fetchByAllFilters = async () => {
     setLoader(<CircularIndeterminate />);
-    const { success, data, error, notFound, badRequest, message } = await salesService.fetchByAllFilter({
+    const {
+      success,
+      data,
+      error,
+      notFound,
+      badRequest,
+      message
+    } = await salesService.fetchByAllFilter({
       idclients: clientSelected.idclients as number,
       date,
       period,
@@ -235,8 +245,6 @@ export function Sales(props: {
       />
       <TitlePrincipal title="Suas vendas" />
 
-      {alert}
-
       <TableMultiFilter
         filters={[
           {
@@ -280,7 +288,12 @@ export function Sales(props: {
               e: React.BaseSyntheticEvent,
               item: { label: string; value: number }
             ) => {
-              if (typeof item === 'object' && item && item.label && item.value) {
+              if (
+                typeof item === "object" &&
+                item &&
+                item.label &&
+                item.value
+              ) {
                 setClientSelected({
                   label: item.label,
                   idclients: item.value
@@ -306,6 +319,8 @@ export function Sales(props: {
         }}
         handleSubmit={handleSubmitFilters}
       />
+
+      {alert}
 
       {sales.length ? (
         <div>

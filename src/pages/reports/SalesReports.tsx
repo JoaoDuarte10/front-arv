@@ -14,7 +14,10 @@ import { TIMEOUT } from "../../utils/constants";
 import { randomId } from "../../utils/random";
 import { LabelForm } from "../../components/labels/LabelForm";
 import { LabelSmall } from "../../components/labels/LabelSmal";
-import { TableMultiFilter, TypeMultiFilter } from '../../components/tableMultiFilter/index';
+import {
+  TableMultiFilter,
+  TypeMultiFilter
+} from "../../components/tableMultiFilter/index";
 
 export function SalesReports(props: { salesService: SalesService }) {
   const { salesService } = props;
@@ -201,8 +204,18 @@ export function SalesReports(props: { salesService: SalesService }) {
     if (lastMonthFilter) {
       await fetchReportsWithLastMonth();
     }
-    return true
-  }
+
+    if (
+      !currentWeekFilter &&
+      !lastWeekFilter &&
+      !currentMonthFilter &&
+      !lastMonthFilter
+    ) {
+      setAlert(<AlertInfo title="Selecione um período." />);
+    }
+
+    return true;
+  };
 
   if (alert) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
@@ -219,7 +232,6 @@ export function SalesReports(props: { salesService: SalesService }) {
       <TitlePrincipal title="Relatório de vendas" />
 
       {loader}
-      {alert}
 
       <TableMultiFilter
         filters={[
@@ -257,10 +269,15 @@ export function SalesReports(props: { salesService: SalesService }) {
           }
         ]}
         clearFilters={(e: React.BaseSyntheticEvent) => {
-          
+          setCurrentMonthFilter(false);
+          setCurrentWeekFilter(false);
+          setLastMonthFilter(false);
+          setLastWeekFilter(false);
         }}
         handleSubmit={handleSubmitFilters}
       />
+
+      {alert}
 
       {findSelected.name ? (
         <LabelForm text={findSelected.name} className="mt-2">

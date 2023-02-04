@@ -14,9 +14,9 @@ export const ContainerFilter = styled.div`
   }
 `;
 
-export const ContainerRowsFilter = styled.div<{check: boolean}>`
+export const ContainerRowsFilter = styled.div<{ check: boolean }>`
   display: flex;
-  flex-wrap: ${p => p.check ? 'no-wrap' : 'wrap'};
+  flex-wrap: ${p => (p.check ? "no-wrap" : "wrap")};
   justify-content: space-around;
   align-items: center;
   padding: 5px 10px;
@@ -26,10 +26,10 @@ export const ContainerRowsFilter = styled.div<{check: boolean}>`
   }
 `;
 
-export const ContainerColumnSelectorFilter = styled.div<{check: boolean}>`
+export const ContainerColumnSelectorFilter = styled.div<{ check: boolean }>`
   width: 80%;
 
   @media (max-width: 600px) {
-    width: ${p => p.check ? '80%' : '100%'};
+    width: ${p => (p.check ? "80%" : "100%")};
   }
 `;
