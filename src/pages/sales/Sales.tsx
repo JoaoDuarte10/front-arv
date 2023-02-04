@@ -23,6 +23,10 @@ import { ColorsBootstrap } from "../../components/modal/GenericModal";
 import { GenericButton } from "../../components/buttons/GenericButton";
 import { ClientsInterface } from "../../service/api/client/types";
 import { SalesInterface } from "../../service/api/sales/types";
+import {
+  TableMultiFilter,
+  TypeMultiFilter
+} from "../../components/tableMultiFilter/index";
 
 export function Sales(props: {
   salesService: SalesService;
@@ -47,10 +51,11 @@ export function Sales(props: {
     date1: "",
     date2: ""
   });
+  const [pending, setPending] = useState<boolean>(false);
 
   const [clientSelected, setClientSelected] = useState<{
     label: string;
-    idclients: number;
+    idclients: number | null;
   }>({ label: "", idclients: 0 });
 
   const clientsCache = useSelector((state: ReduceStore) => state.client);
@@ -150,7 +155,7 @@ export function Sales(props: {
       error,
       notFound,
       badRequest
-    } = await salesService.findByClient(clientSelected.idclients);
+    } = await salesService.findByClient(clientSelected.idclients as number);
     setLoader(null);
 
     if (success) {
@@ -189,6 +194,31 @@ export function Sales(props: {
     }
   };
 
+  const handleSubmitFilters = async () => {
+    if (date) {
+      await fetchSalesByDate();
+      return true;
+    }
+
+    if (period.date1 && period.date2) {
+      await fetchSalesByPeriod();
+      return true;
+    }
+
+    if (clientSelected.idclients) {
+      await fetchSalesByClient();
+      return true;
+    }
+
+    if (pending) {
+      await fetchPenging();
+      return true;
+    }
+
+    setAlert(<AlertInfo title="Preencha os filtros corretamente" />);
+    return false;
+  };
+
   if (alert) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
   }
@@ -204,193 +234,75 @@ export function Sales(props: {
       />
       <TitlePrincipal title="Suas vendas" />
 
-      <div className="filter_buttons">
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => {
-            setSearchFilterClientEnable(false);
-            setSearchFilterPeriodEnable(false);
-            setSearchFilterDateEnable(!searchFilterDateEnable);
-          }}
-          text="Data"
-        />
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => {
-            setSearchFilterDateEnable(false);
-            setSearchFilterClientEnable(false);
-            setSearchFilterPeriodEnable(!searchFilterPeriodEnable);
-          }}
-          text="Período"
-        />
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => {
-            setSearchFilterDateEnable(false);
-            setSearchFilterPeriodEnable(false);
-            setSearchFilterClientEnable(!searchFilterClientEnable);
-          }}
-          text="Cliente"
-        />
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => fetchPenging()}
-          text="Pendentes"
-        />
-        <ClearSearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => {
-            setDate("");
-            setClientSelected({ label: "", idclients: 0 });
-            setPeriod({ date1: "", date2: "" });
-          }}
-        />
-      </div>
-
-      <Collapse in={searchFilterDateEnable} timeout="auto" unmountOnExit>
-        <div className="filter_buttons">
-          <small className="font-weight-bold">Selecione a data</small>
-          <div
-            style={{
-              display: "flex"
-            }}
-          >
-            <FullWidthTextField
-              type="date"
-              fnChange={(e: React.BaseSyntheticEvent) =>
-                setDate(e.target.value)
-              }
-              label=""
-              value={date}
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              marginTop: "10px"
-            }}
-          >
-            <GenericButton
-              text="Fechar"
-              color={ColorsBootstrap.secondary}
-              onClick={(e: React.SyntheticEvent) => {
-                closeActionButtons();
-              }}
-              col={false}
-            />
-            <SearchButton
-              onClick={(e: React.BaseSyntheticEvent) => fetchSalesByDate()}
-            />
-          </div>
-        </div>
-      </Collapse>
-
-      <Collapse in={searchFilterPeriodEnable} timeout="auto" unmountOnExit>
-        <div className="filter_buttons">
-          <div
-            className="form-row"
-            style={{
-              maxWidth: "380px"
-            }}
-          >
-            <div className="col">
-              <small className="font-weight-bold">Inicial</small>
-              <FullWidthTextField
-                type="date"
-                fnChange={(e: React.BaseSyntheticEvent) =>
-                  setPeriod({ date1: e.target.value, date2: period.date2 })
-                }
-                label=""
-                value={period.date1}
-              />
-            </div>
-            <div className="col">
-              <small className="font-weight-bold">Final</small>
-              <div className="">
-                <FullWidthTextField
-                  type="date"
-                  fnChange={(e: React.BaseSyntheticEvent) =>
-                    setPeriod({ date1: period.date1, date2: e.target.value })
-                  }
-                  label=""
-                  value={period.date2}
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              marginTop: "10px"
-            }}
-          >
-            <GenericButton
-              text="Fechar"
-              color={ColorsBootstrap.secondary}
-              onClick={(e: React.SyntheticEvent) => {
-                closeActionButtons();
-              }}
-              col={false}
-            />
-            <SearchButton
-              onClick={(e: React.BaseSyntheticEvent) => fetchSalesByPeriod()}
-            />
-          </div>
-        </div>
-      </Collapse>
-
-      <Collapse in={searchFilterClientEnable} timeout="auto" unmountOnExit>
-        <div className="filter_buttons">
-          <div
-            style={{
-              display: "flex"
-            }}
-          >
-            <ComboBoxList
-              label="Selecione o cliente"
-              options={clients.map(item => {
-                return {
-                  label: item.name,
-                  idclients: item.idclients
-                };
-              })}
-              onChange={(
-                e: React.BaseSyntheticEvent,
-                item: { label: string; idclients: number }
-              ) => {
-                if (item) {
-                  setClientSelected({
-                    label: item.label,
-                    idclients: item.idclients
-                  });
-                } else {
-                  setClientSelected({ label: "", idclients: 0 });
-                }
-              }}
-              style={{
-                width: "300px",
-                margin: "5px 0"
-              }}
-              value={clientSelected.label}
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              marginTop: "10px"
-            }}
-          >
-            <GenericButton
-              text="Fechar"
-              color={ColorsBootstrap.secondary}
-              onClick={(e: React.SyntheticEvent) => {
-                closeActionButtons();
-              }}
-              col={false}
-            />
-            <SearchButton
-              onClick={(e: React.BaseSyntheticEvent) => fetchSalesByClient()}
-            />
-          </div>
-        </div>
-      </Collapse>
-
       {alert}
+
+      <TableMultiFilter
+        filters={[
+          {
+            label: "Data",
+            value: date,
+            placeholder: "",
+            type: TypeMultiFilter.date,
+            handleChangeValue: (e: any) => setDate(e.target.value)
+          },
+          {
+            label: "Periodo",
+            value: "",
+            placeholder: "",
+            type: TypeMultiFilter.period,
+            handleChangeValue: () => null,
+            period: {
+              date1: {
+                value: period.date1,
+                handleChangeValue: (e: React.BaseSyntheticEvent) =>
+                  setPeriod({ date1: e.target.value, date2: period.date2 })
+              },
+              date2: {
+                value: period.date2,
+                handleChangeValue: (e: React.BaseSyntheticEvent) =>
+                  setPeriod({ date1: period.date1, date2: e.target.value })
+              }
+            }
+          },
+          {
+            label: "Clientes",
+            value: clientSelected.label,
+            placeholder: "Selecione o cliente",
+            type: TypeMultiFilter.select,
+            options: clients.map(client => ({
+              label: client.name,
+              value: client.idclients
+            })),
+            handleChangeValue: (
+              e: React.BaseSyntheticEvent,
+              item: { label: string; value: number }
+            ) => {
+              if (item) {
+                setClientSelected({
+                  label: item.label,
+                  idclients: item.value
+                });
+              } else {
+                setClientSelected({ label: "", idclients: null });
+              }
+            }
+          },
+          {
+            label: "Pendentes",
+            value: pending,
+            placeholder: "Pendentes",
+            type: TypeMultiFilter.check,
+            handleChangeValue: () => setPending(!pending)
+          }
+        ]}
+        clearFilters={(e: React.BaseSyntheticEvent) => {
+          setDate("");
+          setClientSelected({ label: "", idclients: null });
+          setPeriod({ date1: "", date2: "" });
+          setPending(false);
+        }}
+        handleSubmit={handleSubmitFilters}
+      />
 
       {sales.length ? (
         <div>

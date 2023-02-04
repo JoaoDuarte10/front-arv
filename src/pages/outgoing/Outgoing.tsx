@@ -16,6 +16,10 @@ import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
 import { SearchButton } from "../../components/buttons/SearchButton";
 import { TableOutgoing } from "../../components/outgoing/TableOutgoing";
 import { countTotalValues } from "../../utils/sum";
+import {
+  TableMultiFilter,
+  TypeMultiFilter
+} from "../../components/tableMultiFilter/index";
 
 export function Outgoing(props: { outgoingService: OutgoingService }) {
   const { outgoingService } = props;
@@ -27,6 +31,8 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
     date1: "",
     date2: ""
   });
+
+  const [allOutgoingFilter, setAllOutgoingFilter] = useState<boolean>(false);
 
   const [searchFilterDateEnable, setSearchFilterDateEnable] = useState<boolean>(
     false
@@ -133,6 +139,26 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
     setSearchFilterDateEnable(false);
   };
 
+  const handleSubmitFilters = async () => {
+    if (date) {
+      await fetchByDate();
+      return true;
+    }
+
+    if (period.date1 && period.date2) {
+      await fetchByPeriod();
+      return true;
+    }
+
+    if (allOutgoingFilter) {
+      await fetchAll();
+      return true;
+    }
+
+    setAlert(<AlertInfo title="Preencha os filtros corretamente" />);
+    return false;
+  };
+
   if (alert) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
   }
@@ -148,122 +174,51 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       />
       <TitlePrincipal title="Despesas" />
 
-      <div className="filter_buttons">
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => {
-            setSearchFilterPeriodEnable(false);
-            setSearchFilterDateEnable(!searchFilterDateEnable);
-          }}
-          text="Data"
-        />
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => {
-            setSearchFilterDateEnable(false);
-            setSearchFilterPeriodEnable(!searchFilterPeriodEnable);
-          }}
-          text="Período"
-        />
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => fetchAll()}
-          text="Todas"
-        />
-        <ClearSearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => {
-            setDate("");
-            setPeriod({ date1: "", date2: "" });
-          }}
-        />
-      </div>
-
-      <Collapse in={searchFilterDateEnable} timeout="auto" unmountOnExit>
-        <div className="filter_buttons">
-          <small className="font-weight-bold">Selecione a data</small>
-          <div
-            style={{
-              display: "flex"
-            }}
-          >
-            <FullWidthTextField
-              type="date"
-              fnChange={(e: React.BaseSyntheticEvent) =>
-                setDate(e.target.value)
-              }
-              label=""
-              value={date}
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              marginTop: "10px"
-            }}
-          >
-            <button
-              className="btn btn-secondary font-weight-bold"
-              onClick={e => closeActionButtons()}
-            >
-              Fechar
-            </button>
-            <SearchButton
-              onClick={(e: React.BaseSyntheticEvent) => fetchByDate()}
-            />
-          </div>
-        </div>
-      </Collapse>
-
-      <Collapse in={searchFilterPeriodEnable} timeout="auto" unmountOnExit>
-        <div className="filter_buttons">
-          <div
-            className="form-row"
-            style={{
-              maxWidth: "380px"
-            }}
-          >
-            <div className="col">
-              <small className="font-weight-bold">Inicial</small>
-              <FullWidthTextField
-                type="date"
-                fnChange={(e: React.BaseSyntheticEvent) =>
-                  setPeriod({ date1: e.target.value, date2: period.date2 })
-                }
-                label=""
-                value={period.date1}
-              />
-            </div>
-            <div className="col">
-              <small className="font-weight-bold">Final</small>
-              <div className="">
-                <FullWidthTextField
-                  type="date"
-                  fnChange={(e: React.BaseSyntheticEvent) =>
-                    setPeriod({ date1: period.date1, date2: e.target.value })
-                  }
-                  label=""
-                  value={period.date2}
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              marginTop: "10px"
-            }}
-          >
-            <button
-              className="btn btn-secondary font-weight-bold"
-              onClick={e => closeActionButtons()}
-            >
-              Fechar
-            </button>
-            <SearchButton
-              onClick={(e: React.BaseSyntheticEvent) => fetchByPeriod()}
-            />
-          </div>
-        </div>
-      </Collapse>
-
       {alert}
+
+      <TableMultiFilter
+        filters={[
+          {
+            label: "Data",
+            value: date,
+            placeholder: "",
+            type: TypeMultiFilter.date,
+            handleChangeValue: (e: any) => setDate(e.target.value)
+          },
+          {
+            label: "Periodo",
+            value: "",
+            placeholder: "",
+            type: TypeMultiFilter.period,
+            handleChangeValue: () => null,
+            period: {
+              date1: {
+                value: period.date1,
+                handleChangeValue: (e: React.BaseSyntheticEvent) =>
+                  setPeriod({ date1: e.target.value, date2: period.date2 })
+              },
+              date2: {
+                value: period.date2,
+                handleChangeValue: (e: React.BaseSyntheticEvent) =>
+                  setPeriod({ date1: period.date1, date2: e.target.value })
+              }
+            }
+          },
+          {
+            label: "Todas as despesas",
+            value: allOutgoingFilter,
+            placeholder: "",
+            type: TypeMultiFilter.check,
+            handleChangeValue: () => setAllOutgoingFilter(!allOutgoingFilter)
+          }
+        ]}
+        clearFilters={(e: React.BaseSyntheticEvent) => {
+          setDate("");
+          setPeriod({ date1: "", date2: "" });
+          setAllOutgoingFilter(false);
+        }}
+        handleSubmit={handleSubmitFilters}
+      />
 
       {outgoing.length ? (
         <div>

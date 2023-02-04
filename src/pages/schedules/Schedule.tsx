@@ -40,6 +40,10 @@ import { OutgoingService } from "../../service/api/outgoing/outgoing";
 import { OutgoingPaymentMethodEnums } from "../../service/api/outgoing/types";
 import { ScheduleService } from "../../service/api/schedule/schedule";
 import { ScheduleInterface } from "../../service/api/schedule/types";
+import {
+  TableMultiFilter,
+  TypeMultiFilter
+} from "../../components/tableMultiFilter/index";
 
 export function Schedules(props: {
   clientService: ClientService;
@@ -82,6 +86,17 @@ export function Schedules(props: {
   );
   const [clients, setClients] = useState<ClientsInterface[]>([]);
 
+  const [errors, setErrors] = useState({
+    date: {
+      error: false,
+      label: ""
+    },
+    client: {
+      error: false,
+      label: ""
+    }
+  });
+
   const getAllClients = async () => {
     setLoader(<CircularIndeterminate />);
     const { success, data } = await clientService.fetchAllClients();
@@ -97,7 +112,9 @@ export function Schedules(props: {
   };
 
   const fetchExpireds = async () => {
+    setLoader(<CircularIndeterminate />);
     const { success, data } = await scheduleService.expireds();
+    setLoader(null);
 
     if (success) {
       setSchedules(data);
@@ -293,6 +310,33 @@ export function Schedules(props: {
     setSearchFilterClientOpen(false);
   };
 
+  const restartErrors = () => {
+    setErrors({
+      date: { error: false, label: "" },
+      client: { error: false, label: "" }
+    });
+  };
+
+  const handleSubmitFilters = async () => {
+    if (
+      (date && clientSelected.idclients) ||
+      (!date && clientSelected.idclients)
+    ) {
+      await fetchByClient();
+      restartErrors();
+      return true;
+    }
+
+    if (date && !clientSelected.idclients) {
+      await fetchByDate();
+      restartErrors();
+      return true;
+    }
+
+    setAlert(<AlertInfo title="Preencha os filtros corretamente" />);
+
+    return false;
+  };
   if (alert) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
   }
@@ -308,126 +352,52 @@ export function Schedules(props: {
       <TitlePrincipal title="Agendas" />
 
       {loader}
-
-      <div className="filter_buttons">
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => {
-            setSearchFilterDataOpen(!searchFilterDataOpen);
-            setSearchFilterClientOpen(false);
-          }}
-          text="Data"
-        />
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => {
-            setSearchFilterClientOpen(!searchFilterClientOpen);
-            setSearchFilterDataOpen(false);
-          }}
-          text="Cliente"
-        />
-        <ClearSearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => {
-            setDate("");
-            setClientSelected({ label: "", idclients: 0 });
-          }}
-        />
-      </div>
-
-      <Collapse in={searchFilterDataOpen} timeout="auto" unmountOnExit>
-        <div className="filter_buttons">
-          <small className="font-weight-bold">Selecione a data</small>
-          <div
-            style={{
-              display: "flex"
-            }}
-          >
-            <FullWidthTextField
-              type="date"
-              fnChange={(e: React.BaseSyntheticEvent) =>
-                setDate(e.target.value)
-              }
-              label=""
-              value={date}
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              marginTop: "10px"
-            }}
-          >
-            <GenericButton
-              text="Fechar"
-              color={ColorsBootstrap.secondary}
-              onClick={(e: React.BaseSyntheticEvent) => closeActionButtons()}
-              col={false}
-            />
-            <SearchButton
-              onClick={(e: React.BaseSyntheticEvent) => fetchByDate()}
-            />
-          </div>
-        </div>
-      </Collapse>
-
-      <Collapse in={searchFilterClientOpen} timeout="auto" unmountOnExit>
-        <div className="filter_buttons">
-          <div
-            style={{
-              display: "flex"
-            }}
-          >
-            <ComboBoxList
-              label="Selecione o cliente"
-              options={clients.map(item => {
-                return {
-                  label: item.name,
-                  idclients: item.idclients
-                };
-              })}
-              onChange={(
-                e: React.BaseSyntheticEvent,
-                item: { label: string; idclients: number }
-              ) => {
-                if (typeof item === "object") {
-                  setClientSelected({
-                    label: item.label,
-                    idclients: item.idclients
-                  });
-                } else if (typeof item === "string") {
-                  setClientSelected({
-                    label: item,
-                    idclients: null
-                  });
-                } else {
-                  setClientSelected({ label: "", idclients: null });
-                }
-              }}
-              style={{
-                width: "300px",
-                margin: "5px 0"
-              }}
-              value={clientSelected.label}
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              marginTop: "10px"
-            }}
-          >
-            <GenericButton
-              text="Fechar"
-              color={ColorsBootstrap.secondary}
-              onClick={(e: React.BaseSyntheticEvent) => closeActionButtons()}
-              col={false}
-            />
-            <SearchButton
-              onClick={(e: React.BaseSyntheticEvent) => fetchByClient()}
-            />
-          </div>
-        </div>
-      </Collapse>
-
       {alert}
+
+      <TableMultiFilter
+        filters={[
+          {
+            label: "Data",
+            value: date,
+            placeholder: "",
+            type: TypeMultiFilter.date,
+            handleChangeValue: (e: any) => setDate(e.target.value)
+          },
+          {
+            label: "Clientes",
+            value: clientSelected.label,
+            placeholder: "Selecione o cliente",
+            type: TypeMultiFilter.select,
+            options: clients.map(client => ({
+              label: client.name,
+              value: client.idclients
+            })),
+            handleChangeValue: (
+              e: React.BaseSyntheticEvent,
+              item: { label: string; value: number }
+            ) => {
+              if (typeof item === "object") {
+                setClientSelected({
+                  label: item.label,
+                  idclients: item.value
+                });
+              } else if (typeof item === "string") {
+                setClientSelected({
+                  label: item,
+                  idclients: null
+                });
+              } else {
+                setClientSelected({ label: "", idclients: null });
+              }
+            }
+          }
+        ]}
+        clearFilters={(e: React.BaseSyntheticEvent) => {
+          setDate("");
+          setClientSelected({ label: "", idclients: null });
+        }}
+        handleSubmit={handleSubmitFilters}
+      />
 
       {schedules.length
         ? schedules.map((schedule: ScheduleInterface) => {

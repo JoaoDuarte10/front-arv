@@ -9,10 +9,11 @@ type InputProps = {
   onChange: any;
   style?: React.CSSProperties | undefined;
   className?: string;
+  small?: boolean;
 };
 
 export default function ComboBoxList(props: InputProps) {
-  const { options, label, value, onChange, style, className } = props;
+  const { options, label, value, onChange, style, className, small } = props;
 
   return (
     <Autocomplete
@@ -27,6 +28,7 @@ export default function ComboBoxList(props: InputProps) {
       autoHighlight
       style={style}
       className={className}
+      size={small ? "small" : "medium"}
     />
   );
 }

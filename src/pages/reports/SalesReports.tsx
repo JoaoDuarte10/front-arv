@@ -95,7 +95,9 @@ export function SalesReports(props: { salesService: SalesService }) {
       });
     }
     if (notFound) {
-      setAlert(<AlertInfo title="Nenhum relatório foi encontrada." />);
+      setAlert(
+        <AlertInfo title="Nenhum relatório foi encontrado para essa pesquisa." />
+      );
     }
     if (error) {
       setAlert(
@@ -131,7 +133,9 @@ export function SalesReports(props: { salesService: SalesService }) {
       });
     }
     if (notFound) {
-      setAlert(<AlertInfo title="Nenhum relatório foi encontrada." />);
+      setAlert(
+        <AlertInfo title="Nenhum relatório foi encontrado para essa pesquisa." />
+      );
     }
     if (error) {
       setAlert(
@@ -167,7 +171,9 @@ export function SalesReports(props: { salesService: SalesService }) {
       });
     }
     if (notFound) {
-      setAlert(<AlertInfo title="Nenhum relatório foi encontrada." />);
+      setAlert(
+        <AlertInfo title="Nenhum relatório foi encontrado para essa pesquisa." />
+      );
     }
     if (error) {
       setAlert(
