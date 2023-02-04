@@ -17,7 +17,7 @@ export const ContainerFilter = styled.div`
 export const ContainerRowsFilter = styled.div<{ check: boolean }>`
   display: flex;
   flex-wrap: ${p => (p.check ? "no-wrap" : "wrap")};
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   padding: 5px 10px;
 

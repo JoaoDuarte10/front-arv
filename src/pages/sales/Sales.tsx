@@ -50,20 +50,7 @@ export function Sales(props: {
 
   const clientsCache = useSelector((state: ReduceStore) => state.client);
   const [clients, setClients] = useState<ClientsInterface[]>([]);
-  const [sales, setSales] = useState<SalesInterface[]>([
-    {
-      idsales: 40,
-      idclients: 75,
-      client: "Be Truck",
-      description: "Salário",
-      date: "2023-02-01T00:00:00.000Z",
-      total: 500,
-      paymentStatus: "PENDING",
-      paymentDate: "2023-02-06T00:00:00.000Z",
-      paymentMethod: "BILLET" as any,
-      createdAt: "2023-02-04T02:27:39.769Z"
-    }
-  ]);
+  const [sales, setSales] = useState<SalesInterface[]>([]);
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
   const [loader, setLoader] = useState<JSX.Element | null>(null);

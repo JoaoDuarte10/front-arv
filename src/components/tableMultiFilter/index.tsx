@@ -5,6 +5,9 @@ import ComboBoxList from "../inputs/InputAutocompleteList";
 
 import * as S from "./style";
 import { randomId } from "../../utils/random";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
 
 export enum TypeMultiFilter {
   date = "date",
@@ -219,7 +222,7 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
           <div
             className="form-row"
             style={{
-              margin: "15px 0",
+              margin: "5px 0",
               width: "60%"
             }}
           >

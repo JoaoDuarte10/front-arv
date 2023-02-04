@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ReduceStore } from "../../app/store";
 import { format } from "date-fns";
@@ -20,12 +20,19 @@ import { TableSales } from "../../components/sales/TableSales";
 import { SearchFilterButton } from "../../components/buttons/SearchFilter";
 import { TIMEOUT } from "../../utils/constants";
 import { ClearSearchFilterButton } from "../../components/buttons/ClearSearchFilter";
+import { WhatsAppIconButton } from "../../components/buttons/WhatsAppIconButton";
+import { EditIconButton } from "../../components/buttons/EditIconButton";
+import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
+import Typography from "@mui/material/Typography";
+import { ClientService } from "../../service/api/client/client-service";
+import { WhatsAppService } from "../../service/api/whatsapp/whatsapp";
 
 export function InfoClients(props: {
   salesService: SalesService;
-  // clientService: ClientService;
+  clientService: ClientService;
+  whatsAppService: WhatsAppService;
 }) {
-  const { salesService } = props;
+  const { salesService, clientService, whatsAppService } = props;
 
   const { clientId } = useParams();
   const navigate = useNavigate();
@@ -88,6 +95,23 @@ export function InfoClients(props: {
     }
   };
 
+  const onDeleteClient = async (idclients: number) => {
+    setLoader(<CircularIndeterminate />);
+    const { success, error } = await clientService.deleteClient(idclients);
+    setLoader(null);
+    if (error) {
+      setAlert(
+        <AlertError title="Não foi possível processar sua requisição." />
+      );
+      return;
+    }
+
+    if (success) {
+      setAlert(<AlertSuccess title="Cliente deletado com sucesso." />);
+      navigate(-1);
+    }
+  };
+
   if (alert) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
   }
@@ -105,6 +129,42 @@ export function InfoClients(props: {
       <br />
       <TitlePrincipal title="Informações do cliente" />
 
+      {client && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center"
+          }}
+        >
+          <WhatsAppIconButton
+            onClick={(e: React.SyntheticEvent) => {
+              whatsAppService.redirectToWhatsapp(e, client.phone);
+            }}
+          />
+          <Link className="" to={`/edit-client/${client.idclients}`}>
+            <EditIconButton />
+          </Link>
+          <BasicDeleteModal
+            btnName="Excluir"
+            onChange={(e: React.SyntheticEvent) => {
+              onDeleteClient(client.idclients);
+            }}
+          >
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              sx={{ color: "red" }}
+            >
+              Excluir Cliente
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Tem certeza que deseja excluir esse cliente?
+            </Typography>
+          </BasicDeleteModal>
+        </div>
+      )}
       {client ? (
         <div className="container_info_client">
           <LabelForm text="Nome" className="pb-2 border-bottom">

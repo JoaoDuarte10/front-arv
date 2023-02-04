@@ -91,7 +91,11 @@ export function RoutesApp() {
             element={
               <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
                 {navBar}
-                <InfoClients salesService={salesService} />
+                <InfoClients
+                  salesService={salesService}
+                  clientService={clientService}
+                  whatsAppService={whatsAppService}
+                />
               </PrivateRoute>
             }
           />
