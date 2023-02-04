@@ -20,12 +20,15 @@ export function normalizeResponse(data: any, status: number): HttpResponse {
       break;
     case HTTP_RESPONSE.CONFLICT:
       response.conflict = true;
+      response.message = data.message || ''
       break;
     case HTTP_RESPONSE.BAD_REQUEST:
       response.badRequest = true;
+      response.message = data.message || ''
       break;
     case HTTP_RESPONSE.NOT_FOUND:
       response.notFound = true;
+      response.message = data.message || ''
       break;
     case HTTP_RESPONSE.UNAUTHORIZED:
       response.unauthorized = true;

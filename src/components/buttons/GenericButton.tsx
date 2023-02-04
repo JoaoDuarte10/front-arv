@@ -12,7 +12,7 @@ export enum ColorsMaterialUi {
 
 export enum Variant {
   contained = "contained",
-  outline = "outlined"
+  outline = "outline"
 }
 
 type InputProps = {
@@ -20,7 +20,7 @@ type InputProps = {
   color: ColorsBootstrap;
   variant?: Variant;
   onClick: any;
-  style?: any;
+  style?: React.CSSProperties;
   col?: boolean;
 };
 

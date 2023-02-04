@@ -179,6 +179,42 @@ export class SalesService {
     return response;
   }
 
+  async fetchByAllFilter(params: {
+    idclients: number,
+    date: string,
+    period: {
+      date1: string,
+      date2: string,
+    },
+    pending: boolean
+  }): Promise<HttpResponse<SalesInterface[]>> {
+    let response: HttpResponse = {} as HttpResponse;
+    try {
+      const { data, status } = await axios
+        .get(`${this.baseUri}/api/sales/all-filters`, {
+          params: {
+            idclients: params.idclients,
+            date: params.date,
+            period: params.period,
+            pending: params.pending
+          },
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`
+          }
+        })
+        .then(res => ({ data: res.data, status: res.status }))
+        .catch(err => ({
+          data: err.response ? err.response.data : err.response,
+          status: err.response ? err.response.status : err.response
+        }));
+      response = normalizeResponse(data, status);
+    } catch (error) {
+      response.error = true;
+      response.message = error.message;
+    }
+    return response;
+  }
+
   async registerPayment(
     idsales: number
   ): Promise<HttpResponse<SalesInterface[]>> {

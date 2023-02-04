@@ -10,10 +10,11 @@ type InputProps = {
   style?: React.CSSProperties | undefined;
   className?: string;
   small?: boolean;
+  disabled?: boolean;
 };
 
 export default function ComboBoxList(props: InputProps) {
-  const { options, label, value, onChange, style, className, small } = props;
+  const { options, label, value, onChange, style, className, small, disabled = false } = props;
 
   return (
     <Autocomplete
@@ -29,6 +30,7 @@ export default function ComboBoxList(props: InputProps) {
       style={style}
       className={className}
       size={small ? "small" : "medium"}
+      disabled={disabled}
     />
   );
 }

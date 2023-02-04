@@ -183,7 +183,8 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
             value: date,
             placeholder: "",
             type: TypeMultiFilter.date,
-            handleChangeValue: (e: any) => setDate(e.target.value)
+            handleChangeValue: (e: any) => setDate(e.target.value),
+            disabled: period.date1 || period.date2 || allOutgoingFilter ? true : false
           },
           {
             label: "Periodo",
@@ -202,14 +203,16 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
                 handleChangeValue: (e: React.BaseSyntheticEvent) =>
                   setPeriod({ date1: period.date1, date2: e.target.value })
               }
-            }
+            },
+            disabled: date || allOutgoingFilter ? true : false
           },
           {
             label: "Todas as despesas",
             value: allOutgoingFilter,
             placeholder: "",
             type: TypeMultiFilter.check,
-            handleChangeValue: () => setAllOutgoingFilter(!allOutgoingFilter)
+            handleChangeValue: () => setAllOutgoingFilter(!allOutgoingFilter),
+            disabled: date || period.date1 || period.date2 ? true : false
           }
         ]}
         clearFilters={(e: React.BaseSyntheticEvent) => {

@@ -56,7 +56,7 @@ export function Sales(props: {
   const [clientSelected, setClientSelected] = useState<{
     label: string;
     idclients: number | null;
-  }>({ label: "", idclients: 0 });
+  }>({ label: "", idclients: null });
 
   const clientsCache = useSelector((state: ReduceStore) => state.client);
   const [clients, setClients] = useState<ClientsInterface[]>([]);
@@ -84,12 +84,6 @@ export function Sales(props: {
       setClients(clientsCache);
     }
   }, []);
-
-  const closeActionButtons = () => {
-    setSearchFilterClientEnable(false);
-    setSearchFilterPeriodEnable(false);
-    setSearchFilterDateEnable(false);
-  };
 
   const fetchSalesByDate = async () => {
     setLoader(<CircularIndeterminate />);
@@ -194,29 +188,36 @@ export function Sales(props: {
     }
   };
 
+  const fetchByAllFilters = async () => {
+    setLoader(<CircularIndeterminate />);
+    const { success, data, error, notFound, badRequest, message } = await salesService.fetchByAllFilter({
+      idclients: clientSelected.idclients as number,
+      date,
+      period,
+      pending
+    });
+    setLoader(null);
+
+    if (success) {
+      setSales(data);
+      setAlert(<AlertSuccess title="Pesquisa atualizada" />);
+    }
+    if (notFound) {
+      setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
+    }
+    if (badRequest) {
+      setAlert(<AlertInfo title={message as string} />);
+    }
+    if (error) {
+      setAlert(
+        <AlertError title="Não foi possível processar sua requisição." />
+      );
+    }
+  };
+
   const handleSubmitFilters = async () => {
-    if (date) {
-      await fetchSalesByDate();
-      return true;
-    }
-
-    if (period.date1 && period.date2) {
-      await fetchSalesByPeriod();
-      return true;
-    }
-
-    if (clientSelected.idclients) {
-      await fetchSalesByClient();
-      return true;
-    }
-
-    if (pending) {
-      await fetchPenging();
-      return true;
-    }
-
-    setAlert(<AlertInfo title="Preencha os filtros corretamente" />);
-    return false;
+    await fetchByAllFilters();
+    return true;
   };
 
   if (alert) {
@@ -243,7 +244,8 @@ export function Sales(props: {
             value: date,
             placeholder: "",
             type: TypeMultiFilter.date,
-            handleChangeValue: (e: any) => setDate(e.target.value)
+            handleChangeValue: (e: any) => setDate(e.target.value),
+            disabled: period.date1 || period.date2 ? true : false
           },
           {
             label: "Periodo",
@@ -262,7 +264,8 @@ export function Sales(props: {
                 handleChangeValue: (e: React.BaseSyntheticEvent) =>
                   setPeriod({ date1: period.date1, date2: e.target.value })
               }
-            }
+            },
+            disabled: date ? true : false
           },
           {
             label: "Clientes",
@@ -277,22 +280,22 @@ export function Sales(props: {
               e: React.BaseSyntheticEvent,
               item: { label: string; value: number }
             ) => {
-              if (item) {
+              if (typeof item === 'object' && item && item.label && item.value) {
                 setClientSelected({
                   label: item.label,
                   idclients: item.value
                 });
-              } else {
-                setClientSelected({ label: "", idclients: null });
               }
-            }
+            },
+            disabled: false
           },
           {
             label: "Pendentes",
             value: pending,
             placeholder: "Pendentes",
             type: TypeMultiFilter.check,
-            handleChangeValue: () => setPending(!pending)
+            handleChangeValue: () => setPending(!pending),
+            disabled: false
           }
         ]}
         clearFilters={(e: React.BaseSyntheticEvent) => {

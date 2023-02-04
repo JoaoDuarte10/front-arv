@@ -4,6 +4,7 @@ import { Typography, Checkbox, FormControlLabel } from "@mui/material";
 import ComboBoxList from "../inputs/InputAutocompleteList";
 
 import * as S from "./style";
+import { randomId } from '../../utils/random';
 
 export enum TypeMultiFilter {
   date = "date",
@@ -34,6 +35,7 @@ export type MultFilter = {
   handleChangeValue: (param: any, values?: any) => void;
   error?: boolean;
   helperText?: string;
+  disabled: boolean;
 };
 
 type TableMultiFilterProps = {
@@ -66,6 +68,7 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
           onChange={filter.handleChangeValue}
           error={filter.error}
           helperText={filter.helperText}
+          disabled={filter.disabled}
         />
       ),
       text: (
@@ -78,6 +81,7 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
           id="fullWidth"
           size="small"
           onChange={filter.handleChangeValue}
+          disabled={filter.disabled}
         />
       ),
       select: (
@@ -87,6 +91,7 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
           onChange={filter.handleChangeValue}
           value={filter.value}
           small={true}
+          disabled={filter.disabled}
         />
       ),
       period: (
@@ -111,6 +116,7 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
               }
               error={filter.error}
               helperText={filter.helperText}
+              disabled={filter.disabled}
             />
           </div>
           <div className="col">
@@ -133,6 +139,7 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
               }
               error={filter.error}
               helperText={filter.helperText}
+              disabled={filter.disabled}
             />
           </div>
         </div>
@@ -151,6 +158,7 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
             sx={{
               paddingLeft: "5px"
             }}
+            disabled={filter.disabled}
           />
         </>
       )
@@ -189,16 +197,21 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
         <S.ContainerFilter>
           {filteredFilters.map((filter, index) => {
             return (
-              <S.ContainerRowsFilter key={index}>
+              <S.ContainerRowsFilter
+                key={randomId()}
+                check={filter.type === TypeMultiFilter.check}
+              >
                 <div
                   style={{
-                    width: "80px",
-                    margin: "10px 0"
+                    width: filter.type === TypeMultiFilter.check ? '150px' : "80px",
+                    margin: "5px 0"
                   }}
                 >
                   <Typography>{filter.label}</Typography>
                 </div>
-                <S.ContainerColumnSelectorFilter>
+                <S.ContainerColumnSelectorFilter
+                  check={filter.type === TypeMultiFilter.check}
+                >
                   {createInputFilter(filter)[filter.type]}
                 </S.ContainerColumnSelectorFilter>
               </S.ContainerRowsFilter>

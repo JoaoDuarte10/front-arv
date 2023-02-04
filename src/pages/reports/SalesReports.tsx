@@ -14,11 +14,17 @@ import { TIMEOUT } from "../../utils/constants";
 import { randomId } from "../../utils/random";
 import { LabelForm } from "../../components/labels/LabelForm";
 import { LabelSmall } from "../../components/labels/LabelSmal";
+import { TableMultiFilter, TypeMultiFilter } from '../../components/tableMultiFilter/index';
 
 export function SalesReports(props: { salesService: SalesService }) {
   const { salesService } = props;
 
   const [report, setReport] = useState<SalesReportsInterface | null>(null);
+
+  const [currentWeekFilter, setCurrentWeekFilter] = useState<boolean>(false);
+  const [lastWeekFilter, setLastWeekFilter] = useState<boolean>(false);
+  const [currentMonthFilter, setCurrentMonthFilter] = useState<boolean>(false);
+  const [lastMonthFilter, setLastMonthFilter] = useState<boolean>(false);
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
   const [loader, setLoader] = useState<JSX.Element | null>(null);
@@ -182,6 +188,22 @@ export function SalesReports(props: { salesService: SalesService }) {
     }
   };
 
+  const handleSubmitFilters = async () => {
+    if (currentWeekFilter) {
+      await fetchReportCurrentWeek();
+    }
+    if (lastWeekFilter) {
+      await fetchReportLastWeek();
+    }
+    if (currentMonthFilter) {
+      await fetchReportsWithCurrentMonth();
+    }
+    if (lastMonthFilter) {
+      await fetchReportsWithLastMonth();
+    }
+    return true
+  }
+
   if (alert) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
   }
@@ -197,29 +219,48 @@ export function SalesReports(props: { salesService: SalesService }) {
       <TitlePrincipal title="Relatório de vendas" />
 
       {loader}
-
-      <div className="filter_buttons">
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) =>
-            fetchReportsWithCurrentMonth()
-          }
-          text="Mês atual"
-        />
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => fetchReportsWithLastMonth()}
-          text="Último mês"
-        />
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => fetchReportCurrentWeek()}
-          text="Semana atual"
-        />
-        <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => fetchReportLastWeek()}
-          text="Última semana"
-        />
-      </div>
-
       {alert}
+
+      <TableMultiFilter
+        filters={[
+          {
+            label: "Semana atual",
+            value: currentWeekFilter,
+            placeholder: "",
+            type: TypeMultiFilter.check,
+            handleChangeValue: () => setCurrentWeekFilter(!currentWeekFilter),
+            disabled: lastWeekFilter || currentMonthFilter || lastMonthFilter
+          },
+          {
+            label: "Última semana",
+            value: lastWeekFilter,
+            placeholder: "",
+            type: TypeMultiFilter.check,
+            handleChangeValue: () => setLastWeekFilter(!lastWeekFilter),
+            disabled: currentWeekFilter || currentMonthFilter || lastMonthFilter
+          },
+          {
+            label: "Mês atual",
+            value: currentMonthFilter,
+            placeholder: "",
+            type: TypeMultiFilter.check,
+            handleChangeValue: () => setCurrentMonthFilter(!currentMonthFilter),
+            disabled: lastWeekFilter || currentWeekFilter || lastMonthFilter
+          },
+          {
+            label: "Último mês",
+            value: lastMonthFilter,
+            placeholder: "",
+            type: TypeMultiFilter.check,
+            handleChangeValue: () => setLastMonthFilter(!lastMonthFilter),
+            disabled: lastWeekFilter || currentMonthFilter || currentWeekFilter
+          }
+        ]}
+        clearFilters={(e: React.BaseSyntheticEvent) => {
+          
+        }}
+        handleSubmit={handleSubmitFilters}
+      />
 
       {findSelected.name ? (
         <LabelForm text={findSelected.name} className="mt-2">

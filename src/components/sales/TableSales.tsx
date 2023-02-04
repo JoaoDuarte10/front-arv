@@ -19,7 +19,7 @@ import {
 import { SalesService } from "../../service/api/sales/sales";
 import { SalesInterface } from "../../service/api/sales/types";
 import { randomId } from "../../utils/random";
-import { format } from "date-fns";
+import { format, formatDistance } from "date-fns";
 import { AlertError } from "../alerts/AlertError";
 import { AlertInfo } from "../alerts/AlertInfo";
 import { AlertSuccess } from "../alerts/AlertSuccess";
@@ -27,6 +27,8 @@ import { TIMEOUT } from "../../utils/constants";
 import { BasicDeleteModal } from "../modal/BasicDeleteModal";
 import { CircularIndeterminate } from "../loaders/CircularLoader";
 import TablePagination from "@mui/material/TablePagination";
+
+import ptBR from 'date-fns/locale/pt-BR'
 
 type InputProps = {
   sales: SalesInterface[];
@@ -90,7 +92,7 @@ export function TableSales(props: InputProps) {
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map(sale => (
               <Row
-                key={sale.idsales + randomId()}
+                keyId={sale.idsales + randomId()}
                 row={createData(sale)}
                 salesService={salesService}
               />
@@ -133,11 +135,12 @@ function createData(sale: SalesInterface) {
 function Row(props: {
   row: ReturnType<typeof createData>;
   salesService: SalesService;
+  keyId: string;
 }) {
-  const { row, salesService } = props;
+  const { row, salesService, keyId } = props;
   const [open, setOpen] = useState<boolean>(false);
 
-  const [alert, setAlert] = useState<JSX.Element | null>(null);
+  const [alertInfo, setAlert] = useState<JSX.Element | null>(null);
   const [loader, setLoader] = useState<JSX.Element | null>(null);
 
   const registerPayment = async (idsales: number) => {
@@ -182,7 +185,37 @@ function Row(props: {
     }
   };
 
-  if (alert) {
+  const copySale = async (e: React.BaseSyntheticEvent, sale: ReturnType<typeof createData>) => {
+    e.preventDefault();
+    const saleIsPaid = sale.info[0].paymentStatus === 'PAID';
+    const saleInfo = `Olá ${sale.client}, tudo bem?
+
+Registrei uma nova venda para você referente à ${sale.description}, do dia ${new Date(row.date).toLocaleDateString("pt-BR", {
+      timeZone: "UTC"
+    })}.
+
+E gostaria de informar que o seu pagamento no valor de ${sale.info[0].total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} ${saleIsPaid ? `foi recebido ${formatDistance(new Date(sale.info[0].paymentDate), new Date(), { locale: ptBR, addSuffix: true })} :)` : 'ainda está pendente'}
+
+${saleIsPaid && sale.info[0].paymentMethod ? `Forma de pagamento: ${sale.info[0].paymentMethod}` : null}
+
+Código da venda: ${sale.idsales}
+
+Agradecemos a confiança!!!`
+
+
+    if (window.isSecureContext && navigator.clipboard) {
+      await navigator.clipboard.writeText(saleInfo)
+    } else {
+      unsecuredCopyToClipboard(saleInfo);
+    }
+
+    alert('Texto copiado!')
+
+  }
+
+  const unsecuredCopyToClipboard = (text: any) => { const textArea = document.createElement("textarea"); textArea.value = text; document.body.appendChild(textArea); textArea.focus(); textArea.select(); try { document.execCommand('copy') } catch (err) { console.error('Unable to copy to clipboard', err) } document.body.removeChild(textArea) };
+
+  if (alertInfo) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
   }
 
@@ -190,7 +223,7 @@ function Row(props: {
     <React.Fragment>
       {loader}
 
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }} id={keyId}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -254,6 +287,16 @@ function Row(props: {
                     Registrar Pagamento
                   </button>
                 )}
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={(e) => copySale(e, row)}
+                  style={{
+                    borderRadius: "15px",
+                    fontSize: "13px"
+                  }}
+                >
+                  Copiar texto
+                </button>
                 <BasicDeleteModal
                   btnName="Excluir"
                   onChange={(e: React.SyntheticEvent) =>
@@ -274,7 +317,7 @@ function Row(props: {
                 </BasicDeleteModal>
               </div>
 
-              {alert}
+              {alertInfo}
 
               <Typography variant="inherit" gutterBottom component="div">
                 <strong>Descrição</strong>
@@ -355,6 +398,6 @@ function Row(props: {
           </Collapse>
         </TableCell>
       </TableRow>
-    </React.Fragment>
+    </React.Fragment >
   );
 }

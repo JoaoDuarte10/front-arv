@@ -3,7 +3,7 @@ export type HttpResponse<T = any> = {
   data: T;
   unauthorized: boolean;
   error: boolean;
-  message: null;
+  message: string | null;
   conflict: boolean;
   badRequest: boolean;
   notFound: boolean;
