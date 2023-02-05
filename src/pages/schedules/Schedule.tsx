@@ -80,17 +80,6 @@ export function Schedules(props: {
 
   const [clients, setClients] = useState<ClientsInterface[]>([]);
 
-  const [errors, setErrors] = useState({
-    date: {
-      error: false,
-      label: ""
-    },
-    client: {
-      error: false,
-      label: ""
-    }
-  });
-
   const getAllClients = async () => {
     setLoader(<CircularIndeterminate />);
     const {
@@ -213,9 +202,8 @@ export function Schedules(props: {
     setLoader(null);
 
     if (success) {
-      setAlert(
-        <AlertSuccess title="Agenda editada com sucesso. Atualize a pesquisa." />
-      );
+      setAlert(<AlertSuccess title="Agenda editada com sucesso." />);
+      await handleSubmitFilters();
       return true;
     }
     if (error) {
@@ -235,10 +223,8 @@ export function Schedules(props: {
     setLoader(null);
 
     if (success) {
-      setAlert(
-        <AlertSuccess title="Agenda excluída com sucesso. Atualize a pesquisa." />
-      );
-      await fetchExpireds();
+      setAlert(<AlertSuccess title="Agenda excluída com sucesso." />);
+      await handleSubmitFilters();
       return true;
     }
     if (error) {
@@ -258,10 +244,8 @@ export function Schedules(props: {
     setLoader(null);
 
     if (success) {
-      setAlert(
-        <AlertSuccess title="Agenda finalizada com sucesso. Atualize a pesquisa." />
-      );
       setOpenModal(false);
+      await handleSubmitFilters();
       return true;
     }
     if (error) {
@@ -306,34 +290,22 @@ export function Schedules(props: {
     }
   };
 
-  const restartErrors = () => {
-    setErrors({
-      date: { error: false, label: "" },
-      client: { error: false, label: "" }
-    });
-  };
-
   const handleSubmitFilters = async () => {
     if (
       (date && clientSelected.idclients) ||
-      (!date && clientSelected.idclients)
+      (!date && clientSelected.idclients) ||
+      (!date && !clientSelected.idclients && clientSelected.label)
     ) {
       await fetchByClient();
-      restartErrors();
     }
 
     if (date && !clientSelected.idclients) {
       await fetchByDate();
-      restartErrors();
-    }
-
-    if (!date && !clientSelected.idclients) {
-      await fetchByClient();
-      restartErrors();
     }
 
     return true;
   };
+
   if (alert) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
   }

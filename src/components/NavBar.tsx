@@ -84,6 +84,7 @@ export function NavBarResponsive(props: {
             className="btn-list-item"
             onClick={e => {
               closeNavResponsive();
+              closeItens();
               navigate("/home");
             }}
             style={{ outline: "none" }}

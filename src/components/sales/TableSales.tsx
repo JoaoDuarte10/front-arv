@@ -305,17 +305,23 @@ Agradecemos a confiança!!!`;
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <div>
-                <small className="font-weight-bold h6 text-muted">
-                  Criada em:
-                </small>{" "}
-                <small>
+              <>
+                <div>
+                  <small className="font-weight-bold h6 text-muted">
+                    Código da venda:
+                  </small>{" "}
+                  {row.idsales}
+                </div>
+                <div>
+                  <small className="font-weight-bold h6 text-muted">
+                    Criada em:
+                  </small>{" "}
                   {format(
                     new Date(row.info[0].createdAt.replace("Z", "")),
                     "dd/MM/yyyy 'às' HH:mm'h'"
                   )}
-                </small>
-              </div>
+                </div>
+              </>
               <div
                 style={{
                   display: "flex",
