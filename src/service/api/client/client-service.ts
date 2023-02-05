@@ -4,14 +4,14 @@ import { HttpResponse } from "../../http/types";
 import { normalizeResponse } from "../../http/fetch";
 
 export class ClientService {
-  private accessToken: string = "";
-
   constructor(
     private readonly baseUri: string,
     private readonly localStorageService: LocalStorageService
-  ) {
+  ) {}
+
+  private getToken(): string {
     const token = this.localStorageService.getAccessToken();
-    if (token) this.accessToken = token;
+    return token || "";
   }
 
   async fetchAllClients(): Promise<HttpResponse> {
@@ -20,7 +20,7 @@ export class ClientService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/client/all`, {
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -62,7 +62,7 @@ export class ClientService {
           },
           {
             headers: {
-              Authorization: `Bearer ${this.accessToken}`
+              Authorization: `Bearer ${this.getToken()}`
             }
           }
         )
@@ -107,7 +107,7 @@ export class ClientService {
           },
           {
             headers: {
-              Authorization: `Bearer ${this.accessToken}`
+              Authorization: `Bearer ${this.getToken()}`
             }
           }
         )
@@ -134,7 +134,7 @@ export class ClientService {
             idclients: idclients
           },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))

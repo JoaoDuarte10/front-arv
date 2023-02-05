@@ -6,14 +6,14 @@ import { SalesInterface, SalesReportsInterface } from "./types";
 import { HttpResponse } from "../../http/types";
 
 export class SalesService {
-  private accessToken: string = "";
-
   constructor(
     private readonly baseUri: string,
     private readonly localStorageService: LocalStorageService
-  ) {
+  ) {}
+
+  private getToken(): string {
     const token = this.localStorageService.getAccessToken();
-    if (token) this.accessToken = token;
+    return token || "";
   }
 
   async create(params: {
@@ -41,7 +41,7 @@ export class SalesService {
           },
           {
             headers: {
-              Authorization: `Bearer ${this.accessToken}`
+              Authorization: `Bearer ${this.getToken()}`
             }
           }
         )
@@ -65,7 +65,7 @@ export class SalesService {
         .get(`${this.baseUri}/api/sales/date`, {
           params: { date },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -91,7 +91,7 @@ export class SalesService {
         .get(`${this.baseUri}/api/sales/period`, {
           params: { date1, date2 },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -116,7 +116,7 @@ export class SalesService {
         .get(`${this.baseUri}/api/sales/client`, {
           params: { idclients },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -138,7 +138,7 @@ export class SalesService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/sales/pending`, {
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -163,7 +163,7 @@ export class SalesService {
         .get(`${this.baseUri}/api/sales/pending/client`, {
           params: { idclients },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -199,7 +199,7 @@ export class SalesService {
             pending: params.pending
           },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -228,7 +228,7 @@ export class SalesService {
           },
           {
             headers: {
-              Authorization: `Bearer ${this.accessToken}`
+              Authorization: `Bearer ${this.getToken()}`
             }
           }
         )
@@ -252,7 +252,7 @@ export class SalesService {
         .delete(`${this.baseUri}/api/sales`, {
           params: { idsales },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -285,7 +285,7 @@ export class SalesService {
         .get(`${this.baseUri}/api/sales/reports`, {
           params: { date1, date2 },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))

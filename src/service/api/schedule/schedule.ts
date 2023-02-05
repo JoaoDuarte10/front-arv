@@ -5,14 +5,14 @@ import { ScheduleInterface } from "./types";
 import { HttpResponse } from "../../http/types";
 
 export class ScheduleService {
-  private accessToken: string = "";
-
   constructor(
     private readonly baseUri: string,
     private readonly localStorageService: LocalStorageService
-  ) {
+  ) {}
+
+  private getToken(): string {
     const token = this.localStorageService.getAccessToken();
-    if (token) this.accessToken = token;
+    return token || "";
   }
 
   async create(params: ScheduleInterface): Promise<HttpResponse<void>> {
@@ -33,7 +33,7 @@ export class ScheduleService {
           },
           {
             headers: {
-              Authorization: `Bearer ${this.accessToken}`
+              Authorization: `Bearer ${this.getToken()}`
             }
           }
         )
@@ -70,7 +70,7 @@ export class ScheduleService {
           },
           {
             headers: {
-              Authorization: `Bearer ${this.accessToken}`
+              Authorization: `Bearer ${this.getToken()}`
             }
           }
         )
@@ -96,7 +96,7 @@ export class ScheduleService {
         .get(`${this.baseUri}/api/schedule/client`, {
           params: { idclients },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -121,7 +121,7 @@ export class ScheduleService {
         .get(`${this.baseUri}/api/schedule/client/name`, {
           params: { clientName },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -144,7 +144,7 @@ export class ScheduleService {
         .get(`${this.baseUri}/api/schedule/date`, {
           params: { date },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -166,7 +166,7 @@ export class ScheduleService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/expireds`, {
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -189,7 +189,7 @@ export class ScheduleService {
         .delete(`${this.baseUri}/api/schedule`, {
           params: { idschedules },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -214,7 +214,7 @@ export class ScheduleService {
           { idschedules },
           {
             headers: {
-              Authorization: `Bearer ${this.accessToken}`
+              Authorization: `Bearer ${this.getToken()}`
             }
           }
         )
@@ -237,7 +237,7 @@ export class ScheduleService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/expireds`, {
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -259,7 +259,7 @@ export class ScheduleService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/finished`, {
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -282,7 +282,7 @@ export class ScheduleService {
         .get(`${this.baseUri}/api/schedule/finished/from-date`, {
           params: { fromDate },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))

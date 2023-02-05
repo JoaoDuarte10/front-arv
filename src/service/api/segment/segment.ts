@@ -4,14 +4,14 @@ import { normalizeResponse } from "../../http/fetch";
 import { HttpResponse } from "../../http/types";
 
 export class SegmentService {
-  private accessToken: string = "";
-
   constructor(
     private readonly baseUri: string,
     private readonly localStorageService: LocalStorageService
-  ) {
+  ) {}
+
+  private getToken(): string {
     const token = this.localStorageService.getAccessToken();
-    if (token) this.accessToken = token;
+    return token || "";
   }
 
   async getAll(): Promise<HttpResponse> {
@@ -20,7 +20,7 @@ export class SegmentService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/segments`, {
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -47,7 +47,7 @@ export class SegmentService {
           },
           {
             headers: {
-              Authorization: `Bearer ${this.accessToken}`
+              Authorization: `Bearer ${this.getToken()}`
             }
           }
         )
@@ -76,7 +76,7 @@ export class SegmentService {
           },
           {
             headers: {
-              Authorization: `Bearer ${this.accessToken}`
+              Authorization: `Bearer ${this.getToken()}`
             }
           }
         )
@@ -100,7 +100,7 @@ export class SegmentService {
         .delete(`${this.baseUri}/api/segments`, {
           params: { idsegments },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))

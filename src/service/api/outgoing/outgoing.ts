@@ -9,14 +9,14 @@ import {
 import { HttpResponse } from "../../http/types";
 
 export class OutgoingService {
-  private accessToken: string = "";
-
   constructor(
     private readonly baseUri: string,
     private readonly localStorageService: LocalStorageService
-  ) {
+  ) {}
+
+  private getToken(): string {
     const token = this.localStorageService.getAccessToken();
-    if (token) this.accessToken = token;
+    return token || "";
   }
 
   async create(params: OutgoingInterface): Promise<HttpResponse> {
@@ -34,7 +34,7 @@ export class OutgoingService {
           },
           {
             headers: {
-              Authorization: `Bearer ${this.accessToken}`
+              Authorization: `Bearer ${this.getToken()}`
             }
           }
         )
@@ -59,7 +59,7 @@ export class OutgoingService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/outgoing/payment-enums`, {
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -83,7 +83,7 @@ export class OutgoingService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/outgoing/installment-enums`, {
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -105,7 +105,7 @@ export class OutgoingService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/outgoing/all`, {
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -128,7 +128,7 @@ export class OutgoingService {
         .get(`${this.baseUri}/api/outgoing/date`, {
           params: { date },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -154,7 +154,7 @@ export class OutgoingService {
         .get(`${this.baseUri}/api/outgoing/period`, {
           params: { date1, date2 },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
@@ -177,7 +177,7 @@ export class OutgoingService {
         .delete(`${this.baseUri}/api/outgoing`, {
           params: { idoutgoing },
           headers: {
-            Authorization: `Bearer ${this.accessToken}`
+            Authorization: `Bearer ${this.getToken()}`
           }
         })
         .then(res => ({ data: res.data, status: res.status }))
