@@ -209,11 +209,7 @@ E gostaria de informar que o seu pagamento no valor de ${sale.info[0].total.toLo
       { style: "currency", currency: "BRL" }
     )} ${
       saleIsPaid
-        ? `foi recebido ${formatDistance(
-            new Date(sale.info[0].paymentDate),
-            new Date(),
-            { locale: ptBR, addSuffix: true }
-          )} :)`
+        ? `foi recebido :)`
         : "ainda está pendente"
     }
 
