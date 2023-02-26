@@ -94,9 +94,9 @@ export function TableSales(props: InputProps) {
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map(sale => (
               <Row
-                keyId={sale.idsales + randomId()}
                 row={createData(sale)}
                 salesService={salesService}
+                key={randomId()}
               />
             ))}
         </TableBody>
@@ -138,11 +138,10 @@ function createData(sale: SalesInterface) {
 function Row(props: {
   row: ReturnType<typeof createData>;
   salesService: SalesService;
-  keyId: string;
 }) {
   const navigate = useNavigate();
 
-  const { row, salesService, keyId } = props;
+  const { row, salesService } = props;
   const [open, setOpen] = useState<boolean>(false);
 
   const [alertInfo, setAlert] = useState<JSX.Element | null>(null);
@@ -207,11 +206,7 @@ Registrei uma nova venda para você referente à ${
 E gostaria de informar que o seu pagamento no valor de ${sale.info[0].total.toLocaleString(
       "pt-BR",
       { style: "currency", currency: "BRL" }
-    )} ${
-      saleIsPaid
-        ? `foi recebido :)`
-        : "ainda está pendente"
-    }
+    )} ${saleIsPaid ? `foi recebido :)` : "ainda está pendente"}
 
 ${
   saleIsPaid && sale.info[0].paymentMethod
@@ -250,7 +245,7 @@ Agradecemos a confiança!!!`;
     <React.Fragment>
       {loader}
 
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }} id={keyId}>
+      <TableRow sx={{ "& > *": { borderBottom: "unset" } }} key={randomId()}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -273,6 +268,7 @@ Agradecemos a confiança!!!`;
           <>
             {row.client}
             <BasicPopover
+              key={randomId()}
               actions={[
                 {
                   selector: SelectorPoppover.view,

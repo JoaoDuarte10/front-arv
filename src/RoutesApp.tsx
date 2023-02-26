@@ -12,9 +12,7 @@ import { RulesService } from "./service/api/rules/rules";
 import { Clients } from "./pages/clients/Clients";
 import { ClientService } from "./service/api/client/client-service";
 import { InfoClients } from "./pages/clients/InfoClients";
-import { CreateClient } from "./pages/clients/CreateClient";
 import { WhatsAppService } from "./service/api/whatsapp/whatsapp";
-import { EditClient } from "./pages/clients/EditClient";
 import { Segment } from "./pages/Segment";
 import { SegmentService } from "./service/api/segment/segment";
 import { CreateSales } from "./pages/sales/CreateSales";
@@ -28,13 +26,16 @@ import { SalesReports } from "./pages/reports/SalesReports";
 import { OutgoingService } from "./service/api/outgoing/outgoing";
 import { Outgoing } from "./pages/outgoing/Outgoing";
 import { CreateOutgoing } from "./pages/outgoing/CreateOutgoing";
+import { ClientCreateUpdate } from "./pages/clientCreateUpdate/index";
 
-const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
-const LOCAL_STORAGE_LOGIN_KEY = process.env
+export const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
+export const LOCAL_STORAGE_LOGIN_KEY = process.env
   .REACT_APP_LOCAL_STORAGE_KEY as string;
 
 const loginService = new LoginService(API_RV_BASE_URI);
-const localStorageService = new LocalStorageService(LOCAL_STORAGE_LOGIN_KEY);
+export const localStorageService = new LocalStorageService(
+  LOCAL_STORAGE_LOGIN_KEY
+);
 const clientService = new ClientService(API_RV_BASE_URI, localStorageService);
 const whatsAppService = new WhatsAppService();
 const segmentService = new SegmentService(API_RV_BASE_URI, localStorageService);
@@ -48,6 +49,8 @@ export const outgoingService = new OutgoingService(
   API_RV_BASE_URI,
   localStorageService
 );
+
+export const NEW_RESOURCE_KEY = "create";
 
 export function RoutesApp() {
   const navBar = (
@@ -79,47 +82,37 @@ export function RoutesApp() {
             element={
               <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
                 {navBar}
-                <Clients
-                  clientService={clientService}
-                  whatsAppService={whatsAppService}
-                />
+                <Clients whatsAppService={whatsAppService} />
               </PrivateRoute>
             }
           />
           <Route
-            path="/info-client/:clientId"
+            path="/client/info/:id"
             element={
               <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
                 {navBar}
                 <InfoClients
                   salesService={salesService}
-                  clientService={clientService}
                   whatsAppService={whatsAppService}
                 />
               </PrivateRoute>
             }
           />
           <Route
-            path="/create-client"
+            path={`/client/${NEW_RESOURCE_KEY}`}
             element={
               <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
                 {navBar}
-                <CreateClient
-                  clientService={clientService}
-                  segmentService={segmentService}
-                />
+                <ClientCreateUpdate segmentService={segmentService} />
               </PrivateRoute>
             }
           />
           <Route
-            path="/edit-client/:clientId"
+            path="/client/edit/:id"
             element={
               <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
                 {navBar}
-                <EditClient
-                  clientService={clientService}
-                  segmentService={segmentService}
-                />
+                <ClientCreateUpdate segmentService={segmentService} />
               </PrivateRoute>
             }
           />

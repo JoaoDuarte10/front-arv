@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { ReduceStore } from "../../app/store";
 import { format } from "date-fns";
 import { ComeBack } from "../../components/ComeBack";
 import { ContainerMain } from "../../components/containers/ContainerMain";
@@ -11,11 +9,6 @@ import { LabelSmall } from "../../components/labels/LabelSmal";
 import { LabelForm } from "../../components/labels/LabelForm";
 import { DivInline } from "../../components/containers/DivInline";
 import { SalesService } from "../../service/api/sales/sales";
-import { SalesInterface } from "../../service/api/sales/types";
-import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import { AlertError } from "../../components/alerts/AlertError";
-import { AlertInfo } from "../../components/alerts/AlertInfo";
-import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { TableSales } from "../../components/sales/TableSales";
 import { SearchFilterButton } from "../../components/buttons/SearchFilter";
 import { TIMEOUT } from "../../utils/constants";
@@ -23,94 +16,40 @@ import { ClearSearchFilterButton } from "../../components/buttons/ClearSearchFil
 import { WhatsAppIconButton } from "../../components/buttons/WhatsAppIconButton";
 import { EditIconButton } from "../../components/buttons/EditIconButton";
 import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
-import Typography from "@mui/material/Typography";
-import { ClientService } from "../../service/api/client/client-service";
+import { Typography } from "@mui/material";
 import { WhatsAppService } from "../../service/api/whatsapp/whatsapp";
+import { useClient } from "./hooks/useClients";
+import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 
 export function InfoClients(props: {
   salesService: SalesService;
-  clientService: ClientService;
   whatsAppService: WhatsAppService;
 }) {
-  const { salesService, clientService, whatsAppService } = props;
+  const {
+    resources,
+    handleDeleteResource,
+    fetchSalesByClient,
+    fetchSalesPending,
+    alert,
+    setAlert,
+    sales,
+    setSales,
+    loading
+  } = useClient();
 
-  const { clientId } = useParams();
+  const { id } = useParams();
+
+  const { salesService, whatsAppService } = props;
+
   const navigate = useNavigate();
 
-  const clients = useSelector((state: ReduceStore) => state.client);
-  const client = clients.find(item => item.idclients === Number(clientId));
-  const [sales, setSales] = useState<SalesInterface[]>([]);
-
-  const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const client = resources.find(client => client.idclients === Number(id));
 
   useEffect(() => {
-    if (!clientId || !client) {
+    if (!id) {
       navigate(-1);
     }
-  }, []);
-
-  const fetchSalesByClient = async () => {
-    setLoader(<CircularIndeterminate />);
-    const { success, data, error, notFound } = await salesService.findByClient(
-      Number(clientId)
-    );
-    setLoader(null);
-
-    if (success) {
-      setSales(data);
-      setAlert(<AlertSuccess title="Pesquisa atualizada" />);
-    }
-    if (notFound) {
-      setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
-    }
-    if (error) {
-      setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
-      );
-    }
-  };
-
-  const fetchSalesPending = async () => {
-    setLoader(<CircularIndeterminate />);
-    const {
-      success,
-      data,
-      error,
-      notFound
-    } = await salesService.findPendingByClient(Number(clientId));
-    setLoader(null);
-
-    if (success) {
-      setSales(data);
-      setAlert(<AlertSuccess title="Pesquisa atualizada" />);
-    }
-    if (notFound) {
-      setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
-    }
-    if (error) {
-      setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
-      );
-    }
-  };
-
-  const onDeleteClient = async (idclients: number) => {
-    setLoader(<CircularIndeterminate />);
-    const { success, error } = await clientService.deleteClient(idclients);
-    setLoader(null);
-    if (error) {
-      setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
-      );
-      return;
-    }
-
-    if (success) {
-      setAlert(<AlertSuccess title="Cliente deletado com sucesso." />);
-      navigate(-1);
-    }
-  };
+  }, [id]);
 
   if (alert) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
@@ -118,7 +57,7 @@ export function InfoClients(props: {
 
   return (
     <ContainerMain>
-      {loader}
+      {loading ? <CircularIndeterminate /> : null}
       <Breadcumb
         page={[
           { link: "/clients", name: "Clientes" },
@@ -142,13 +81,13 @@ export function InfoClients(props: {
               whatsAppService.redirectToWhatsapp(e, client.phone);
             }}
           />
-          <Link className="" to={`/edit-client/${client.idclients}`}>
+          <Link className="" to={`/client/edit/${client.idclients}`}>
             <EditIconButton />
           </Link>
           <BasicDeleteModal
             btnName="Excluir"
             onChange={(e: React.SyntheticEvent) => {
-              onDeleteClient(client.idclients);
+              handleDeleteResource(client.idclients);
             }}
           >
             <Typography
@@ -183,7 +122,7 @@ export function InfoClients(props: {
               <LabelSmall text={client.address} />
             </LabelForm>
             <LabelForm text="Número" className="col-sm-6 pb-2 border-bottom">
-              <LabelSmall text={client.addressnumber} />
+              <LabelSmall text={client.addressNumber} />
             </LabelForm>
           </DivInline>
           <LabelForm text="Segmento" className="pb-2 border-bottom">
@@ -219,11 +158,15 @@ export function InfoClients(props: {
 
       <div>
         <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => fetchSalesByClient()}
+          onClick={(e: React.BaseSyntheticEvent) =>
+            fetchSalesByClient(Number(id))
+          }
           text="Vendas do cliente"
         />
         <SearchFilterButton
-          onClick={(e: React.BaseSyntheticEvent) => fetchSalesPending()}
+          onClick={(e: React.BaseSyntheticEvent) =>
+            fetchSalesPending(Number(id))
+          }
           text="Vendas pendentes"
         />
         <ClearSearchFilterButton

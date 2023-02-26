@@ -141,7 +141,7 @@ export function FormSales(props: InputProps) {
             type="text"
             label="Preço*"
             value={price}
-            fnChange={(e: React.BaseSyntheticEvent) => {
+            customChange={(e: React.BaseSyntheticEvent) => {
               let val = e.target.value;
               const { maskedValue } = mask(val, 2, ",", ".", false, "R$");
               setPrice(maskedValue);
@@ -153,9 +153,7 @@ export function FormSales(props: InputProps) {
             type="date"
             label=""
             value={date}
-            fnChange={(e: React.BaseSyntheticEvent) => {
-              setDate(e.target.value);
-            }}
+            fnChange={setDate}
             helperText="Escolha a data"
           />
         </div>
@@ -200,9 +198,7 @@ export function FormSales(props: InputProps) {
               type="date"
               label=""
               value={paymentDate}
-              fnChange={(e: React.BaseSyntheticEvent) => {
-                setPaymentDate(e.target.value);
-              }}
+              fnChange={setPaymentDate}
             />
           </div>
         ) : null}

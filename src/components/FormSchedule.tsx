@@ -163,9 +163,7 @@ export function FormSchedule(props: InputProps) {
               type="date"
               label=""
               value={date}
-              fnChange={(e: React.BaseSyntheticEvent) => {
-                setDate(e.target.value);
-              }}
+              fnChange={setDate}
               helperText="Escolha a data"
             />
           </div>
@@ -174,9 +172,7 @@ export function FormSchedule(props: InputProps) {
               label=""
               type="time"
               value={time}
-              fnChange={(e: React.BaseSyntheticEvent) => {
-                setTime(e.target.value);
-              }}
+              fnChange={setTime}
               helperText="Escolha o horário"
             />
           </div>

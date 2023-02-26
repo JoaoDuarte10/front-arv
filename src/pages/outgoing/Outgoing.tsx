@@ -9,11 +9,6 @@ import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { AlertError } from "../../components/alerts/AlertError";
-import { SearchFilterButton } from "../../components/buttons/SearchFilter";
-import { ClearSearchFilterButton } from "../../components/buttons/ClearSearchFilter";
-import { Collapse } from "@mui/material";
-import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
-import { SearchButton } from "../../components/buttons/SearchButton";
 import { TableOutgoing } from "../../components/outgoing/TableOutgoing";
 import { countTotalValues } from "../../utils/sum";
 import {

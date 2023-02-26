@@ -4,20 +4,26 @@ import TextField from "@mui/material/TextField";
 
 type Props = {
   label: string;
-  fnChange: any;
+  fnChange?: any;
+  customChange?: any;
   value: any;
   type?: string;
   className?: string;
   helperText?: string;
+  disabled?: boolean;
+  error?: boolean;
 };
 
 export default function FullWidthTextField({
   label,
   fnChange,
+  customChange,
   value,
   type,
   className,
-  helperText
+  helperText,
+  disabled,
+  error
 }: Props) {
   return (
     <Box
@@ -37,10 +43,12 @@ export default function FullWidthTextField({
           border: "none",
           minWidth: "120px"
         }}
-        onChange={fnChange}
+        onChange={customChange ? customChange : e => fnChange(e.target.value)}
         value={value}
         className={className}
         helperText={helperText}
+        disabled={disabled}
+        error={error}
       />
     </Box>
   );

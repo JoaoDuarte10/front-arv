@@ -301,3 +301,58 @@ export class SalesService {
     return response;
   }
 }
+
+const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
+const LOCAL_STORAGE_LOGIN_KEY = process.env
+  .REACT_APP_LOCAL_STORAGE_KEY as string;
+const localStorageService = new LocalStorageService(LOCAL_STORAGE_LOGIN_KEY);
+
+export const findSalesByClient = async (
+  idclients: number
+): Promise<HttpResponse<SalesInterface[]>> => {
+  let response: HttpResponse = {} as HttpResponse;
+  try {
+    const { data, status } = await axios
+      .get(`${API_RV_BASE_URI}/api/sales/client`, {
+        params: { idclients },
+        headers: {
+          Authorization: `Bearer ${localStorageService.getAccessToken()}`
+        }
+      })
+      .then(res => ({ data: res.data, status: res.status }))
+      .catch(err => ({
+        data: err.response ? err.response.data : err.response,
+        status: err.response ? err.response.status : err.response
+      }));
+    response = normalizeResponse(data, status);
+  } catch (error) {
+    response.error = true;
+    response.message = error.message;
+  }
+  return response;
+};
+
+export const findSalesPendingByClient = async (
+  idclients: number
+): Promise<HttpResponse<SalesInterface[]>> => {
+  let response: HttpResponse = {} as HttpResponse;
+  try {
+    const { data, status } = await axios
+      .get(`${API_RV_BASE_URI}/api/sales/pending/client`, {
+        params: { idclients },
+        headers: {
+          Authorization: `Bearer ${localStorageService.getAccessToken()}`
+        }
+      })
+      .then(res => ({ data: res.data, status: res.status }))
+      .catch(err => ({
+        data: err.response ? err.response.data : err.response,
+        status: err.response ? err.response.status : err.response
+      }));
+    response = normalizeResponse(data, status);
+  } catch (error) {
+    response.error = true;
+    response.message = error.message;
+  }
+  return response;
+};

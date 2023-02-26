@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { ClientService } from "../../service/api/client/client-service";
-import { useDispatch, useSelector } from "react-redux";
-import { clearClient, clientAdded } from "../../reducers/clients-slice";
 import { Link } from "react-router-dom";
 import { WhatsAppService } from "../../service/api/whatsapp/whatsapp";
 import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
-import Typography from "@mui/material/Typography";
+import { Typography } from "@mui/material";
 import { TIMEOUT } from "../../utils/constants";
-import { AlertSuccess } from "../../components/alerts/AlertSuccess";
-import { AlertError } from "../../components/alerts/AlertError";
-import { ReduceStore } from "../../app/store";
 import { ContainerMain } from "../../components/containers/ContainerMain";
 import { EditIconButton } from "../../components/buttons/EditIconButton";
 import { WhatsAppIconButton } from "../../components/buttons/WhatsAppIconButton";
@@ -20,57 +14,17 @@ import { LabelForm } from "../../components/labels/LabelForm";
 import { LabelSmall } from "../../components/labels/LabelSmal";
 import { DivInline } from "../../components/containers/DivInline";
 import { randomId } from "../../utils/random";
-import { ClientsInterface } from "../../service/api/client/types";
+import { useClient } from "./hooks/useClients";
 
-export function Clients(props: {
-  clientService: ClientService;
-  whatsAppService: WhatsAppService;
-}) {
-  const dispatch = useDispatch();
-  const { clientService, whatsAppService } = props;
-
-  const clientsCache = useSelector((state: ReduceStore) => state.client);
-
-  const [clients, setClients] = useState<ClientsInterface[]>([]);
-  const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
-
-  const getAllClients = async () => {
-    setLoader(<CircularIndeterminate />);
-    const { data } = await clientService.fetchAllClients();
-    setLoader(null);
-
-    if (data) {
-      dispatch(clearClient());
-      setClients(data);
-      dispatch(clientAdded(data));
-    }
-  };
-
-  useEffect(() => {
-    if (!clientsCache.length) {
-      getAllClients();
-    } else {
-      setClients(clientsCache);
-    }
-  }, []);
-
-  const onDeleteClient = async (idclients: number) => {
-    setLoader(<CircularIndeterminate />);
-    const { success, error } = await clientService.deleteClient(idclients);
-    setLoader(null);
-    if (error) {
-      setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
-      );
-      return;
-    }
-
-    if (success) {
-      setAlert(<AlertSuccess title="Cliente deletado com sucesso." />);
-      getAllClients();
-    }
-  };
+export function Clients(props: { whatsAppService: WhatsAppService }) {
+  const { whatsAppService } = props;
+  const {
+    resources,
+    handleDeleteResource,
+    loading,
+    alert,
+    setAlert
+  } = useClient();
 
   if (alert) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
@@ -82,10 +36,10 @@ export function Clients(props: {
       <TitlePrincipal title="Clientes" />
 
       {alert}
-      {loader}
+      {loading ? <CircularIndeterminate /> : null}
 
-      {clients.length
-        ? clients.map(client => {
+      {resources.length
+        ? resources.map(client => {
             return (
               <div
                 className="container_client"
@@ -98,7 +52,7 @@ export function Clients(props: {
                       padding: "5px",
                       borderRadius: "15px"
                     }}
-                    to={`/info-client/${client.idclients}`}
+                    to={`/client/info/${client.idclients}`}
                   >
                     Mais Informações
                   </Link>
@@ -113,13 +67,13 @@ export function Clients(props: {
                         whatsAppService.redirectToWhatsapp(e, client.phone);
                       }}
                     />
-                    <Link className="" to={`/edit-client/${client.idclients}`}>
+                    <Link className="" to={`/client/edit/${client.idclients}`}>
                       <EditIconButton />
                     </Link>
                     <BasicDeleteModal
                       btnName="Excluir"
                       onChange={(e: React.SyntheticEvent) => {
-                        onDeleteClient(client.idclients);
+                        handleDeleteResource(client.idclients);
                       }}
                     >
                       <Typography

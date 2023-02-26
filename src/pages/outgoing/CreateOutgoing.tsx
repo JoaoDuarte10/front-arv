@@ -138,9 +138,7 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
               type="date"
               label=""
               value={date}
-              fnChange={(e: React.BaseSyntheticEvent) => {
-                setDate(e.target.value);
-              }}
+              fnChange={setDate}
               helperText="Escolha a data"
             />
           </div>
@@ -149,7 +147,7 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
               type="text"
               label="Total *"
               value={total}
-              fnChange={(e: React.BaseSyntheticEvent) => {
+              customChange={(e: React.BaseSyntheticEvent) => {
                 let val = e.target.value;
                 const { maskedValue } = mask(val, 2, ",", ".", false, "R$");
                 setTotal(maskedValue);

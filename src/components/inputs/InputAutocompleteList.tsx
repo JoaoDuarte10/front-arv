@@ -2,8 +2,13 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
+export type Option<T = any> = {
+  label: string;
+  value: T;
+};
+
 type InputProps = {
-  options: any[];
+  options: any[] | Option[];
   label: string;
   value: any;
   onChange: any;

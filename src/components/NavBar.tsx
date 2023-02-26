@@ -165,7 +165,7 @@ export function NavBarResponsive(props: {
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/create-client");
+                      navigate("/client/create");
                     }}
                     style={{ outline: "none" }}
                   >

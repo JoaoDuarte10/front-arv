@@ -1,6 +1,7 @@
 import * as React from "react";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
+import { randomId } from "../../utils/random";
 
 export enum SelectorPoppover {
   view = "view"
@@ -35,6 +36,7 @@ export function BasicPopover({ actions }: Props) {
     return {
       view: (
         <button
+          key={randomId()}
           className="btn btn-outline-secondary border-0"
           onClick={action.handleSubmit}
           style={{

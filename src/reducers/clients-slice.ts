@@ -30,7 +30,7 @@ const clientSlice = createSlice({
                   phone: client.phone,
                   segment: client.segment,
                   address: client.address,
-                  addressnumber: client.addressnumber,
+                  addressNumber: client.addressNumber,
                   note: client.note,
                   created_at: client.created_at,
                   updated_at: client.updated_at
