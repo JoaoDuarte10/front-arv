@@ -11,7 +11,7 @@ import { LocalStorageService } from "./service/localStorage/local-storage";
 import { RulesService } from "./service/api/rules/rules";
 import { Clients } from "./pages/clients/Clients";
 import { ClientService } from "./service/api/client/client-service";
-import { InfoClients } from "./pages/clients/InfoClients";
+import { INFO_CLIENT_URL, InfoClients } from "./pages/clients/InfoClients";
 import { WhatsAppService } from "./service/api/whatsapp/whatsapp";
 import { Segment } from "./pages/Segment";
 import { SegmentService } from "./service/api/segment/segment";
@@ -87,7 +87,7 @@ export function RoutesApp() {
             }
           />
           <Route
-            path="/client/info/:id"
+            path={`${INFO_CLIENT_URL}:id`}
             element={
               <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
                 {navBar}

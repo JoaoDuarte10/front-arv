@@ -35,6 +35,16 @@ const listDeleteParams = {
     fetchAll: fetchAllClients,
     fetchOne: fetchClientById,
     delete: deleteClient
+  },
+  texts: {
+    list: {
+      success: "Pesquisa atualizada",
+      error: "Erro ao buscar informações do cliente"
+    },
+    delete: {
+      success: "Cliente deletado com sucesso",
+      error: "Erro ao deletar o cliente"
+    }
   }
 };
 

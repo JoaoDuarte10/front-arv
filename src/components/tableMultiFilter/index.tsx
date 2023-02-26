@@ -45,10 +45,11 @@ type TableMultiFilterProps = {
   filters: MultFilter[];
   clearFilters: (e: React.BaseSyntheticEvent) => void;
   handleSubmit: () => Promise<boolean>;
+  enableActionButtons?: boolean;
 };
 
 export function TableMultiFilter(props: TableMultiFilterProps) {
-  const { filters, clearFilters, handleSubmit } = props;
+  const { filters, clearFilters, handleSubmit, enableActionButtons } = props;
 
   const [filterIsOpen, setFilterOpen] = useState(false);
 
@@ -219,33 +220,35 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
               </S.ContainerRowsFilter>
             );
           })}
-          <div
-            className="form-row"
-            style={{
-              margin: "5px 0",
-              width: "60%"
-            }}
-          >
-            <div className="col mt-1 mb-1">
-              <button
-                onClick={clearFilters}
-                className="btn btn-secondary font-weight-bold col"
-              >
-                Limpar
-              </button>
+          {enableActionButtons && (
+            <div
+              className="form-row"
+              style={{
+                margin: "5px 0",
+                width: "60%"
+              }}
+            >
+              <div className="col mt-1 mb-1">
+                <button
+                  onClick={clearFilters}
+                  className="btn btn-secondary font-weight-bold col"
+                >
+                  Limpar
+                </button>
+              </div>
+              <div className="col mt-1 mb-1">
+                <button
+                  onClick={async () => {
+                    const result = await handleSubmit();
+                    if (result) setFilterOpen(false);
+                  }}
+                  className="btn btn-primary font-weight-bold col"
+                >
+                  Filtrar
+                </button>
+              </div>
             </div>
-            <div className="col mt-1 mb-1">
-              <button
-                onClick={async () => {
-                  const result = await handleSubmit();
-                  if (result) setFilterOpen(false);
-                }}
-                className="btn btn-primary font-weight-bold col"
-              >
-                Filtrar
-              </button>
-            </div>
-          </div>
+          )}
         </S.ContainerFilter>
       )}
     </div>

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 import { ListHookProps } from "./types";
+import { AlertSuccess } from '../../components/alerts/AlertSuccess';
+import { AlertServerError } from '../../components/alerts/AlertServerError';
 
-export const listHookTemplate = <LT = any,>(params: ListHookProps<LT>) => {
+export const listHookTemplate = <LT = any>(params: ListHookProps<LT>) => {
   return () => {
     const [resources, setResources] = useState<LT[]>([]);
     const [loading, setLoading] = useState(true);
@@ -10,11 +12,18 @@ export const listHookTemplate = <LT = any,>(params: ListHookProps<LT>) => {
 
     const fetchResources = async () => {
       setLoading(true);
-      const { success, data } = await params.fetchAll();
+
+      const { success, data, error } = await params.fetchAll();
 
       if (success) {
         setResources(data);
+        setAlert(<AlertSuccess title="Pesquisa atualizada" />);
       }
+
+      if (error) {
+        setAlert(<AlertServerError />);
+      }
+
       setLoading(false);
     };
 

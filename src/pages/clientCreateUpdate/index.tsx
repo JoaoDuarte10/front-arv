@@ -29,7 +29,10 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
     handleSubmit,
     isEditing,
     handleClearFormData,
-    loading
+    loading,
+    setLoading,
+    alert,
+    setAlert
   } = useClientForm();
 
   const { segmentService } = props;
@@ -37,17 +40,15 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
   const segmentCache = useSelector((state: ReduceStore) => state.segment);
 
   const [segments, setSegments] = useState<SegmentInterface[]>([]);
-  const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
 
   const titlePage = isEditing ? "Editar Cliente" : "Novo Cliente";
 
   const dispatch = useDispatch();
 
   const getSegments = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoading(true);
     const { data } = await segmentService.getAll();
-    setLoader(null);
+    setLoading(false);
 
     dispatch(segmentAdded(data));
     setSegments(data);
@@ -67,7 +68,7 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
 
   return (
     <ContainerMain>
-      {loader}
+      {loading ? <CircularIndeterminate /> : null}
 
       <Breadcumb
         page={[

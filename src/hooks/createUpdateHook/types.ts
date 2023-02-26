@@ -9,4 +9,18 @@ export type Services<FD, DT extends FD> = {
 export type CreateUpdateProps<FD, DT extends FD> = {
   initialFormData: DT;
   services: Services<FD, DT>;
+  texts: {
+    create: {
+      success: string;
+      error: string;
+    };
+    edit: {
+      success: string;
+      error: string;
+    };
+    details: {
+      success: string;
+      error: string;
+    };
+  };
 };

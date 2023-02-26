@@ -7,4 +7,14 @@ type Services<LT> = {
 
 export type Props<LT> = {
   services: Services<LT>;
+  texts: {
+    list: {
+      success: string;
+      error: string;
+    };
+    delete: {
+      success: string;
+      error: string;
+    };
+  };
 };

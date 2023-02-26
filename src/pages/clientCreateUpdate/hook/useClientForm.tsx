@@ -29,6 +29,20 @@ const params = {
     create: createClient,
     edit: editClient,
     getDetails: fetchClientById
+  },
+  texts: {
+    create: {
+      success: "Cliente criado com sucesso",
+      error: "Erro ao criar o cliente"
+    },
+    edit: {
+      success: "Cliente editado com sucesso",
+      error: "Erro ao editar o cliente"
+    },
+    details: {
+      success: "Pesquisa atualizada",
+      error: "Erro ao buscar informações do cliente"
+    }
   }
 };
 

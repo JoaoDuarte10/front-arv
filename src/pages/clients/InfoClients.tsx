@@ -21,6 +21,8 @@ import { WhatsAppService } from "../../service/api/whatsapp/whatsapp";
 import { useClient } from "./hooks/useClients";
 import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
 
+export const INFO_CLIENT_URL = "/client/info/";
+
 export function InfoClients(props: {
   salesService: SalesService;
   whatsAppService: WhatsAppService;

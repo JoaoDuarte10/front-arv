@@ -1,7 +1,7 @@
 import React from "react";
 import { Breadcumb } from "../../components/Breadcumb";
 import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { WhatsAppService } from "../../service/api/whatsapp/whatsapp";
 import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
 import { Typography } from "@mui/material";
@@ -15,6 +15,12 @@ import { LabelSmall } from "../../components/labels/LabelSmal";
 import { DivInline } from "../../components/containers/DivInline";
 import { randomId } from "../../utils/random";
 import { useClient } from "./hooks/useClients";
+import { INFO_CLIENT_URL } from "./InfoClients";
+import {
+  TableMultiFilter,
+  TypeMultiFilter
+} from "../../components/tableMultiFilter/index";
+import { Option } from "../../components/inputs/InputAutocompleteList";
 
 export function Clients(props: { whatsAppService: WhatsAppService }) {
   const { whatsAppService } = props;
@@ -25,6 +31,8 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
     alert,
     setAlert
   } = useClient();
+
+  const navigate = useNavigate();
 
   if (alert) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
@@ -37,6 +45,30 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
 
       {alert}
       {loading ? <CircularIndeterminate /> : null}
+
+      <TableMultiFilter
+        filters={[
+          {
+            label: "Clientes",
+            value: "",
+            placeholder: "Selecione o cliente",
+            type: TypeMultiFilter.select,
+            options: resources.map(client => ({
+              label: client.name,
+              value: client.idclients
+            })),
+            handleChangeValue: (e: React.BaseSyntheticEvent, item: Option) => {
+              if (typeof item === "object") {
+                navigate(INFO_CLIENT_URL + item.value);
+              }
+            },
+            disabled: false
+          }
+        ]}
+        clearFilters={(e: React.BaseSyntheticEvent) => null}
+        handleSubmit={() => Promise.resolve(true)}
+        enableActionButtons={false}
+      />
 
       {resources.length
         ? resources.map(client => {
@@ -52,7 +84,7 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
                       padding: "5px",
                       borderRadius: "15px"
                     }}
-                    to={`/client/info/${client.idclients}`}
+                    to={`${INFO_CLIENT_URL}${client.idclients}`}
                   >
                     Mais Informações
                   </Link>

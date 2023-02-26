@@ -31,6 +31,7 @@ import TablePagination from "@mui/material/TablePagination";
 import ptBR from "date-fns/locale/pt-BR";
 import { BasicPopover, SelectorPoppover } from "../popover/index";
 import { useNavigate } from "react-router-dom";
+import { INFO_CLIENT_URL } from "../../pages/clients/InfoClients";
 
 type InputProps = {
   sales: SalesInterface[];
@@ -273,7 +274,7 @@ Agradecemos a confiança!!!`;
                 {
                   selector: SelectorPoppover.view,
                   handleSubmit: () => {
-                    navigate(`/info-client/${row.idclients}`);
+                    navigate(`${INFO_CLIENT_URL}${row.idclients}`);
                   }
                 }
               ]}
