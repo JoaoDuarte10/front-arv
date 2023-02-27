@@ -329,7 +329,7 @@ export function Schedules(props: {
             value: date,
             placeholder: "",
             type: TypeMultiFilter.date,
-            handleChangeValue: (e: any) => setDate(e.target.value),
+            handleChangeValue: setDate,
             disabled: clientSelected.label ? true : false
           },
           {

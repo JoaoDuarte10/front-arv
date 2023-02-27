@@ -5,9 +5,7 @@ import ComboBoxList from "../inputs/InputAutocompleteList";
 
 import * as S from "./style";
 import { randomId } from "../../utils/random";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
+import { DateInput } from "../date/index";
 
 export enum TypeMultiFilter {
   date = "date",
@@ -49,7 +47,12 @@ type TableMultiFilterProps = {
 };
 
 export function TableMultiFilter(props: TableMultiFilterProps) {
-  const { filters, clearFilters, handleSubmit, enableActionButtons } = props;
+  const {
+    filters,
+    clearFilters,
+    handleSubmit,
+    enableActionButtons = true
+  } = props;
 
   const [filterIsOpen, setFilterOpen] = useState(false);
 
@@ -61,18 +64,11 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
   ): { [key in TypeMultiFilter]: JSX.Element } => {
     return {
       date: (
-        <TextField
-          variant="outlined"
-          type="date"
-          fullWidth
-          label={""}
-          value={filter.value}
-          id="fullWidth"
+        <DateInput
+          value={filter.value as any}
+          setValue={filter.handleChangeValue}
+          label="Data"
           size="small"
-          onChange={filter.handleChangeValue}
-          error={filter.error}
-          helperText={filter.helperText}
-          disabled={filter.disabled}
         />
       ),
       text: (

@@ -13,7 +13,7 @@ export enum OutgoingPaymentMethodEnums {
 export type OutgoingInterface = {
   idoutgoing?: number;
   description: string;
-  date: Date | string;
+  date: Date | string | null;
   total: number;
   paymentMethod: OutgoingPaymentMethodEnums;
   installment: boolean | OutgoingInstallmentEnums;

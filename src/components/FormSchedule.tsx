@@ -4,18 +4,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { ReduceStore } from "../app/store";
 import { clearClient, clientAdded } from "../reducers/clients-slice";
 import ComboBoxList from "./inputs/InputAutocompleteList";
-import FullWidthTextField from "./inputs/TextFieldFullWidth";
 import TextFieldMultiline from "./inputs/TextFieldMultiline";
 import { CircularIndeterminate } from "./loaders/CircularLoader";
 import { ClientService } from "../service/api/client/client-service";
 import { ScheduleInterface } from "../service/api/schedule/types";
-import { format } from "date-fns";
+import { format, getHours, getMinutes } from "date-fns";
 import { InputText } from "./inputs/InputText";
 import { DivInline } from "./containers/DivInline";
 import { ContainerCardWhite } from "./containers/ContainerCardWhite";
 import { GenericButton } from "./buttons/GenericButton";
 import { ColorsBootstrap } from "./modal/GenericModal";
 import { ClientsInterface } from "../service/api/client/types";
+import { DateInput } from "./date/index";
+import { TimeInput } from "./time/index";
 
 type InputProps = {
   clientService: ClientService;
@@ -35,8 +36,8 @@ export function FormSchedule(props: InputProps) {
   const [idschedules, setIdSchedules] = useState<number | null>(null);
   const [clientName, setClientName] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("");
-  const [time, setTime] = useState<string>("");
-  const [date, setDate] = useState<string>("");
+  const [time, setTime] = useState<Date | string | null>(null);
+  const [date, setDate] = useState<Date | string | null>(null);
   const [pacote, setPacote] = useState<boolean>(false);
   const [atendenceCount, setAtendenceCount] = useState<number>(0);
   const [totalAtendenceCount, setTotalAtendenceCount] = useState<number>(0);
@@ -91,8 +92,8 @@ export function FormSchedule(props: InputProps) {
   const clearFields = () => {
     setClientName("");
     setDescription("");
-    setTime("");
-    setDate("");
+    setTime(null);
+    setDate(null);
     setPacote(false);
     setAtendenceCount(0);
     setTotalAtendenceCount(0);
@@ -159,22 +160,10 @@ export function FormSchedule(props: InputProps) {
         />
         <DivInline>
           <div className="col">
-            <FullWidthTextField
-              type="date"
-              label=""
-              value={date}
-              fnChange={setDate}
-              helperText="Escolha a data"
-            />
+            <DateInput value={date as Date} setValue={setDate} label="Data" />
           </div>
           <div className="col">
-            <FullWidthTextField
-              label=""
-              type="time"
-              value={time}
-              fnChange={setTime}
-              helperText="Escolha o horário"
-            />
+            <TimeInput value={time as Date} setValue={setTime} label="Horário" />
           </div>
         </DivInline>
 
@@ -246,7 +235,7 @@ export function FormSchedule(props: InputProps) {
                   idclients: clientSelected.idclients,
                   clientName,
                   description,
-                  time,
+                  time: `${getHours(time as Date)}:${getMinutes(time as Date)}`,
                   date,
                   pacote,
                   atendenceCount: Number(atendenceCount),

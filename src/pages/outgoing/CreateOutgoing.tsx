@@ -17,6 +17,7 @@ import { mask } from "../../utils/mask-money";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { AlertSuccess } from "../../components/alerts/AlertSuccess";
 import { AlertError } from "../../components/alerts/AlertError";
+import { DateInput } from "../../components/date/index";
 
 export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
   const { outgoingService } = props;
@@ -29,7 +30,7 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
   );
 
   const [description, setDescription] = useState<string>("");
-  const [date, setDate] = useState<Date | string>("");
+  const [date, setDate] = useState<Date | string | null>(null);
   const [total, setTotal] = useState<string>("");
   const [paymentMethodSelected, setPaymentMethodSelected] = useState<
     OutgoingPaymentMethodEnums | string
@@ -71,7 +72,7 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
 
   const clearFields = () => {
     setDescription("");
-    setDate("");
+    setDate(null);
     setTotal("");
     setPaymentMethodSelected("");
     setInstallmentSelected("");
@@ -134,13 +135,7 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
 
         <DivInline>
           <div className="col">
-            <FullWidthTextField
-              type="date"
-              label=""
-              value={date}
-              fnChange={setDate}
-              helperText="Escolha a data"
-            />
+            <DateInput value={date as any} setValue={setDate} label="Data" />
           </div>
           <div className="col">
             <FullWidthTextField

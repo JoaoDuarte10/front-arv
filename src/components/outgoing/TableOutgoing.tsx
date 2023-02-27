@@ -169,7 +169,7 @@ function Row(props: {
         </TableCell>
 
         <TableCell align="center">
-          {new Date(row.date).toLocaleDateString("pt-BR", {
+          {new Date(row.date as string).toLocaleDateString("pt-BR", {
             timeZone: "UTC"
           })}
         </TableCell>

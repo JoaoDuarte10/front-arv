@@ -231,7 +231,7 @@ export function Sales(props: {
             value: date,
             placeholder: "",
             type: TypeMultiFilter.date,
-            handleChangeValue: (e: any) => setDate(e.target.value),
+            handleChangeValue: setDate,
             disabled: period.date1 || period.date2 ? true : false
           },
           {
@@ -243,13 +243,13 @@ export function Sales(props: {
             period: {
               date1: {
                 value: period.date1,
-                handleChangeValue: (e: React.BaseSyntheticEvent) =>
-                  setPeriod({ date1: e.target.value, date2: period.date2 })
+                handleChangeValue: (e: Date | null) => 
+                setPeriod({ date1: e as any, date2: period.date2 })
               },
               date2: {
                 value: period.date2,
-                handleChangeValue: (e: React.BaseSyntheticEvent) =>
-                  setPeriod({ date1: period.date1, date2: e.target.value })
+                handleChangeValue: (e: Date | null) =>
+                setPeriod({ date1: period.date1, date2: e as any })
               }
             },
             disabled: date ? true : false

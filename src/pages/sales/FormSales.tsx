@@ -14,6 +14,7 @@ import { ColorsBootstrap } from "../../components/modal/GenericModal";
 import { ClientsInterface } from "../../service/api/client/types";
 import { OutgoingPaymentMethodEnums } from "../../service/api/outgoing/types";
 import { ScheduleInterface } from "../../service/api/schedule/types";
+import { DateInput } from "../../components/date/index";
 
 type InputProps = {
   clients: ClientsInterface[];
@@ -28,8 +29,8 @@ export function FormSales(props: InputProps) {
 
   const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<string>("");
-  const [date, setDate] = useState<string>("");
-  const [paymentDate, setPaymentDate] = useState<string>("");
+  const [date, setDate] = useState<Date | string | null>(null);
+  const [paymentDate, setPaymentDate] = useState<Date | string | null>(null);
   const [paymentPending, setPaymentPending] = useState<boolean>(false);
   const [paymentMethods, setPaymentMethods] = useState<
     OutgoingPaymentMethodEnums | string
@@ -46,10 +47,10 @@ export function FormSales(props: InputProps) {
 
   const clearFields = () => {
     setDescription("");
-    setDate("");
+    setDate(null);
     setPrice("");
     setPaymentPending(false);
-    setPaymentDate("");
+    setPaymentDate(null);
     setClientSelected({ label: "", idclients: 0 });
     setPaymentMethodSelected("");
   };
@@ -149,13 +150,7 @@ export function FormSales(props: InputProps) {
           />
         </div>
         <div className="col">
-          <FullWidthTextField
-            type="date"
-            label=""
-            value={date}
-            fnChange={setDate}
-            helperText="Escolha a data"
-          />
+          <DateInput value={date as Date} setValue={setDate} label="Data" />
         </div>
       </DivInline>
 
@@ -194,11 +189,10 @@ export function FormSales(props: InputProps) {
             <small className="font-weight-bold text-primary">
               Data de previsão do pagamento
             </small>
-            <FullWidthTextField
-              type="date"
-              label=""
-              value={paymentDate}
-              fnChange={setPaymentDate}
+            <DateInput
+              value={paymentDate as Date}
+              setValue={setPaymentDate}
+              label="Data de previsão"
             />
           </div>
         ) : null}
