@@ -33,6 +33,7 @@ export const DateInput = ({
           onChange={(newValue: Date | null) => {
             setValue(newValue);
           }}
+          closeOnSelect={true}
           renderInput={(params: any) => (
             <TextField
               {...params}
