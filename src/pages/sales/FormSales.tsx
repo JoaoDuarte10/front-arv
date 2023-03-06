@@ -69,7 +69,7 @@ export function FormSales(props: InputProps) {
     fetchPaymentMethodsEnums();
     if (schedule) {
       setDescription(schedule.description);
-      setDate(format(new Date(schedule.date.replace("Z", "")), "yyyy-MM-dd"));
+      setDate(schedule.date);
       setPrice("");
       setPaymentDate("");
       setClientSelected({
@@ -150,7 +150,14 @@ export function FormSales(props: InputProps) {
           />
         </div>
         <div className="col">
-          <DateInput value={date as Date} setValue={setDate} label="Data" />
+          <DateInput
+            value={typeof date === 'string'
+              ? new Date(date.replace('Z', ''))
+              : date
+            }
+            setValue={setDate}
+            label="Data"
+          />
         </div>
       </DivInline>
 

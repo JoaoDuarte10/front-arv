@@ -73,11 +73,15 @@ export function FormSchedule(props: InputProps) {
     }
 
     if (edit && schedule) {
+      const timeSelected = new Date()
+      timeSelected.setHours(Number(schedule.time.split(':')[0]))
+      timeSelected.setMinutes(Number(schedule.time.split(':')[1]))
+
       setIdSchedules(schedule.idschedules || 0);
       setClientName(schedule.clientName);
       setDescription(schedule.description);
-      setTime(schedule.time);
-      setDate(format(new Date(schedule.date.replace("Z", "")), "yyyy-MM-dd"));
+      setTime(timeSelected);
+      setDate(schedule.date);
       setPacote(schedule.pacote);
       setAtendenceCount(schedule.atendenceCount || 0);
       setTotalAtendenceCount(schedule.totalAtendenceCount);
@@ -160,10 +164,21 @@ export function FormSchedule(props: InputProps) {
         />
         <DivInline>
           <div className="col">
-            <DateInput value={date as Date} setValue={setDate} label="Data" />
+            <DateInput
+              value={typeof date === 'string'
+                ? new Date(date.replace('Z', ''))
+                : date
+              }
+              setValue={setDate}
+              label="Data"
+            />
           </div>
           <div className="col">
-            <TimeInput value={time as Date} setValue={setTime} label="Horário" />
+            <TimeInput
+              value={time as Date}
+              setValue={setTime}
+              label="Horário"
+            />
           </div>
         </DivInline>
 
