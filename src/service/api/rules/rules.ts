@@ -23,6 +23,8 @@ export class RulesService {
         return "sales";
       case "outgoing":
         return "outgoing";
+      case "catalogs":
+        return "catalogs";
       default:
         return "";
     }

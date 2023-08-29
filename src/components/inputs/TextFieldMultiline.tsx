@@ -9,6 +9,7 @@ type Props = {
   type?: string;
   rows: number;
   className?: string;
+  disabled?: boolean
 };
 
 export default function TextFieldMultiline({
@@ -17,7 +18,8 @@ export default function TextFieldMultiline({
   value,
   type,
   rows,
-  className
+  className,
+  disabled
 }: Props) {
   return (
     <Box
@@ -41,6 +43,7 @@ export default function TextFieldMultiline({
         value={value}
         type={type}
         className={className}
+        disabled={disabled}
       />
     </Box>
   );

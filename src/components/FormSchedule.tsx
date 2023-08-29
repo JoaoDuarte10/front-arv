@@ -73,9 +73,9 @@ export function FormSchedule(props: InputProps) {
     }
 
     if (edit && schedule) {
-      const timeSelected = new Date()
-      timeSelected.setHours(Number(schedule.time.split(':')[0]))
-      timeSelected.setMinutes(Number(schedule.time.split(':')[1]))
+      const timeSelected = new Date();
+      timeSelected.setHours(Number(schedule.time.split(":")[0]));
+      timeSelected.setMinutes(Number(schedule.time.split(":")[1]));
 
       setIdSchedules(schedule.idschedules || 0);
       setClientName(schedule.clientName);
@@ -165,9 +165,10 @@ export function FormSchedule(props: InputProps) {
         <DivInline>
           <div className="col">
             <DateInput
-              value={typeof date === 'string'
-                ? new Date(date.replace('Z', ''))
-                : date
+              value={
+                typeof date === "string"
+                  ? new Date(date.replace("Z", ""))
+                  : date
               }
               setValue={setDate}
               label="Data"

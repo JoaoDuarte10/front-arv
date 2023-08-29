@@ -1,7 +1,7 @@
 export class LocalStorageService {
   constructor(private readonly key: string) {}
 
-  getUser() {
+  public getUser() {
     const user = localStorage.getItem(this.key);
     if (!user) return null;
     try {
@@ -12,7 +12,7 @@ export class LocalStorageService {
     }
   }
 
-  getRules(): string[] | null {
+  public getRules(): string[] | null {
     const user = localStorage.getItem(this.key);
     if (!user) return null;
     try {
@@ -22,7 +22,7 @@ export class LocalStorageService {
     }
   }
 
-  getAccessToken(): string | null {
+  public getAccessToken(): string | null {
     const user = localStorage.getItem(this.key);
     if (!user) return null;
     try {
@@ -32,11 +32,11 @@ export class LocalStorageService {
     }
   }
 
-  saveLogin(params: any) {
+  public saveLogin(params: any) {
     localStorage.setItem(this.key, JSON.stringify(params));
   }
 
-  clearUser() {
+  public clearUser() {
     localStorage.removeItem(this.key);
   }
 }

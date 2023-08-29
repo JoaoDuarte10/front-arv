@@ -131,7 +131,6 @@
     width: 100%;
     display: inline-block;
     height: auto;
-    position: -webkit-sticky;
     position: sticky;
     overflow-x: none;
   }
@@ -286,6 +285,39 @@
   min-height: 70px;
 }
 
+.container_catalog {
+  background-color: white;
+  margin: 15px 0;
+  padding: 15px 10px;
+  border-radius: 10px;
+  border-left: #0275d8 5px solid;
+  box-shadow: 1px 1px 4px gray;
+}
+
+.label_catalog {
+  font-size: 1em;
+  color: #0275d8;
+  font-weight: bold;
+}
+
+.actions_catalog {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: lightgray 1px solid;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+}
+
+#more_info_catalog {
+  font-size: 13px;
+  color: white;
+  padding: 5px;
+  background-color: #0275d8;
+  font-weight: bold;
+  border-radius: 15px;
+}
+
 #root {
   font-family: "Montserrat";
   font-size: 15px;
@@ -323,17 +355,7 @@
   border-radius: 50%;
   width: 120px;
   height: 120px;
-  -webkit-animation: spin 2s linear infinite;
-          animation: spin 2s linear infinite;
-}
-
-@-webkit-keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
@@ -363,25 +385,11 @@
 }
 
 .pulse {
-  -webkit-animation: pulse 0.7s infinite;
-          animation: pulse 0.7s infinite;
+  animation: pulse 0.7s infinite;
   display: table;
   padding-left: 10px;
-  -webkit-animation-direction: alternate;
-          animation-direction: alternate;
-  -webkit-animation-name: pulse;
+  animation-direction: alternate;
   animation-name: pulse;
-}
-
-@-webkit-keyframes pulse {
-  0% {
-    -webkit-transform: scale(1);
-    -webkit-filter: brightness(100%);
-  }
-  100% {
-    -webkit-transform: scale(1.1);
-    -webkit-filter: brightness(200%);
-  }
 }
 @keyframes pulse {
   0% {

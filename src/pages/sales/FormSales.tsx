@@ -151,9 +151,8 @@ export function FormSales(props: InputProps) {
         </div>
         <div className="col">
           <DateInput
-            value={typeof date === 'string'
-              ? new Date(date.replace('Z', ''))
-              : date
+            value={
+              typeof date === "string" ? new Date(date.replace("Z", "")) : date
             }
             setValue={setDate}
             label="Data"

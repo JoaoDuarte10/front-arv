@@ -21,12 +21,14 @@ export function NavBarResponsive(props: {
   const [openSchedules, setOpenSchedules] = useState<boolean>(false);
   const [openResponsive, setOpenResponsive] = useState<boolean>(false);
   const [openOutgoing, setOpenOutgoing] = useState<boolean>(false);
+  const [openCatalog, setOpenCatalog] = useState<boolean>(false);
 
   const closeItens = () => {
     setOpenSales(false);
     setOpenClients(false);
     setOpenSchedules(false);
     setOpenOutgoing(false);
+    setOpenCatalog(false);
     closeNavResponsive();
   };
 
@@ -290,6 +292,48 @@ export function NavBarResponsive(props: {
                     style={{ outline: "none" }}
                   >
                     Suas despesas
+                  </button>
+                </li>
+              </ul>
+            </Collapse>
+          </li>
+        )}
+        {rules.includes(ruleService.ruleWithPage("catalogs")) && (
+          <li className="nav-item remove-style-link" key={randomId()}>
+            <button
+              className="btn-list-item"
+              style={{ outline: "none" }}
+              onClick={e => setOpenCatalog(!openOutgoing)}
+            >
+              Serviços
+              {openCatalog ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+            </button>
+            <Collapse in={openCatalog} timeout="auto" unmountOnExit>
+              <ul
+                style={{ listStyle: "none", listStyleType: "none", padding: 0 }}
+              >
+                <li className="sub-item" key="69482">
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/catalogs/create");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Novo Serviço
+                  </button>
+                </li>
+                <li className="sub-item" key="34454">
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate("/catalogs");
+                    }}
+                    style={{ outline: "none" }}
+                  >
+                    Seus Serviços
                   </button>
                 </li>
               </ul>

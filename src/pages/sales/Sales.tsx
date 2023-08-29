@@ -243,13 +243,13 @@ export function Sales(props: {
             period: {
               date1: {
                 value: period.date1,
-                handleChangeValue: (e: React.BaseSyntheticEvent) => 
-                setPeriod({ date1: e.target.value, date2: period.date2 })
+                handleChangeValue: (e: React.BaseSyntheticEvent) =>
+                  setPeriod({ date1: e.target.value, date2: period.date2 })
               },
               date2: {
                 value: period.date2,
                 handleChangeValue: (e: React.BaseSyntheticEvent) =>
-                setPeriod({ date1: period.date1, date2: e.target.value })
+                  setPeriod({ date1: period.date1, date2: e.target.value })
               }
             },
             disabled: date ? true : false

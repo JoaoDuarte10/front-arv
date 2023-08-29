@@ -27,6 +27,8 @@ import { OutgoingService } from "./service/api/outgoing/outgoing";
 import { Outgoing } from "./pages/outgoing/Outgoing";
 import { CreateOutgoing } from "./pages/outgoing/CreateOutgoing";
 import { ClientCreateUpdate } from "./pages/clientCreateUpdate/index";
+import { Catalog } from "./pages/catalog/Catalog";
+import { CatalogsCreateUpdate } from "./pages/catalogCreateUpdate";
 
 export const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
 export const LOCAL_STORAGE_LOGIN_KEY = process.env
@@ -213,6 +215,33 @@ export function RoutesApp() {
               <PrivateRoute rules={[ruleService.ruleWithPage("outgoing")]}>
                 {navBar}
                 <Outgoing outgoingService={outgoingService} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/catalogs"
+            element={
+              <PrivateRoute rules={[ruleService.ruleWithPage("catalogs")]}>
+                {navBar}
+                <Catalog />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={`/catalogs/${NEW_RESOURCE_KEY}`}
+            element={
+              <PrivateRoute rules={[ruleService.ruleWithPage("catalogs")]}>
+                {navBar}
+                <CatalogsCreateUpdate />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/catalogs/edit/:id"
+            element={
+              <PrivateRoute rules={[ruleService.ruleWithPage("catalogs")]}>
+                {navBar}
+                <CatalogsCreateUpdate />
               </PrivateRoute>
             }
           />
