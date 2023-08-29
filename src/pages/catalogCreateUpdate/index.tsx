@@ -60,7 +60,7 @@ export function CatalogsCreateUpdate() {
           label="Descrição*"
           value={formData.description}
           fnChange={(e: React.BaseSyntheticEvent) => {
-            handleChangeValue("description")(e.target.value)
+            handleChangeValue("description")(e.target.value);
           }}
           disabled={loading}
           rows={3}

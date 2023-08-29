@@ -54,6 +54,7 @@ export function CreateSales(props: {
 
   const onCreate = async (params: {
     idclients: number;
+    clientName: string;
     description: string;
     date: string;
     total: number;
@@ -64,6 +65,7 @@ export function CreateSales(props: {
     setLoader(<CircularIndeterminate />);
     const { success, error, badRequest } = await salesService.create({
       idclients: params.idclients || null,
+      clientName: params.clientName || null,
       description: params.description,
       date: params.date,
       total: params.total,

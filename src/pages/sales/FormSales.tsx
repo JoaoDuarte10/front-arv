@@ -223,6 +223,7 @@ export function FormSales(props: InputProps) {
             onClick={async (e: React.BaseSyntheticEvent) => {
               const result = await onChange({
                 idclients: clientSelected.idclients,
+                clientName: clientSelected.label,
                 description,
                 date,
                 total: parseInt(price.substring(2).replace(/\.|,/g, "")) / 100,

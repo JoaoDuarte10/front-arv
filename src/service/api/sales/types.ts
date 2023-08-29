@@ -4,6 +4,7 @@ export type SalesInterface = {
   idsales: number;
   client: string;
   idclients: number;
+  clientName: string;
   description: string;
   date: string;
   total: number;

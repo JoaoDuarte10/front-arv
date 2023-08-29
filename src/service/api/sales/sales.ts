@@ -18,6 +18,7 @@ export class SalesService {
 
   async create(params: {
     idclients: number | null;
+    clientName: string | null;
     description: string;
     date: string;
     total: number;
@@ -32,6 +33,7 @@ export class SalesService {
           `${this.baseUri}/api/sales`,
           {
             idclients: params.idclients,
+            clientName: params.clientName,
             description: params.description,
             date: params.date,
             total: params.total,

@@ -121,6 +121,7 @@ function createData(sale: SalesInterface) {
   return {
     idsales: sale.idsales,
     client: sale.client,
+    clientName: sale.clientName,
     date: sale.date,
     description: sale.description,
     idclients: sale.idclients,
@@ -267,7 +268,7 @@ Agradecemos a confiança!!!`;
           }}
         >
           <>
-            {row.client}
+            {row.client || row.clientName}
             <BasicPopover
               key={randomId()}
               actions={[

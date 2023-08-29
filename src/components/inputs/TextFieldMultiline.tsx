@@ -9,7 +9,7 @@ type Props = {
   type?: string;
   rows: number;
   className?: string;
-  disabled?: boolean
+  disabled?: boolean;
 };
 
 export default function TextFieldMultiline({
