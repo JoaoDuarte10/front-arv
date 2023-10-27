@@ -307,8 +307,6 @@ export function Schedules(props: {
       await fetchByDate();
     }
 
-    await fetchExpireds();
-
     return true;
   };
 
@@ -369,6 +367,8 @@ export function Schedules(props: {
       />
 
       {alert}
+
+      {console.log(schedules)}
 
       {schedules.length
         ? schedules.map((schedule: ScheduleInterface) => {
