@@ -2,7 +2,7 @@ import axios from "axios";
 import { HttpResponse } from "../../http/types";
 import { LocalStorageService } from "../../localStorage/local-storage";
 import { normalizeResponse } from "../../http/fetch";
-import { CatalogFormData } from "./types";
+import { CatalogFormData, CatalogInterface } from "./types";
 
 export class CatalogService {
   constructor(
@@ -15,7 +15,7 @@ export class CatalogService {
     return token || "";
   }
 
-  async fetchAll(): Promise<HttpResponse> {
+  async fetchAll(): Promise<HttpResponse<CatalogInterface[]>> {
     let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
@@ -148,7 +148,7 @@ const LOCAL_STORAGE_LOGIN_KEY = process.env
   .REACT_APP_LOCAL_STORAGE_KEY as string;
 const localStorageService = new LocalStorageService(LOCAL_STORAGE_LOGIN_KEY);
 
-export const fetchAllCatalogs = async (): Promise<HttpResponse> => {
+export const fetchAllCatalogs = async (): Promise<HttpResponse<CatalogInterface[]>> => {
   let response: HttpResponse = {} as HttpResponse;
   try {
     const { data, status } = await axios

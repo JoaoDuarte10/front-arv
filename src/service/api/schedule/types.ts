@@ -12,6 +12,8 @@ export type ScheduleInterface = {
   atendenceCount?: number;
   totalAtendenceCount: number;
   status: string;
+  scheduleServices?: {name: string; idScheduleServices: number; idCatalog: number}[]
+  idCatalogs?: number[]
   createdAt?: string;
   updatedAt?: string;
 };

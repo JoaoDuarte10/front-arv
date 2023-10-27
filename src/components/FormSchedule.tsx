@@ -3,12 +3,12 @@ import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { ReduceStore } from "../app/store";
 import { clearClient, clientAdded } from "../reducers/clients-slice";
-import ComboBoxList from "./inputs/InputAutocompleteList";
+import ComboBoxList, { Option } from "./inputs/InputAutocompleteList";
 import TextFieldMultiline from "./inputs/TextFieldMultiline";
 import { CircularIndeterminate } from "./loaders/CircularLoader";
 import { ClientService } from "../service/api/client/client-service";
 import { ScheduleInterface } from "../service/api/schedule/types";
-import { format, getHours, getMinutes } from "date-fns";
+import { getHours, getMinutes } from "date-fns";
 import { InputText } from "./inputs/InputText";
 import { DivInline } from "./containers/DivInline";
 import { ContainerCardWhite } from "./containers/ContainerCardWhite";
@@ -17,6 +17,8 @@ import { ColorsBootstrap } from "./modal/GenericModal";
 import { ClientsInterface } from "../service/api/client/types";
 import { DateInput } from "./date/index";
 import { TimeInput } from "./time/index";
+import AutocompleteFilterSelected from "./inputs/InputAutocompleteFilterSelectedOption";
+import { fetchAllCatalogs } from "../service/api/catalog/catalog-service";
 
 type InputProps = {
   clientService: ClientService;
@@ -46,6 +48,8 @@ export function FormSchedule(props: InputProps) {
     label: string;
     idclients: number | null;
   }>({ label: "", idclients: null });
+  const [idCatalogs, setIdCatalogs] = useState<Option[]>([]);
+  const [catalogsOptions, setCatalogsOptions] = useState<Option[]>([]);
 
   const [loader, setLoader] = useState<JSX.Element | null>(null);
 
@@ -64,6 +68,23 @@ export function FormSchedule(props: InputProps) {
       dispatch(clientAdded(data));
     }
   };
+
+  const getCatalogsDependencies = async () => {
+    setLoader(<CircularIndeterminate />);
+    const { data } = await fetchAllCatalogs();
+    setLoader(null);
+
+    if (!data || !data.length) {
+      return;
+    }
+
+    const options = data.map((catalog) => ({
+      label: catalog.name,
+      value: catalog.idCatalog,
+    }));
+
+    setCatalogsOptions(options)
+  }
 
   useEffect(() => {
     if (!clientsCache.length) {
@@ -90,7 +111,18 @@ export function FormSchedule(props: InputProps) {
         label: schedule.name || schedule.clientName || "",
         idclients: schedule.idclients || null
       });
+
+      if (schedule.scheduleServices && schedule.scheduleServices.length) {
+        setIdCatalogs(
+          schedule.scheduleServices.map(scheduleService => ({
+            label: scheduleService.name || '',
+            value: scheduleService.idCatalog || null
+          }))
+        );
+      }
     }
+
+    getCatalogsDependencies();
   }, []);
 
   const clearFields = () => {
@@ -103,6 +135,7 @@ export function FormSchedule(props: InputProps) {
     setTotalAtendenceCount(0);
     setStatus("");
     setClientSelected({ label: "", idclients: null });
+    setIdCatalogs([]);
   };
 
   return (
@@ -152,6 +185,29 @@ export function FormSchedule(props: InputProps) {
             }}
           />
         )}
+
+        <AutocompleteFilterSelected
+          options={catalogsOptions}
+          label={"Selecione os serviços"}
+          value={idCatalogs}
+          className="pt-2"
+          onChange={(
+            _e: React.BaseSyntheticEvent,
+            item: Option[]
+          ) => {
+            setIdCatalogs(item)
+            // if (typeof item === "string") {
+            //   setClientName(item);
+            //   setClientSelected({ label: item, idclients: null });
+            // } else {
+            //   setClientSelected({
+            //     label: item.label,
+            //     idclients: item.idclients
+            //   });
+            //   setClientName(null);
+            // }
+          }}
+        />
 
         <TextFieldMultiline
           label="Descrição*"
@@ -256,7 +312,8 @@ export function FormSchedule(props: InputProps) {
                   pacote,
                   atendenceCount: Number(atendenceCount),
                   totalAtendenceCount: Number(totalAtendenceCount),
-                  status
+                  status,
+                  idCatalogs: idCatalogs.map(idCatalog => idCatalog.value)
                 });
                 if (result) {
                   clearFields();

@@ -303,7 +303,7 @@ export function NavBarResponsive(props: {
             <button
               className="btn-list-item"
               style={{ outline: "none" }}
-              onClick={e => setOpenCatalog(!openOutgoing)}
+              onClick={e => setOpenCatalog(!openCatalog)}
             >
               Serviços
               {openCatalog ? <KeyboardArrowUp /> : <KeyboardArrowDown />}

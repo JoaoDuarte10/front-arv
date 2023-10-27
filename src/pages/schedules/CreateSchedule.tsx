@@ -10,6 +10,7 @@ import { ScheduleService } from "../../service/api/schedule/schedule";
 import { AlertError } from "../../components/alerts/AlertError";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { FormSchedule } from "../../components/FormSchedule";
+import { CatalogService } from "../../service/api/catalog/catalog-service";
 
 export function CreateSchedule(props: {
   clientService: ClientService;
@@ -29,6 +30,7 @@ export function CreateSchedule(props: {
     pacote: boolean;
     totalAtendenceCount: number;
     status: string;
+    idCatalogs: number[]
   }): Promise<boolean> => {
     setLoader(<CircularIndeterminate />);
     const { success, error, badRequest } = await scheduleService.create({
@@ -39,7 +41,8 @@ export function CreateSchedule(props: {
       date: params.date,
       pacote: params.pacote,
       totalAtendenceCount: params.totalAtendenceCount,
-      status: params.status
+      status: params.status,
+      idCatalogs: params.idCatalogs,
     });
     setLoader(null);
 

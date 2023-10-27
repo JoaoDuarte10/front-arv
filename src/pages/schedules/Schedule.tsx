@@ -8,7 +8,7 @@ import { AlertError } from "../../components/alerts/AlertError";
 import { AlertInfo } from "../../components/alerts/AlertInfo";
 import { ClearSearchFilterButton } from "../../components/buttons/ClearSearchFilter";
 import { SearchFilterButton } from "../../components/buttons/SearchFilter";
-import { Collapse } from "@mui/material";
+import { Collapse, Grid, List, ListItem, ListItemText } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { SearchButton } from "../../components/buttons/SearchButton";
 import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
@@ -185,6 +185,7 @@ export function Schedules(props: {
     atendenceCount: number;
     totalAtendenceCount: number;
     status: string;
+    idCatalogs?: number[]
   }): Promise<boolean> => {
     setLoader(<CircularIndeterminate />);
     const { success, error, badRequest } = await scheduleService.update({
@@ -197,7 +198,8 @@ export function Schedules(props: {
       pacote: params.pacote,
       atendenceCount: params.atendenceCount,
       totalAtendenceCount: params.totalAtendenceCount,
-      status: params.status
+      status: params.status,
+      idCatalogs: params.idCatalogs,
     });
     setLoader(null);
 
@@ -304,6 +306,8 @@ export function Schedules(props: {
     if (date && !clientSelected.idclients) {
       await fetchByDate();
     }
+
+    await fetchExpireds();
 
     return true;
   };
@@ -438,6 +442,20 @@ export function Schedules(props: {
                 <LabelForm text="Descrição" className="pb-2 border-bottom">
                   <LabelSmall text={schedule.description} />
                 </LabelForm>
+
+                  {schedule.scheduleServices && schedule.scheduleServices.length > 0 ? (
+                    <Grid item xs={12} md={6}>
+                      <LabelForm text="Serviços" className="pb-2 border-bottom">
+                      {schedule.scheduleServices.map(scheduleService => {
+                        return (
+                          <>
+                            <LabelSmall text={scheduleService.name} />; {' '}
+                          </>
+                        )
+                      })}
+                      </LabelForm>
+                    </Grid>
+                  ) : null}
 
                 <DivInline className="row">
                   <LabelForm

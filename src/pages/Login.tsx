@@ -52,7 +52,7 @@ export function Login(props: { loginService: LoginService }) {
     }
 
     if (error) {
-      setAlert(<AlertError title="Erro ao processar sua requisição." />);
+      setAlert(<AlertError title="Não foi possível executar essa ação." />);
     }
   };
 

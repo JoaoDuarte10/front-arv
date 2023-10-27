@@ -29,7 +29,8 @@ export class ScheduleService {
             date: params.date,
             pacote: params.pacote,
             totalAtendenceCount: params.totalAtendenceCount,
-            status: params.status
+            status: params.status,
+            idCatalogs: params.idCatalogs,
           },
           {
             headers: {
@@ -66,7 +67,8 @@ export class ScheduleService {
             pacote: params.pacote,
             atendenceCount: params.atendenceCount,
             totalAtendenceCount: params.totalAtendenceCount,
-            status: params.status
+            status: params.status,
+            idCatalogs: params.idCatalogs,
           },
           {
             headers: {
