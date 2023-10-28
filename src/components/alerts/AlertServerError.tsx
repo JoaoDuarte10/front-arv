@@ -1,15 +1,42 @@
 import React from 'react';
 
-import { Alert } from '@mui/material';
+import { Snackbar, Stack } from '@mui/material';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export function AlertServerError() {
+  const [open, setOpen] = React.useState(true);
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
-    <Alert
-      severity="error"
-      color="error"
-      className="mt-2 mb-3 border border-danger text-danger"
-    >
-      Não foi possível processar a requisição.
-    </Alert>
+    <Stack spacing={2} sx={{ width: '100%' }}>
+      <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+        <Alert
+          severity="error"
+          color="error"
+          className="mt-2 mb-3 border border-danger"
+          onClose={handleClose}
+          sx={{ width: '100%' }}
+        >
+          Não foi possível processar a requisição.
+        </Alert>
+      </Snackbar>
+    </Stack>
   );
 }

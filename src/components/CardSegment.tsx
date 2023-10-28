@@ -13,7 +13,6 @@ type InputProps = {
   clearStates: any;
   segment: SegmentInterface;
   setNewSegment: Function;
-  alert: JSX.Element | null;
 };
 
 export function CardSegment(props: InputProps) {
@@ -26,7 +25,6 @@ export function CardSegment(props: InputProps) {
     clearStates,
     segment,
     setNewSegment,
-    alert,
   } = props;
 
   return (
@@ -95,7 +93,6 @@ export function CardSegment(props: InputProps) {
                 </button>
               </div>
             </DivInline>
-            {alert}
           </div>
         </div>
       </div>

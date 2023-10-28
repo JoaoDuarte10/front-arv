@@ -19,7 +19,7 @@ import {
 import { SalesService } from '../../service/api/sales/sales';
 import { SalesInterface } from '../../service/api/sales/types';
 import { randomId } from '../../utils/random';
-import { format, formatDistance } from 'date-fns';
+import { format } from 'date-fns';
 import { AlertError } from '../alerts/AlertError';
 import { AlertInfo } from '../alerts/AlertInfo';
 import { AlertSuccess } from '../alerts/AlertSuccess';
@@ -28,7 +28,6 @@ import { BasicDeleteModal } from '../modal/BasicDeleteModal';
 import { CircularIndeterminate } from '../loaders/CircularLoader';
 import TablePagination from '@mui/material/TablePagination';
 
-import ptBR from 'date-fns/locale/pt-BR';
 import { BasicPopover, SelectorPoppover } from '../popover/index';
 import { useNavigate } from 'react-router-dom';
 import { INFO_CLIENT_URL } from '../../pages/clients/InfoClients';

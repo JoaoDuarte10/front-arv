@@ -2,14 +2,21 @@ import * as React from 'react';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import { randomId } from '../../utils/random';
+import { IconButton, Tooltip } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 export enum SelectorPoppover {
   view = 'view',
+  delete = 'delete',
+  edit = 'edit',
 }
 
 type Action = {
   selector: SelectorPoppover;
   handleSubmit: () => void;
+  dataToggle?: string;
+  dataTarget?: string;
 };
 
 type Props = {
@@ -34,7 +41,7 @@ export function BasicPopover({ actions }: Props) {
 
   const createSelect = (action: Action) => {
     return {
-      view: (
+      [SelectorPoppover.view]: (
         <button
           key={randomId()}
           className="btn btn-outline-secondary border-0"
@@ -58,6 +65,48 @@ export function BasicPopover({ actions }: Props) {
             <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
           </svg>
           <Typography sx={{ marginLeft: '10px' }}>Visualizar</Typography>
+        </button>
+      ),
+      [SelectorPoppover.edit]: (
+        <button
+          key={randomId()}
+          className="btn btn-outline-primary border-0"
+          onClick={action.handleSubmit}
+          style={{
+            border: 'none',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+          data-toggle={action.dataToggle}
+          data-target={action.dataTarget}
+        >
+          <Tooltip title="Editar">
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+          <Typography sx={{ marginLeft: '10px' }}>Editar</Typography>
+        </button>
+      ),
+      [SelectorPoppover.delete]: (
+        <button
+          key={randomId()}
+          className="btn btn-outline-danger border-0"
+          onClick={action.handleSubmit}
+          style={{
+            border: 'none',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Tooltip title="Delete">
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+          <Typography sx={{ marginLeft: '10px' }}>Excluir</Typography>
         </button>
       ),
     };

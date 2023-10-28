@@ -62,7 +62,8 @@ export function Login(props: { loginService: LoginService }) {
 
   return (
     <div id="login_container">
-      {loader}
+      <CircularIndeterminate open={loader} />
+
       <div className="text-center pt-5">
         <img id="img-logo" alt="logo_raise_value" src={logo}></img>
       </div>

@@ -13,7 +13,7 @@ import { Clients } from './pages/clients/Clients';
 import { ClientService } from './service/api/client/client-service';
 import { INFO_CLIENT_URL, InfoClients } from './pages/clients/InfoClients';
 import { WhatsAppService } from './service/api/whatsapp/whatsapp';
-import { Segment } from './pages/Segment';
+import { Segment } from './pages/segment/Segment';
 import { SegmentService } from './service/api/segment/segment';
 import { CreateSales } from './pages/sales/CreateSales';
 import { SalesService } from './service/api/sales/sales';
