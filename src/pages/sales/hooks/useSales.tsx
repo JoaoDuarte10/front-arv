@@ -12,6 +12,7 @@ import { ClientService } from '../../../service/api/client/client-service';
 import { SalesService } from '../../../service/api/sales/sales';
 import { API_RV_BASE_URI, localStorageService } from '../../../RoutesApp';
 import { TIMEOUT } from '../../../utils/constants';
+import { OutgoingPaymentMethodEnums } from '../../../service/api/outgoing/types';
 
 export const useSales = () => {
   const dispatch = useDispatch();
@@ -81,6 +82,44 @@ export const useSales = () => {
     return true;
   };
 
+  const onCreate = async (params: {
+    idclients: number;
+    clientName: string;
+    description: string;
+    date: string;
+    total: number;
+    paymentPending: boolean;
+    paymentDate: string;
+    paymentMethod: OutgoingPaymentMethodEnums;
+  }): Promise<boolean> => {
+    setLoader(true);
+    const { success, error, badRequest } = await salesService.create({
+      idclients: params.idclients || null,
+      clientName: params.clientName || null,
+      description: params.description,
+      date: params.date,
+      total: params.total,
+      paymentPending: params.paymentPending,
+      paymentDate: params.paymentDate,
+      paymentMethod: params.paymentMethod,
+    });
+    setLoader(false);
+
+    if (success) {
+      setAlert(<AlertSuccess title="Venda criada com sucesso." />);
+      return true;
+    }
+
+    if (error) {
+      setAlert(<AlertError title="Erro ao processar sua requisição." />);
+    }
+
+    if (badRequest) {
+      setAlert(<AlertInfo title="Preencha os campos corretamente." />);
+    }
+    return false;
+  };
+
   useEffect(() => {
     if (!clientsCache.length) {
       getAllClients();
@@ -99,5 +138,6 @@ export const useSales = () => {
     clients,
     sales,
     fetchByAllFilters,
+    onCreate,
   };
 };
