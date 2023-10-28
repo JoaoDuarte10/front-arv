@@ -1,23 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ContainerMain } from '../../components/containers/ContainerMain';
 import { Breadcumb } from '../../components/Breadcumb';
 import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
 import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
-import { AlertSuccess } from '../../components/alerts/AlertSuccess';
-import { AlertError } from '../../components/alerts/AlertError';
-import { AlertInfo } from '../../components/alerts/AlertInfo';
-import { ClearSearchFilterButton } from '../../components/buttons/ClearSearchFilter';
-import { SearchFilterButton } from '../../components/buttons/SearchFilter';
-import { Collapse, Grid, List, ListItem, ListItemText } from '@mui/material';
+import { Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { SearchButton } from '../../components/buttons/SearchButton';
-import FullWidthTextField from '../../components/inputs/TextFieldFullWidth';
-import ComboBoxList from '../../components/inputs/InputAutocompleteList';
-import { ReduceStore } from '../../app/store';
-import { useSelector, useDispatch } from 'react-redux';
 import { ClientService } from '../../service/api/client/client-service';
-import { clearClient, clientAdded } from '../../reducers/clients-slice';
-import { TIMEOUT } from '../../utils/constants';
 import { format } from 'date-fns';
 import { WhatsAppIconButton } from '../../components/buttons/WhatsAppIconButton';
 import { BasicDeleteModal } from '../../components/modal/BasicDeleteModal';
@@ -35,15 +23,14 @@ import { GenericButton } from '../../components/buttons/GenericButton';
 import { LabelForm } from '../../components/labels/LabelForm';
 import { LabelSmall } from '../../components/labels/LabelSmal';
 import { randomId } from '../../utils/random';
-import { ClientsInterface } from '../../service/api/client/types';
 import { OutgoingService } from '../../service/api/outgoing/outgoing';
-import { OutgoingPaymentMethodEnums } from '../../service/api/outgoing/types';
 import { ScheduleService } from '../../service/api/schedule/schedule';
 import { ScheduleInterface } from '../../service/api/schedule/types';
 import {
   TableMultiFilter,
   TypeMultiFilter,
 } from '../../components/tableMultiFilter/index';
+import { useSchedule } from './hooks/useSchedule';
 
 export function Schedules(props: {
   clientService: ClientService;
@@ -52,267 +39,67 @@ export function Schedules(props: {
   salesService: SalesService;
   outgoingService: OutgoingService;
 }) {
+  const { clientService, whatsAppService, outgoingService } = props;
+
+  const hookData = useSchedule();
+
   const {
-    scheduleService,
-    clientService,
-    whatsAppService,
-    salesService,
-    outgoingService,
-  } = props;
+    alert,
+    loader,
+    schedules,
+    clients,
+    openModal,
+    openModalSale,
+    onChangeSchedule,
+    onDelete,
+    finish,
+    onCreateSale,
+    clientSelected,
+    setClientSelected,
+    date,
+    setDate,
+    handleSubmitFilters,
+    setOpenModal,
+    setOpenModalSale,
+  } = hookData;
 
-  const dispatch = useDispatch();
+  const filters = [
+    {
+      label: 'Data',
+      value: date,
+      placeholder: '',
+      type: TypeMultiFilter.date,
+      handleChangeValue: setDate,
+      disabled: clientSelected.label ? true : false,
+    },
+    {
+      label: 'Clientes',
+      value: clientSelected.label,
+      placeholder: 'Selecione o cliente',
+      type: TypeMultiFilter.select,
+      options: clients.map(client => ({
+        label: client.name,
+        value: client.idclients,
+      })),
+      handleChangeValue: (
+        e: React.BaseSyntheticEvent,
+        item: { label: string; value: number },
+      ) => {
+        if (typeof item === 'object') {
+          setClientSelected({
+            label: item.label,
+            idclients: item.value,
+          });
+        }
+      },
+      disabled: date ? true : false,
+    },
+  ];
 
-  const clientsCache = useSelector((state: ReduceStore) => state.client);
-
-  const [date, setDate] = useState<string>('');
-  const [clientSelected, setClientSelected] = useState<{
-    label: string;
-    idclients: number | null;
-  }>({ label: '', idclients: null });
-
-  const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<boolean>(false);
-
-  const [openModal, setOpenModal] = useState<any>({});
-  const [openModalSale, setOpenModalSale] = useState<any>({});
-
-  const [schedules, setSchedules] = useState<ScheduleInterface[]>([]);
-
-  const [clients, setClients] = useState<ClientsInterface[]>([]);
-
-  const getAllClients = async () => {
-    setLoader(true);
-    const {
-      success,
-      data,
-      error,
-      unauthorized,
-    } = await clientService.fetchAllClients();
-    setLoader(false);
-
-    if (success) {
-      dispatch(clearClient());
-      setClients(data);
-      dispatch(clientAdded(data));
-    } else if (!error && !unauthorized) {
-      await getAllClients();
-    } else {
-      setAlert(<AlertInfo title="Por favor, recarregue a página." />);
-    }
+  const clearFilters = () => {
+    setDate('');
+    setClientSelected({ label: '', idclients: null });
   };
-
-  const fetchExpireds = async () => {
-    setLoader(true);
-    const { success, data } = await scheduleService.expireds();
-    setLoader(false);
-
-    if (success) {
-      setSchedules(data);
-    }
-  };
-
-  useEffect(() => {
-    fetchExpireds();
-    if (!clientsCache.length) {
-      getAllClients();
-    } else {
-      setClients(clientsCache);
-    }
-  }, []);
-
-  const fetchByDate = async () => {
-    setLoader(true);
-    const {
-      success,
-      data,
-      error,
-      badRequest,
-      notFound,
-    } = await scheduleService.fetchByDate(date);
-    setLoader(false);
-
-    if (success) {
-      setAlert(<AlertSuccess title="Pesquisa atualizada." />);
-      setSchedules(data);
-    }
-    if (error) {
-      setAlert(<AlertError title="Erro ao processar sua requisição." />);
-    }
-    if (badRequest) {
-      setAlert(<AlertInfo title="Preencha os campos corretamente." />);
-    }
-    if (notFound) {
-      setAlert(<AlertInfo title="Nenhuma agenda encontrada." />);
-    }
-  };
-
-  const fetchByClient = async () => {
-    setLoader(true);
-    const {
-      success,
-      data,
-      error,
-      badRequest,
-      notFound,
-    } = clientSelected.idclients
-      ? await scheduleService.fetchByIdClient(clientSelected.idclients)
-      : await scheduleService.fetchByClientName(clientSelected.label);
-    setLoader(false);
-
-    if (success) {
-      setAlert(<AlertSuccess title="Pesquisa atualizada." />);
-      setSchedules(data);
-    }
-    if (error) {
-      setAlert(<AlertError title="Erro ao processar sua requisição." />);
-    }
-    if (badRequest) {
-      setAlert(<AlertInfo title="Preencha os campos corretamente." />);
-    }
-    if (notFound) {
-      setAlert(<AlertInfo title="Nenhuma agenda encontrada." />);
-    }
-  };
-
-  const onChangeSchedule = async (params: {
-    idschedules: number;
-    idclients: number;
-    clientName: string;
-    description: string;
-    time: string;
-    date: string;
-    pacote: boolean;
-    atendenceCount: number;
-    totalAtendenceCount: number;
-    status: string;
-    idCatalogs?: number[];
-  }): Promise<boolean> => {
-    setLoader(true);
-    const { success, error, badRequest } = await scheduleService.update({
-      idschedules: params.idschedules,
-      idclients: params.idclients,
-      clientName: params.clientName,
-      description: params.description,
-      time: params.time,
-      date: params.date,
-      pacote: params.pacote,
-      atendenceCount: params.atendenceCount,
-      totalAtendenceCount: params.totalAtendenceCount,
-      status: params.status,
-      idCatalogs: params.idCatalogs,
-    });
-    setLoader(false);
-
-    if (success) {
-      setAlert(<AlertSuccess title="Agenda editada com sucesso." />);
-      await handleSubmitFilters();
-      return true;
-    }
-    if (error) {
-      setAlert(<AlertError title="Erro ao processar sua requisição." />);
-    }
-    if (badRequest) {
-      setAlert(<AlertInfo title="Preencha os campos corretamente." />);
-    }
-    return false;
-  };
-
-  const onDelete = async (idschedules: number): Promise<boolean> => {
-    setLoader(true);
-    const { success, error, notFound } = await scheduleService.delete(
-      idschedules,
-    );
-    setLoader(false);
-
-    if (success) {
-      setAlert(<AlertSuccess title="Agenda excluída com sucesso." />);
-      await handleSubmitFilters();
-      return true;
-    }
-    if (error) {
-      setAlert(<AlertError title="Erro ao processar sua requisição." />);
-    }
-    if (notFound) {
-      setAlert(<AlertInfo title="Agenda não encontrada." />);
-    }
-    return false;
-  };
-
-  const finish = async (idschedules: number): Promise<boolean> => {
-    setLoader(true);
-    const { success, error, notFound } = await scheduleService.finish(
-      idschedules,
-    );
-    setLoader(false);
-
-    if (success) {
-      setOpenModal(false);
-      await handleSubmitFilters();
-      return true;
-    }
-    if (error) {
-      setAlert(<AlertError title="Erro ao processar sua requisição." />);
-    }
-    if (notFound) {
-      setAlert(<AlertInfo title="Agenda não encontrada." />);
-    }
-    return false;
-  };
-
-  const onCreateSale = async (params: {
-    idclients: number;
-    clientName: string;
-    description: string;
-    date: string;
-    total: number;
-    paymentPending: boolean;
-    paymentDate: string;
-    paymentMethod: OutgoingPaymentMethodEnums;
-  }) => {
-    setLoader(true);
-    const { success, error, badRequest } = await salesService.create({
-      idclients: params.idclients || null,
-      clientName: params.clientName || null,
-      description: params.description,
-      date: params.date,
-      total: params.total,
-      paymentPending: params.paymentPending,
-      paymentDate: params.paymentDate,
-      paymentMethod: params.paymentMethod,
-    });
-    setLoader(false);
-
-    if (success) {
-      setAlert(<AlertSuccess title="Venda criada com sucesso." />);
-      setOpenModalSale(false);
-    }
-    if (error) {
-      setAlert(<AlertError title="Erro ao processar sua requisição." />);
-    }
-    if (badRequest) {
-      setAlert(<AlertInfo title="Preencha os campos corretamente." />);
-    }
-  };
-
-  const handleSubmitFilters = async () => {
-    if (
-      (date && clientSelected.idclients) ||
-      (!date && clientSelected.idclients) ||
-      (!date && !clientSelected.idclients && clientSelected.label)
-    ) {
-      await fetchByClient();
-    }
-
-    if (date && !clientSelected.idclients) {
-      await fetchByDate();
-    }
-
-    return true;
-  };
-
-  if (alert) {
-    setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
-  }
 
   return (
     <ContainerMain>
@@ -327,42 +114,8 @@ export function Schedules(props: {
       <TitlePrincipal title="Agendas" />
 
       <TableMultiFilter
-        filters={[
-          {
-            label: 'Data',
-            value: date,
-            placeholder: '',
-            type: TypeMultiFilter.date,
-            handleChangeValue: setDate,
-            disabled: clientSelected.label ? true : false,
-          },
-          {
-            label: 'Clientes',
-            value: clientSelected.label,
-            placeholder: 'Selecione o cliente',
-            type: TypeMultiFilter.select,
-            options: clients.map(client => ({
-              label: client.name,
-              value: client.idclients,
-            })),
-            handleChangeValue: (
-              e: React.BaseSyntheticEvent,
-              item: { label: string; value: number },
-            ) => {
-              if (typeof item === 'object') {
-                setClientSelected({
-                  label: item.label,
-                  idclients: item.value,
-                });
-              }
-            },
-            disabled: date ? true : false,
-          },
-        ]}
-        clearFilters={(e: React.BaseSyntheticEvent) => {
-          setDate('');
-          setClientSelected({ label: '', idclients: null });
-        }}
+        filters={filters}
+        clearFilters={clearFilters}
         handleSubmit={handleSubmitFilters}
       />
 

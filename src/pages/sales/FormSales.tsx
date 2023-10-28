@@ -4,7 +4,6 @@ import FullWidthTextField from '../../components/inputs/TextFieldFullWidth';
 import TextFieldMultiline from '../../components/inputs/TextFieldMultiline';
 import { mask } from '../../utils/mask-money';
 import React, { useEffect, useState } from 'react';
-import { format } from 'date-fns';
 import { InputText } from '../../components/inputs/InputText';
 import { DivInline } from '../../components/containers/DivInline';
 import { OutgoingService } from '../../service/api/outgoing/outgoing';
@@ -244,5 +243,3 @@ export function FormSales(props: InputProps) {
     </div>
   );
 }
-
-// Feliz Ano Novo Habbo!
