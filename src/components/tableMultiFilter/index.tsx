@@ -1,18 +1,18 @@
-import React, { useMemo, useState } from "react";
-import TextField from "@mui/material/TextField";
-import { Typography, Checkbox, FormControlLabel } from "@mui/material";
-import ComboBoxList from "../inputs/InputAutocompleteList";
+import React, { useMemo, useState } from 'react';
+import TextField from '@mui/material/TextField';
+import { Typography, Checkbox, FormControlLabel } from '@mui/material';
+import ComboBoxList from '../inputs/InputAutocompleteList';
 
-import * as S from "./style";
-import { randomId } from "../../utils/random";
-import { DateInput } from "../date/index";
+import * as S from './style';
+import { randomId } from '../../utils/random';
+import { DateInput } from '../date/index';
 
 export enum TypeMultiFilter {
-  date = "date",
-  text = "text",
-  select = "select",
-  period = "period",
-  check = "check"
+  date = 'date',
+  text = 'text',
+  select = 'select',
+  period = 'period',
+  check = 'check',
 }
 
 export type Period = {
@@ -51,16 +51,16 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
     filters,
     clearFilters,
     handleSubmit,
-    enableActionButtons = true
+    enableActionButtons = true,
   } = props;
 
   const [filterIsOpen, setFilterOpen] = useState(false);
 
   const filteredFilters = useMemo(() => filters.filter(filter => filter), [
-    filters
+    filters,
   ]);
   const createInputFilter = (
-    filter: MultFilter
+    filter: MultFilter,
   ): { [key in TypeMultiFilter]: JSX.Element } => {
     return {
       date: (
@@ -101,13 +101,13 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
               variant="outlined"
               type="date"
               fullWidth
-              label={""}
+              label={''}
               id="fullWidth"
               size="small"
-              value={filter.period ? filter.period.date1.value : ""}
+              value={filter.period ? filter.period.date1.value : ''}
               style={{
-                minWidth: "100px",
-                padding: "5px 0"
+                minWidth: '100px',
+                padding: '5px 0',
               }}
               onChange={
                 filter.period
@@ -124,13 +124,13 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
               variant="outlined"
               type="date"
               fullWidth
-              label={""}
+              label={''}
               id="fullWidth"
               size="small"
-              value={filter.period ? filter.period.date2.value : ""}
+              value={filter.period ? filter.period.date2.value : ''}
               style={{
-                minWidth: "100px",
-                padding: "5px 0"
+                minWidth: '100px',
+                padding: '5px 0',
               }}
               onChange={
                 filter.period
@@ -155,11 +155,11 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
           }
           label=""
           sx={{
-            paddingLeft: "5px"
+            paddingLeft: '5px',
           }}
           disabled={filter.disabled}
         />
-      )
+      ),
     };
   };
 
@@ -169,11 +169,11 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
         onClick={() => setFilterOpen(!filterIsOpen)}
         className="btn btn-primary font-weight-bold"
         style={{
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-          width: "110px",
-          borderRadius: "15px"
+          display: 'flex',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          width: '110px',
+          borderRadius: '15px',
         }}
       >
         <>
@@ -202,8 +202,8 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
                 <div
                   style={{
                     width:
-                      filter.type === TypeMultiFilter.check ? "150px" : "80px",
-                    margin: "5px 0"
+                      filter.type === TypeMultiFilter.check ? '150px' : '80px',
+                    margin: '5px 0',
                   }}
                 >
                   <Typography>{filter.label}</Typography>
@@ -220,8 +220,8 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
             <div
               className="form-row"
               style={{
-                margin: "5px 0",
-                width: "60%"
+                margin: '5px 0',
+                width: '60%',
               }}
             >
               <div className="col mt-1 mb-1">

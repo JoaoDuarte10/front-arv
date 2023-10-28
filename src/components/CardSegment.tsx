@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { SegmentInterface } from "../service/api/segment/types";
-import { InputText } from "./inputs/InputText";
-import { DivInline } from "./containers/DivInline";
+import { SegmentInterface } from '../service/api/segment/types';
+import { InputText } from './inputs/InputText';
+import { DivInline } from './containers/DivInline';
 
 type InputProps = {
   editSegment: Function;
@@ -26,7 +26,7 @@ export function CardSegment(props: InputProps) {
     clearStates,
     segment,
     setNewSegment,
-    alert
+    alert,
   } = props;
 
   return (
@@ -56,11 +56,11 @@ export function CardSegment(props: InputProps) {
             <InputText
               type="text"
               id="procedure"
-              value={segment ? segment.name : ""}
+              value={segment ? segment.name : ''}
               onChange={(e: React.BaseSyntheticEvent) =>
                 setNewSegment({
                   name: e.target.value,
-                  idsegments: segment.idsegments
+                  idsegments: segment.idsegments,
                 })
               }
               label="Digite o segmento"
@@ -72,7 +72,7 @@ export function CardSegment(props: InputProps) {
                   type="reset"
                   onClick={() => {
                     clearStates();
-                    setNewSegment("");
+                    setNewSegment('');
                   }}
                   className="btn btn-outline-secondary col p-2"
                   data-dismiss="modal"

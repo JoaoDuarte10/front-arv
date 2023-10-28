@@ -1,17 +1,17 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 
 const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  borderRadius: "5px",
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  borderRadius: '5px',
   boxShadow: 24,
-  minWidth: "300px",
-  fontFamily: "Montserrat"
+  minWidth: '300px',
+  fontFamily: 'Montserrat',
 };
 
 export function BasicEditModal({ children }: any) {
@@ -27,13 +27,13 @@ export function BasicEditModal({ children }: any) {
         onClick={handleOpen}
         className="m-0 pl-2 pr-2 btn btn-outline-primary"
         style={{
-          display: "flex",
-          alignItems: "center",
-          border: "none",
-          backgroundColor: "transparent",
-          outline: "none",
+          display: 'flex',
+          alignItems: 'center',
+          border: 'none',
+          backgroundColor: 'transparent',
+          outline: 'none',
           padding: 0,
-          margin: 0
+          margin: 0,
         }}
       >
         <svg

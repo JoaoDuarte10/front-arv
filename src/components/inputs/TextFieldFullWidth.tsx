@@ -1,6 +1,6 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import { TextField } from "@mui/material";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import { TextField } from '@mui/material';
 
 type Props = {
   label: string;
@@ -23,13 +23,13 @@ export default function FullWidthTextField({
   className,
   helperText,
   disabled,
-  error
+  error,
 }: Props) {
   return (
     <Box
       sx={{
-        maxWidth: "100%",
-        padding: "5px 0"
+        maxWidth: '100%',
+        padding: '5px 0',
       }}
     >
       <TextField
@@ -39,9 +39,9 @@ export default function FullWidthTextField({
         label={label}
         id="fullWidth"
         sx={{
-          borderRadius: "150px",
-          border: "none",
-          minWidth: "120px"
+          borderRadius: '150px',
+          border: 'none',
+          minWidth: '120px',
         }}
         onChange={customChange ? customChange : e => fnChange(e.target.value)}
         value={value}

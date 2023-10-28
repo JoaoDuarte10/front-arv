@@ -1,10 +1,10 @@
-import * as React from "react";
-import Popover from "@mui/material/Popover";
-import Typography from "@mui/material/Typography";
-import { randomId } from "../../utils/random";
+import * as React from 'react';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import { randomId } from '../../utils/random';
 
 export enum SelectorPoppover {
-  view = "view"
+  view = 'view',
 }
 
 type Action = {
@@ -18,7 +18,7 @@ type Props = {
 
 export function BasicPopover({ actions }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
+    null,
   );
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -30,7 +30,7 @@ export function BasicPopover({ actions }: Props) {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? 'simple-popover' : undefined;
 
   const createSelect = (action: Action) => {
     return {
@@ -40,10 +40,10 @@ export function BasicPopover({ actions }: Props) {
           className="btn btn-outline-secondary border-0"
           onClick={action.handleSubmit}
           style={{
-            border: "none",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center"
+            border: 'none',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           <svg
@@ -57,9 +57,9 @@ export function BasicPopover({ actions }: Props) {
             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
             <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
           </svg>
-          <Typography sx={{ marginLeft: "10px" }}>Visualizar</Typography>
+          <Typography sx={{ marginLeft: '10px' }}>Visualizar</Typography>
         </button>
-      )
+      ),
     };
   };
 
@@ -69,12 +69,12 @@ export function BasicPopover({ actions }: Props) {
         className="btn btn-outline-secondary border-0"
         onClick={handleClick}
         style={{
-          border: "none",
-          borderRadius: "30px",
-          padding: "10px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
+          border: 'none',
+          borderRadius: '30px',
+          padding: '10px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <svg
@@ -94,8 +94,8 @@ export function BasicPopover({ actions }: Props) {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left"
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
       >
         {actions.map(select => {

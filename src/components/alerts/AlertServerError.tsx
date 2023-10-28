@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { Alert } from "@mui/material";
+import { Alert } from '@mui/material';
 
 export function AlertServerError() {
   return (

@@ -1,27 +1,27 @@
-import React, { useEffect } from "react";
-import { Breadcumb } from "../../components/Breadcumb";
-import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { format } from "date-fns";
-import { ComeBack } from "../../components/ComeBack";
-import { ContainerMain } from "../../components/containers/ContainerMain";
-import { LabelSmall } from "../../components/labels/LabelSmal";
-import { LabelForm } from "../../components/labels/LabelForm";
-import { DivInline } from "../../components/containers/DivInline";
-import { SalesService } from "../../service/api/sales/sales";
-import { TableSales } from "../../components/sales/TableSales";
-import { SearchFilterButton } from "../../components/buttons/SearchFilter";
-import { TIMEOUT } from "../../utils/constants";
-import { ClearSearchFilterButton } from "../../components/buttons/ClearSearchFilter";
-import { WhatsAppIconButton } from "../../components/buttons/WhatsAppIconButton";
-import { EditIconButton } from "../../components/buttons/EditIconButton";
-import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
-import { Typography } from "@mui/material";
-import { WhatsAppService } from "../../service/api/whatsapp/whatsapp";
-import { useClient } from "./hooks/useClients";
-import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
+import React, { useEffect } from 'react';
+import { Breadcumb } from '../../components/Breadcumb';
+import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { format } from 'date-fns';
+import { ComeBack } from '../../components/ComeBack';
+import { ContainerMain } from '../../components/containers/ContainerMain';
+import { LabelSmall } from '../../components/labels/LabelSmal';
+import { LabelForm } from '../../components/labels/LabelForm';
+import { DivInline } from '../../components/containers/DivInline';
+import { SalesService } from '../../service/api/sales/sales';
+import { TableSales } from '../../components/sales/TableSales';
+import { SearchFilterButton } from '../../components/buttons/SearchFilter';
+import { TIMEOUT } from '../../utils/constants';
+import { ClearSearchFilterButton } from '../../components/buttons/ClearSearchFilter';
+import { WhatsAppIconButton } from '../../components/buttons/WhatsAppIconButton';
+import { EditIconButton } from '../../components/buttons/EditIconButton';
+import { BasicDeleteModal } from '../../components/modal/BasicDeleteModal';
+import { Typography } from '@mui/material';
+import { WhatsAppService } from '../../service/api/whatsapp/whatsapp';
+import { useClient } from './hooks/useClients';
+import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
 
-export const INFO_CLIENT_URL = "/client/info/";
+export const INFO_CLIENT_URL = '/client/info/';
 
 export function InfoClients(props: {
   salesService: SalesService;
@@ -36,7 +36,7 @@ export function InfoClients(props: {
     setAlert,
     sales,
     setSales,
-    loading
+    loading,
   } = useClient();
 
   const { id } = useParams();
@@ -63,8 +63,8 @@ export function InfoClients(props: {
 
       <Breadcumb
         page={[
-          { link: "/clients", name: "Clientes" },
-          { link: false, name: "Informações do cliente" }
+          { link: '/clients', name: 'Clientes' },
+          { link: false, name: 'Informações do cliente' },
         ]}
       />
       <ComeBack />
@@ -74,9 +74,9 @@ export function InfoClients(props: {
       {client && (
         <div
           style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center"
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
           }}
         >
           <WhatsAppIconButton
@@ -97,7 +97,7 @@ export function InfoClients(props: {
               id="modal-modal-title"
               variant="h6"
               component="h2"
-              sx={{ color: "red" }}
+              sx={{ color: 'red' }}
             >
               Excluir Cliente
             </Typography>
@@ -129,13 +129,13 @@ export function InfoClients(props: {
             </LabelForm>
           </DivInline>
           <LabelForm text="Segmento" className="pb-2 border-bottom">
-            <LabelSmall text={client.segment || "Nenhum segmento"} />
+            <LabelSmall text={client.segment || 'Nenhum segmento'} />
           </LabelForm>
           <LabelForm text="Criado em" className="pb-2 border-bottom">
             <LabelSmall
               text={format(
-                new Date(client.created_at.replace("Z", "")),
-                "dd/MM/yyyy 'às' HH:mm'h'"
+                new Date(client.created_at.replace('Z', '')),
+                "dd/MM/yyyy 'às' HH:mm'h'",
               )}
             />
           </LabelForm>
@@ -144,15 +144,15 @@ export function InfoClients(props: {
               text={
                 client.updated_at
                   ? format(
-                      new Date(client.updated_at.replace("Z", "")),
-                      "dd/MM/yyyy 'às' HH:mm'h'"
+                      new Date(client.updated_at.replace('Z', '')),
+                      "dd/MM/yyyy 'às' HH:mm'h'",
                     )
-                  : "Nenhuma atualização"
+                  : 'Nenhuma atualização'
               }
             />
           </LabelForm>
           <LabelForm text="Observação">
-            <LabelSmall text={client.note || "Nenhuma observação"} />
+            <LabelSmall text={client.note || 'Nenhuma observação'} />
           </LabelForm>
         </div>
       ) : null}
@@ -181,11 +181,11 @@ export function InfoClients(props: {
         {sales.length ? (
           <div>
             <TableSales sales={sales} salesService={salesService} />
-            <strong>Total:</strong>{" "}
+            <strong>Total:</strong>{' '}
             {salesService.countTotalValueSales(
               sales
-                .filter(sale => sale.paymentStatus === "PAID")
-                .map(sale => Number(sale.total))
+                .filter(sale => sale.paymentStatus === 'PAID')
+                .map(sale => Number(sale.total)),
             )}
           </div>
         ) : null}

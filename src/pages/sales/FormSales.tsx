@@ -1,20 +1,20 @@
-import { FormControlLabel, Checkbox } from "@mui/material";
-import ComboBoxList from "../../components/inputs/InputAutocompleteList";
-import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
-import TextFieldMultiline from "../../components/inputs/TextFieldMultiline";
-import { mask } from "../../utils/mask-money";
-import React, { useEffect, useState } from "react";
-import { format } from "date-fns";
-import { InputText } from "../../components/inputs/InputText";
-import { DivInline } from "../../components/containers/DivInline";
-import { OutgoingService } from "../../service/api/outgoing/outgoing";
-import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import { GenericButton } from "../../components/buttons/GenericButton";
-import { ColorsBootstrap } from "../../components/modal/GenericModal";
-import { ClientsInterface } from "../../service/api/client/types";
-import { OutgoingPaymentMethodEnums } from "../../service/api/outgoing/types";
-import { ScheduleInterface } from "../../service/api/schedule/types";
-import { DateInput } from "../../components/date/index";
+import { FormControlLabel, Checkbox } from '@mui/material';
+import ComboBoxList from '../../components/inputs/InputAutocompleteList';
+import FullWidthTextField from '../../components/inputs/TextFieldFullWidth';
+import TextFieldMultiline from '../../components/inputs/TextFieldMultiline';
+import { mask } from '../../utils/mask-money';
+import React, { useEffect, useState } from 'react';
+import { format } from 'date-fns';
+import { InputText } from '../../components/inputs/InputText';
+import { DivInline } from '../../components/containers/DivInline';
+import { OutgoingService } from '../../service/api/outgoing/outgoing';
+import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
+import { GenericButton } from '../../components/buttons/GenericButton';
+import { ColorsBootstrap } from '../../components/modal/GenericModal';
+import { ClientsInterface } from '../../service/api/client/types';
+import { OutgoingPaymentMethodEnums } from '../../service/api/outgoing/types';
+import { ScheduleInterface } from '../../service/api/schedule/types';
+import { DateInput } from '../../components/date/index';
 
 type InputProps = {
   clients: ClientsInterface[];
@@ -27,32 +27,32 @@ type InputProps = {
 export function FormSales(props: InputProps) {
   const { clients, onChange, alert, schedule, outgoingService } = props;
 
-  const [description, setDescription] = useState<string>("");
-  const [price, setPrice] = useState<string>("");
+  const [description, setDescription] = useState<string>('');
+  const [price, setPrice] = useState<string>('');
   const [date, setDate] = useState<Date | string | null>(null);
   const [paymentDate, setPaymentDate] = useState<Date | string | null>(null);
   const [paymentPending, setPaymentPending] = useState<boolean>(false);
   const [paymentMethods, setPaymentMethods] = useState<
     OutgoingPaymentMethodEnums | string
-  >("");
+  >('');
   const [paymentMethodSelected, setPaymentMethodSelected] = useState<string>(
-    ""
+    '',
   );
   const [clientSelected, setClientSelected] = useState<{
     label: string;
     idclients: number | null;
-  }>({ label: "", idclients: null });
+  }>({ label: '', idclients: null });
 
   const [loader, setLoader] = useState<boolean>(false);
 
   const clearFields = () => {
-    setDescription("");
+    setDescription('');
     setDate(null);
-    setPrice("");
+    setPrice('');
     setPaymentPending(false);
     setPaymentDate(null);
-    setClientSelected({ label: "", idclients: 0 });
-    setPaymentMethodSelected("");
+    setClientSelected({ label: '', idclients: 0 });
+    setPaymentMethodSelected('');
   };
 
   const fetchPaymentMethodsEnums = async () => {
@@ -70,11 +70,11 @@ export function FormSales(props: InputProps) {
     if (schedule) {
       setDescription(schedule.description);
       setDate(schedule.date);
-      setPrice("");
-      setPaymentDate("");
+      setPrice('');
+      setPaymentDate('');
       setClientSelected({
         label: schedule.name || (schedule.clientName as string),
-        idclients: schedule.idclients
+        idclients: schedule.idclients,
       });
     }
   }, []);
@@ -103,24 +103,24 @@ export function FormSales(props: InputProps) {
               options={clients.map(client => {
                 return {
                   label: client.name,
-                  idclients: client.idclients
+                  idclients: client.idclients,
                 };
               })}
-              label={"Selecione o Cliente"}
+              label={'Selecione o Cliente'}
               value={clientSelected.label}
               onChange={(
                 e: React.BaseSyntheticEvent,
-                item: { label: string; idclients: number }
+                item: { label: string; idclients: number },
               ) => {
-                if (typeof item === "string") {
+                if (typeof item === 'string') {
                   setClientSelected({
                     label: item,
-                    idclients: clientSelected.idclients
+                    idclients: clientSelected.idclients,
                   });
                 } else {
                   setClientSelected({
                     label: item.label,
-                    idclients: item.idclients
+                    idclients: item.idclients,
                   });
                 }
               }}
@@ -145,7 +145,7 @@ export function FormSales(props: InputProps) {
             value={price}
             customChange={(e: React.BaseSyntheticEvent) => {
               let val = e.target.value;
-              const { maskedValue } = mask(val, 2, ",", ".", false, "R$");
+              const { maskedValue } = mask(val, 2, ',', '.', false, 'R$');
               setPrice(maskedValue);
             }}
           />
@@ -153,7 +153,7 @@ export function FormSales(props: InputProps) {
         <div className="col">
           <DateInput
             value={
-              typeof date === "string" ? new Date(date.replace("Z", "")) : date
+              typeof date === 'string' ? new Date(date.replace('Z', '')) : date
             }
             setValue={setDate}
             label="Data"
@@ -164,10 +164,10 @@ export function FormSales(props: InputProps) {
       <ComboBoxList
         options={Object.keys(paymentMethods).map((method: string) => {
           return {
-            label: method
+            label: method,
           };
         })}
-        label={"Forma de pagamento *"}
+        label={'Forma de pagamento *'}
         value={paymentMethodSelected}
         onChange={(e: React.BaseSyntheticEvent, item: { label: string }) => {
           if (item && item.label) {
@@ -227,10 +227,10 @@ export function FormSales(props: InputProps) {
                 clientName: clientSelected.label,
                 description,
                 date,
-                total: parseInt(price.substring(2).replace(/\.|,/g, "")) / 100,
+                total: parseInt(price.substring(2).replace(/\.|,/g, '')) / 100,
                 paymentPending,
                 paymentDate,
-                paymentMethod: paymentMethodSelected
+                paymentMethod: paymentMethodSelected,
               });
               if (result) {
                 clearFields();

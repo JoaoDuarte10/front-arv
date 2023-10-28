@@ -1,17 +1,17 @@
 function mask(
   value: number | string,
   precision = 2,
-  decimalSeparator = ".",
-  thousandSeparator = ",",
+  decimalSeparator = '.',
+  thousandSeparator = ',',
   allowNegative = false,
-  prefix = "",
-  suffix = ""
+  prefix = '',
+  suffix = '',
 ) {
   // Set value empty
-  if (value === "NaN") {
+  if (value === 'NaN') {
     return {
-      value: "",
-      maskedValue: ""
+      value: '',
+      maskedValue: '',
     };
   }
 
@@ -26,7 +26,7 @@ function mask(
   if (value === null || value === undefined) {
     return {
       value: 0,
-      maskedValue: ""
+      maskedValue: '',
     };
   }
 
@@ -35,12 +35,12 @@ function mask(
   if (value.length === 0) {
     return {
       value: 0,
-      maskedValue: ""
+      maskedValue: '',
     };
   }
 
   // extract digits. if no digits, fill in a zero.
-  let digits = value.match(/\d/g) || (["0"] as any);
+  let digits = value.match(/\d/g) || (['0'] as any);
 
   let numberIsNegative = false;
   if (allowNegative) {
@@ -53,7 +53,7 @@ function mask(
     // if every digit in the array is '0', then the number should never be negative
     let allDigitsAreZero = true;
     for (let idx = 0; idx < digits.length; idx += 1) {
-      if (digits[idx] !== "0") {
+      if (digits[idx] !== '0') {
         allDigitsAreZero = false;
         break;
       }
@@ -65,19 +65,19 @@ function mask(
 
   // zero-pad a input
   while (digits.length <= precision) {
-    digits.unshift("0");
+    digits.unshift('0');
   }
 
   if (precision > 0) {
     // add the decimal separator
-    digits.splice(digits.length - precision, 0, ".");
+    digits.splice(digits.length - precision, 0, '.');
   }
 
   // clean up extraneous digits like leading zeros.
-  digits = Number(digits.join(""))
+  digits = Number(digits.join(''))
     .toFixed(precision)
-    .split("");
-  let raw = Number(digits.join(""));
+    .split('');
+  let raw = Number(digits.join(''));
 
   let decimalpos = digits.length - precision - 1; // -1 needed to position the decimal separator before the digits.
   if (precision > 0) {
@@ -104,13 +104,13 @@ function mask(
   // if the number is negative, insert a "-" to
   // the front of the array and negate the raw value
   if (allowNegative && numberIsNegative) {
-    digits.unshift("-");
+    digits.unshift('-');
     raw = -raw;
   }
 
   return {
     value: raw,
-    maskedValue: digits.join("").trim()
+    maskedValue: digits.join('').trim(),
   };
 }
 

@@ -1,4 +1,4 @@
-import { OutgoingPaymentMethodEnums } from "../outgoing/types";
+import { OutgoingPaymentMethodEnums } from '../outgoing/types';
 
 export type SalesInterface = {
   idsales: number;

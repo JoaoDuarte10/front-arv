@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { ContainerMain } from "../../components/containers/ContainerMain";
-import { Breadcumb } from "../../components/Breadcumb";
-import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import { ClientService } from "../../service/api/client/client-service";
-import { AlertSuccess } from "../../components/alerts/AlertSuccess";
-import { TIMEOUT } from "../../utils/constants";
-import { ScheduleService } from "../../service/api/schedule/schedule";
-import { AlertError } from "../../components/alerts/AlertError";
-import { AlertInfo } from "../../components/alerts/AlertInfo";
-import { FormSchedule } from "../../components/FormSchedule";
-import { CatalogService } from "../../service/api/catalog/catalog-service";
+import React, { useState } from 'react';
+import { ContainerMain } from '../../components/containers/ContainerMain';
+import { Breadcumb } from '../../components/Breadcumb';
+import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
+import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
+import { ClientService } from '../../service/api/client/client-service';
+import { AlertSuccess } from '../../components/alerts/AlertSuccess';
+import { TIMEOUT } from '../../utils/constants';
+import { ScheduleService } from '../../service/api/schedule/schedule';
+import { AlertError } from '../../components/alerts/AlertError';
+import { AlertInfo } from '../../components/alerts/AlertInfo';
+import { FormSchedule } from '../../components/FormSchedule';
+import { CatalogService } from '../../service/api/catalog/catalog-service';
 
 export function CreateSchedule(props: {
   clientService: ClientService;
@@ -42,7 +42,7 @@ export function CreateSchedule(props: {
       pacote: params.pacote,
       totalAtendenceCount: params.totalAtendenceCount,
       status: params.status,
-      idCatalogs: params.idCatalogs
+      idCatalogs: params.idCatalogs,
     });
     setLoader(false);
 
@@ -72,8 +72,8 @@ export function CreateSchedule(props: {
 
       <Breadcumb
         page={[
-          { link: "/schedules", name: "Agendas" },
-          { link: false, name: "Nova agenda" }
+          { link: '/schedules', name: 'Agendas' },
+          { link: false, name: 'Nova agenda' },
         ]}
       />
       <TitlePrincipal title="Nova agenda" />

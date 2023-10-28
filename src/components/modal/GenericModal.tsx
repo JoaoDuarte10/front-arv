@@ -1,13 +1,13 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 
 export enum ColorsBootstrap {
-  success = "success",
-  primary = "primary",
-  secondary = "secondary",
-  error = "error",
-  warning = "warning"
+  success = 'success',
+  primary = 'primary',
+  secondary = 'secondary',
+  error = 'error',
+  warning = 'warning',
 }
 
 type InputProps = {
@@ -28,7 +28,7 @@ export function GenericModal(props: InputProps) {
     styleModal,
     styleBtn,
     openModal,
-    setOpenModal
+    setOpenModal,
   } = props;
 
   return (
@@ -48,16 +48,16 @@ export function GenericModal(props: InputProps) {
       >
         <Box
           sx={{
-            position: "absolute" as "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            bgcolor: "background.paper",
-            borderRadius: "5px",
+            position: 'absolute' as 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            bgcolor: 'background.paper',
+            borderRadius: '5px',
             boxShadow: 24,
-            minWidth: "300px",
-            fontFamily: "Montserrat",
-            ...styleModal
+            minWidth: '300px',
+            fontFamily: 'Montserrat',
+            ...styleModal,
           }}
         >
           <div className="text-right p-2">

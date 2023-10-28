@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 export type Rules = {
   idrules: number;
@@ -20,7 +20,7 @@ export class JwtService {
     if (user) {
       return user.username;
     }
-    return "";
+    return '';
   }
 
   getRules(token: string): string[] {

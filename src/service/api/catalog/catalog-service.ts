@@ -1,18 +1,18 @@
-import axios from "axios";
-import { HttpResponse } from "../../http/types";
-import { LocalStorageService } from "../../localStorage/local-storage";
-import { normalizeResponse } from "../../http/fetch";
-import { CatalogFormData, CatalogInterface } from "./types";
+import axios from 'axios';
+import { HttpResponse } from '../../http/types';
+import { LocalStorageService } from '../../localStorage/local-storage';
+import { normalizeResponse } from '../../http/fetch';
+import { CatalogFormData, CatalogInterface } from './types';
 
 export class CatalogService {
   constructor(
     private readonly baseUri: string,
-    private readonly localStorageService: LocalStorageService
+    private readonly localStorageService: LocalStorageService,
   ) {}
 
   getToken(): string {
     const token = this.localStorageService.getAccessToken();
-    return token || "";
+    return token || '';
   }
 
   async fetchAll(): Promise<HttpResponse<CatalogInterface[]>> {
@@ -21,13 +21,13 @@ export class CatalogService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/catalogs/list-all`, {
           headers: {
-            Authorization: `Bearer ${this.localStorageService.getAccessToken()}`
-          }
+            Authorization: `Bearer ${this.localStorageService.getAccessToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
 
       response = normalizeResponse(data, status);
@@ -44,22 +44,22 @@ export class CatalogService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/catalog/${id}`, {
           headers: {
-            Authorization: `Bearer ${this.localStorageService.getAccessToken()}`
-          }
+            Authorization: `Bearer ${this.localStorageService.getAccessToken()}`,
+          },
         })
         .then(res => ({
           data: {
             ...res.data,
-            price: res.data.price.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL"
-            })
+            price: res.data.price.toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            }),
           },
-          status: res.status
+          status: res.status,
         }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
 
       response = normalizeResponse(data, status);
@@ -76,13 +76,13 @@ export class CatalogService {
       const { data, status } = await axios
         .post(`${this.baseUri}/api/catalog`, params, {
           headers: {
-            Authorization: `Bearer ${this.localStorageService.getAccessToken()}`
-          }
+            Authorization: `Bearer ${this.localStorageService.getAccessToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
 
       response = normalizeResponse(data, status);
@@ -99,13 +99,13 @@ export class CatalogService {
       const { data, status } = await axios
         .put(`${this.baseUri}/api/catalog`, params, {
           headers: {
-            Authorization: `Bearer ${this.localStorageService.getAccessToken()}`
-          }
+            Authorization: `Bearer ${this.localStorageService.getAccessToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
 
       response = normalizeResponse(data, status);
@@ -122,16 +122,16 @@ export class CatalogService {
       const { data, status } = await axios
         .delete(`${this.baseUri}/api/catalog`, {
           params: {
-            id
+            id,
           },
           headers: {
-            Authorization: `Bearer ${this.localStorageService.getAccessToken()}`
-          }
+            Authorization: `Bearer ${this.localStorageService.getAccessToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
 
       response = normalizeResponse(data, status);
@@ -156,13 +156,13 @@ export const fetchAllCatalogs = async (): Promise<HttpResponse<
     const { data, status } = await axios
       .get(`${API_ARV_BASE_URI}/api/catalogs/list-all`, {
         headers: {
-          Authorization: `Bearer ${localStorageService.getAccessToken()}`
-        }
+          Authorization: `Bearer ${localStorageService.getAccessToken()}`,
+        },
       })
       .then(res => ({ data: res.data, status: res.status }))
       .catch(err => ({
         data: err.response ? err.response.data : err.response,
-        status: err.response ? err.response.status : err.response
+        status: err.response ? err.response.status : err.response,
       }));
 
     response = normalizeResponse(data, status);
@@ -179,22 +179,22 @@ export const fetchOneCatalogs = async (id: number): Promise<HttpResponse> => {
     const { data, status } = await axios
       .get(`${API_ARV_BASE_URI}/api/catalogs/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorageService.getAccessToken()}`
-        }
+          Authorization: `Bearer ${localStorageService.getAccessToken()}`,
+        },
       })
       .then(res => ({
         data: {
           ...res.data,
-          price: res.data.price.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-          })
+          price: res.data.price.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          }),
         },
-        status: res.status
+        status: res.status,
       }))
       .catch(err => ({
         data: err.response ? err.response.data : err.response,
-        status: err.response ? err.response.status : err.response
+        status: err.response ? err.response.status : err.response,
       }));
 
     response = normalizeResponse(data, status);
@@ -206,7 +206,7 @@ export const fetchOneCatalogs = async (id: number): Promise<HttpResponse> => {
 };
 
 export const createCatalogs = async (
-  params: CatalogFormData
+  params: CatalogFormData,
 ): Promise<HttpResponse> => {
   let response: HttpResponse = {} as HttpResponse;
   try {
@@ -217,18 +217,18 @@ export const createCatalogs = async (
         `${API_ARV_BASE_URI}/api/catalogs`,
         {
           ...params,
-          price: parseInt(price.substring(2).replace(/\.|,/g, "")) / 100
+          price: parseInt(price.substring(2).replace(/\.|,/g, '')) / 100,
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorageService.getAccessToken()}`
-          }
-        }
+            Authorization: `Bearer ${localStorageService.getAccessToken()}`,
+          },
+        },
       )
       .then(res => ({ data: res.data, status: res.status }))
       .catch(err => ({
         data: err.response ? err.response.data : err.response,
-        status: err.response ? err.response.status : err.response
+        status: err.response ? err.response.status : err.response,
       }));
 
     response = normalizeResponse(data, status);
@@ -240,7 +240,7 @@ export const createCatalogs = async (
 };
 
 export const updateCatalogs = async (
-  params: CatalogFormData
+  params: CatalogFormData,
 ): Promise<HttpResponse> => {
   let response: HttpResponse = {} as HttpResponse;
   try {
@@ -251,18 +251,18 @@ export const updateCatalogs = async (
         `${API_ARV_BASE_URI}/api/catalogs`,
         {
           ...params,
-          price: parseInt(price.substring(2).replace(/\.|,/g, "")) / 100
+          price: parseInt(price.substring(2).replace(/\.|,/g, '')) / 100,
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorageService.getAccessToken()}`
-          }
-        }
+            Authorization: `Bearer ${localStorageService.getAccessToken()}`,
+          },
+        },
       )
       .then(res => ({ data: res.data, status: res.status }))
       .catch(err => ({
         data: err.response ? err.response.data : err.response,
-        status: err.response ? err.response.status : err.response
+        status: err.response ? err.response.status : err.response,
       }));
 
     response = normalizeResponse(data, status);
@@ -279,16 +279,16 @@ export const deleteCatalogs = async (id: number): Promise<HttpResponse> => {
     const { data, status } = await axios
       .delete(`${API_ARV_BASE_URI}/api/catalogs`, {
         params: {
-          id
+          id,
         },
         headers: {
-          Authorization: `Bearer ${localStorageService.getAccessToken()}`
-        }
+          Authorization: `Bearer ${localStorageService.getAccessToken()}`,
+        },
       })
       .then(res => ({ data: res.data, status: res.status }))
       .catch(err => ({
         data: err.response ? err.response.data : err.response,
-        status: err.response ? err.response.status : err.response
+        status: err.response ? err.response.status : err.response,
       }));
 
     response = normalizeResponse(data, status);

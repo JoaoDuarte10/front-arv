@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { Breadcumb } from "../../components/Breadcumb";
-import { TIMEOUT } from "../../utils/constants";
-import { useDispatch, useSelector } from "react-redux";
-import { ReduceStore } from "../../app/store";
-import { SegmentService } from "../../service/api/segment/segment";
-import { SegmentInterface } from "../../service/api/segment/types";
-import { segmentAdded } from "../../reducers/segment-sclice";
-import { ContainerMain } from "../../components/containers/ContainerMain";
-import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import { useClientForm } from "./hook/useClientForm";
-import { GenericButton } from "../../components/buttons/GenericButton";
-import { ContainerCardWhite } from "../../components/containers/ContainerCardWhite";
-import { DivInline } from "../../components/containers/DivInline";
+import React, { useEffect, useState } from 'react';
+import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
+import { Breadcumb } from '../../components/Breadcumb';
+import { TIMEOUT } from '../../utils/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { ReduceStore } from '../../app/store';
+import { SegmentService } from '../../service/api/segment/segment';
+import { SegmentInterface } from '../../service/api/segment/types';
+import { segmentAdded } from '../../reducers/segment-sclice';
+import { ContainerMain } from '../../components/containers/ContainerMain';
+import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
+import { useClientForm } from './hook/useClientForm';
+import { GenericButton } from '../../components/buttons/GenericButton';
+import { ContainerCardWhite } from '../../components/containers/ContainerCardWhite';
+import { DivInline } from '../../components/containers/DivInline';
 import ComboBoxList, {
-  Option
-} from "../../components/inputs/InputAutocompleteList";
-import InputMaskNumber from "../../components/inputs/InputMaskNumber";
-import InputMaskPhone from "../../components/inputs/InputMaskPhone";
-import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
-import TextFieldMultiline from "../../components/inputs/TextFieldMultiline";
-import { ColorsBootstrap } from "../../components/modal/GenericModal";
+  Option,
+} from '../../components/inputs/InputAutocompleteList';
+import InputMaskNumber from '../../components/inputs/InputMaskNumber';
+import InputMaskPhone from '../../components/inputs/InputMaskPhone';
+import FullWidthTextField from '../../components/inputs/TextFieldFullWidth';
+import TextFieldMultiline from '../../components/inputs/TextFieldMultiline';
+import { ColorsBootstrap } from '../../components/modal/GenericModal';
 
 export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
   const {
@@ -32,7 +32,7 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
     loading,
     setLoading,
     alert,
-    setAlert
+    setAlert,
   } = useClientForm();
 
   const { segmentService } = props;
@@ -41,7 +41,7 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
 
   const [segments, setSegments] = useState<SegmentInterface[]>([]);
 
-  const titlePage = isEditing ? "Editar Cliente" : "Novo Cliente";
+  const titlePage = isEditing ? 'Editar Cliente' : 'Novo Cliente';
 
   const dispatch = useDispatch();
 
@@ -72,8 +72,8 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
 
       <Breadcumb
         page={[
-          { link: "/clients", name: "Clientes" },
-          { link: false, name: titlePage }
+          { link: '/clients', name: 'Clientes' },
+          { link: false, name: titlePage },
         ]}
       />
       <TitlePrincipal title={titlePage} />
@@ -87,21 +87,21 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
         <FullWidthTextField
           label="Nome*"
           value={formData.name}
-          fnChange={handleChangeValue("name")}
+          fnChange={handleChangeValue('name')}
           disabled={loading}
           error={isEditing && !formData.name}
         />
         <FullWidthTextField
           label="E-mail"
           value={formData.email}
-          fnChange={handleChangeValue("email")}
+          fnChange={handleChangeValue('email')}
           disabled={loading}
         />
         <InputMaskPhone
           label="Celular*"
           value={formData.phone}
           fnChange={(e: React.BaseSyntheticEvent) =>
-            handleChangeValue("phone")(e.target.value)
+            handleChangeValue('phone')(e.target.value)
           }
         />
         <div className="row">
@@ -109,16 +109,16 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
             <FullWidthTextField
               label="Endereço"
               value={formData.address}
-              fnChange={handleChangeValue("address")}
+              fnChange={handleChangeValue('address')}
               disabled={loading}
             />
           </div>
           <div className="col-4">
             <InputMaskNumber
               label="Número"
-              value={formData.addressNumber || ""}
+              value={formData.addressNumber || ''}
               fnChange={(e: React.BaseSyntheticEvent) =>
-                handleChangeValue("addressNumber")(e.target.value)
+                handleChangeValue('addressNumber')(e.target.value)
               }
             />
           </div>
@@ -129,17 +129,17 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
             options={segments.map(item => {
               return {
                 label: item.name,
-                value: item.idsegments
+                value: item.idsegments,
               };
             })}
             onChange={(e: React.BaseSyntheticEvent, item: Option<number>) => {
               if (item && item.label && item.value) {
-                handleChangeValue("segment")(item.label);
-                handleChangeValue("idsegment")(item.value);
+                handleChangeValue('segment')(item.label);
+                handleChangeValue('idsegment')(item.value);
               }
             }}
             style={{
-              margin: "5px 0"
+              margin: '5px 0',
             }}
             value={formData.segment}
           />
@@ -148,7 +148,7 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
           label="Observação"
           value={formData.note}
           fnChange={(e: React.BaseSyntheticEvent) =>
-            handleChangeValue("note")(e.target.value)
+            handleChangeValue('note')(e.target.value)
           }
           rows={4}
         />
@@ -162,7 +162,7 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
           </div>
           <div className="col">
             <GenericButton
-              text={isEditing ? "Salvar" : "Criar"}
+              text={isEditing ? 'Salvar' : 'Criar'}
               color={ColorsBootstrap.primary}
               onClick={(e: React.BaseSyntheticEvent) => handleSubmit()}
             />

@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { TextField } from "@mui/material";
+import { TextField } from '@mui/material';
 
 export function InputText(props: any) {
   const {
@@ -11,7 +11,7 @@ export function InputText(props: any) {
     className,
     value,
     style,
-    disabled
+    disabled,
   } = props;
 
   return (
@@ -23,8 +23,8 @@ export function InputText(props: any) {
       variant="outlined"
       onChange={onChange}
       sx={{
-        width: "100%",
-        fontFamily: "Montserrat"
+        width: '100%',
+        fontFamily: 'Montserrat',
       }}
       className={className}
       style={style}

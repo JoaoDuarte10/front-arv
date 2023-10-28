@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import "../css/main.css";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { ReduceStore } from "../app/store";
-import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
-import Collapse from "@mui/material/Collapse";
-import { LocalStorageService } from "../service/localStorage/local-storage";
-import { RulesService } from "../service/api/rules/rules";
-import { randomId } from "../utils/random";
+import React, { useEffect, useState } from 'react';
+import '../css/main.css';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { ReduceStore } from '../app/store';
+import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
+import Collapse from '@mui/material/Collapse';
+import { LocalStorageService } from '../service/localStorage/local-storage';
+import { RulesService } from '../service/api/rules/rules';
+import { randomId } from '../utils/random';
 
 export function NavBarResponsive(props: {
   localStorageService: LocalStorageService;
@@ -33,12 +33,14 @@ export function NavBarResponsive(props: {
   };
 
   const closeNavResponsive = () => {
-    const navGroupElement = document.getElementById("navGroup");
+    const navGroupElement = document.getElementById('navGroup');
 
     if (navGroupElement) {
-      if (navGroupElement.className === "nav-group")
-        navGroupElement.className += "-responsive";
-      else navGroupElement.className = "nav-group";
+      if (navGroupElement.className === 'nav-group') {
+        navGroupElement.className += '-responsive';
+      } else {
+        navGroupElement.className = 'nav-group';
+      }
     }
   };
 
@@ -87,18 +89,18 @@ export function NavBarResponsive(props: {
             onClick={e => {
               closeNavResponsive();
               closeItens();
-              navigate("/home");
+              navigate('/home');
             }}
-            style={{ outline: "none" }}
+            style={{ outline: 'none' }}
           >
             Home
           </button>
         </li>
-        {rules.includes(ruleService.ruleWithPage("schedule")) && (
+        {rules.includes(ruleService.ruleWithPage('schedule')) && (
           <li className="nav-item remove-style-link" key={randomId()}>
             <button
               className="btn-list-item"
-              style={{ outline: "none" }}
+              style={{ outline: 'none' }}
               onClick={e => setOpenSchedules(!openSchedules)}
             >
               Agenda
@@ -106,16 +108,16 @@ export function NavBarResponsive(props: {
             </button>
             <Collapse in={openSchedules} timeout="auto" unmountOnExit>
               <ul
-                style={{ listStyle: "none", listStyleType: "none", padding: 0 }}
+                style={{ listStyle: 'none', listStyleType: 'none', padding: 0 }}
               >
                 <li className="sub-item" data-dismiss="modal" key={randomId()}>
                   <button
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/create-schedule");
+                      navigate('/create-schedule');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Nova Agenda
                   </button>
@@ -125,9 +127,9 @@ export function NavBarResponsive(props: {
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/schedules");
+                      navigate('/schedules');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Suas Agendas
                   </button>
@@ -137,9 +139,9 @@ export function NavBarResponsive(props: {
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/schedule-history");
+                      navigate('/schedule-history');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Histórico
                   </button>
@@ -148,11 +150,11 @@ export function NavBarResponsive(props: {
             </Collapse>
           </li>
         )}
-        {rules.includes(ruleService.ruleWithPage("clients")) && (
+        {rules.includes(ruleService.ruleWithPage('clients')) && (
           <li className="nav-item remove-style-link" key={randomId()}>
             <button
               className="btn-list-item"
-              style={{ outline: "none" }}
+              style={{ outline: 'none' }}
               onClick={e => setOpenClients(!openClients)}
             >
               Clientes
@@ -160,16 +162,16 @@ export function NavBarResponsive(props: {
             </button>
             <Collapse in={openClients} timeout="auto" unmountOnExit>
               <ul
-                style={{ listStyle: "none", listStyleType: "none", padding: 0 }}
+                style={{ listStyle: 'none', listStyleType: 'none', padding: 0 }}
               >
                 <li className="sub-item" key="33745">
                   <button
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/client/create");
+                      navigate('/client/create');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Novo Cliente
                   </button>
@@ -179,9 +181,9 @@ export function NavBarResponsive(props: {
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/clients");
+                      navigate('/clients');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Seus Clientes
                   </button>
@@ -191,9 +193,9 @@ export function NavBarResponsive(props: {
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/segments");
+                      navigate('/segments');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Segmentos
                   </button>
@@ -202,11 +204,11 @@ export function NavBarResponsive(props: {
             </Collapse>
           </li>
         )}
-        {rules.includes(ruleService.ruleWithPage("sales")) && (
+        {rules.includes(ruleService.ruleWithPage('sales')) && (
           <li className="nav-item remove-style-link" key={randomId()}>
             <button
               className="btn-list-item"
-              style={{ outline: "none" }}
+              style={{ outline: 'none' }}
               onClick={e => setOpenSales(!openSales)}
             >
               Vendas
@@ -214,16 +216,16 @@ export function NavBarResponsive(props: {
             </button>
             <Collapse in={openSales} timeout="auto" unmountOnExit>
               <ul
-                style={{ listStyle: "none", listStyleType: "none", padding: 0 }}
+                style={{ listStyle: 'none', listStyleType: 'none', padding: 0 }}
               >
                 <li className="sub-item" key="6948">
                   <button
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/create-sale");
+                      navigate('/create-sale');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Nova Venda
                   </button>
@@ -233,9 +235,9 @@ export function NavBarResponsive(props: {
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/sales");
+                      navigate('/sales');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Suas Vendas
                   </button>
@@ -245,9 +247,9 @@ export function NavBarResponsive(props: {
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/sales-reports");
+                      navigate('/sales-reports');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Relatórios
                   </button>
@@ -256,11 +258,11 @@ export function NavBarResponsive(props: {
             </Collapse>
           </li>
         )}
-        {rules.includes(ruleService.ruleWithPage("outgoing")) && (
+        {rules.includes(ruleService.ruleWithPage('outgoing')) && (
           <li className="nav-item remove-style-link" key={randomId()}>
             <button
               className="btn-list-item"
-              style={{ outline: "none" }}
+              style={{ outline: 'none' }}
               onClick={e => setOpenOutgoing(!openOutgoing)}
             >
               Despesas
@@ -268,16 +270,16 @@ export function NavBarResponsive(props: {
             </button>
             <Collapse in={openOutgoing} timeout="auto" unmountOnExit>
               <ul
-                style={{ listStyle: "none", listStyleType: "none", padding: 0 }}
+                style={{ listStyle: 'none', listStyleType: 'none', padding: 0 }}
               >
                 <li className="sub-item" key="6948">
                   <button
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/create-outgoing");
+                      navigate('/create-outgoing');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Nova despesa
                   </button>
@@ -287,9 +289,9 @@ export function NavBarResponsive(props: {
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/outgoings");
+                      navigate('/outgoings');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Suas despesas
                   </button>
@@ -298,11 +300,11 @@ export function NavBarResponsive(props: {
             </Collapse>
           </li>
         )}
-        {rules.includes(ruleService.ruleWithPage("catalogs")) && (
+        {rules.includes(ruleService.ruleWithPage('catalogs')) && (
           <li className="nav-item remove-style-link" key={randomId()}>
             <button
               className="btn-list-item"
-              style={{ outline: "none" }}
+              style={{ outline: 'none' }}
               onClick={e => setOpenCatalog(!openCatalog)}
             >
               Serviços
@@ -310,16 +312,16 @@ export function NavBarResponsive(props: {
             </button>
             <Collapse in={openCatalog} timeout="auto" unmountOnExit>
               <ul
-                style={{ listStyle: "none", listStyleType: "none", padding: 0 }}
+                style={{ listStyle: 'none', listStyleType: 'none', padding: 0 }}
               >
                 <li className="sub-item" key="69482">
                   <button
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/catalogs/create");
+                      navigate('/catalogs/create');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Novo Serviço
                   </button>
@@ -329,9 +331,9 @@ export function NavBarResponsive(props: {
                     className="btn-list-sub-item"
                     onClick={e => {
                       closeItens();
-                      navigate("/catalogs");
+                      navigate('/catalogs');
                     }}
-                    style={{ outline: "none" }}
+                    style={{ outline: 'none' }}
                   >
                     Seus Serviços
                   </button>
@@ -342,7 +344,7 @@ export function NavBarResponsive(props: {
         )}
         <li className="nav-item remove-style-link" key="6644855">
           <a
-            href={process.env.REACT_APP_BASE_URL + "/login"}
+            href={process.env.REACT_APP_BASE_URL + '/login'}
             rel="noopener noreferrer"
             onClick={e => {
               localStorageService.clearUser();

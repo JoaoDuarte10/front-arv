@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react';
 
-import { useCatalog } from "./hooks/useCatalog";
-import { ContainerMain } from "../../components/containers/ContainerMain";
-import { Breadcumb } from "../../components/Breadcumb";
-import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { TIMEOUT } from "../../utils/constants";
-import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import { DivInline } from "../../components/containers/DivInline";
-import { LabelForm } from "../../components/labels/LabelForm";
-import { LabelSmall } from "../../components/labels/LabelSmal";
-import { randomId } from "../../utils/random";
-import { Link } from "react-router-dom";
-import { EditIconButton } from "../../components/buttons/EditIconButton";
-import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
-import { Typography } from "@mui/material";
-import { format } from "date-fns";
+import { useCatalog } from './hooks/useCatalog';
+import { ContainerMain } from '../../components/containers/ContainerMain';
+import { Breadcumb } from '../../components/Breadcumb';
+import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
+import { TIMEOUT } from '../../utils/constants';
+import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
+import { DivInline } from '../../components/containers/DivInline';
+import { LabelForm } from '../../components/labels/LabelForm';
+import { LabelSmall } from '../../components/labels/LabelSmal';
+import { randomId } from '../../utils/random';
+import { Link } from 'react-router-dom';
+import { EditIconButton } from '../../components/buttons/EditIconButton';
+import { BasicDeleteModal } from '../../components/modal/BasicDeleteModal';
+import { Typography } from '@mui/material';
+import { format } from 'date-fns';
 
 export function Catalog() {
   const {
@@ -22,7 +22,7 @@ export function Catalog() {
     alert,
     setAlert,
     loading,
-    handleDeleteResource
+    handleDeleteResource,
   } = useCatalog();
 
   if (alert) {
@@ -31,7 +31,7 @@ export function Catalog() {
 
   return (
     <ContainerMain>
-      <Breadcumb page={[{ link: false, name: "Serviços" }]} />
+      <Breadcumb page={[{ link: false, name: 'Serviços' }]} />
       <TitlePrincipal title="Serviços" />
 
       {alert}
@@ -48,25 +48,25 @@ export function Catalog() {
                 <div
                   className="actions_catalog remove-style-link"
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center"
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
                   }}
                 >
                   <h6
                     style={{
-                      fontSize: "1em",
-                      color: "#0275d8",
-                      fontWeight: "bold",
-                      margin: 0
+                      fontSize: '1em',
+                      color: '#0275d8',
+                      fontWeight: 'bold',
+                      margin: 0,
                     }}
                   >
                     Detalhes do Serviço
                   </h6>
                   <div
                     style={{
-                      display: "flex",
-                      alignItems: "center"
+                      display: 'flex',
+                      alignItems: 'center',
                     }}
                   >
                     <Link
@@ -85,7 +85,7 @@ export function Catalog() {
                         id="modal-modal-title"
                         variant="h6"
                         component="h2"
-                        sx={{ color: "red" }}
+                        sx={{ color: 'red' }}
                       >
                         Excluir Serviço
                       </Typography>
@@ -109,9 +109,9 @@ export function Catalog() {
                       className="col-sm-6 pb-2 border-bottom"
                     >
                       <LabelSmall
-                        text={Number(catalog.price).toLocaleString("pt-BR", {
-                          style: "currency",
-                          currency: "BRL"
+                        text={Number(catalog.price).toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
                         })}
                       />
                     </LabelForm>
@@ -127,8 +127,8 @@ export function Catalog() {
                     >
                       <LabelSmall
                         text={format(
-                          new Date(catalog.createdAt.replace("Z", "")),
-                          "dd/MM/yyyy 'às' HH:mm'h'"
+                          new Date(catalog.createdAt.replace('Z', '')),
+                          "dd/MM/yyyy 'às' HH:mm'h'",
                         )}
                       />
                     </LabelForm>
@@ -136,8 +136,8 @@ export function Catalog() {
                       <LabelForm text="Atualizado em" className="col-sm-12">
                         <LabelSmall
                           text={format(
-                            new Date(catalog.updatedAt.replace("Z", "")),
-                            "dd/MM/yyyy 'às' HH:mm'h'"
+                            new Date(catalog.updatedAt.replace('Z', '')),
+                            "dd/MM/yyyy 'às' HH:mm'h'",
                           )}
                         />
                       </LabelForm>

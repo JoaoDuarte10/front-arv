@@ -1,7 +1,7 @@
-import { ValidationResult } from "../../service/validator/types";
+import { ValidationResult } from '../../service/validator/types';
 
 export type TextBuilder = (
-  error?: any
+  error?: any,
 ) => {
   title: string;
   description?: string;
@@ -9,7 +9,7 @@ export type TextBuilder = (
 
 export type TextValidationBuilder<FD> = (
   formData: FD,
-  error: ValidationResult
+  error: ValidationResult,
 ) => {
   title: string;
   description?: string;

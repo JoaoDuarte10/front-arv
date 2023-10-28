@@ -1,18 +1,18 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
 
 const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  borderRadius: "5px",
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  borderRadius: '5px',
   boxShadow: 24,
-  minWidth: "300px",
-  fontFamily: "Montserrat",
-  p: 2
+  minWidth: '300px',
+  fontFamily: 'Montserrat',
+  p: 2,
 };
 
 export function BasicDeleteModal({ children, btnName, onChange }: any) {
@@ -26,13 +26,13 @@ export function BasicDeleteModal({ children, btnName, onChange }: any) {
         onClick={handleOpen}
         className="m-0 pl-1 pr-1 ml-1 mr-1 btn btn-outline-danger"
         style={{
-          display: "flex",
-          alignItems: "center",
-          border: "none",
-          backgroundColor: "transparent",
-          outline: "none",
+          display: 'flex',
+          alignItems: 'center',
+          border: 'none',
+          backgroundColor: 'transparent',
+          outline: 'none',
           padding: 0,
-          margin: 0
+          margin: 0,
         }}
       >
         <svg

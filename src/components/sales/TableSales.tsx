@@ -1,37 +1,37 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
+import React, { useState } from 'react';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
 import {
   KeyboardArrowDown,
   KeyboardArrowUp,
   CheckCircle,
-  Cancel
-} from "@mui/icons-material";
-import { SalesService } from "../../service/api/sales/sales";
-import { SalesInterface } from "../../service/api/sales/types";
-import { randomId } from "../../utils/random";
-import { format, formatDistance } from "date-fns";
-import { AlertError } from "../alerts/AlertError";
-import { AlertInfo } from "../alerts/AlertInfo";
-import { AlertSuccess } from "../alerts/AlertSuccess";
-import { TIMEOUT } from "../../utils/constants";
-import { BasicDeleteModal } from "../modal/BasicDeleteModal";
-import { CircularIndeterminate } from "../loaders/CircularLoader";
-import TablePagination from "@mui/material/TablePagination";
+  Cancel,
+} from '@mui/icons-material';
+import { SalesService } from '../../service/api/sales/sales';
+import { SalesInterface } from '../../service/api/sales/types';
+import { randomId } from '../../utils/random';
+import { format, formatDistance } from 'date-fns';
+import { AlertError } from '../alerts/AlertError';
+import { AlertInfo } from '../alerts/AlertInfo';
+import { AlertSuccess } from '../alerts/AlertSuccess';
+import { TIMEOUT } from '../../utils/constants';
+import { BasicDeleteModal } from '../modal/BasicDeleteModal';
+import { CircularIndeterminate } from '../loaders/CircularLoader';
+import TablePagination from '@mui/material/TablePagination';
 
-import ptBR from "date-fns/locale/pt-BR";
-import { BasicPopover, SelectorPoppover } from "../popover/index";
-import { useNavigate } from "react-router-dom";
-import { INFO_CLIENT_URL } from "../../pages/clients/InfoClients";
+import ptBR from 'date-fns/locale/pt-BR';
+import { BasicPopover, SelectorPoppover } from '../popover/index';
+import { useNavigate } from 'react-router-dom';
+import { INFO_CLIENT_URL } from '../../pages/clients/InfoClients';
 
 type InputProps = {
   sales: SalesInterface[];
@@ -49,7 +49,7 @@ export function TableSales(props: InputProps) {
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -60,14 +60,14 @@ export function TableSales(props: InputProps) {
       <Table aria-label="collapsible table">
         <TableHead
           style={{
-            backgroundColor: "#0275d8"
+            backgroundColor: '#0275d8',
           }}
         >
           <TableRow>
             <TableCell />
             <TableCell
               style={{
-                color: "white"
+                color: 'white',
               }}
             >
               Cliente
@@ -75,7 +75,7 @@ export function TableSales(props: InputProps) {
             <TableCell
               align="center"
               style={{
-                color: "white"
+                color: 'white',
               }}
             >
               Data
@@ -83,7 +83,7 @@ export function TableSales(props: InputProps) {
             <TableCell
               align="center"
               style={{
-                color: "white"
+                color: 'white',
               }}
             >
               Pago
@@ -131,9 +131,9 @@ function createData(sale: SalesInterface) {
         paymentStatus: sale.paymentStatus,
         paymentDate: sale.paymentDate,
         paymentMethod: sale.paymentMethod,
-        createdAt: sale.createdAt
-      }
-    ]
+        createdAt: sale.createdAt,
+      },
+    ],
   };
 }
 
@@ -152,13 +152,13 @@ function Row(props: {
   const registerPayment = async (idsales: number) => {
     setLoader(true);
     const { success, error, notFound } = await salesService.registerPayment(
-      idsales
+      idsales,
     );
     setLoader(false);
 
     if (success) {
       setAlert(
-        <AlertSuccess title="Pagamento registrado! Atualize a pesquisa" />
+        <AlertSuccess title="Pagamento registrado! Atualize a pesquisa" />,
       );
     }
     if (notFound) {
@@ -166,7 +166,7 @@ function Row(props: {
     }
     if (error) {
       setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
+        <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
   };
@@ -178,7 +178,7 @@ function Row(props: {
 
     if (success) {
       setAlert(
-        <AlertSuccess title="Pagamento registrado! Atualize a pesquisa" />
+        <AlertSuccess title="Pagamento registrado! Atualize a pesquisa" />,
       );
     }
     if (notFound) {
@@ -186,34 +186,34 @@ function Row(props: {
     }
     if (error) {
       setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
+        <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
   };
 
   const copySale = async (
     e: React.BaseSyntheticEvent,
-    sale: ReturnType<typeof createData>
+    sale: ReturnType<typeof createData>,
   ) => {
     e.preventDefault();
-    const saleIsPaid = sale.info[0].paymentStatus === "PAID";
+    const saleIsPaid = sale.info[0].paymentStatus === 'PAID';
     const saleInfo = `Olá ${sale.client}, tudo bem?
 
 Registrei uma nova venda para você referente à ${
       sale.description
-    }, do dia ${new Date(row.date).toLocaleDateString("pt-BR", {
-      timeZone: "UTC"
+    }, do dia ${new Date(row.date).toLocaleDateString('pt-BR', {
+      timeZone: 'UTC',
     })}.
 
 E gostaria de informar que o seu pagamento no valor de ${sale.info[0].total.toLocaleString(
-      "pt-BR",
-      { style: "currency", currency: "BRL" }
-    )} ${saleIsPaid ? `foi recebido :)` : "ainda está pendente"}
+      'pt-BR',
+      { style: 'currency', currency: 'BRL' },
+    )} ${saleIsPaid ? `foi recebido :)` : 'ainda está pendente'}
 
 ${
   saleIsPaid && sale.info[0].paymentMethod
     ? `Forma de pagamento: ${sale.info[0].paymentMethod}`
-    : ""
+    : ''
 }
 
 Código da venda: ${sale.idsales}
@@ -222,19 +222,19 @@ Agradecemos a confiança!!!`;
 
     unsecuredCopyToClipboard(saleInfo);
 
-    alert("Texto copiado!");
+    alert('Texto copiado!');
   };
 
   const unsecuredCopyToClipboard = (text: any) => {
-    const textArea = document.createElement("textarea");
+    const textArea = document.createElement('textarea');
     textArea.value = text;
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
     try {
-      document.execCommand("copy");
+      document.execCommand('copy');
     } catch (err) {
-      console.error("Unable to copy to clipboard", err);
+      console.error('Unable to copy to clipboard', err);
     }
     document.body.removeChild(textArea);
   };
@@ -247,13 +247,13 @@ Agradecemos a confiança!!!`;
     <React.Fragment>
       <CircularIndeterminate open={loader} />
 
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }} key={randomId()}>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} key={randomId()}>
         <TableCell>
           <IconButton
             aria-label="expand row"
             size="small"
             onClick={() => setOpen(!open)}
-            style={{ outline: "none" }}
+            style={{ outline: 'none' }}
           >
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </IconButton>
@@ -262,9 +262,9 @@ Agradecemos a confiança!!!`;
           component="th"
           scope="row"
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center"
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           <>
@@ -276,19 +276,19 @@ Agradecemos a confiança!!!`;
                   selector: SelectorPoppover.view,
                   handleSubmit: () => {
                     navigate(`${INFO_CLIENT_URL}${row.idclients}`);
-                  }
-                }
+                  },
+                },
               ]}
             />
           </>
         </TableCell>
         <TableCell align="center">
-          {new Date(row.date).toLocaleDateString("pt-BR", {
-            timeZone: "UTC"
+          {new Date(row.date).toLocaleDateString('pt-BR', {
+            timeZone: 'UTC',
           })}
         </TableCell>
         <TableCell align="center">
-          {row.info[0].paymentStatus === "PAID" ? (
+          {row.info[0].paymentStatus === 'PAID' ? (
             <CheckCircle htmlColor="#5cb85c" />
           ) : (
             <Cancel htmlColor="#f0ad4e" />
@@ -303,33 +303,33 @@ Agradecemos a confiança!!!`;
                 <div>
                   <small className="font-weight-bold h6 text-muted">
                     Código da venda:
-                  </small>{" "}
+                  </small>{' '}
                   {row.idsales}
                 </div>
                 <div>
                   <small className="font-weight-bold h6 text-muted">
                     Criada em:
-                  </small>{" "}
+                  </small>{' '}
                   {format(
-                    new Date(row.info[0].createdAt.replace("Z", "")),
-                    "dd/MM/yyyy 'às' HH:mm'h'"
+                    new Date(row.info[0].createdAt.replace('Z', '')),
+                    "dd/MM/yyyy 'às' HH:mm'h'",
                   )}
                 </div>
               </>
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                  margin: "10px 0"
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  margin: '10px 0',
                 }}
               >
-                {row.info[0].paymentStatus === "PAID" ? null : (
+                {row.info[0].paymentStatus === 'PAID' ? null : (
                   <button
                     className="btn btn-success"
                     style={{
-                      borderRadius: "15px",
-                      fontSize: "13px"
+                      borderRadius: '15px',
+                      fontSize: '13px',
                     }}
                     onClick={(e: React.SyntheticEvent) =>
                       registerPayment(row.idsales)
@@ -342,9 +342,9 @@ Agradecemos a confiança!!!`;
                   className="btn btn-outline-primary"
                   onClick={e => copySale(e, row)}
                   style={{
-                    borderRadius: "15px",
-                    fontSize: "13px",
-                    margin: "0 10px"
+                    borderRadius: '15px',
+                    fontSize: '13px',
+                    margin: '0 10px',
                   }}
                 >
                   Copiar texto
@@ -359,7 +359,7 @@ Agradecemos a confiança!!!`;
                     id="modal-modal-title"
                     variant="h6"
                     component="h2"
-                    sx={{ color: "red" }}
+                    sx={{ color: 'red' }}
                   >
                     Excluir Venda
                   </Typography>
@@ -380,11 +380,11 @@ Agradecemos a confiança!!!`;
 
               <Table size="small" aria-label="purchases">
                 <TableHead>
-                  <TableRow sx={{ fontFamily: "Montserrat" }}>
+                  <TableRow sx={{ fontFamily: 'Montserrat' }}>
                     <TableCell align="right" variant="body">
                       <strong
                         style={{
-                          color: "#4083be"
+                          color: '#4083be',
                         }}
                       >
                         Forma de Pagamento
@@ -393,7 +393,7 @@ Agradecemos a confiança!!!`;
                     <TableCell align="right" variant="body">
                       <strong
                         style={{
-                          color: "#4083be"
+                          color: '#4083be',
                         }}
                       >
                         Pagamento recebido
@@ -402,18 +402,18 @@ Agradecemos a confiança!!!`;
                     <TableCell align="right" variant="body">
                       <strong
                         style={{
-                          color: "#4083be"
+                          color: '#4083be',
                         }}
                       >
-                        {row.info[0].paymentStatus === "PAID"
-                          ? "Data do pagamento"
-                          : "Previsão de pagamento"}
+                        {row.info[0].paymentStatus === 'PAID'
+                          ? 'Data do pagamento'
+                          : 'Previsão de pagamento'}
                       </strong>
                     </TableCell>
                     <TableCell align="right" variant="body">
                       <strong
                         style={{
-                          color: "#4083be"
+                          color: '#4083be',
                         }}
                       >
                         Total
@@ -425,21 +425,21 @@ Agradecemos a confiança!!!`;
                   {row.info.map(info => (
                     <TableRow key={randomId()}>
                       <TableCell component="th" scope="row" align="right">
-                        {info.paymentMethod || "Não registrado"}
+                        {info.paymentMethod || 'Não registrado'}
                       </TableCell>
                       <TableCell component="th" scope="row" align="right">
-                        {info.paymentStatus === "PAID" ? "Sim" : "Não"}
+                        {info.paymentStatus === 'PAID' ? 'Sim' : 'Não'}
                       </TableCell>
                       <TableCell component="th" scope="row" align="right">
                         {format(
-                          new Date(info.paymentDate.replace("Z", "")),
-                          "dd/MM/yyyy"
+                          new Date(info.paymentDate.replace('Z', '')),
+                          'dd/MM/yyyy',
                         )}
                       </TableCell>
                       <TableCell component="th" scope="row" align="right">
-                        {info.total.toLocaleString("pt-BR", {
-                          style: "currency",
-                          currency: "BRL"
+                        {info.total.toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
                         })}
                       </TableCell>
                     </TableRow>

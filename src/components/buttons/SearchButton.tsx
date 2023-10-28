@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type InputProps = {
   onClick: any;
@@ -11,11 +11,11 @@ export function SearchButton(props: InputProps) {
       className="btn btn-primary ml-2"
       onClick={props.onClick}
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        fontWeight: "bold",
-        ...props.style
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        fontWeight: 'bold',
+        ...props.style,
       }}
     >
       <svg

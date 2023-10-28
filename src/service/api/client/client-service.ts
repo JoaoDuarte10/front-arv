@@ -1,18 +1,18 @@
-import axios from "axios";
-import { LocalStorageService } from "../../localStorage/local-storage";
-import { HttpResponse } from "../../http/types";
-import { normalizeResponse } from "../../http/fetch";
-import { ClientFormData, ClientsInterface } from "./types";
+import axios from 'axios';
+import { LocalStorageService } from '../../localStorage/local-storage';
+import { HttpResponse } from '../../http/types';
+import { normalizeResponse } from '../../http/fetch';
+import { ClientFormData, ClientsInterface } from './types';
 
 export class ClientService {
   constructor(
     readonly baseUri: string,
-    readonly localStorageService: LocalStorageService
+    readonly localStorageService: LocalStorageService,
   ) {}
 
   getToken(): string {
     const token = this.localStorageService.getAccessToken();
-    return token || "";
+    return token || '';
   }
 
   async fetchAllClients(): Promise<HttpResponse> {
@@ -21,13 +21,13 @@ export class ClientService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/client/all`, {
           headers: {
-            Authorization: `Bearer ${this.localStorageService.getAccessToken()}`
-          }
+            Authorization: `Bearer ${this.localStorageService.getAccessToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
 
       response = normalizeResponse(data, status);
@@ -59,18 +59,18 @@ export class ClientService {
             idsegment: params.idsegment,
             address: params.address,
             addressNumber: params.addressNumber,
-            note: params.note
+            note: params.note,
           },
           {
             headers: {
-              Authorization: `Bearer ${this.getToken()}`
-            }
-          }
+              Authorization: `Bearer ${this.getToken()}`,
+            },
+          },
         )
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
 
       response = normalizeResponse(data, status);
@@ -104,18 +104,18 @@ export class ClientService {
             idsegment: params.idsegment,
             address: params.address,
             addressNumber: params.addressNumber,
-            note: params.note
+            note: params.note,
           },
           {
             headers: {
-              Authorization: `Bearer ${this.getToken()}`
-            }
-          }
+              Authorization: `Bearer ${this.getToken()}`,
+            },
+          },
         )
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
 
       response = normalizeResponse(data, status);
@@ -132,16 +132,16 @@ export class ClientService {
       const { data, status } = await axios
         .delete(`${this.baseUri}/api/client`, {
           params: {
-            idclients: idclients
+            idclients: idclients,
           },
           headers: {
-            Authorization: `Bearer ${this.getToken()}`
-          }
+            Authorization: `Bearer ${this.getToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
 
       response = normalizeResponse(data, status);
@@ -164,13 +164,13 @@ export const fetchAllClients = async (): Promise<HttpResponse> => {
     const { data, status } = await axios
       .get(`${API_RV_BASE_URI}/api/client/all`, {
         headers: {
-          Authorization: `Bearer ${localStorageService.getAccessToken()}`
-        }
+          Authorization: `Bearer ${localStorageService.getAccessToken()}`,
+        },
       })
       .then(res => ({ data: res.data, status: res.status }))
       .catch(err => ({
         data: err.response ? err.response.data : err.response,
-        status: err.response ? err.response.status : err.response
+        status: err.response ? err.response.status : err.response,
       }));
 
     response = normalizeResponse(data, status);
@@ -182,20 +182,20 @@ export const fetchAllClients = async (): Promise<HttpResponse> => {
 };
 
 export const fetchClientById = async (
-  id: number
+  id: number,
 ): Promise<HttpResponse<ClientsInterface>> => {
   let response: HttpResponse = {} as HttpResponse;
   try {
     const { data, status } = await axios
       .get(`${API_RV_BASE_URI}/api/client/${id}`, {
         headers: {
-          Authorization: `Bearer ${localStorageService.getAccessToken()}`
-        }
+          Authorization: `Bearer ${localStorageService.getAccessToken()}`,
+        },
       })
       .then(res => ({ data: res.data, status: res.status }))
       .catch(err => ({
         data: err.response ? err.response.data : err.response,
-        status: err.response ? err.response.status : err.response
+        status: err.response ? err.response.status : err.response,
       }));
 
     response = normalizeResponse(data, status);
@@ -207,7 +207,7 @@ export const fetchClientById = async (
 };
 
 export const createClient = async (
-  params: ClientFormData
+  params: ClientFormData,
 ): Promise<HttpResponse> => {
   let response: HttpResponse = {} as HttpResponse;
   try {
@@ -221,18 +221,18 @@ export const createClient = async (
           idsegment: params.idsegment,
           address: params.address,
           addressNumber: params.addressNumber,
-          note: params.note
+          note: params.note,
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorageService.getAccessToken()}`
-          }
-        }
+            Authorization: `Bearer ${localStorageService.getAccessToken()}`,
+          },
+        },
       )
       .then(res => ({ data: res.data, status: res.status }))
       .catch(err => ({
         data: err.response ? err.response.data : err.response,
-        status: err.response ? err.response.status : err.response
+        status: err.response ? err.response.status : err.response,
       }));
 
     response = normalizeResponse(data, status);
@@ -244,7 +244,7 @@ export const createClient = async (
 };
 
 export const editClient = async (
-  params: ClientFormData
+  params: ClientFormData,
 ): Promise<HttpResponse> => {
   let response: HttpResponse = {} as HttpResponse;
   try {
@@ -259,18 +259,18 @@ export const editClient = async (
           idsegment: params.idsegment,
           address: params.address,
           addressNumber: params.addressNumber,
-          note: params.note
+          note: params.note,
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorageService.getAccessToken()}`
-          }
-        }
+            Authorization: `Bearer ${localStorageService.getAccessToken()}`,
+          },
+        },
       )
       .then(res => ({ data: res.data, status: res.status }))
       .catch(err => ({
         data: err.response ? err.response.data : err.response,
-        status: err.response ? err.response.status : err.response
+        status: err.response ? err.response.status : err.response,
       }));
 
     response = normalizeResponse(data, status);
@@ -282,23 +282,23 @@ export const editClient = async (
 };
 
 export const deleteClient = async (
-  idclients: number
+  idclients: number,
 ): Promise<HttpResponse> => {
   let response: HttpResponse = {} as HttpResponse;
   try {
     const { data, status } = await axios
       .delete(`${API_RV_BASE_URI}/api/client`, {
         params: {
-          idclients: idclients
+          idclients: idclients,
         },
         headers: {
-          Authorization: `Bearer ${localStorageService.getAccessToken()}`
-        }
+          Authorization: `Bearer ${localStorageService.getAccessToken()}`,
+        },
       })
       .then(res => ({ data: res.data, status: res.status }))
       .catch(err => ({
         data: err.response ? err.response.data : err.response,
-        status: err.response ? err.response.status : err.response
+        status: err.response ? err.response.status : err.response,
       }));
 
     response = normalizeResponse(data, status);

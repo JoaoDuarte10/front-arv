@@ -1,26 +1,26 @@
-import React from "react";
-import { Breadcumb } from "../../components/Breadcumb";
-import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { Link, useNavigate } from "react-router-dom";
-import { WhatsAppService } from "../../service/api/whatsapp/whatsapp";
-import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
-import { Backdrop, CircularProgress, Typography } from "@mui/material";
-import { TIMEOUT } from "../../utils/constants";
-import { ContainerMain } from "../../components/containers/ContainerMain";
-import { EditIconButton } from "../../components/buttons/EditIconButton";
-import { WhatsAppIconButton } from "../../components/buttons/WhatsAppIconButton";
-import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import { LabelForm } from "../../components/labels/LabelForm";
-import { LabelSmall } from "../../components/labels/LabelSmal";
-import { DivInline } from "../../components/containers/DivInline";
-import { randomId } from "../../utils/random";
-import { useClient } from "./hooks/useClients";
-import { INFO_CLIENT_URL } from "./InfoClients";
+import React from 'react';
+import { Breadcumb } from '../../components/Breadcumb';
+import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
+import { Link, useNavigate } from 'react-router-dom';
+import { WhatsAppService } from '../../service/api/whatsapp/whatsapp';
+import { BasicDeleteModal } from '../../components/modal/BasicDeleteModal';
+import { Backdrop, CircularProgress, Typography } from '@mui/material';
+import { TIMEOUT } from '../../utils/constants';
+import { ContainerMain } from '../../components/containers/ContainerMain';
+import { EditIconButton } from '../../components/buttons/EditIconButton';
+import { WhatsAppIconButton } from '../../components/buttons/WhatsAppIconButton';
+import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
+import { LabelForm } from '../../components/labels/LabelForm';
+import { LabelSmall } from '../../components/labels/LabelSmal';
+import { DivInline } from '../../components/containers/DivInline';
+import { randomId } from '../../utils/random';
+import { useClient } from './hooks/useClients';
+import { INFO_CLIENT_URL } from './InfoClients';
 import {
   TableMultiFilter,
-  TypeMultiFilter
-} from "../../components/tableMultiFilter/index";
-import { Option } from "../../components/inputs/InputAutocompleteList";
+  TypeMultiFilter,
+} from '../../components/tableMultiFilter/index';
+import { Option } from '../../components/inputs/InputAutocompleteList';
 
 export function Clients(props: { whatsAppService: WhatsAppService }) {
   const { whatsAppService } = props;
@@ -29,7 +29,7 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
     handleDeleteResource,
     loading,
     alert,
-    setAlert
+    setAlert,
   } = useClient();
 
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
 
   return (
     <ContainerMain>
-      <Breadcumb page={[{ link: false, name: "Clientes" }]} />
+      <Breadcumb page={[{ link: false, name: 'Clientes' }]} />
       <TitlePrincipal title="Clientes" />
 
       {alert}
@@ -50,21 +50,21 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
       <TableMultiFilter
         filters={[
           {
-            label: "Clientes",
-            value: "",
-            placeholder: "Selecione o cliente",
+            label: 'Clientes',
+            value: '',
+            placeholder: 'Selecione o cliente',
             type: TypeMultiFilter.select,
             options: resources.map(client => ({
               label: client.name,
-              value: client.idclients
+              value: client.idclients,
             })),
             handleChangeValue: (e: React.BaseSyntheticEvent, item: Option) => {
-              if (typeof item === "object") {
+              if (typeof item === 'object') {
                 navigate(INFO_CLIENT_URL + item.value);
               }
             },
-            disabled: false
-          }
+            disabled: false,
+          },
         ]}
         clearFilters={(e: React.BaseSyntheticEvent) => null}
         handleSubmit={() => Promise.resolve(true)}
@@ -81,9 +81,9 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
                 <div className="actions_client remove-style-link">
                   <Link
                     style={{
-                      border: "1px solid #0275d8",
-                      padding: "5px",
-                      borderRadius: "15px"
+                      border: '1px solid #0275d8',
+                      padding: '5px',
+                      borderRadius: '15px',
                     }}
                     to={`${INFO_CLIENT_URL}${client.idclients}`}
                   >
@@ -91,8 +91,8 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
                   </Link>
                   <div
                     style={{
-                      display: "flex",
-                      alignItems: "center"
+                      display: 'flex',
+                      alignItems: 'center',
                     }}
                   >
                     <WhatsAppIconButton
@@ -113,7 +113,7 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
                         id="modal-modal-title"
                         variant="h6"
                         component="h2"
-                        sx={{ color: "red" }}
+                        sx={{ color: 'red' }}
                       >
                         Excluir Cliente
                       </Typography>

@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { NEW_RESOURCE_KEY } from "../../RoutesApp";
-import { CreateUpdateProps } from "./types";
-import { AlertServerError } from "../../components/alerts/AlertServerError";
-import { AlertSuccess } from "../../components/alerts/AlertSuccess";
-import { AlertInfo } from "../../components/alerts/AlertInfo";
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { NEW_RESOURCE_KEY } from '../../RoutesApp';
+import { CreateUpdateProps } from './types';
+import { AlertServerError } from '../../components/alerts/AlertServerError';
+import { AlertSuccess } from '../../components/alerts/AlertSuccess';
+import { AlertInfo } from '../../components/alerts/AlertInfo';
 
 export const createUpdateHookTemplate = <FD, DT extends FD>(
-  params: CreateUpdateProps<FD, DT>
+  params: CreateUpdateProps<FD, DT>,
 ) => {
   return (
     customParams: {
       isEditing?: boolean;
       id?: number;
-    } = {}
+    } = {},
   ) => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState<FD>(params.initialFormData);
     const [baseFormData, setBaseFormData] = useState<DT>(
-      params.initialFormData
+      params.initialFormData,
     );
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState<JSX.Element | null>(null);
@@ -35,7 +35,7 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
       : false;
 
     const handleChangeValue = <T extends keyof FD>(field: T) => (
-      value: FD[T]
+      value: FD[T],
     ) => {
       setFormData(state => (state ? { ...state, [field]: value } : state));
     };
@@ -75,7 +75,7 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
         error,
         badRequest,
         conflict,
-        message
+        message,
       } = await params.services.create(customFormData);
 
       if (success) {
@@ -102,7 +102,7 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
         error,
         badRequest,
         conflict,
-        message
+        message,
       } = await params.services.edit(customFormData);
 
       if (success) {
@@ -137,7 +137,7 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
       handleSubmit,
       handleClearFormData,
       alert,
-      setAlert
+      setAlert,
     };
   };
 };

@@ -1,18 +1,18 @@
-import React from "react";
-import { ColorsBootstrap } from "../modal/GenericModal";
+import React from 'react';
+import { ColorsBootstrap } from '../modal/GenericModal';
 
 export enum ColorsMaterialUi {
-  success = "success",
-  info = "info",
-  error = "error",
-  primary = "primary",
-  secondary = "secondary",
-  inherit = "inherit"
+  success = 'success',
+  info = 'info',
+  error = 'error',
+  primary = 'primary',
+  secondary = 'secondary',
+  inherit = 'inherit',
 }
 
 export enum Variant {
-  contained = "contained",
-  outline = "outline"
+  contained = 'contained',
+  outline = 'outline',
 }
 
 type InputProps = {
@@ -29,8 +29,8 @@ export function GenericButton(props: InputProps) {
 
   return (
     <button
-      className={`btn btn${variant ? "-" + variant : ""}${"-" +
-        color} font-weight-bold ${col ? "col" : null}`}
+      className={`btn btn${variant ? '-' + variant : ''}${'-' +
+        color} font-weight-bold ${col ? 'col' : null}`}
       style={{ ...style }}
       onClick={onClick}
     >

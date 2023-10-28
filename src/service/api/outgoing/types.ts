@@ -1,13 +1,13 @@
 export enum OutgoingInstallmentEnums {
-  A_VISTA = "À vista",
-  PARCELADO = "Parcelado"
+  A_VISTA = 'À vista',
+  PARCELADO = 'Parcelado',
 }
 
 export enum OutgoingPaymentMethodEnums {
-  CARTAO_DE_CREDITO = "Cartão de crédito",
-  DINHEIRO = "Dinheiro",
-  PIX = "PIX",
-  BOLETO = "Boleto"
+  CARTAO_DE_CREDITO = 'Cartão de crédito',
+  DINHEIRO = 'Dinheiro',
+  PIX = 'PIX',
+  BOLETO = 'Boleto',
 }
 
 export type OutgoingInterface = {

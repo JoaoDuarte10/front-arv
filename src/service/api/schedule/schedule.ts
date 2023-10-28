@@ -1,18 +1,18 @@
-import { normalizeResponse } from "../../http/fetch";
-import { LocalStorageService } from "../../localStorage/local-storage";
-import axios from "axios";
-import { ScheduleInterface } from "./types";
-import { HttpResponse } from "../../http/types";
+import { normalizeResponse } from '../../http/fetch';
+import { LocalStorageService } from '../../localStorage/local-storage';
+import axios from 'axios';
+import { ScheduleInterface } from './types';
+import { HttpResponse } from '../../http/types';
 
 export class ScheduleService {
   constructor(
     private readonly baseUri: string,
-    private readonly localStorageService: LocalStorageService
+    private readonly localStorageService: LocalStorageService,
   ) {}
 
   private getToken(): string {
     const token = this.localStorageService.getAccessToken();
-    return token || "";
+    return token || '';
   }
 
   async create(params: ScheduleInterface): Promise<HttpResponse<void>> {
@@ -30,18 +30,18 @@ export class ScheduleService {
             pacote: params.pacote,
             totalAtendenceCount: params.totalAtendenceCount,
             status: params.status,
-            idCatalogs: params.idCatalogs
+            idCatalogs: params.idCatalogs,
           },
           {
             headers: {
-              Authorization: `Bearer ${this.getToken()}`
-            }
-          }
+              Authorization: `Bearer ${this.getToken()}`,
+            },
+          },
         )
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
       response = normalizeResponse(data, status);
     } catch (error) {
@@ -68,18 +68,18 @@ export class ScheduleService {
             atendenceCount: params.atendenceCount,
             totalAtendenceCount: params.totalAtendenceCount,
             status: params.status,
-            idCatalogs: params.idCatalogs
+            idCatalogs: params.idCatalogs,
           },
           {
             headers: {
-              Authorization: `Bearer ${this.getToken()}`
-            }
-          }
+              Authorization: `Bearer ${this.getToken()}`,
+            },
+          },
         )
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
       response = normalizeResponse(data, status);
     } catch (error) {
@@ -90,7 +90,7 @@ export class ScheduleService {
   }
 
   async fetchByIdClient(
-    idclients: number
+    idclients: number,
   ): Promise<HttpResponse<ScheduleInterface[]>> {
     let response: HttpResponse = {} as HttpResponse;
     try {
@@ -98,13 +98,13 @@ export class ScheduleService {
         .get(`${this.baseUri}/api/schedule/client`, {
           params: { idclients },
           headers: {
-            Authorization: `Bearer ${this.getToken()}`
-          }
+            Authorization: `Bearer ${this.getToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
       response = normalizeResponse(data, status);
     } catch (error) {
@@ -115,7 +115,7 @@ export class ScheduleService {
   }
 
   async fetchByClientName(
-    clientName: string
+    clientName: string,
   ): Promise<HttpResponse<ScheduleInterface[]>> {
     let response: HttpResponse = {} as HttpResponse;
     try {
@@ -123,13 +123,13 @@ export class ScheduleService {
         .get(`${this.baseUri}/api/schedule/client/name`, {
           params: { clientName },
           headers: {
-            Authorization: `Bearer ${this.getToken()}`
-          }
+            Authorization: `Bearer ${this.getToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
       response = normalizeResponse(data, status);
     } catch (error) {
@@ -146,13 +146,13 @@ export class ScheduleService {
         .get(`${this.baseUri}/api/schedule/date`, {
           params: { date },
           headers: {
-            Authorization: `Bearer ${this.getToken()}`
-          }
+            Authorization: `Bearer ${this.getToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
       response = normalizeResponse(data, status);
     } catch (error) {
@@ -168,13 +168,13 @@ export class ScheduleService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/expireds`, {
           headers: {
-            Authorization: `Bearer ${this.getToken()}`
-          }
+            Authorization: `Bearer ${this.getToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
       response = normalizeResponse(data, status);
     } catch (error) {
@@ -191,13 +191,13 @@ export class ScheduleService {
         .delete(`${this.baseUri}/api/schedule`, {
           params: { idschedules },
           headers: {
-            Authorization: `Bearer ${this.getToken()}`
-          }
+            Authorization: `Bearer ${this.getToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
       response = normalizeResponse(data, status);
     } catch (error) {
@@ -216,14 +216,14 @@ export class ScheduleService {
           { idschedules },
           {
             headers: {
-              Authorization: `Bearer ${this.getToken()}`
-            }
-          }
+              Authorization: `Bearer ${this.getToken()}`,
+            },
+          },
         )
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
       response = normalizeResponse(data, status);
     } catch (error) {
@@ -239,13 +239,13 @@ export class ScheduleService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/expireds`, {
           headers: {
-            Authorization: `Bearer ${this.getToken()}`
-          }
+            Authorization: `Bearer ${this.getToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
       response = normalizeResponse(data, status);
     } catch (error) {
@@ -261,13 +261,13 @@ export class ScheduleService {
       const { data, status } = await axios
         .get(`${this.baseUri}/api/schedule/finished`, {
           headers: {
-            Authorization: `Bearer ${this.getToken()}`
-          }
+            Authorization: `Bearer ${this.getToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
       response = normalizeResponse(data, status);
     } catch (error) {
@@ -284,13 +284,13 @@ export class ScheduleService {
         .get(`${this.baseUri}/api/schedule/finished/from-date`, {
           params: { fromDate },
           headers: {
-            Authorization: `Bearer ${this.getToken()}`
-          }
+            Authorization: `Bearer ${this.getToken()}`,
+          },
         })
         .then(res => ({ data: res.data, status: res.status }))
         .catch(err => ({
           data: err.response ? err.response.data : err.response,
-          status: err.response ? err.response.status : err.response
+          status: err.response ? err.response.status : err.response,
         }));
       response = normalizeResponse(data, status);
     } catch (error) {

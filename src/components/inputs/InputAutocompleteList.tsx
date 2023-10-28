@@ -1,6 +1,6 @@
-import * as React from "react";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
+import * as React from 'react';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 export type Option<T = any> = {
   label: string;
@@ -27,7 +27,7 @@ export default function ComboBoxList(props: InputProps) {
     style,
     className,
     small,
-    disabled = false
+    disabled = false,
   } = props;
 
   return (
@@ -43,7 +43,7 @@ export default function ComboBoxList(props: InputProps) {
       autoHighlight
       style={style}
       className={className}
-      size={small ? "small" : "medium"}
+      size={small ? 'small' : 'medium'}
       disabled={disabled}
     />
   );

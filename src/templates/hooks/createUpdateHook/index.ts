@@ -1,24 +1,24 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-import { Props } from "./types";
-import { ValidationResult } from "../../../service/validator/types";
-import { useIsMounted } from "../../../hooks/useIsMounted";
+import { Props } from './types';
+import { ValidationResult } from '../../../service/validator/types';
+import { useIsMounted } from '../../../hooks/useIsMounted';
 
 export const createUpdateHookTemplate = <FD, DT extends FD>(
-  params: Props<FD, DT>
+  params: Props<FD, DT>,
 ) => {
   return (
     customParams: {
       isEditing?: boolean;
       id?: number;
       validateForm?: (params: FD) => Promise<ValidationResult>;
-    } = {}
+    } = {},
   ) => {
     const [formData, setFormData] = useState<FD>(params.initialFormData);
     const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState<ValidationResult["errors"]>(
-      () => null
+    const [errors, setErrors] = useState<ValidationResult['errors']>(
+      () => null,
     );
 
     const urlParams = useParams<{ id: string }>();
@@ -30,23 +30,23 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
     const mounted = useIsMounted();
 
     const handleChangeValue = <T extends keyof FD>(field: T) => (
-      value: FD[T]
+      value: FD[T],
     ): void => {
       setFormData(state => (state ? { ...state, [field]: value } : state));
     };
 
     const handleSubmit = async (
       customFormData?: FD,
-      customIsValid?: boolean
+      customIsValid?: boolean,
     ) => {
       if (isEditing) {
         return await handleUpdate(customFormData, {
-          customIsValid
+          customIsValid,
         });
       }
 
       return await handleCreate(customFormData, {
-        customIsValid
+        customIsValid,
       });
     };
 
@@ -54,7 +54,7 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
       customFormData = formData,
       props: {
         customIsValid?: boolean;
-      } = {}
+      } = {},
     ): Promise<
       { title: string; description: string } | { title: string } | void
     > => {
@@ -69,17 +69,15 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
       if (!formValidation.isValid || !customIsValid) {
         const errorParams = params.texts.create.validate?.(
           formData,
-          formValidation
-        ) || { title: "Preencha os dados do formulário corretamente" };
-
-        console.info({ validation: formValidation, form: customFormData });
+          formValidation,
+        ) || { title: 'Preencha os dados do formulário corretamente' };
 
         setErrors(formValidation.errors);
         return errorParams;
       }
 
       const { success, error, message } = await params.services.create(
-        customFormData
+        customFormData,
       );
 
       if (mounted.current) setLoading(false);
@@ -91,7 +89,7 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
       if (error) {
         return {
           title: params.texts.create.error(message).title,
-          description: params.texts.create.error(error).description
+          description: params.texts.create.error(error).description,
         };
       }
     };
@@ -100,7 +98,7 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
       customFormData = formData,
       props: {
         customIsValid?: boolean;
-      } = {}
+      } = {},
     ): Promise<
       { title: string; description: string } | { title: string } | void
     > => {
@@ -115,10 +113,8 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
       if (!formValidation.isValid || !customIsValid) {
         const errorParams = params.texts.create.validate?.(
           formData,
-          formValidation
-        ) || { title: "Preencha os dados do formulário corretamente" };
-
-        console.info({ validation: formValidation, form: customFormData });
+          formValidation,
+        ) || { title: 'Preencha os dados do formulário corretamente' };
 
         setErrors(formValidation.errors);
         return errorParams;
@@ -126,7 +122,7 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
 
       const { success, error, message } = await params.services.update(
         id as number,
-        customFormData
+        customFormData,
       );
 
       if (mounted.current) setLoading(false);
@@ -138,7 +134,7 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
       if (error) {
         return {
           title: params.texts.create.error(message).title,
-          description: params.texts.create.error(error).description
+          description: params.texts.create.error(error).description,
         };
       }
     };
@@ -155,7 +151,7 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
       handleSubmit,
       id,
       errors,
-      setErrors
+      setErrors,
     };
   };
 };

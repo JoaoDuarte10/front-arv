@@ -1,24 +1,24 @@
-import { useState } from "react";
-import { listDeleteHookTemplate } from "../../../hooks/listDeleteHook";
+import { useState } from 'react';
+import { listDeleteHookTemplate } from '../../../hooks/listDeleteHook';
 import {
   CatalogService,
   deleteCatalogs,
   fetchAllCatalogs,
-  fetchOneCatalogs
-} from "../../../service/api/catalog/catalog-service";
-import { CatalogInterface } from "../../../service/api/catalog/types";
-import { LocalStorageService } from "../../../service/localStorage/local-storage";
+  fetchOneCatalogs,
+} from '../../../service/api/catalog/catalog-service';
+import { CatalogInterface } from '../../../service/api/catalog/types';
+import { LocalStorageService } from '../../../service/localStorage/local-storage';
 
 const initialFormData: CatalogInterface[] = [
   {
     idUsers: 0,
     idCatalog: 0,
-    name: "",
-    description: "",
+    name: '',
+    description: '',
     price: 0,
-    createdAt: "",
-    updatedAt: ""
-  }
+    createdAt: '',
+    updatedAt: '',
+  },
 ];
 
 const listDeleteParams = {
@@ -26,22 +26,22 @@ const listDeleteParams = {
   services: {
     fetchAll: fetchAllCatalogs,
     fetchOne: fetchOneCatalogs,
-    delete: deleteCatalogs
+    delete: deleteCatalogs,
   },
   texts: {
     list: {
-      success: "Pesquisa atualizada",
-      error: "Erro ao buscar informações do serviço"
+      success: 'Pesquisa atualizada',
+      error: 'Erro ao buscar informações do serviço',
     },
     delete: {
-      success: "Serviço deletado com sucesso",
-      error: "Erro ao deletar o serviço"
-    }
-  }
+      success: 'Serviço deletado com sucesso',
+      error: 'Erro ao deletar o serviço',
+    },
+  },
 };
 
 export const useHookListDelete = listDeleteHookTemplate<CatalogInterface>(
-  listDeleteParams
+  listDeleteParams,
 );
 
 export const useCatalog = () => {
@@ -52,6 +52,6 @@ export const useCatalog = () => {
   // const [catalog, setCatalog] = useState<CatalogInterface[]>([]);
 
   return {
-    ...hookData
+    ...hookData,
   };
 };

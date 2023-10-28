@@ -1,32 +1,32 @@
-import React, { useState } from "react";
-import { ClientsInterface } from "../../../service/api/client/types";
-import { listDeleteHookTemplate } from "../../../hooks/listDeleteHook";
+import React, { useState } from 'react';
+import { ClientsInterface } from '../../../service/api/client/types';
+import { listDeleteHookTemplate } from '../../../hooks/listDeleteHook';
 import {
   fetchAllClients,
   fetchClientById,
-  deleteClient
-} from "../../../service/api/client/client-service";
-import { SalesInterface } from "../../../service/api/sales/types";
+  deleteClient,
+} from '../../../service/api/client/client-service';
+import { SalesInterface } from '../../../service/api/sales/types';
 import {
   findSalesByClient,
-  findSalesPendingByClient
-} from "../../../service/api/sales/sales";
-import { AlertInfo } from "../../../components/alerts/AlertInfo";
-import { AlertError } from "../../../components/alerts/AlertError";
-import { AlertSuccess } from "../../../components/alerts/AlertSuccess";
+  findSalesPendingByClient,
+} from '../../../service/api/sales/sales';
+import { AlertInfo } from '../../../components/alerts/AlertInfo';
+import { AlertError } from '../../../components/alerts/AlertError';
+import { AlertSuccess } from '../../../components/alerts/AlertSuccess';
 
 const initialFormData: ClientsInterface[] = [
   {
     idclients: 0,
-    name: "",
-    email: "",
-    phone: "",
-    segment: "",
-    address: "",
+    name: '',
+    email: '',
+    phone: '',
+    segment: '',
+    address: '',
     addressNumber: 0,
-    note: "",
-    created_at: ""
-  }
+    note: '',
+    created_at: '',
+  },
 ];
 
 const listDeleteParams = {
@@ -34,22 +34,22 @@ const listDeleteParams = {
   services: {
     fetchAll: fetchAllClients,
     fetchOne: fetchClientById,
-    delete: deleteClient
+    delete: deleteClient,
   },
   texts: {
     list: {
-      success: "Pesquisa atualizada",
-      error: "Erro ao buscar informações do cliente"
+      success: 'Pesquisa atualizada',
+      error: 'Erro ao buscar informações do cliente',
     },
     delete: {
-      success: "Cliente deletado com sucesso",
-      error: "Erro ao deletar o cliente"
-    }
-  }
+      success: 'Cliente deletado com sucesso',
+      error: 'Erro ao deletar o cliente',
+    },
+  },
 };
 
 export const useHookListDelete = listDeleteHookTemplate<ClientsInterface>(
-  listDeleteParams
+  listDeleteParams,
 );
 
 export const useClient = () => {
@@ -72,7 +72,7 @@ export const useClient = () => {
     }
     if (error) {
       setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
+        <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
     setLoading(false);
@@ -81,7 +81,7 @@ export const useClient = () => {
   const fetchSalesPending = async (id: number) => {
     setLoading(true);
     const { success, data, error, notFound } = await findSalesPendingByClient(
-      id
+      id,
     );
 
     if (success && data.length) {
@@ -95,7 +95,7 @@ export const useClient = () => {
 
     if (error) {
       setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
+        <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
 
@@ -107,6 +107,6 @@ export const useClient = () => {
     fetchSalesByClient,
     fetchSalesPending,
     sales,
-    setSales
+    setSales,
   };
 };

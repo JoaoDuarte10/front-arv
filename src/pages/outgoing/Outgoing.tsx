@@ -1,36 +1,36 @@
-import React, { useState } from "react";
-import { OutgoingService } from "../../service/api/outgoing/outgoing";
-import { OutgoingInterface } from "../../service/api/outgoing/types";
-import { ContainerMain } from "../../components/containers/ContainerMain";
-import { Breadcumb } from "../../components/Breadcumb";
-import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { TIMEOUT } from "../../utils/constants";
-import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import { AlertSuccess } from "../../components/alerts/AlertSuccess";
-import { AlertInfo } from "../../components/alerts/AlertInfo";
-import { AlertError } from "../../components/alerts/AlertError";
-import { TableOutgoing } from "../../components/outgoing/TableOutgoing";
-import { countTotalValues } from "../../utils/sum";
+import React, { useState } from 'react';
+import { OutgoingService } from '../../service/api/outgoing/outgoing';
+import { OutgoingInterface } from '../../service/api/outgoing/types';
+import { ContainerMain } from '../../components/containers/ContainerMain';
+import { Breadcumb } from '../../components/Breadcumb';
+import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
+import { TIMEOUT } from '../../utils/constants';
+import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
+import { AlertSuccess } from '../../components/alerts/AlertSuccess';
+import { AlertInfo } from '../../components/alerts/AlertInfo';
+import { AlertError } from '../../components/alerts/AlertError';
+import { TableOutgoing } from '../../components/outgoing/TableOutgoing';
+import { countTotalValues } from '../../utils/sum';
 import {
   TableMultiFilter,
-  TypeMultiFilter
-} from "../../components/tableMultiFilter/index";
+  TypeMultiFilter,
+} from '../../components/tableMultiFilter/index';
 
 export function Outgoing(props: { outgoingService: OutgoingService }) {
   const { outgoingService } = props;
 
   const [outgoing, setOutgoing] = useState<OutgoingInterface[]>([]);
 
-  const [date, setDate] = useState<string>("");
+  const [date, setDate] = useState<string>('');
   const [period, setPeriod] = useState<{ date1: string; date2: string }>({
-    date1: "",
-    date2: ""
+    date1: '',
+    date2: '',
   });
 
   const [allOutgoingFilter, setAllOutgoingFilter] = useState<boolean>(false);
 
   const [searchFilterDateEnable, setSearchFilterDateEnable] = useState<boolean>(
-    false
+    false,
   );
   const [searchFilterPeriodEnable, setSearchFilterPeriodEnable] = useState<
     boolean
@@ -46,7 +46,7 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       data,
       notFound,
       error,
-      badRequest
+      badRequest,
     } = await outgoingService.fetchAll();
     setLoader(false);
 
@@ -75,7 +75,7 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       data,
       notFound,
       error,
-      badRequest
+      badRequest,
     } = await outgoingService.fetchByDate(date as any);
     setLoader(false);
 
@@ -104,10 +104,10 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       data,
       notFound,
       error,
-      badRequest
+      badRequest,
     } = await outgoingService.fetchByPeriod(
       period.date1 as any,
-      period.date2 as any
+      period.date2 as any,
     );
     setLoader(false);
 
@@ -164,8 +164,8 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
 
       <Breadcumb
         page={[
-          { link: "/create-outgoing", name: "Nova despesa" },
-          { link: false, name: "Suas despesas" }
+          { link: '/create-outgoing', name: 'Nova despesa' },
+          { link: false, name: 'Suas despesas' },
         ]}
       />
       <TitlePrincipal title="Despesas" />
@@ -173,46 +173,46 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       <TableMultiFilter
         filters={[
           {
-            label: "Data",
+            label: 'Data',
             value: date,
-            placeholder: "",
+            placeholder: '',
             type: TypeMultiFilter.date,
             handleChangeValue: (e: any) => setDate(e.target.value),
             disabled:
-              period.date1 || period.date2 || allOutgoingFilter ? true : false
+              period.date1 || period.date2 || allOutgoingFilter ? true : false,
           },
           {
-            label: "Periodo",
-            value: "",
-            placeholder: "",
+            label: 'Periodo',
+            value: '',
+            placeholder: '',
             type: TypeMultiFilter.period,
             handleChangeValue: () => null,
             period: {
               date1: {
                 value: period.date1,
                 handleChangeValue: (e: React.BaseSyntheticEvent) =>
-                  setPeriod({ date1: e.target.value, date2: period.date2 })
+                  setPeriod({ date1: e.target.value, date2: period.date2 }),
               },
               date2: {
                 value: period.date2,
                 handleChangeValue: (e: React.BaseSyntheticEvent) =>
-                  setPeriod({ date1: period.date1, date2: e.target.value })
-              }
+                  setPeriod({ date1: period.date1, date2: e.target.value }),
+              },
             },
-            disabled: date || allOutgoingFilter ? true : false
+            disabled: date || allOutgoingFilter ? true : false,
           },
           {
-            label: "Todas as despesas",
+            label: 'Todas as despesas',
             value: allOutgoingFilter,
-            placeholder: "",
+            placeholder: '',
             type: TypeMultiFilter.check,
             handleChangeValue: () => setAllOutgoingFilter(!allOutgoingFilter),
-            disabled: date || period.date1 || period.date2 ? true : false
-          }
+            disabled: date || period.date1 || period.date2 ? true : false,
+          },
         ]}
         clearFilters={(e: React.BaseSyntheticEvent) => {
-          setDate("");
-          setPeriod({ date1: "", date2: "" });
+          setDate('');
+          setPeriod({ date1: '', date2: '' });
           setAllOutgoingFilter(false);
         }}
         handleSubmit={handleSubmitFilters}
@@ -226,7 +226,7 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
             outgoings={outgoing}
             outgoingService={outgoingService}
           />
-          <strong>Total:</strong>{" "}
+          <strong>Total:</strong>{' '}
           {countTotalValues(outgoing.map(item => Number(item.total)))}
         </div>
       ) : null}

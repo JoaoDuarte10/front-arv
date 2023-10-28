@@ -1,22 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ReducerActionType } from "./types/reducer-type";
-import { SegmentInterface } from "../service/api/segment/types";
+import { createSlice } from '@reduxjs/toolkit';
+import { ReducerActionType } from './types/reducer-type';
+import { SegmentInterface } from '../service/api/segment/types';
 
 const initialState: SegmentInterface[] = [];
 
 const segmentSlice = createSlice({
-  name: "segment",
+  name: 'segment',
   initialState,
   reducers: {
     segmentAdded: {
       reducer(
         state: SegmentInterface[],
-        action: ReducerActionType<SegmentInterface[]>
+        action: ReducerActionType<SegmentInterface[]>,
       ) {
         action.payload.forEach(segment => state.push(segment));
       },
       prepare(
-        params: SegmentInterface[]
+        params: SegmentInterface[],
       ): {
         payload: SegmentInterface[];
       } {
@@ -26,14 +26,14 @@ const segmentSlice = createSlice({
                 return {
                   idsegments: segment.idsegments,
                   name: segment.name,
-                  createdAt: segment.createdAt
+                  createdAt: segment.createdAt,
                 };
               })
-            : []
+            : [],
         };
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 export const { segmentAdded } = segmentSlice.actions;

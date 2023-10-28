@@ -1,23 +1,23 @@
-import "../css/main.css";
+import '../css/main.css';
 
-import React, { useState } from "react";
-import logo from "../img/raise-value-logo.png";
-import { IconButton } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
-import { loginAdded } from "../reducers/authenticated-slice";
-import { CircularIndeterminate } from "../components/loaders/CircularLoader";
-import { AlertError } from "../components/alerts/AlertError";
-import { TIMEOUT } from "../utils/constants";
-import { useNavigate } from "react-router-dom";
-import { LoginService } from "../service/api/auth/login";
+import React, { useState } from 'react';
+import logo from '../img/raise-value-logo.png';
+import { IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useDispatch } from 'react-redux';
+import { loginAdded } from '../reducers/authenticated-slice';
+import { CircularIndeterminate } from '../components/loaders/CircularLoader';
+import { AlertError } from '../components/alerts/AlertError';
+import { TIMEOUT } from '../utils/constants';
+import { useNavigate } from 'react-router-dom';
+import { LoginService } from '../service/api/auth/login';
 
 export function Login(props: { loginService: LoginService }) {
   const { loginService } = props;
-  const [user, setUser] = useState<string>("");
+  const [user, setUser] = useState<string>('');
   const [password, setPassword] = useState({
-    password: "",
-    showPassword: false
+    password: '',
+    showPassword: false,
   });
   const [loader, setLoader] = useState<boolean>(false);
   const [alert, setAlert] = useState<JSX.Element | null>(null);
@@ -26,7 +26,7 @@ export function Login(props: { loginService: LoginService }) {
   let navigate = useNavigate();
 
   const handlePasswordChange = (prop: any) => (
-    event: React.BaseSyntheticEvent
+    event: React.BaseSyntheticEvent,
   ) => {
     event.preventDefault();
     setPassword({ ...password, [prop]: event.target.value });
@@ -36,15 +36,15 @@ export function Login(props: { loginService: LoginService }) {
     setLoader(true);
     const { success, data, unauthorized, error } = await loginService.signIn({
       user,
-      password: password.password
+      password: password.password,
     });
     setLoader(false);
 
     if (success) {
       dispatch(
-        loginAdded({ access_token: data.access_token, refreshToken: "" })
+        loginAdded({ access_token: data.access_token, refreshToken: '' }),
       );
-      navigate("/home", { replace: true });
+      navigate('/home', { replace: true });
     }
 
     if (unauthorized) {
@@ -111,10 +111,10 @@ export function Login(props: { loginService: LoginService }) {
                 </div>
               </div>
               <input
-                type={password.showPassword ? "text" : "password"}
+                type={password.showPassword ? 'text' : 'password'}
                 className="form-control"
                 value={password.password}
-                onChange={handlePasswordChange("password")}
+                onChange={handlePasswordChange('password')}
                 id="password"
                 placeholder="Digite a senha"
                 required={true}
@@ -124,7 +124,7 @@ export function Login(props: { loginService: LoginService }) {
                   onClick={_e =>
                     setPassword({
                       ...password,
-                      showPassword: !password.showPassword
+                      showPassword: !password.showPassword,
                     })
                   }
                   onMouseDown={e => e.preventDefault()}

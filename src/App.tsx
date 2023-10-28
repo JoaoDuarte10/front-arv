@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { RoutesApp } from "./RoutesApp";
+import React, { useEffect } from 'react';
+import { RoutesApp } from './RoutesApp';
 
 export function App() {
   useEffect(() => {
-    document.body.style.backgroundColor = "#f8f8ff";
+    document.body.style.backgroundColor = '#f8f8ff';
   }, []);
 
   return <RoutesApp />;

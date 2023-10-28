@@ -1,6 +1,6 @@
-import { TextBuilder, TextValidationBuilder } from "../types";
-import { ValidationResult } from "../../../service/validator/types";
-import { HttpResponse } from "../../../service/http/types";
+import { TextBuilder, TextValidationBuilder } from '../types';
+import { ValidationResult } from '../../../service/validator/types';
+import { HttpResponse } from '../../../service/http/types';
 
 type Services = {
   create: (params: any) => Promise<HttpResponse>;

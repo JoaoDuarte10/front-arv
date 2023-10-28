@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export function ComeBack() {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export function ComeBack() {
     <button
       className="btn btn-primary d-flex flex-row align-items-center font-weight-bold"
       onClick={() => navigate(-1)}
-      style={{ borderRadius: "15px" }}
+      style={{ borderRadius: '15px' }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

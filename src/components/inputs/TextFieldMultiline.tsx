@@ -1,6 +1,6 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 type Props = {
   label: string;
@@ -19,13 +19,13 @@ export default function TextFieldMultiline({
   type,
   rows,
   className,
-  disabled
+  disabled,
 }: Props) {
   return (
     <Box
       sx={{
-        maxWidth: "100%",
-        padding: "5px 0"
+        maxWidth: '100%',
+        padding: '5px 0',
       }}
     >
       <TextField
@@ -34,8 +34,8 @@ export default function TextFieldMultiline({
         label={label}
         id="fullWidth"
         sx={{
-          borderRadius: "150px",
-          border: "none"
+          borderRadius: '150px',
+          border: 'none',
         }}
         multiline
         rows={rows}

@@ -1,5 +1,5 @@
-import { HTTP_RESPONSE } from "../../utils/constants";
-import { HttpResponse } from "./types";
+import { HTTP_RESPONSE } from '../../utils/constants';
+import { HttpResponse } from './types';
 
 export function normalizeResponse(data: any, status: number): HttpResponse {
   const response: HttpResponse = {
@@ -10,7 +10,7 @@ export function normalizeResponse(data: any, status: number): HttpResponse {
     message: null,
     conflict: false,
     badRequest: false,
-    notFound: false
+    notFound: false,
   };
 
   switch (status) {
@@ -20,15 +20,15 @@ export function normalizeResponse(data: any, status: number): HttpResponse {
       break;
     case HTTP_RESPONSE.CONFLICT:
       response.conflict = true;
-      response.message = data.message || "";
+      response.message = data.message || '';
       break;
     case HTTP_RESPONSE.BAD_REQUEST:
       response.badRequest = true;
-      response.message = data.message || "";
+      response.message = data.message || '';
       break;
     case HTTP_RESPONSE.NOT_FOUND:
       response.notFound = true;
-      response.message = data.message || "";
+      response.message = data.message || '';
       break;
     case HTTP_RESPONSE.UNAUTHORIZED:
       response.unauthorized = true;

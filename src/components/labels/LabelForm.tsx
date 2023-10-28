@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export function LabelForm(props: {
   text: string;
@@ -9,10 +9,10 @@ export function LabelForm(props: {
   return (
     <h6
       style={{
-        fontSize: "1em",
-        color: "#0275d8",
-        fontWeight: "bold",
-        ...props.style
+        fontSize: '1em',
+        color: '#0275d8',
+        fontWeight: 'bold',
+        ...props.style,
       }}
       className={props.className}
     >

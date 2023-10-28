@@ -1,5 +1,5 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
+import * as React from 'react';
+import Box from '@mui/material/Box';
 
 export function WhatsAppIconButton({ onClick }: any) {
   return (
@@ -8,11 +8,11 @@ export function WhatsAppIconButton({ onClick }: any) {
         type="button"
         className="m-0 pl-1 pr-1 ml-1 mr-1  btn"
         style={{
-          display: "flex",
-          alignItems: "center",
-          border: "none",
-          backgroundColor: "transparent",
-          outline: "none"
+          display: 'flex',
+          alignItems: 'center',
+          border: 'none',
+          backgroundColor: 'transparent',
+          outline: 'none',
         }}
         onClick={onClick}
       >

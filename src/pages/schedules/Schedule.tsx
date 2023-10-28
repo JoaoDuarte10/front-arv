@@ -1,49 +1,49 @@
-import React, { useEffect, useState } from "react";
-import { ContainerMain } from "../../components/containers/ContainerMain";
-import { Breadcumb } from "../../components/Breadcumb";
-import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import { AlertSuccess } from "../../components/alerts/AlertSuccess";
-import { AlertError } from "../../components/alerts/AlertError";
-import { AlertInfo } from "../../components/alerts/AlertInfo";
-import { ClearSearchFilterButton } from "../../components/buttons/ClearSearchFilter";
-import { SearchFilterButton } from "../../components/buttons/SearchFilter";
-import { Collapse, Grid, List, ListItem, ListItemText } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import { SearchButton } from "../../components/buttons/SearchButton";
-import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
-import ComboBoxList from "../../components/inputs/InputAutocompleteList";
-import { ReduceStore } from "../../app/store";
-import { useSelector, useDispatch } from "react-redux";
-import { ClientService } from "../../service/api/client/client-service";
-import { clearClient, clientAdded } from "../../reducers/clients-slice";
-import { TIMEOUT } from "../../utils/constants";
-import { format } from "date-fns";
-import { WhatsAppIconButton } from "../../components/buttons/WhatsAppIconButton";
-import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
-import { FormSchedule } from "../../components/FormSchedule";
-import { BasicEditModal } from "../../components/modal/BasicEditModal";
-import { WhatsAppService } from "../../service/api/whatsapp/whatsapp";
-import { FormSales } from "../sales/FormSales";
-import { SalesService } from "../../service/api/sales/sales";
-import { DivInline } from "../../components/containers/DivInline";
+import React, { useEffect, useState } from 'react';
+import { ContainerMain } from '../../components/containers/ContainerMain';
+import { Breadcumb } from '../../components/Breadcumb';
+import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
+import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
+import { AlertSuccess } from '../../components/alerts/AlertSuccess';
+import { AlertError } from '../../components/alerts/AlertError';
+import { AlertInfo } from '../../components/alerts/AlertInfo';
+import { ClearSearchFilterButton } from '../../components/buttons/ClearSearchFilter';
+import { SearchFilterButton } from '../../components/buttons/SearchFilter';
+import { Collapse, Grid, List, ListItem, ListItemText } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import { SearchButton } from '../../components/buttons/SearchButton';
+import FullWidthTextField from '../../components/inputs/TextFieldFullWidth';
+import ComboBoxList from '../../components/inputs/InputAutocompleteList';
+import { ReduceStore } from '../../app/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { ClientService } from '../../service/api/client/client-service';
+import { clearClient, clientAdded } from '../../reducers/clients-slice';
+import { TIMEOUT } from '../../utils/constants';
+import { format } from 'date-fns';
+import { WhatsAppIconButton } from '../../components/buttons/WhatsAppIconButton';
+import { BasicDeleteModal } from '../../components/modal/BasicDeleteModal';
+import { FormSchedule } from '../../components/FormSchedule';
+import { BasicEditModal } from '../../components/modal/BasicEditModal';
+import { WhatsAppService } from '../../service/api/whatsapp/whatsapp';
+import { FormSales } from '../sales/FormSales';
+import { SalesService } from '../../service/api/sales/sales';
+import { DivInline } from '../../components/containers/DivInline';
 import {
   ColorsBootstrap,
-  GenericModal
-} from "../../components/modal/GenericModal";
-import { GenericButton } from "../../components/buttons/GenericButton";
-import { LabelForm } from "../../components/labels/LabelForm";
-import { LabelSmall } from "../../components/labels/LabelSmal";
-import { randomId } from "../../utils/random";
-import { ClientsInterface } from "../../service/api/client/types";
-import { OutgoingService } from "../../service/api/outgoing/outgoing";
-import { OutgoingPaymentMethodEnums } from "../../service/api/outgoing/types";
-import { ScheduleService } from "../../service/api/schedule/schedule";
-import { ScheduleInterface } from "../../service/api/schedule/types";
+  GenericModal,
+} from '../../components/modal/GenericModal';
+import { GenericButton } from '../../components/buttons/GenericButton';
+import { LabelForm } from '../../components/labels/LabelForm';
+import { LabelSmall } from '../../components/labels/LabelSmal';
+import { randomId } from '../../utils/random';
+import { ClientsInterface } from '../../service/api/client/types';
+import { OutgoingService } from '../../service/api/outgoing/outgoing';
+import { OutgoingPaymentMethodEnums } from '../../service/api/outgoing/types';
+import { ScheduleService } from '../../service/api/schedule/schedule';
+import { ScheduleInterface } from '../../service/api/schedule/types';
 import {
   TableMultiFilter,
-  TypeMultiFilter
-} from "../../components/tableMultiFilter/index";
+  TypeMultiFilter,
+} from '../../components/tableMultiFilter/index';
 
 export function Schedules(props: {
   clientService: ClientService;
@@ -57,18 +57,18 @@ export function Schedules(props: {
     clientService,
     whatsAppService,
     salesService,
-    outgoingService
+    outgoingService,
   } = props;
 
   const dispatch = useDispatch();
 
   const clientsCache = useSelector((state: ReduceStore) => state.client);
 
-  const [date, setDate] = useState<string>("");
+  const [date, setDate] = useState<string>('');
   const [clientSelected, setClientSelected] = useState<{
     label: string;
     idclients: number | null;
-  }>({ label: "", idclients: null });
+  }>({ label: '', idclients: null });
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
   const [loader, setLoader] = useState<boolean>(false);
@@ -86,7 +86,7 @@ export function Schedules(props: {
       success,
       data,
       error,
-      unauthorized
+      unauthorized,
     } = await clientService.fetchAllClients();
     setLoader(false);
 
@@ -127,7 +127,7 @@ export function Schedules(props: {
       data,
       error,
       badRequest,
-      notFound
+      notFound,
     } = await scheduleService.fetchByDate(date);
     setLoader(false);
 
@@ -153,7 +153,7 @@ export function Schedules(props: {
       data,
       error,
       badRequest,
-      notFound
+      notFound,
     } = clientSelected.idclients
       ? await scheduleService.fetchByIdClient(clientSelected.idclients)
       : await scheduleService.fetchByClientName(clientSelected.label);
@@ -199,7 +199,7 @@ export function Schedules(props: {
       atendenceCount: params.atendenceCount,
       totalAtendenceCount: params.totalAtendenceCount,
       status: params.status,
-      idCatalogs: params.idCatalogs
+      idCatalogs: params.idCatalogs,
     });
     setLoader(false);
 
@@ -220,7 +220,7 @@ export function Schedules(props: {
   const onDelete = async (idschedules: number): Promise<boolean> => {
     setLoader(true);
     const { success, error, notFound } = await scheduleService.delete(
-      idschedules
+      idschedules,
     );
     setLoader(false);
 
@@ -241,7 +241,7 @@ export function Schedules(props: {
   const finish = async (idschedules: number): Promise<boolean> => {
     setLoader(true);
     const { success, error, notFound } = await scheduleService.finish(
-      idschedules
+      idschedules,
     );
     setLoader(false);
 
@@ -278,7 +278,7 @@ export function Schedules(props: {
       total: params.total,
       paymentPending: params.paymentPending,
       paymentDate: params.paymentDate,
-      paymentMethod: params.paymentMethod
+      paymentMethod: params.paymentMethod,
     });
     setLoader(false);
 
@@ -320,8 +320,8 @@ export function Schedules(props: {
 
       <Breadcumb
         page={[
-          { link: "/create-schedule", name: "Nova agenda" },
-          { link: false, name: "Suas agendas" }
+          { link: '/create-schedule', name: 'Nova agenda' },
+          { link: false, name: 'Suas agendas' },
         ]}
       />
       <TitlePrincipal title="Agendas" />
@@ -329,46 +329,44 @@ export function Schedules(props: {
       <TableMultiFilter
         filters={[
           {
-            label: "Data",
+            label: 'Data',
             value: date,
-            placeholder: "",
+            placeholder: '',
             type: TypeMultiFilter.date,
             handleChangeValue: setDate,
-            disabled: clientSelected.label ? true : false
+            disabled: clientSelected.label ? true : false,
           },
           {
-            label: "Clientes",
+            label: 'Clientes',
             value: clientSelected.label,
-            placeholder: "Selecione o cliente",
+            placeholder: 'Selecione o cliente',
             type: TypeMultiFilter.select,
             options: clients.map(client => ({
               label: client.name,
-              value: client.idclients
+              value: client.idclients,
             })),
             handleChangeValue: (
               e: React.BaseSyntheticEvent,
-              item: { label: string; value: number }
+              item: { label: string; value: number },
             ) => {
-              if (typeof item === "object") {
+              if (typeof item === 'object') {
                 setClientSelected({
                   label: item.label,
-                  idclients: item.value
+                  idclients: item.value,
                 });
               }
             },
-            disabled: date ? true : false
-          }
+            disabled: date ? true : false,
+          },
         ]}
         clearFilters={(e: React.BaseSyntheticEvent) => {
-          setDate("");
-          setClientSelected({ label: "", idclients: null });
+          setDate('');
+          setClientSelected({ label: '', idclients: null });
         }}
         handleSubmit={handleSubmitFilters}
       />
 
       {alert}
-
-      {console.log(schedules)}
 
       {schedules.length
         ? schedules.map((schedule: ScheduleInterface) => {
@@ -381,9 +379,9 @@ export function Schedules(props: {
                 ) : null}
                 <div
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-end"
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
                   }}
                 >
                   {schedule.phone ? (
@@ -398,7 +396,7 @@ export function Schedules(props: {
                           time: schedule.time,
                           totalAtendenceCount: schedule.totalAtendenceCount,
                           atendenceCount: schedule.atendenceCount as number,
-                          description: schedule.description
+                          description: schedule.description,
                         });
                       }}
                     />
@@ -424,7 +422,7 @@ export function Schedules(props: {
                       id="modal-modal-title"
                       variant="h6"
                       component="h2"
-                      sx={{ color: "red" }}
+                      sx={{ color: 'red' }}
                     >
                       Excluir Agenda
                     </Typography>
@@ -450,7 +448,7 @@ export function Schedules(props: {
                       {schedule.scheduleServices.map(scheduleService => {
                         return (
                           <>
-                            <LabelSmall text={scheduleService.name} />;{" "}
+                            <LabelSmall text={scheduleService.name} />;{' '}
                           </>
                         );
                       })}
@@ -465,8 +463,8 @@ export function Schedules(props: {
                   >
                     <LabelSmall
                       text={format(
-                        new Date(schedule.date.replace("Z", "")),
-                        "dd/MM/yyyy"
+                        new Date(schedule.date.replace('Z', '')),
+                        'dd/MM/yyyy',
                       )}
                     />
                   </LabelForm>
@@ -474,7 +472,7 @@ export function Schedules(props: {
                     text="Horário"
                     className="col-sm-6 pb-2 border-bottom"
                   >
-                    <LabelSmall text={schedule.time + "h"} />
+                    <LabelSmall text={schedule.time + 'h'} />
                   </LabelForm>
                 </DivInline>
 
@@ -500,27 +498,27 @@ export function Schedules(props: {
                     text={format(
                       new Date(
                         schedule.createdAt
-                          ? schedule.createdAt.replace("Z", "")
-                          : (schedule.createdAt as string)
+                          ? schedule.createdAt.replace('Z', '')
+                          : (schedule.createdAt as string),
                       ),
-                      "dd/MM/yyyy 'às' HH:mm'h'"
+                      "dd/MM/yyyy 'às' HH:mm'h'",
                     ).toString()}
                   />
                 </LabelForm>
 
-                <DivInline style={{ marginLeft: "2px", marginTop: "15px" }}>
+                <DivInline style={{ marginLeft: '2px', marginTop: '15px' }}>
                   <GenericModal
                     btnOpenName="Finalizar"
                     color={ColorsBootstrap.primary}
-                    styleModal={{ padding: "20px" }}
-                    styleBtn={{ marginRight: "10px" }}
+                    styleModal={{ padding: '20px' }}
+                    styleBtn={{ marginRight: '10px' }}
                     openModal={
                       openModal[schedule.idschedules as number] || false
                     }
                     setOpenModal={(value: boolean) =>
                       setOpenModal({
                         ...openModalSale,
-                        [schedule.idschedules as number]: value
+                        [schedule.idschedules as number]: value,
                       })
                     }
                   >
@@ -528,7 +526,7 @@ export function Schedules(props: {
                       id="modal-modal-title"
                       variant="h6"
                       component="h2"
-                      sx={{ color: "#0275d8" }}
+                      sx={{ color: '#0275d8' }}
                     >
                       Finalizar agenda
                     </Typography>
@@ -542,7 +540,7 @@ export function Schedules(props: {
                       }
                       text="Finalizar"
                       style={{
-                        marginTop: "15px"
+                        marginTop: '15px',
                       }}
                     />
                   </GenericModal>
@@ -556,7 +554,7 @@ export function Schedules(props: {
                     setOpenModal={(value: boolean) =>
                       setOpenModalSale({
                         ...openModalSale,
-                        [schedule.idschedules as number]: value
+                        [schedule.idschedules as number]: value,
                       })
                     }
                   >

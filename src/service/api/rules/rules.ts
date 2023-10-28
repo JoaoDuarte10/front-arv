@@ -1,4 +1,4 @@
-import { LocalStorageService } from "../../localStorage/local-storage";
+import { LocalStorageService } from '../../localStorage/local-storage';
 
 export class RulesService {
   private rules: string[] = [];
@@ -14,19 +14,19 @@ export class RulesService {
 
   ruleWithPage(page: string): string {
     switch (page) {
-      case "schedule":
-      case "schedules":
-        return "schedule";
-      case "clients":
-        return "clients";
-      case "sales":
-        return "sales";
-      case "outgoing":
-        return "outgoing";
-      case "catalogs":
-        return "catalogs";
+      case 'schedule':
+      case 'schedules':
+        return 'schedule';
+      case 'clients':
+        return 'clients';
+      case 'sales':
+        return 'sales';
+      case 'outgoing':
+        return 'outgoing';
+      case 'catalogs':
+        return 'catalogs';
       default:
-        return "";
+        return '';
     }
   }
 }

@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { OutgoingService } from "../../service/api/outgoing/outgoing";
+import React, { useEffect, useState } from 'react';
+import { OutgoingService } from '../../service/api/outgoing/outgoing';
 import {
   OutgoingInstallmentEnums,
-  OutgoingPaymentMethodEnums
-} from "../../service/api/outgoing/types";
-import { ContainerMain } from "../../components/containers/ContainerMain";
-import { Breadcumb } from "../../components/Breadcumb";
-import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { TIMEOUT } from "../../utils/constants";
-import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import ComboBoxList from "../../components/inputs/InputAutocompleteList";
-import { DivInline } from "../../components/containers/DivInline";
-import TextFieldMultiline from "../../components/inputs/TextFieldMultiline";
-import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
-import { mask } from "../../utils/mask-money";
-import { AlertInfo } from "../../components/alerts/AlertInfo";
-import { AlertSuccess } from "../../components/alerts/AlertSuccess";
-import { AlertError } from "../../components/alerts/AlertError";
-import { DateInput } from "../../components/date/index";
+  OutgoingPaymentMethodEnums,
+} from '../../service/api/outgoing/types';
+import { ContainerMain } from '../../components/containers/ContainerMain';
+import { Breadcumb } from '../../components/Breadcumb';
+import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
+import { TIMEOUT } from '../../utils/constants';
+import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
+import ComboBoxList from '../../components/inputs/InputAutocompleteList';
+import { DivInline } from '../../components/containers/DivInline';
+import TextFieldMultiline from '../../components/inputs/TextFieldMultiline';
+import FullWidthTextField from '../../components/inputs/TextFieldFullWidth';
+import { mask } from '../../utils/mask-money';
+import { AlertInfo } from '../../components/alerts/AlertInfo';
+import { AlertSuccess } from '../../components/alerts/AlertSuccess';
+import { AlertError } from '../../components/alerts/AlertError';
+import { DateInput } from '../../components/date/index';
 
 export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
   const { outgoingService } = props;
@@ -26,18 +26,18 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
     OutgoingPaymentMethodEnums
   >({} as any);
   const [installments, setInstallments] = useState<OutgoingInstallmentEnums>(
-    {} as any
+    {} as any,
   );
 
-  const [description, setDescription] = useState<string>("");
+  const [description, setDescription] = useState<string>('');
   const [date, setDate] = useState<Date | string | null>(null);
-  const [total, setTotal] = useState<string>("");
+  const [total, setTotal] = useState<string>('');
   const [paymentMethodSelected, setPaymentMethodSelected] = useState<
     OutgoingPaymentMethodEnums | string
-  >("");
+  >('');
   const [installmentSelected, setInstallmentSelected] = useState<
     OutgoingInstallmentEnums | string
-  >("");
+  >('');
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
   const [loader, setLoader] = useState<boolean>(false);
@@ -71,25 +71,25 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
   }, []);
 
   const clearFields = () => {
-    setDescription("");
+    setDescription('');
     setDate(null);
-    setTotal("");
-    setPaymentMethodSelected("");
-    setInstallmentSelected("");
+    setTotal('');
+    setPaymentMethodSelected('');
+    setInstallmentSelected('');
   };
 
   const onCreateOutgoing = async () => {
     const payload = {
       description,
       date,
-      total: parseInt(total.substring(2).replace(/\.|,/g, "")) / 100,
+      total: parseInt(total.substring(2).replace(/\.|,/g, '')) / 100,
       paymentMethod: paymentMethodSelected as OutgoingPaymentMethodEnums,
-      installment: installmentSelected as OutgoingInstallmentEnums
+      installment: installmentSelected as OutgoingInstallmentEnums,
     };
 
     setLoader(true);
     const { success, badRequest, error } = await outgoingService.create(
-      payload
+      payload,
     );
     setLoader(false);
 
@@ -113,13 +113,13 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
 
       <Breadcumb
         page={[
-          { link: "/outgoings", name: "Suas despesas" },
-          { link: false, name: "Nova despesa" }
+          { link: '/outgoings', name: 'Suas despesas' },
+          { link: false, name: 'Nova despesa' },
         ]}
       />
       <TitlePrincipal title="Criar nova despesa" />
 
-      <div style={{ backgroundColor: "white", padding: "15px" }}>
+      <div style={{ backgroundColor: 'white', padding: '15px' }}>
         <small className="font-weight-bold pb-4">
           Os campos que possuem " * " são obrigatórios!
         </small>
@@ -145,7 +145,7 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
               value={total}
               customChange={(e: React.BaseSyntheticEvent) => {
                 let val = e.target.value;
-                const { maskedValue } = mask(val, 2, ",", ".", false, "R$");
+                const { maskedValue } = mask(val, 2, ',', '.', false, 'R$');
                 setTotal(maskedValue);
               }}
             />
@@ -153,43 +153,43 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
         </DivInline>
 
         <DivInline>
-          <div className="col mt-1 mb-1" style={{ minWidth: "250px" }}>
+          <div className="col mt-1 mb-1" style={{ minWidth: '250px' }}>
             <ComboBoxList
               options={Object.keys(installments).map((installment: string) => {
                 return {
-                  label: installment
+                  label: installment,
                 };
               })}
-              label={"Prazo de pagamento *"}
+              label={'Prazo de pagamento *'}
               value={installmentSelected}
               onChange={(
                 e: React.BaseSyntheticEvent,
-                item: { label: string }
+                item: { label: string },
               ) => {
                 if (item && item.label) {
                   setInstallmentSelected(
-                    item.label as OutgoingInstallmentEnums
+                    item.label as OutgoingInstallmentEnums,
                   );
                 }
               }}
             />
           </div>
-          <div className="col mt-1 mb-1" style={{ minWidth: "250px" }}>
+          <div className="col mt-1 mb-1" style={{ minWidth: '250px' }}>
             <ComboBoxList
               options={Object.keys(paymentMethods).map((method: string) => {
                 return {
-                  label: method
+                  label: method,
                 };
               })}
-              label={"Forma de pagamento *"}
+              label={'Forma de pagamento *'}
               value={paymentMethodSelected}
               onChange={(
                 e: React.BaseSyntheticEvent,
-                item: { label: string }
+                item: { label: string },
               ) => {
                 if (item && item.label) {
                   setPaymentMethodSelected(
-                    item.label as OutgoingPaymentMethodEnums
+                    item.label as OutgoingPaymentMethodEnums,
                   );
                 }
               }}

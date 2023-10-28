@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react';
 
-import { Breadcumb } from "../../components/Breadcumb";
-import { GenericButton } from "../../components/buttons/GenericButton";
-import { ContainerCardWhite } from "../../components/containers/ContainerCardWhite";
-import { ContainerMain } from "../../components/containers/ContainerMain";
-import { DivInline } from "../../components/containers/DivInline";
-import ComboBoxList from "../../components/inputs/InputAutocompleteList";
-import InputMaskNumber from "../../components/inputs/InputMaskNumber";
-import InputMaskPhone from "../../components/inputs/InputMaskPhone";
-import FullWidthTextField from "../../components/inputs/TextFieldFullWidth";
-import TextFieldMultiline from "../../components/inputs/TextFieldMultiline";
-import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import { ColorsBootstrap } from "../../components/modal/GenericModal";
-import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { useCatalogForm } from "./hooks/useCatalogForm";
-import { mask } from "../../utils/mask-money";
+import { Breadcumb } from '../../components/Breadcumb';
+import { GenericButton } from '../../components/buttons/GenericButton';
+import { ContainerCardWhite } from '../../components/containers/ContainerCardWhite';
+import { ContainerMain } from '../../components/containers/ContainerMain';
+import { DivInline } from '../../components/containers/DivInline';
+import ComboBoxList from '../../components/inputs/InputAutocompleteList';
+import InputMaskNumber from '../../components/inputs/InputMaskNumber';
+import InputMaskPhone from '../../components/inputs/InputMaskPhone';
+import FullWidthTextField from '../../components/inputs/TextFieldFullWidth';
+import TextFieldMultiline from '../../components/inputs/TextFieldMultiline';
+import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
+import { ColorsBootstrap } from '../../components/modal/GenericModal';
+import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
+import { useCatalogForm } from './hooks/useCatalogForm';
+import { mask } from '../../utils/mask-money';
 
 export function CatalogsCreateUpdate() {
   const {
@@ -26,10 +26,10 @@ export function CatalogsCreateUpdate() {
     loading,
     setLoading,
     alert,
-    setAlert
+    setAlert,
   } = useCatalogForm();
 
-  const titlePage = isEditing ? "Editar Serviço" : "Novo Serviço";
+  const titlePage = isEditing ? 'Editar Serviço' : 'Novo Serviço';
 
   return (
     <ContainerMain>
@@ -37,8 +37,8 @@ export function CatalogsCreateUpdate() {
 
       <Breadcumb
         page={[
-          { link: "/catalogs", name: "Serviços" },
-          { link: false, name: titlePage }
+          { link: '/catalogs', name: 'Serviços' },
+          { link: false, name: titlePage },
         ]}
       />
       <TitlePrincipal title={titlePage} />
@@ -52,7 +52,7 @@ export function CatalogsCreateUpdate() {
         <FullWidthTextField
           label="Nome*"
           value={formData.name}
-          fnChange={handleChangeValue("name")}
+          fnChange={handleChangeValue('name')}
           disabled={loading}
           error={isEditing && !formData.name}
         />
@@ -60,18 +60,18 @@ export function CatalogsCreateUpdate() {
           label="Descrição*"
           value={formData.description}
           fnChange={(e: React.BaseSyntheticEvent) => {
-            handleChangeValue("description")(e.target.value);
+            handleChangeValue('description')(e.target.value);
           }}
           disabled={loading}
           rows={3}
         />
         <FullWidthTextField
           label="Preço*"
-          value={formData.price || ""}
+          value={formData.price || ''}
           customChange={(e: React.BaseSyntheticEvent) => {
             let val = e.target.value;
-            const { maskedValue } = mask(val, 2, ",", ".", false, "R$");
-            handleChangeValue("price")(maskedValue);
+            const { maskedValue } = mask(val, 2, ',', '.', false, 'R$');
+            handleChangeValue('price')(maskedValue);
           }}
           disabled={loading}
         />
@@ -112,7 +112,7 @@ export function CatalogsCreateUpdate() {
           </div>
           <div className="col">
             <GenericButton
-              text={isEditing ? "Salvar" : "Criar"}
+              text={isEditing ? 'Salvar' : 'Criar'}
               color={ColorsBootstrap.primary}
               onClick={(e: React.BaseSyntheticEvent) => handleSubmit()}
             />

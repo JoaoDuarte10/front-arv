@@ -1,7 +1,7 @@
-import * as React from "react";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import { Option } from "./InputAutocompleteList";
+import * as React from 'react';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import { Option } from './InputAutocompleteList';
 
 export type AutocompleteFilterSelectedProps = {
   options: Option[];
@@ -24,7 +24,7 @@ export default function AutocompleteFilterSelected({
   style,
   className,
   small,
-  disabled
+  disabled,
 }: AutocompleteFilterSelectedProps) {
   return (
     <Autocomplete
@@ -39,7 +39,7 @@ export default function AutocompleteFilterSelected({
       renderInput={params => (
         <TextField {...params} label={label} placeholder={placeholder} />
       )}
-      size={small ? "small" : "medium"}
+      size={small ? 'small' : 'medium'}
       disabled={disabled}
       style={style}
     />

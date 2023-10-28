@@ -1,13 +1,13 @@
-import "../css/main.css";
+import '../css/main.css';
 
-import React from "react";
-import { useSelector } from "react-redux";
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { ReduceStore } from "../app/store";
+import { ReduceStore } from '../app/store';
 
-import { Breadcumb } from "../components/Breadcumb";
-import { TitlePrincipal } from "../components/titles/TitlePrincipal";
-import { ContainerMain } from "../components/containers/ContainerMain";
+import { Breadcumb } from '../components/Breadcumb';
+import { TitlePrincipal } from '../components/titles/TitlePrincipal';
+import { ContainerMain } from '../components/containers/ContainerMain';
 
 export function Home() {
   const username = useSelector((state: ReduceStore) => state.authenticated)
@@ -18,7 +18,7 @@ export function Home() {
       <Breadcumb page={[]} />
 
       <TitlePrincipal
-        title={`Olá, ${username ? username : "Seja Bem Vindo"}!`}
+        title={`Olá, ${username ? username : 'Seja Bem Vindo'}!`}
       />
       <p>
         Este é o <strong>ARV - Controll &copy;</strong>, um Sistema de

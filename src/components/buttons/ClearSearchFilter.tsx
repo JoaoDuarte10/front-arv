@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type InputProps = {
   onClick: any;
@@ -9,15 +9,15 @@ export function ClearSearchFilterButton(props: InputProps) {
     <div
       className="mt-2 mr-2 mb-2"
       style={{
-        display: "inline-block"
+        display: 'inline-block',
       }}
     >
       <button
         className="btn btn-outline-warning font-weight-bold"
         style={{
-          borderRadius: "15px",
-          border: "2px solid",
-          fontSize: "13px"
+          borderRadius: '15px',
+          border: '2px solid',
+          fontSize: '13px',
         }}
         onClick={props.onClick}
       >

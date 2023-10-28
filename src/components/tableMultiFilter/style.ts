@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ContainerFilter = styled.div`
   padding: 10px;
@@ -16,7 +16,7 @@ export const ContainerFilter = styled.div`
 
 export const ContainerRowsFilter = styled.div<{ check: boolean }>`
   display: flex;
-  flex-wrap: ${p => (p.check ? "no-wrap" : "wrap")};
+  flex-wrap: ${p => (p.check ? 'no-wrap' : 'wrap')};
   justify-content: space-between;
   align-items: center;
   padding: 5px 10px;
@@ -30,6 +30,6 @@ export const ContainerColumnSelectorFilter = styled.div<{ check: boolean }>`
   width: 80%;
 
   @media (max-width: 600px) {
-    width: ${p => (p.check ? "80%" : "100%")};
+    width: ${p => (p.check ? '80%' : '100%')};
   }
 `;

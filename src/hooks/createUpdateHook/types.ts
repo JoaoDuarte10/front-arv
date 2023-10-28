@@ -1,4 +1,4 @@
-import { HttpResponse } from "../../service/http/types";
+import { HttpResponse } from '../../service/http/types';
 
 export type Services<FD, DT extends FD> = {
   create: (data: FD) => Promise<HttpResponse>;

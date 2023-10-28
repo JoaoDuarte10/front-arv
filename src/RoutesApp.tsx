@@ -1,34 +1,34 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Login } from "./pages/Login";
-import { LoginService } from "./service/api/auth/login";
-import { Provider } from "react-redux";
-import { store } from "./app/store";
-import { PrivateRoute } from "./private-route";
-import { Home } from "./pages/Home";
-import { NavBarResponsive } from "./components/NavBar";
-import { LocalStorageService } from "./service/localStorage/local-storage";
-import { RulesService } from "./service/api/rules/rules";
-import { Clients } from "./pages/clients/Clients";
-import { ClientService } from "./service/api/client/client-service";
-import { INFO_CLIENT_URL, InfoClients } from "./pages/clients/InfoClients";
-import { WhatsAppService } from "./service/api/whatsapp/whatsapp";
-import { Segment } from "./pages/Segment";
-import { SegmentService } from "./service/api/segment/segment";
-import { CreateSales } from "./pages/sales/CreateSales";
-import { SalesService } from "./service/api/sales/sales";
-import { Sales } from "./pages/sales/Sales";
-import { Schedules } from "./pages/schedules/Schedule";
-import { CreateSchedule } from "./pages/schedules/CreateSchedule";
-import { ScheduleService } from "./service/api/schedule/schedule";
-import { ScheduleHistory } from "./pages/schedules/History";
-import { SalesReports } from "./pages/reports/SalesReports";
-import { OutgoingService } from "./service/api/outgoing/outgoing";
-import { Outgoing } from "./pages/outgoing/Outgoing";
-import { CreateOutgoing } from "./pages/outgoing/CreateOutgoing";
-import { ClientCreateUpdate } from "./pages/clientCreateUpdate/index";
-import { Catalog } from "./pages/catalog/Catalog";
-import { CatalogsCreateUpdate } from "./pages/catalogCreateUpdate";
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Login } from './pages/Login';
+import { LoginService } from './service/api/auth/login';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+import { PrivateRoute } from './private-route';
+import { Home } from './pages/Home';
+import { NavBarResponsive } from './components/NavBar';
+import { LocalStorageService } from './service/localStorage/local-storage';
+import { RulesService } from './service/api/rules/rules';
+import { Clients } from './pages/clients/Clients';
+import { ClientService } from './service/api/client/client-service';
+import { INFO_CLIENT_URL, InfoClients } from './pages/clients/InfoClients';
+import { WhatsAppService } from './service/api/whatsapp/whatsapp';
+import { Segment } from './pages/Segment';
+import { SegmentService } from './service/api/segment/segment';
+import { CreateSales } from './pages/sales/CreateSales';
+import { SalesService } from './service/api/sales/sales';
+import { Sales } from './pages/sales/Sales';
+import { Schedules } from './pages/schedules/Schedule';
+import { CreateSchedule } from './pages/schedules/CreateSchedule';
+import { ScheduleService } from './service/api/schedule/schedule';
+import { ScheduleHistory } from './pages/schedules/History';
+import { SalesReports } from './pages/reports/SalesReports';
+import { OutgoingService } from './service/api/outgoing/outgoing';
+import { Outgoing } from './pages/outgoing/Outgoing';
+import { CreateOutgoing } from './pages/outgoing/CreateOutgoing';
+import { ClientCreateUpdate } from './pages/clientCreateUpdate/index';
+import { Catalog } from './pages/catalog/Catalog';
+import { CatalogsCreateUpdate } from './pages/catalogCreateUpdate';
 
 export const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
 export const LOCAL_STORAGE_LOGIN_KEY = process.env
@@ -36,7 +36,7 @@ export const LOCAL_STORAGE_LOGIN_KEY = process.env
 
 const loginService = new LoginService(API_RV_BASE_URI);
 export const localStorageService = new LocalStorageService(
-  LOCAL_STORAGE_LOGIN_KEY
+  LOCAL_STORAGE_LOGIN_KEY,
 );
 const clientService = new ClientService(API_RV_BASE_URI, localStorageService);
 const whatsAppService = new WhatsAppService();
@@ -44,15 +44,15 @@ const segmentService = new SegmentService(API_RV_BASE_URI, localStorageService);
 const salesService = new SalesService(API_RV_BASE_URI, localStorageService);
 const scheduleService = new ScheduleService(
   API_RV_BASE_URI,
-  localStorageService
+  localStorageService,
 );
 const ruleService = new RulesService(localStorageService);
 export const outgoingService = new OutgoingService(
   API_RV_BASE_URI,
-  localStorageService
+  localStorageService,
 );
 
-export const NEW_RESOURCE_KEY = "create";
+export const NEW_RESOURCE_KEY = 'create';
 
 export function RoutesApp() {
   const navBar = (
@@ -82,7 +82,7 @@ export function RoutesApp() {
           <Route
             path="/clients"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('clients')]}>
                 {navBar}
                 <Clients whatsAppService={whatsAppService} />
               </PrivateRoute>
@@ -91,7 +91,7 @@ export function RoutesApp() {
           <Route
             path={`${INFO_CLIENT_URL}:id`}
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('clients')]}>
                 {navBar}
                 <InfoClients
                   salesService={salesService}
@@ -103,7 +103,7 @@ export function RoutesApp() {
           <Route
             path={`/client/${NEW_RESOURCE_KEY}`}
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('clients')]}>
                 {navBar}
                 <ClientCreateUpdate segmentService={segmentService} />
               </PrivateRoute>
@@ -112,7 +112,7 @@ export function RoutesApp() {
           <Route
             path="/client/edit/:id"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('clients')]}>
                 {navBar}
                 <ClientCreateUpdate segmentService={segmentService} />
               </PrivateRoute>
@@ -121,7 +121,7 @@ export function RoutesApp() {
           <Route
             path="/segments"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("clients")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('clients')]}>
                 {navBar}
                 <Segment segmentService={segmentService} />
               </PrivateRoute>
@@ -130,7 +130,7 @@ export function RoutesApp() {
           <Route
             path="/sales"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("sales")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('sales')]}>
                 {navBar}
                 <Sales
                   salesService={salesService}
@@ -142,7 +142,7 @@ export function RoutesApp() {
           <Route
             path="/create-sale"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("sales")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('sales')]}>
                 {navBar}
                 <CreateSales
                   clientService={clientService}
@@ -155,7 +155,7 @@ export function RoutesApp() {
           <Route
             path="/sales-reports"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("sales")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('sales')]}>
                 {navBar}
                 <SalesReports
                   // clientService={clientService}
@@ -167,7 +167,7 @@ export function RoutesApp() {
           <Route
             path="/schedules"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("schedules")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('schedules')]}>
                 {navBar}
                 <Schedules
                   clientService={clientService}
@@ -182,7 +182,7 @@ export function RoutesApp() {
           <Route
             path="/create-schedule"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("schedules")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('schedules')]}>
                 {navBar}
                 <CreateSchedule
                   clientService={clientService}
@@ -194,7 +194,7 @@ export function RoutesApp() {
           <Route
             path="/schedule-history"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("schedules")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('schedules')]}>
                 {navBar}
                 <ScheduleHistory scheduleService={scheduleService} />
               </PrivateRoute>
@@ -203,7 +203,7 @@ export function RoutesApp() {
           <Route
             path="/create-outgoing"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("outgoing")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('outgoing')]}>
                 {navBar}
                 <CreateOutgoing outgoingService={outgoingService} />
               </PrivateRoute>
@@ -212,7 +212,7 @@ export function RoutesApp() {
           <Route
             path="/outgoings"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("outgoing")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('outgoing')]}>
                 {navBar}
                 <Outgoing outgoingService={outgoingService} />
               </PrivateRoute>
@@ -221,7 +221,7 @@ export function RoutesApp() {
           <Route
             path="/catalogs"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("catalogs")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('catalogs')]}>
                 {navBar}
                 <Catalog />
               </PrivateRoute>
@@ -230,7 +230,7 @@ export function RoutesApp() {
           <Route
             path={`/catalogs/${NEW_RESOURCE_KEY}`}
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("catalogs")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('catalogs')]}>
                 {navBar}
                 <CatalogsCreateUpdate />
               </PrivateRoute>
@@ -239,7 +239,7 @@ export function RoutesApp() {
           <Route
             path="/catalogs/edit/:id"
             element={
-              <PrivateRoute rules={[ruleService.ruleWithPage("catalogs")]}>
+              <PrivateRoute rules={[ruleService.ruleWithPage('catalogs')]}>
                 {navBar}
                 <CatalogsCreateUpdate />
               </PrivateRoute>

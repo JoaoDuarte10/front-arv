@@ -1,5 +1,5 @@
-import React from "react";
-import { randomId } from "../../utils/random";
+import React from 'react';
+import { randomId } from '../../utils/random';
 
 type InputProps = {
   text: string;
@@ -11,16 +11,16 @@ export function SearchFilterButton(props: InputProps) {
     <div
       className="mt-2 mr-2 mb-2"
       style={{
-        display: "inline-block"
+        display: 'inline-block',
       }}
     >
       <button
         className="btn btn-outline-dark"
         style={{
-          display: "flex",
-          alignItems: "center",
-          borderRadius: "15px",
-          fontSize: "13px"
+          display: 'flex',
+          alignItems: 'center',
+          borderRadius: '15px',
+          fontSize: '13px',
         }}
         onClick={props.onClick}
         key={randomId()}

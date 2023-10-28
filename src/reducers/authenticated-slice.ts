@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ReducerActionType } from "./types/reducer-type";
-import { LocalStorageService } from "../service/localStorage/local-storage";
-import { JwtService } from "../service/jwt/jwt";
+import { createSlice } from '@reduxjs/toolkit';
+import { ReducerActionType } from './types/reducer-type';
+import { LocalStorageService } from '../service/localStorage/local-storage';
+import { JwtService } from '../service/jwt/jwt';
 
 type UserLoginInitial = {
   username?: string;
@@ -32,26 +32,26 @@ const initialState: UserLoginInitial = {
   username: loginInLocalStorage ? loginInLocalStorage.username : null,
   access_token: loginInLocalStorage ? loginInLocalStorage.access_token : null,
   refreshToken: loginInLocalStorage ? loginInLocalStorage.refreshToken : null,
-  redirectLoginPageUri: "/login",
-  rules: loginInLocalStorage ? loginInLocalStorage.rules : null
+  redirectLoginPageUri: '/login',
+  rules: loginInLocalStorage ? loginInLocalStorage.rules : null,
 };
 
 const authenticatedSlice = createSlice({
-  name: "authenticated",
+  name: 'authenticated',
   initialState,
   reducers: {
     loginAdded: {
       reducer(
         state: UserLoginInitial,
-        action: ReducerActionType<UserLoginInitial>
+        action: ReducerActionType<UserLoginInitial>,
       ) {
         localStorageService.clearUser();
         const userInfos = {
           ...action.payload,
           username: jwtService.getUserName(
-            action.payload.access_token as string
+            action.payload.access_token as string,
           ),
-          rules: jwtService.getRules(action.payload.access_token as string)
+          rules: jwtService.getRules(action.payload.access_token as string),
         };
         localStorageService.saveLogin(userInfos);
         state.username = userInfos.username;
@@ -67,10 +67,10 @@ const authenticatedSlice = createSlice({
         return {
           payload: {
             access_token: params.access_token,
-            refreshToken: params.refreshToken
-          }
+            refreshToken: params.refreshToken,
+          },
         };
-      }
+      },
     },
     validateToken: {
       reducer(state: UserLoginInitial, action: any) {
@@ -82,9 +82,9 @@ const authenticatedSlice = createSlice({
       },
       prepare(params) {
         return { payload: params };
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 export const { loginAdded, validateToken } = authenticatedSlice.actions;

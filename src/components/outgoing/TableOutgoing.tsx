@@ -1,27 +1,27 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
-import { randomId } from "../../utils/random";
-import { format } from "date-fns";
-import { OutgoingService } from "../../service/api/outgoing/outgoing";
-import { OutgoingInterface } from "../../service/api/outgoing/types";
-import TablePagination from "@mui/material/TablePagination";
-import { CircularIndeterminate } from "../loaders/CircularLoader";
-import { AlertSuccess } from "../alerts/AlertSuccess";
-import { AlertInfo } from "../alerts/AlertInfo";
-import { AlertError } from "../alerts/AlertError";
-import { BasicDeleteModal } from "../modal/BasicDeleteModal";
-import Typography from "@mui/material/Typography";
-import { TIMEOUT } from "../../utils/constants";
+import React, { useState } from 'react';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import { randomId } from '../../utils/random';
+import { format } from 'date-fns';
+import { OutgoingService } from '../../service/api/outgoing/outgoing';
+import { OutgoingInterface } from '../../service/api/outgoing/types';
+import TablePagination from '@mui/material/TablePagination';
+import { CircularIndeterminate } from '../loaders/CircularLoader';
+import { AlertSuccess } from '../alerts/AlertSuccess';
+import { AlertInfo } from '../alerts/AlertInfo';
+import { AlertError } from '../alerts/AlertError';
+import { BasicDeleteModal } from '../modal/BasicDeleteModal';
+import Typography from '@mui/material/Typography';
+import { TIMEOUT } from '../../utils/constants';
 
 type InputProps = {
   outgoings: OutgoingInterface[];
@@ -39,7 +39,7 @@ export function TableOutgoing(props: InputProps) {
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -50,14 +50,14 @@ export function TableOutgoing(props: InputProps) {
       <Table aria-label="collapsible table">
         <TableHead
           style={{
-            backgroundColor: "#0275d8"
+            backgroundColor: '#0275d8',
           }}
         >
           <TableRow>
             <TableCell />
             <TableCell
               style={{
-                color: "white"
+                color: 'white',
               }}
             >
               Descrição
@@ -65,7 +65,7 @@ export function TableOutgoing(props: InputProps) {
             <TableCell
               align="center"
               style={{
-                color: "white"
+                color: 'white',
               }}
             >
               Data
@@ -108,9 +108,9 @@ function createData(outgoing: OutgoingInterface) {
         total: Number(outgoing.total),
         paymentMethod: outgoing.paymentMethod,
         installment: outgoing.installment,
-        createdAt: outgoing.createdAt
-      }
-    ]
+        createdAt: outgoing.createdAt,
+      },
+    ],
   };
 }
 
@@ -127,13 +127,13 @@ function Row(props: {
   const onDelete = async (idoutgoing: number): Promise<void> => {
     setLoader(true);
     const { success, error, notFound } = await outgoingService.delete(
-      idoutgoing
+      idoutgoing,
     );
     setLoader(false);
 
     if (success) {
       setAlert(
-        <AlertSuccess title="Despesa excluída com sucesso. Atualize a pesquisa." />
+        <AlertSuccess title="Despesa excluída com sucesso. Atualize a pesquisa." />,
       );
     }
     if (notFound) {
@@ -141,7 +141,7 @@ function Row(props: {
     }
     if (error) {
       setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
+        <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
   };
@@ -154,13 +154,13 @@ function Row(props: {
     <React.Fragment>
       <CircularIndeterminate open={loader} />
 
-      <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
             size="small"
             onClick={() => setOpen(!open)}
-            style={{ outline: "none" }}
+            style={{ outline: 'none' }}
           >
             {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </IconButton>
@@ -170,8 +170,8 @@ function Row(props: {
         </TableCell>
 
         <TableCell align="center">
-          {new Date(row.date as string).toLocaleDateString("pt-BR", {
-            timeZone: "UTC"
+          {new Date(row.date as string).toLocaleDateString('pt-BR', {
+            timeZone: 'UTC',
           })}
         </TableCell>
       </TableRow>
@@ -182,25 +182,25 @@ function Row(props: {
               <div>
                 <small className="font-weight-bold h6 text-muted">
                   Criada em:
-                </small>{" "}
+                </small>{' '}
                 <small>
                   {format(
                     new Date(
                       row.info[0].createdAt
-                        ? row.info[0].createdAt.replace("Z", "")
-                        : ""
+                        ? row.info[0].createdAt.replace('Z', '')
+                        : '',
                     ),
-                    "dd/MM/yyyy 'às' HH:mm'h'"
+                    "dd/MM/yyyy 'às' HH:mm'h'",
                   )}
                 </small>
               </div>
 
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                  margin: "10px 0"
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  margin: '10px 0',
                 }}
               >
                 <BasicDeleteModal
@@ -213,7 +213,7 @@ function Row(props: {
                     id="modal-modal-title"
                     variant="h6"
                     component="h2"
-                    sx={{ color: "red" }}
+                    sx={{ color: 'red' }}
                   >
                     Excluir Despesa
                   </Typography>
@@ -227,11 +227,11 @@ function Row(props: {
 
               <Table size="small" aria-label="purchases">
                 <TableHead>
-                  <TableRow sx={{ fontFamily: "Montserrat" }}>
+                  <TableRow sx={{ fontFamily: 'Montserrat' }}>
                     <TableCell align="right" variant="body">
                       <strong
                         style={{
-                          color: "#4083be"
+                          color: '#4083be',
                         }}
                       >
                         Forma de Pagamento
@@ -240,7 +240,7 @@ function Row(props: {
                     <TableCell align="right" variant="body">
                       <strong
                         style={{
-                          color: "#4083be"
+                          color: '#4083be',
                         }}
                       >
                         Prazo de Pagamento
@@ -249,7 +249,7 @@ function Row(props: {
                     <TableCell align="right" variant="body">
                       <strong
                         style={{
-                          color: "#4083be"
+                          color: '#4083be',
                         }}
                       >
                         Total
@@ -267,9 +267,9 @@ function Row(props: {
                         {info.installment}
                       </TableCell>
                       <TableCell component="th" scope="row" align="right">
-                        {info.total.toLocaleString("pt-BR", {
-                          style: "currency",
-                          currency: "BRL"
+                        {info.total.toLocaleString('pt-BR', {
+                          style: 'currency',
+                          currency: 'BRL',
                         })}
                       </TableCell>
                     </TableRow>

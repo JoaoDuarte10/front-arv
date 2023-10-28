@@ -1,8 +1,8 @@
-import { MapObject } from "../../types/mapObjects";
+import { MapObject } from '../../types/mapObjects';
 
 export type Validator = (
   value: any,
-  context?: any
+  context?: any,
 ) => (string | null) | Promise<string | null>;
 
 export type ValidationResult = {

@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AlertInfo } from "../components/alerts/AlertInfo";
-import { AlertError } from "../components/alerts/AlertError";
-import { Breadcumb } from "../components/Breadcumb";
-import { TitlePrincipal } from "../components/titles/TitlePrincipal";
-import { TIMEOUT } from "../utils/constants";
-import { AlertSuccess } from "../components/alerts/AlertSuccess";
-import { SegmentService } from "../service/api/segment/segment";
-import { SegmentInterface } from "../service/api/segment/types";
-import { segmentAdded } from "../reducers/segment-sclice";
-import { ReduceStore } from "../app/store";
-import { ButtonFilterAction } from "../components/buttons/ButtonFilterAction";
-import { TopModal } from "../components/modal/TopModal";
-import { CardSegment } from "../components/CardSegment";
-import { format } from "date-fns";
-import { ContainerMain } from "../components/containers/ContainerMain";
-import { CircularIndeterminate } from "../components/loaders/CircularLoader";
-import { DivInline } from "../components/containers/DivInline";
-import { LabelForm } from "../components/labels/LabelForm";
-import { LabelSmall } from "../components/labels/LabelSmal";
-import { randomId } from "../utils/random";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AlertInfo } from '../components/alerts/AlertInfo';
+import { AlertError } from '../components/alerts/AlertError';
+import { Breadcumb } from '../components/Breadcumb';
+import { TitlePrincipal } from '../components/titles/TitlePrincipal';
+import { TIMEOUT } from '../utils/constants';
+import { AlertSuccess } from '../components/alerts/AlertSuccess';
+import { SegmentService } from '../service/api/segment/segment';
+import { SegmentInterface } from '../service/api/segment/types';
+import { segmentAdded } from '../reducers/segment-sclice';
+import { ReduceStore } from '../app/store';
+import { ButtonFilterAction } from '../components/buttons/ButtonFilterAction';
+import { TopModal } from '../components/modal/TopModal';
+import { CardSegment } from '../components/CardSegment';
+import { format } from 'date-fns';
+import { ContainerMain } from '../components/containers/ContainerMain';
+import { CircularIndeterminate } from '../components/loaders/CircularLoader';
+import { DivInline } from '../components/containers/DivInline';
+import { LabelForm } from '../components/labels/LabelForm';
+import { LabelSmall } from '../components/labels/LabelSmal';
+import { randomId } from '../utils/random';
 
 type InputProps = {
   segmentService: SegmentService;
@@ -33,14 +33,14 @@ export function Segment(props: InputProps) {
 
   const [segments, setSegments] = useState<SegmentInterface[]>([]);
 
-  const [titleCardSegment, setTitleCardSegment] = useState<string>("");
-  const [actionName, setActionName] = useState<string>("");
+  const [titleCardSegment, setTitleCardSegment] = useState<string>('');
+  const [actionName, setActionName] = useState<string>('');
   const [editSegmentName, setEditSegmentName] = useState<SegmentInterface>(
-    {} as any
+    {} as any,
   );
   const [editSegment, setEditSegment] = useState<boolean | null>(null);
   const [segmentWithDelete, setSegmentWithDelete] = useState<SegmentInterface>(
-    {} as any
+    {} as any,
   );
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
@@ -73,7 +73,7 @@ export function Segment(props: InputProps) {
 
   const onAddNewSegment = async (
     event: React.BaseSyntheticEvent,
-    segment: string
+    segment: string,
   ) => {
     event.preventDefault();
 
@@ -94,21 +94,21 @@ export function Segment(props: InputProps) {
 
     if (error) {
       setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
+        <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
   };
 
   const updateSegmentRequest = async (
     event: React.BaseSyntheticEvent,
-    segment: SegmentInterface
+    segment: SegmentInterface,
   ) => {
     event.preventDefault();
 
     setLoader(true);
     const { success, notFound, error } = await segmentService.update(
       segment.idsegments,
-      segment.name
+      segment.name,
     );
     setLoader(false);
 
@@ -124,20 +124,20 @@ export function Segment(props: InputProps) {
 
     if (error) {
       setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
+        <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
   };
 
   const onDeleteSegment = async (
     event: React.BaseSyntheticEvent,
-    idsegments: number
+    idsegments: number,
   ) => {
     event.preventDefault();
 
     setLoader(true);
     const { success, notFound, error, conflict } = await segmentService.delete(
-      idsegments
+      idsegments,
     );
     setLoader(false);
 
@@ -152,13 +152,13 @@ export function Segment(props: InputProps) {
 
     if (error) {
       setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
+        <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
 
     if (conflict) {
       setAlert(
-        <AlertError title="Não é possível excluir esse segmento pois há clientes associados à ele." />
+        <AlertError title="Não é possível excluir esse segmento pois há clientes associados à ele." />,
       );
     }
   };
@@ -171,19 +171,19 @@ export function Segment(props: InputProps) {
     <ContainerMain>
       <CircularIndeterminate open={loader} />
 
-      <Breadcumb page={[{ link: false, name: "Segmentos" }]} />
+      <Breadcumb page={[{ link: false, name: 'Segmentos' }]} />
       <TitlePrincipal title="Segmentos" />
 
       <ButtonFilterAction
         onClick={(e: React.BaseSyntheticEvent) => {
           const filterBySegmentElement = document.getElementById(
-            "searchBySegment"
+            'searchBySegment',
           );
           if (filterBySegmentElement)
-            filterBySegmentElement.style.display = "none";
+            filterBySegmentElement.style.display = 'none';
 
-          setTitleCardSegment("Novo");
-          setActionName("Criar");
+          setTitleCardSegment('Novo');
+          setActionName('Criar');
           setEditSegment(false);
         }}
         text="Novo"
@@ -237,8 +237,8 @@ export function Segment(props: InputProps) {
               <LabelForm text="Criado em" className="mb-2 pb-2 border-bottom">
                 <LabelSmall
                   text={format(
-                    new Date(segment.createdAt.replace("Z", "")),
-                    "dd/MM/yyyy 'às' HH:mm'h'"
+                    new Date(segment.createdAt.replace('Z', '')),
+                    "dd/MM/yyyy 'às' HH:mm'h'",
                   )}
                 />
               </LabelForm>
@@ -249,8 +249,8 @@ export function Segment(props: InputProps) {
                   data-toggle="modal"
                   data-target="#modalSegment"
                   onClick={(e: React.BaseSyntheticEvent) => {
-                    setTitleCardSegment("Editar");
-                    setActionName("Salvar");
+                    setTitleCardSegment('Editar');
+                    setActionName('Salvar');
                     setEditSegmentName(segment);
                     setEditSegment(true);
                   }}

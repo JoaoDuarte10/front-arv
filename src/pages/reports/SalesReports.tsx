@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import { ContainerMain } from "../../components/containers/ContainerMain";
-import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
-import { Breadcumb } from "../../components/Breadcumb";
-import { SearchFilterButton } from "../../components/buttons/SearchFilter";
-import { SalesService } from "../../service/api/sales/sales";
-import { SalesReportsInterface } from "../../service/api/sales/types";
-import * as dateFns from "date-fns";
-import { CircularIndeterminate } from "../../components/loaders/CircularLoader";
-import { AlertInfo } from "../../components/alerts/AlertInfo";
-import { AlertError } from "../../components/alerts/AlertError";
-import { AlertSuccess } from "../../components/alerts/AlertSuccess";
-import { TIMEOUT } from "../../utils/constants";
-import { randomId } from "../../utils/random";
-import { LabelForm } from "../../components/labels/LabelForm";
-import { LabelSmall } from "../../components/labels/LabelSmal";
+import React, { useState } from 'react';
+import { ContainerMain } from '../../components/containers/ContainerMain';
+import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
+import { Breadcumb } from '../../components/Breadcumb';
+import { SearchFilterButton } from '../../components/buttons/SearchFilter';
+import { SalesService } from '../../service/api/sales/sales';
+import { SalesReportsInterface } from '../../service/api/sales/types';
+import * as dateFns from 'date-fns';
+import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
+import { AlertInfo } from '../../components/alerts/AlertInfo';
+import { AlertError } from '../../components/alerts/AlertError';
+import { AlertSuccess } from '../../components/alerts/AlertSuccess';
+import { TIMEOUT } from '../../utils/constants';
+import { randomId } from '../../utils/random';
+import { LabelForm } from '../../components/labels/LabelForm';
+import { LabelSmall } from '../../components/labels/LabelSmal';
 import {
   TableMultiFilter,
-  TypeMultiFilter
-} from "../../components/tableMultiFilter/index";
+  TypeMultiFilter,
+} from '../../components/tableMultiFilter/index';
 
 export function SalesReports(props: { salesService: SalesService }) {
   const { salesService } = props;
@@ -35,24 +35,24 @@ export function SalesReports(props: { salesService: SalesService }) {
   const [findSelected, setFindSelected] = useState<{
     name: string;
     date: string;
-  }>({ name: "", date: "" });
+  }>({ name: '', date: '' });
 
   const fetchReportsWithCurrentMonth = async () => {
     const currentMonth = new Date();
 
     const startDayLastMonth = dateFns.format(
       dateFns.startOfMonth(new Date(currentMonth)),
-      "yyyy-MM-dd"
+      'yyyy-MM-dd',
     );
     const endDayLastMonth = dateFns.format(
       dateFns.endOfMonth(new Date(currentMonth)),
-      "yyyy-MM-dd"
+      'yyyy-MM-dd',
     );
 
     setLoader(true);
     const { success, data, notFound, error } = await salesService.findReports(
       startDayLastMonth,
-      endDayLastMonth
+      endDayLastMonth,
     );
     setLoader(false);
 
@@ -60,18 +60,18 @@ export function SalesReports(props: { salesService: SalesService }) {
       setReport(data);
       setAlert(<AlertSuccess title="Pesquisa atualizada" />);
       setFindSelected({
-        name: "Mês atual",
-        date: `${startDayLastMonth} à ${endDayLastMonth}`
+        name: 'Mês atual',
+        date: `${startDayLastMonth} à ${endDayLastMonth}`,
       });
     }
     if (notFound) {
       setAlert(
-        <AlertInfo title="Nenhum relatório foi encontrado para essa pesquisa." />
+        <AlertInfo title="Nenhum relatório foi encontrado para essa pesquisa." />,
       );
     }
     if (error) {
       setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
+        <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
   };
@@ -81,17 +81,17 @@ export function SalesReports(props: { salesService: SalesService }) {
 
     const startDayLastMonth = dateFns.format(
       dateFns.startOfMonth(new Date(lastMonth)),
-      "yyyy-MM-dd"
+      'yyyy-MM-dd',
     );
     const endDayLastMonth = dateFns.format(
       dateFns.endOfMonth(new Date(lastMonth)),
-      "yyyy-MM-dd"
+      'yyyy-MM-dd',
     );
 
     setLoader(true);
     const { success, data, notFound, error } = await salesService.findReports(
       startDayLastMonth,
-      endDayLastMonth
+      endDayLastMonth,
     );
     setLoader(false);
 
@@ -99,18 +99,18 @@ export function SalesReports(props: { salesService: SalesService }) {
       setReport(data);
       setAlert(<AlertSuccess title="Pesquisa atualizada" />);
       setFindSelected({
-        name: "Último mês",
-        date: `${startDayLastMonth} - ${endDayLastMonth}`
+        name: 'Último mês',
+        date: `${startDayLastMonth} - ${endDayLastMonth}`,
       });
     }
     if (notFound) {
       setAlert(
-        <AlertInfo title="Nenhum relatório foi encontrado para essa pesquisa." />
+        <AlertInfo title="Nenhum relatório foi encontrado para essa pesquisa." />,
       );
     }
     if (error) {
       setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
+        <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
   };
@@ -119,17 +119,17 @@ export function SalesReports(props: { salesService: SalesService }) {
     const currentWeek = new Date();
     const startDateWeek = dateFns.format(
       dateFns.startOfWeek(currentWeek),
-      "yyyy-MM-dd"
+      'yyyy-MM-dd',
     );
     const endDateWeek = dateFns.format(
       dateFns.endOfWeek(currentWeek),
-      "yyyy-MM-dd"
+      'yyyy-MM-dd',
     );
 
     setLoader(true);
     const { success, data, notFound, error } = await salesService.findReports(
       startDateWeek,
-      endDateWeek
+      endDateWeek,
     );
     setLoader(false);
 
@@ -137,18 +137,18 @@ export function SalesReports(props: { salesService: SalesService }) {
       setReport(data);
       setAlert(<AlertSuccess title="Pesquisa atualizada" />);
       setFindSelected({
-        name: "Semana atual",
-        date: `${startDateWeek} - ${endDateWeek}`
+        name: 'Semana atual',
+        date: `${startDateWeek} - ${endDateWeek}`,
       });
     }
     if (notFound) {
       setAlert(
-        <AlertInfo title="Nenhum relatório foi encontrado para essa pesquisa." />
+        <AlertInfo title="Nenhum relatório foi encontrado para essa pesquisa." />,
       );
     }
     if (error) {
       setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
+        <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
   };
@@ -157,17 +157,17 @@ export function SalesReports(props: { salesService: SalesService }) {
     const lastWeek = dateFns.subWeeks(new Date(), 1);
     const startDateWeek = dateFns.format(
       dateFns.startOfWeek(new Date(lastWeek)),
-      "yyyy-MM-dd"
+      'yyyy-MM-dd',
     );
     const endDateWeek = dateFns.format(
       dateFns.endOfWeek(lastWeek),
-      "yyyy-MM-dd"
+      'yyyy-MM-dd',
     );
 
     setLoader(true);
     const { success, data, notFound, error } = await salesService.findReports(
       startDateWeek,
-      endDateWeek
+      endDateWeek,
     );
     setLoader(false);
 
@@ -175,18 +175,18 @@ export function SalesReports(props: { salesService: SalesService }) {
       setReport(data);
       setAlert(<AlertSuccess title="Pesquisa atualizada" />);
       setFindSelected({
-        name: "Última semana",
-        date: `${startDateWeek} - ${endDateWeek}`
+        name: 'Última semana',
+        date: `${startDateWeek} - ${endDateWeek}`,
       });
     }
     if (notFound) {
       setAlert(
-        <AlertInfo title="Nenhum relatório foi encontrado para essa pesquisa." />
+        <AlertInfo title="Nenhum relatório foi encontrado para essa pesquisa." />,
       );
     }
     if (error) {
       setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />
+        <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
   };
@@ -227,8 +227,8 @@ export function SalesReports(props: { salesService: SalesService }) {
 
       <Breadcumb
         page={[
-          { link: "/sales", name: "Suas vendas" },
-          { link: false, name: "Relatório" }
+          { link: '/sales', name: 'Suas vendas' },
+          { link: false, name: 'Relatório' },
         ]}
       />
       <TitlePrincipal title="Relatório de vendas" />
@@ -236,37 +236,38 @@ export function SalesReports(props: { salesService: SalesService }) {
       <TableMultiFilter
         filters={[
           {
-            label: "Semana atual",
+            label: 'Semana atual',
             value: currentWeekFilter,
-            placeholder: "",
+            placeholder: '',
             type: TypeMultiFilter.check,
             handleChangeValue: () => setCurrentWeekFilter(!currentWeekFilter),
-            disabled: lastWeekFilter || currentMonthFilter || lastMonthFilter
+            disabled: lastWeekFilter || currentMonthFilter || lastMonthFilter,
           },
           {
-            label: "Última semana",
+            label: 'Última semana',
             value: lastWeekFilter,
-            placeholder: "",
+            placeholder: '',
             type: TypeMultiFilter.check,
             handleChangeValue: () => setLastWeekFilter(!lastWeekFilter),
-            disabled: currentWeekFilter || currentMonthFilter || lastMonthFilter
+            disabled:
+              currentWeekFilter || currentMonthFilter || lastMonthFilter,
           },
           {
-            label: "Mês atual",
+            label: 'Mês atual',
             value: currentMonthFilter,
-            placeholder: "",
+            placeholder: '',
             type: TypeMultiFilter.check,
             handleChangeValue: () => setCurrentMonthFilter(!currentMonthFilter),
-            disabled: lastWeekFilter || currentWeekFilter || lastMonthFilter
+            disabled: lastWeekFilter || currentWeekFilter || lastMonthFilter,
           },
           {
-            label: "Último mês",
+            label: 'Último mês',
             value: lastMonthFilter,
-            placeholder: "",
+            placeholder: '',
             type: TypeMultiFilter.check,
             handleChangeValue: () => setLastMonthFilter(!lastMonthFilter),
-            disabled: lastWeekFilter || currentMonthFilter || currentWeekFilter
-          }
+            disabled: lastWeekFilter || currentMonthFilter || currentWeekFilter,
+          },
         ]}
         clearFilters={(e: React.BaseSyntheticEvent) => {
           setCurrentMonthFilter(false);
@@ -289,16 +290,16 @@ export function SalesReports(props: { salesService: SalesService }) {
         <div
           key={randomId()}
           style={{
-            marginTop: "15px"
+            marginTop: '15px',
           }}
         >
           <div className="group_reports">
             <div className="items_reports">
               <LabelForm text="Total das vendas">
                 <LabelSmall
-                  text={report.basicInfos.total.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL"
+                  text={report.basicInfos.total.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
                   })}
                 />
               </LabelForm>
@@ -311,9 +312,9 @@ export function SalesReports(props: { salesService: SalesService }) {
             <div className="items_reports">
               <LabelForm text="Média">
                 <LabelSmall
-                  text={report.basicInfos.average.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL"
+                  text={report.basicInfos.average.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
                   })}
                 />
               </LabelForm>
@@ -326,9 +327,9 @@ export function SalesReports(props: { salesService: SalesService }) {
             <div className="items_reports">
               <h6
                 style={{
-                  fontWeight: "bold",
-                  borderBottom: "1px lightgray solid",
-                  paddingBottom: "5px"
+                  fontWeight: 'bold',
+                  borderBottom: '1px lightgray solid',
+                  paddingBottom: '5px',
                 }}
               >
                 Maiores vendas
@@ -336,8 +337,8 @@ export function SalesReports(props: { salesService: SalesService }) {
               <LabelForm text="Dia">
                 <LabelSmall
                   text={dateFns.format(
-                    new Date(report.biggestTotalWithDate.date.replace("Z", "")),
-                    "dd/MM/yyyy"
+                    new Date(report.biggestTotalWithDate.date.replace('Z', '')),
+                    'dd/MM/yyyy',
                   )}
                 />
               </LabelForm>
@@ -349,11 +350,11 @@ export function SalesReports(props: { salesService: SalesService }) {
               <LabelForm text="Total">
                 <LabelSmall
                   text={report.biggestTotalWithDate.total.toLocaleString(
-                    "pt-BR",
+                    'pt-BR',
                     {
-                      style: "currency",
-                      currency: "BRL"
-                    }
+                      style: 'currency',
+                      currency: 'BRL',
+                    },
                   )}
                 />
               </LabelForm>
@@ -361,9 +362,9 @@ export function SalesReports(props: { salesService: SalesService }) {
             <div className="items_reports">
               <h6
                 style={{
-                  fontWeight: "bold",
-                  borderBottom: "1px lightgray solid",
-                  paddingBottom: "5px"
+                  fontWeight: 'bold',
+                  borderBottom: '1px lightgray solid',
+                  paddingBottom: '5px',
                 }}
               >
                 Menores vendas
@@ -371,8 +372,8 @@ export function SalesReports(props: { salesService: SalesService }) {
               <LabelForm text="Dia">
                 <LabelSmall
                   text={dateFns.format(
-                    new Date(report.lowestTotalWithDate.date.replace("Z", "")),
-                    "dd/MM/yyyy"
+                    new Date(report.lowestTotalWithDate.date.replace('Z', '')),
+                    'dd/MM/yyyy',
                   )}
                 />
               </LabelForm>
@@ -384,11 +385,11 @@ export function SalesReports(props: { salesService: SalesService }) {
               <LabelForm text="Total">
                 <LabelSmall
                   text={report.lowestTotalWithDate.total.toLocaleString(
-                    "pt-BR",
+                    'pt-BR',
                     {
-                      style: "currency",
-                      currency: "BRL"
-                    }
+                      style: 'currency',
+                      currency: 'BRL',
+                    },
                   )}
                 />
               </LabelForm>

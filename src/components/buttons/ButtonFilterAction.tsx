@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type InputProps = {
   onClick: any;
@@ -15,8 +15,8 @@ export function ButtonFilterAction(props: InputProps) {
       className={`btn btn-outline-primary mr-2 font-weight-bold ${props.className}`}
       onClick={props.onClick}
       style={{
-        borderRadius: "15px",
-        ...props.style
+        borderRadius: '15px',
+        ...props.style,
       }}
       data-toggle={props.dataToggle}
       data-target={`#${props.dataTarget}`}

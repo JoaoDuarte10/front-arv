@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { ReduceStore } from "../app/store";
-import { clearClient, clientAdded } from "../reducers/clients-slice";
-import ComboBoxList, { Option } from "./inputs/InputAutocompleteList";
-import TextFieldMultiline from "./inputs/TextFieldMultiline";
-import { CircularIndeterminate } from "./loaders/CircularLoader";
-import { ClientService } from "../service/api/client/client-service";
-import { ScheduleInterface } from "../service/api/schedule/types";
-import { getHours, getMinutes } from "date-fns";
-import { InputText } from "./inputs/InputText";
-import { DivInline } from "./containers/DivInline";
-import { ContainerCardWhite } from "./containers/ContainerCardWhite";
-import { GenericButton } from "./buttons/GenericButton";
-import { ColorsBootstrap } from "./modal/GenericModal";
-import { ClientsInterface } from "../service/api/client/types";
-import { DateInput } from "./date/index";
-import { TimeInput } from "./time/index";
-import AutocompleteFilterSelected from "./inputs/InputAutocompleteFilterSelectedOption";
-import { fetchAllCatalogs } from "../service/api/catalog/catalog-service";
+import React, { useEffect, useState } from 'react';
+import { FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { ReduceStore } from '../app/store';
+import { clearClient, clientAdded } from '../reducers/clients-slice';
+import ComboBoxList, { Option } from './inputs/InputAutocompleteList';
+import TextFieldMultiline from './inputs/TextFieldMultiline';
+import { CircularIndeterminate } from './loaders/CircularLoader';
+import { ClientService } from '../service/api/client/client-service';
+import { ScheduleInterface } from '../service/api/schedule/types';
+import { getHours, getMinutes } from 'date-fns';
+import { InputText } from './inputs/InputText';
+import { DivInline } from './containers/DivInline';
+import { ContainerCardWhite } from './containers/ContainerCardWhite';
+import { GenericButton } from './buttons/GenericButton';
+import { ColorsBootstrap } from './modal/GenericModal';
+import { ClientsInterface } from '../service/api/client/types';
+import { DateInput } from './date/index';
+import { TimeInput } from './time/index';
+import AutocompleteFilterSelected from './inputs/InputAutocompleteFilterSelectedOption';
+import { fetchAllCatalogs } from '../service/api/catalog/catalog-service';
 
 type InputProps = {
   clientService: ClientService;
@@ -37,23 +37,23 @@ export function FormSchedule(props: InputProps) {
 
   const [idschedules, setIdSchedules] = useState<number | null>(null);
   const [clientName, setClientName] = useState<string | null>(null);
-  const [description, setDescription] = useState<string>("");
+  const [description, setDescription] = useState<string>('');
   const [time, setTime] = useState<Date | string | null>(null);
   const [date, setDate] = useState<Date | string | null>(null);
   const [pacote, setPacote] = useState<boolean>(false);
   const [atendenceCount, setAtendenceCount] = useState<number>(0);
   const [totalAtendenceCount, setTotalAtendenceCount] = useState<number>(0);
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<string>('');
   const [clientSelected, setClientSelected] = useState<{
     label: string;
     idclients: number | null;
-  }>({ label: "", idclients: null });
+  }>({ label: '', idclients: null });
   const [idCatalogs, setIdCatalogs] = useState<Option[]>([]);
   const [catalogsOptions, setCatalogsOptions] = useState<Option[]>([]);
 
   const [loader, setLoader] = useState<boolean>(false);
 
-  const atendenceOptions = ["1", "2", "3", "4", "5"];
+  const atendenceOptions = ['1', '2', '3', '4', '5'];
 
   const dispatch = useDispatch();
 
@@ -80,7 +80,7 @@ export function FormSchedule(props: InputProps) {
 
     const options = data.map(catalog => ({
       label: catalog.name,
-      value: catalog.idCatalog
+      value: catalog.idCatalog,
     }));
 
     setCatalogsOptions(options);
@@ -95,8 +95,8 @@ export function FormSchedule(props: InputProps) {
 
     if (edit && schedule) {
       const timeSelected = new Date();
-      timeSelected.setHours(Number(schedule.time.split(":")[0]));
-      timeSelected.setMinutes(Number(schedule.time.split(":")[1]));
+      timeSelected.setHours(Number(schedule.time.split(':')[0]));
+      timeSelected.setMinutes(Number(schedule.time.split(':')[1]));
 
       setIdSchedules(schedule.idschedules || 0);
       setClientName(schedule.clientName);
@@ -108,16 +108,16 @@ export function FormSchedule(props: InputProps) {
       setTotalAtendenceCount(schedule.totalAtendenceCount);
       setStatus(schedule.status);
       setClientSelected({
-        label: schedule.name || schedule.clientName || "",
-        idclients: schedule.idclients || null
+        label: schedule.name || schedule.clientName || '',
+        idclients: schedule.idclients || null,
       });
 
       if (schedule.scheduleServices && schedule.scheduleServices.length) {
         setIdCatalogs(
           schedule.scheduleServices.map(scheduleService => ({
-            label: scheduleService.name || "",
-            value: scheduleService.idCatalog || null
-          }))
+            label: scheduleService.name || '',
+            value: scheduleService.idCatalog || null,
+          })),
         );
       }
     }
@@ -126,15 +126,15 @@ export function FormSchedule(props: InputProps) {
   }, []);
 
   const clearFields = () => {
-    setClientName("");
-    setDescription("");
+    setClientName('');
+    setDescription('');
     setTime(null);
     setDate(null);
     setPacote(false);
     setAtendenceCount(0);
     setTotalAtendenceCount(0);
-    setStatus("");
-    setClientSelected({ label: "", idclients: null });
+    setStatus('');
+    setClientSelected({ label: '', idclients: null });
     setIdCatalogs([]);
   };
 
@@ -163,22 +163,22 @@ export function FormSchedule(props: InputProps) {
             options={clients.map(client => {
               return {
                 label: client.name,
-                idclients: client.idclients
+                idclients: client.idclients,
               };
             })}
-            label={"Selecione o cliente*"}
+            label={'Selecione o cliente*'}
             value={clientSelected}
             onChange={(
               _e: React.BaseSyntheticEvent,
-              item: { label: string; idclients: number } | string
+              item: { label: string; idclients: number } | string,
             ) => {
-              if (typeof item === "string") {
+              if (typeof item === 'string') {
                 setClientName(item);
                 setClientSelected({ label: item, idclients: null });
               } else {
                 setClientSelected({
                   label: item.label,
-                  idclients: item.idclients
+                  idclients: item.idclients,
                 });
                 setClientName(null);
               }
@@ -188,7 +188,7 @@ export function FormSchedule(props: InputProps) {
 
         <AutocompleteFilterSelected
           options={catalogsOptions}
-          label={"Selecione os serviços"}
+          label={'Selecione os serviços'}
           value={idCatalogs}
           className="pt-2"
           onChange={(_e: React.BaseSyntheticEvent, item: Option[]) => {
@@ -219,8 +219,8 @@ export function FormSchedule(props: InputProps) {
           <div className="col">
             <DateInput
               value={
-                typeof date === "string"
-                  ? new Date(date.replace("Z", ""))
+                typeof date === 'string'
+                  ? new Date(date.replace('Z', ''))
                   : date
               }
               setValue={setDate}
@@ -296,7 +296,7 @@ export function FormSchedule(props: InputProps) {
           )}
           <div className="col">
             <GenericButton
-              text={edit ? "Salvar" : "Criar"}
+              text={edit ? 'Salvar' : 'Criar'}
               color={ColorsBootstrap.primary}
               onClick={async (e: React.SyntheticEvent) => {
                 const result = await onChange({
@@ -310,7 +310,7 @@ export function FormSchedule(props: InputProps) {
                   atendenceCount: Number(atendenceCount),
                   totalAtendenceCount: Number(totalAtendenceCount),
                   status,
-                  idCatalogs: idCatalogs.map(idCatalog => idCatalog.value)
+                  idCatalogs: idCatalogs.map(idCatalog => idCatalog.value),
                 });
                 if (result) {
                   clearFields();
