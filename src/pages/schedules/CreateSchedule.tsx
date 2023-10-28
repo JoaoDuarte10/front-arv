@@ -19,7 +19,7 @@ export function CreateSchedule(props: {
   const { clientService, scheduleService } = props;
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const onCreate = async (params: {
     idclients: number;
@@ -30,9 +30,9 @@ export function CreateSchedule(props: {
     pacote: boolean;
     totalAtendenceCount: number;
     status: string;
-    idCatalogs: number[]
+    idCatalogs: number[];
   }): Promise<boolean> => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, error, badRequest } = await scheduleService.create({
       idclients: params.idclients,
       clientName: params.clientName,
@@ -42,9 +42,9 @@ export function CreateSchedule(props: {
       pacote: params.pacote,
       totalAtendenceCount: params.totalAtendenceCount,
       status: params.status,
-      idCatalogs: params.idCatalogs,
+      idCatalogs: params.idCatalogs
     });
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(<AlertSuccess title="Agenda criada com sucesso." />);
@@ -68,6 +68,8 @@ export function CreateSchedule(props: {
 
   return (
     <ContainerMain>
+      <CircularIndeterminate open={loader} />
+
       <Breadcumb
         page={[
           { link: "/schedules", name: "Agendas" },
@@ -75,8 +77,6 @@ export function CreateSchedule(props: {
         ]}
       />
       <TitlePrincipal title="Nova agenda" />
-
-      {loader}
 
       <FormSchedule
         clientService={clientService}

@@ -43,7 +43,7 @@ export function FormSales(props: InputProps) {
     idclients: number | null;
   }>({ label: "", idclients: null });
 
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const clearFields = () => {
     setDescription("");
@@ -56,9 +56,9 @@ export function FormSales(props: InputProps) {
   };
 
   const fetchPaymentMethodsEnums = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, data } = await outgoingService.fetchPaymentMethodEnums();
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setPaymentMethods(data);
@@ -81,7 +81,8 @@ export function FormSales(props: InputProps) {
 
   return (
     <div className="form_sales">
-      {loader}
+      <CircularIndeterminate open={loader} />
+
       <small className="font-weight-bold pb-4">
         Os campos que possuem " * " são obrigatórios!
       </small>

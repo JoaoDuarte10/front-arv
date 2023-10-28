@@ -44,12 +44,12 @@ export function Segment(props: InputProps) {
   );
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const getSegments = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { data } = await segmentService.getAll();
-    setLoader(null);
+    setLoader(false);
 
     dispatch(segmentAdded(data));
     setSegments(data);
@@ -79,9 +79,9 @@ export function Segment(props: InputProps) {
 
     if (!formFieldsIsValids(segment)) return;
 
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, conflict, error } = await segmentService.create(segment);
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(<AlertSuccess title="Segmento criado com sucesso." />);
@@ -105,12 +105,12 @@ export function Segment(props: InputProps) {
   ) => {
     event.preventDefault();
 
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, notFound, error } = await segmentService.update(
       segment.idsegments,
       segment.name
     );
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(<AlertSuccess title="Segmento atualizado com sucesso." />);
@@ -135,11 +135,11 @@ export function Segment(props: InputProps) {
   ) => {
     event.preventDefault();
 
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, notFound, error, conflict } = await segmentService.delete(
       idsegments
     );
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(<AlertSuccess title="Segmento deletado com sucesso." />);
@@ -169,7 +169,8 @@ export function Segment(props: InputProps) {
 
   return (
     <ContainerMain>
-      {loader}
+      <CircularIndeterminate open={loader} />
+
       <Breadcumb page={[{ link: false, name: "Segmentos" }]} />
       <TitlePrincipal title="Segmentos" />
 

@@ -4,7 +4,7 @@ import { TitlePrincipal } from "../../components/titles/TitlePrincipal";
 import { Link, useNavigate } from "react-router-dom";
 import { WhatsAppService } from "../../service/api/whatsapp/whatsapp";
 import { BasicDeleteModal } from "../../components/modal/BasicDeleteModal";
-import { Typography } from "@mui/material";
+import { Backdrop, CircularProgress, Typography } from "@mui/material";
 import { TIMEOUT } from "../../utils/constants";
 import { ContainerMain } from "../../components/containers/ContainerMain";
 import { EditIconButton } from "../../components/buttons/EditIconButton";
@@ -44,7 +44,8 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
       <TitlePrincipal title="Clientes" />
 
       {alert}
-      {loading ? <CircularIndeterminate /> : null}
+
+      <CircularIndeterminate open={loading} />
 
       <TableMultiFilter
         filters={[

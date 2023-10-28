@@ -59,7 +59,8 @@ export function InfoClients(props: {
 
   return (
     <ContainerMain>
-      {loading ? <CircularIndeterminate /> : null}
+      <CircularIndeterminate open={loading} />
+
       <Breadcumb
         page={[
           { link: "/clients", name: "Clientes" },

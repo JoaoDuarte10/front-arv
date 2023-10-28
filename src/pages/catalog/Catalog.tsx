@@ -35,7 +35,8 @@ export function Catalog() {
       <TitlePrincipal title="Serviços" />
 
       {alert}
-      {loading ? <CircularIndeterminate /> : null}
+
+      <CircularIndeterminate open={loading} />
 
       {resources.length
         ? resources.map(catalog => {

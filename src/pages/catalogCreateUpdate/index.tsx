@@ -33,7 +33,7 @@ export function CatalogsCreateUpdate() {
 
   return (
     <ContainerMain>
-      {loading ? <CircularIndeterminate /> : null}
+      <CircularIndeterminate open={loading} />
 
       <Breadcumb
         page={[

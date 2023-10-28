@@ -19,7 +19,7 @@ export function Login(props: { loginService: LoginService }) {
     password: "",
     showPassword: false
   });
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
   const [alert, setAlert] = useState<JSX.Element | null>(null);
 
   const dispatch = useDispatch();
@@ -33,12 +33,12 @@ export function Login(props: { loginService: LoginService }) {
   };
 
   const signIn = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, data, unauthorized, error } = await loginService.signIn({
       user,
       password: password.password
     });
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       dispatch(

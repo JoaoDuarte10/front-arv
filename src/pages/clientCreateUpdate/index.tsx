@@ -68,7 +68,7 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
 
   return (
     <ContainerMain>
-      {loading ? <CircularIndeterminate /> : null}
+      <CircularIndeterminate open={loading} />
 
       <Breadcumb
         page={[

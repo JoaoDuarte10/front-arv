@@ -40,16 +40,16 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
   >("");
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   if (alert) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
   }
 
   const fetchPaymentMethodsEnums = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, data } = await outgoingService.fetchPaymentMethodEnums();
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setPaymentMethods(data);
@@ -57,9 +57,9 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
   };
 
   const fetchInstallmentEnums = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, data } = await outgoingService.fetchInstallmentEnums();
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setInstallments(data);
@@ -87,11 +87,11 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
       installment: installmentSelected as OutgoingInstallmentEnums
     };
 
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, badRequest, error } = await outgoingService.create(
       payload
     );
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(<AlertSuccess title="Despesa criada com sucesso." />);
@@ -109,7 +109,8 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
 
   return (
     <ContainerMain>
-      {loader}
+      <CircularIndeterminate open={loader} />
+
       <Breadcumb
         page={[
           { link: "/outgoings", name: "Suas despesas" },

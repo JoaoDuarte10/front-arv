@@ -30,12 +30,12 @@ export function CreateSales(props: {
   const [clients, setClients] = useState<ClientsInterface[]>([]);
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const getAllClients = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { data } = await clientService.fetchAllClients();
-    setLoader(null);
+    setLoader(false);
 
     if (data) {
       dispatch(clearClient());
@@ -62,7 +62,7 @@ export function CreateSales(props: {
     paymentDate: string;
     paymentMethod: OutgoingPaymentMethodEnums;
   }): Promise<boolean> => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, error, badRequest } = await salesService.create({
       idclients: params.idclients || null,
       clientName: params.clientName || null,
@@ -73,7 +73,7 @@ export function CreateSales(props: {
       paymentDate: params.paymentDate,
       paymentMethod: params.paymentMethod
     });
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(<AlertSuccess title="Venda criada com sucesso." />);
@@ -96,7 +96,8 @@ export function CreateSales(props: {
 
   return (
     <ContainerMain>
-      {loader}
+      <CircularIndeterminate open={loader} />
+
       <Breadcumb
         page={[
           { link: "/sales", name: "Vendas" },

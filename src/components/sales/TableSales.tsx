@@ -147,14 +147,14 @@ function Row(props: {
   const [open, setOpen] = useState<boolean>(false);
 
   const [alertInfo, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const registerPayment = async (idsales: number) => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, error, notFound } = await salesService.registerPayment(
       idsales
     );
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(
@@ -172,9 +172,9 @@ function Row(props: {
   };
 
   const deleteSale = async (idsales: number) => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, error, notFound } = await salesService.delete(idsales);
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(
@@ -245,7 +245,7 @@ Agradecemos a confiança!!!`;
 
   return (
     <React.Fragment>
-      {loader}
+      <CircularIndeterminate open={loader} />
 
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }} key={randomId()}>
         <TableCell>

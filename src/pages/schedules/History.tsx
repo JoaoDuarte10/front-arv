@@ -18,17 +18,17 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
   const { scheduleService } = props;
 
   const [schedules, setSchedules] = useState<ScheduleInterface[]>([]);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
   const [alert, setAlert] = useState<JSX.Element | null>(null);
 
   const fetchSfetchMostRecentFromchedules = async (date: Date) => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const {
       success,
       data,
       notFound
     } = await scheduleService.fetchMostRecentFrom(date);
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setSchedules(data);
@@ -45,6 +45,8 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
 
   return (
     <ContainerMain>
+      <CircularIndeterminate open={loader} />
+
       <Breadcumb
         page={[
           { link: "/schedules", name: "Agendas" },
@@ -52,8 +54,6 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
         ]}
       />
       <TitlePrincipal title="Histórico de agendas" />
-
-      {loader}
 
       <div className="filter_buttons">
         <SearchFilterButton

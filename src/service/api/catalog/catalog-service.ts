@@ -148,7 +148,9 @@ const LOCAL_STORAGE_LOGIN_KEY = process.env
   .REACT_APP_LOCAL_STORAGE_KEY as string;
 const localStorageService = new LocalStorageService(LOCAL_STORAGE_LOGIN_KEY);
 
-export const fetchAllCatalogs = async (): Promise<HttpResponse<CatalogInterface[]>> => {
+export const fetchAllCatalogs = async (): Promise<HttpResponse<
+  CatalogInterface[]
+>> => {
   let response: HttpResponse = {} as HttpResponse;
   try {
     const { data, status } = await axios

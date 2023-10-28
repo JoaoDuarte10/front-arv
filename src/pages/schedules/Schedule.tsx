@@ -71,7 +71,7 @@ export function Schedules(props: {
   }>({ label: "", idclients: null });
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const [openModal, setOpenModal] = useState<any>({});
   const [openModalSale, setOpenModalSale] = useState<any>({});
@@ -81,14 +81,14 @@ export function Schedules(props: {
   const [clients, setClients] = useState<ClientsInterface[]>([]);
 
   const getAllClients = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const {
       success,
       data,
       error,
       unauthorized
     } = await clientService.fetchAllClients();
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       dispatch(clearClient());
@@ -102,9 +102,9 @@ export function Schedules(props: {
   };
 
   const fetchExpireds = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, data } = await scheduleService.expireds();
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setSchedules(data);
@@ -121,7 +121,7 @@ export function Schedules(props: {
   }, []);
 
   const fetchByDate = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const {
       success,
       data,
@@ -129,7 +129,7 @@ export function Schedules(props: {
       badRequest,
       notFound
     } = await scheduleService.fetchByDate(date);
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(<AlertSuccess title="Pesquisa atualizada." />);
@@ -147,7 +147,7 @@ export function Schedules(props: {
   };
 
   const fetchByClient = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const {
       success,
       data,
@@ -157,7 +157,7 @@ export function Schedules(props: {
     } = clientSelected.idclients
       ? await scheduleService.fetchByIdClient(clientSelected.idclients)
       : await scheduleService.fetchByClientName(clientSelected.label);
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(<AlertSuccess title="Pesquisa atualizada." />);
@@ -185,9 +185,9 @@ export function Schedules(props: {
     atendenceCount: number;
     totalAtendenceCount: number;
     status: string;
-    idCatalogs?: number[]
+    idCatalogs?: number[];
   }): Promise<boolean> => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, error, badRequest } = await scheduleService.update({
       idschedules: params.idschedules,
       idclients: params.idclients,
@@ -199,9 +199,9 @@ export function Schedules(props: {
       atendenceCount: params.atendenceCount,
       totalAtendenceCount: params.totalAtendenceCount,
       status: params.status,
-      idCatalogs: params.idCatalogs,
+      idCatalogs: params.idCatalogs
     });
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(<AlertSuccess title="Agenda editada com sucesso." />);
@@ -218,11 +218,11 @@ export function Schedules(props: {
   };
 
   const onDelete = async (idschedules: number): Promise<boolean> => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, error, notFound } = await scheduleService.delete(
       idschedules
     );
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(<AlertSuccess title="Agenda excluída com sucesso." />);
@@ -239,11 +239,11 @@ export function Schedules(props: {
   };
 
   const finish = async (idschedules: number): Promise<boolean> => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, error, notFound } = await scheduleService.finish(
       idschedules
     );
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setOpenModal(false);
@@ -269,7 +269,7 @@ export function Schedules(props: {
     paymentDate: string;
     paymentMethod: OutgoingPaymentMethodEnums;
   }) => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, error, badRequest } = await salesService.create({
       idclients: params.idclients || null,
       clientName: params.clientName || null,
@@ -280,7 +280,7 @@ export function Schedules(props: {
       paymentDate: params.paymentDate,
       paymentMethod: params.paymentMethod
     });
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(<AlertSuccess title="Venda criada com sucesso." />);
@@ -316,6 +316,8 @@ export function Schedules(props: {
 
   return (
     <ContainerMain>
+      <CircularIndeterminate open={loader} />
+
       <Breadcumb
         page={[
           { link: "/create-schedule", name: "Nova agenda" },
@@ -323,8 +325,6 @@ export function Schedules(props: {
         ]}
       />
       <TitlePrincipal title="Agendas" />
-
-      {loader}
 
       <TableMultiFilter
         filters={[
@@ -443,19 +443,20 @@ export function Schedules(props: {
                   <LabelSmall text={schedule.description} />
                 </LabelForm>
 
-                  {schedule.scheduleServices && schedule.scheduleServices.length > 0 ? (
-                    <Grid item xs={12} md={6}>
-                      <LabelForm text="Serviços" className="pb-2 border-bottom">
+                {schedule.scheduleServices &&
+                schedule.scheduleServices.length > 0 ? (
+                  <Grid item xs={12} md={6}>
+                    <LabelForm text="Serviços" className="pb-2 border-bottom">
                       {schedule.scheduleServices.map(scheduleService => {
                         return (
                           <>
-                            <LabelSmall text={scheduleService.name} />; {' '}
+                            <LabelSmall text={scheduleService.name} />;{" "}
                           </>
-                        )
+                        );
                       })}
-                      </LabelForm>
-                    </Grid>
-                  ) : null}
+                    </LabelForm>
+                  </Grid>
+                ) : null}
 
                 <DivInline className="row">
                   <LabelForm

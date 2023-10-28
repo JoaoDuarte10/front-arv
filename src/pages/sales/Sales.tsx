@@ -45,12 +45,12 @@ export function Sales(props: {
   const [sales, setSales] = useState<SalesInterface[]>([]);
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const getAllClients = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { data } = await clientService.fetchAllClients();
-    setLoader(null);
+    setLoader(false);
 
     if (data) {
       dispatch(clearClient());
@@ -68,7 +68,7 @@ export function Sales(props: {
   }, []);
 
   const fetchSalesByDate = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const {
       success,
       data,
@@ -76,7 +76,7 @@ export function Sales(props: {
       notFound,
       badRequest
     } = await salesService.findByDate(date);
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setSales(data);
@@ -96,7 +96,7 @@ export function Sales(props: {
   };
 
   const fetchSalesByPeriod = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const {
       success,
       data,
@@ -104,7 +104,7 @@ export function Sales(props: {
       notFound,
       badRequest
     } = await salesService.findByPeriod(period.date1, period.date2);
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setSales(data);
@@ -124,7 +124,7 @@ export function Sales(props: {
   };
 
   const fetchSalesByClient = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const {
       success,
       data,
@@ -132,7 +132,7 @@ export function Sales(props: {
       notFound,
       badRequest
     } = await salesService.findByClient(clientSelected.idclients as number);
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setSales(data);
@@ -152,9 +152,9 @@ export function Sales(props: {
   };
 
   const fetchPenging = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, data, error, notFound } = await salesService.findPending();
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setSales(data);
@@ -171,7 +171,7 @@ export function Sales(props: {
   };
 
   const fetchByAllFilters = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const {
       success,
       data,
@@ -185,7 +185,7 @@ export function Sales(props: {
       period,
       pending
     });
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setSales(data);
@@ -215,7 +215,8 @@ export function Sales(props: {
 
   return (
     <ContainerMain>
-      {loader}
+      <CircularIndeterminate open={loader} />
+
       <Breadcumb
         page={[
           { link: "/create-sale", name: "Nova venda" },

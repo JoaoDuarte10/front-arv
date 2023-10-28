@@ -51,16 +51,16 @@ export function FormSchedule(props: InputProps) {
   const [idCatalogs, setIdCatalogs] = useState<Option[]>([]);
   const [catalogsOptions, setCatalogsOptions] = useState<Option[]>([]);
 
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const atendenceOptions = ["1", "2", "3", "4", "5"];
 
   const dispatch = useDispatch();
 
   const getAllClients = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { data } = await clientService.fetchAllClients();
-    setLoader(null);
+    setLoader(false);
 
     if (data) {
       dispatch(clearClient());
@@ -70,21 +70,21 @@ export function FormSchedule(props: InputProps) {
   };
 
   const getCatalogsDependencies = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { data } = await fetchAllCatalogs();
-    setLoader(null);
+    setLoader(false);
 
     if (!data || !data.length) {
       return;
     }
 
-    const options = data.map((catalog) => ({
+    const options = data.map(catalog => ({
       label: catalog.name,
-      value: catalog.idCatalog,
+      value: catalog.idCatalog
     }));
 
-    setCatalogsOptions(options)
-  }
+    setCatalogsOptions(options);
+  };
 
   useEffect(() => {
     if (!clientsCache.length) {
@@ -115,7 +115,7 @@ export function FormSchedule(props: InputProps) {
       if (schedule.scheduleServices && schedule.scheduleServices.length) {
         setIdCatalogs(
           schedule.scheduleServices.map(scheduleService => ({
-            label: scheduleService.name || '',
+            label: scheduleService.name || "",
             value: scheduleService.idCatalog || null
           }))
         );
@@ -140,7 +140,7 @@ export function FormSchedule(props: InputProps) {
 
   return (
     <div>
-      {loader}
+      <CircularIndeterminate open={loader} />
 
       <ContainerCardWhite>
         <div className="pb-2">
@@ -191,11 +191,8 @@ export function FormSchedule(props: InputProps) {
           label={"Selecione os serviços"}
           value={idCatalogs}
           className="pt-2"
-          onChange={(
-            _e: React.BaseSyntheticEvent,
-            item: Option[]
-          ) => {
-            setIdCatalogs(item)
+          onChange={(_e: React.BaseSyntheticEvent, item: Option[]) => {
+            setIdCatalogs(item);
             // if (typeof item === "string") {
             //   setClientName(item);
             //   setClientSelected({ label: item, idclients: null });

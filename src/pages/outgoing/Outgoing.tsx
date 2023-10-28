@@ -37,10 +37,10 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
   >(false);
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const fetchAll = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const {
       success,
       data,
@@ -48,7 +48,7 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       error,
       badRequest
     } = await outgoingService.fetchAll();
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setOutgoing(data);
@@ -69,7 +69,7 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
   };
 
   const fetchByDate = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const {
       success,
       data,
@@ -77,7 +77,7 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       error,
       badRequest
     } = await outgoingService.fetchByDate(date as any);
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setOutgoing(data);
@@ -98,7 +98,7 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
   };
 
   const fetchByPeriod = async () => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const {
       success,
       data,
@@ -109,7 +109,7 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       period.date1 as any,
       period.date2 as any
     );
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setOutgoing(data);
@@ -160,7 +160,8 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
 
   return (
     <ContainerMain>
-      {loader}
+      <CircularIndeterminate open={loader} />
+
       <Breadcumb
         page={[
           { link: "/create-outgoing", name: "Nova despesa" },

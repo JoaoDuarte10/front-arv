@@ -30,7 +30,7 @@ export function SalesReports(props: { salesService: SalesService }) {
   const [lastMonthFilter, setLastMonthFilter] = useState<boolean>(false);
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const [findSelected, setFindSelected] = useState<{
     name: string;
@@ -49,12 +49,12 @@ export function SalesReports(props: { salesService: SalesService }) {
       "yyyy-MM-dd"
     );
 
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, data, notFound, error } = await salesService.findReports(
       startDayLastMonth,
       endDayLastMonth
     );
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setReport(data);
@@ -88,12 +88,12 @@ export function SalesReports(props: { salesService: SalesService }) {
       "yyyy-MM-dd"
     );
 
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, data, notFound, error } = await salesService.findReports(
       startDayLastMonth,
       endDayLastMonth
     );
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setReport(data);
@@ -126,12 +126,12 @@ export function SalesReports(props: { salesService: SalesService }) {
       "yyyy-MM-dd"
     );
 
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, data, notFound, error } = await salesService.findReports(
       startDateWeek,
       endDateWeek
     );
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setReport(data);
@@ -164,12 +164,12 @@ export function SalesReports(props: { salesService: SalesService }) {
       "yyyy-MM-dd"
     );
 
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, data, notFound, error } = await salesService.findReports(
       startDateWeek,
       endDateWeek
     );
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setReport(data);
@@ -223,6 +223,8 @@ export function SalesReports(props: { salesService: SalesService }) {
 
   return (
     <ContainerMain>
+      <CircularIndeterminate open={loader} />
+
       <Breadcumb
         page={[
           { link: "/sales", name: "Suas vendas" },
@@ -230,8 +232,6 @@ export function SalesReports(props: { salesService: SalesService }) {
         ]}
       />
       <TitlePrincipal title="Relatório de vendas" />
-
-      {loader}
 
       <TableMultiFilter
         filters={[

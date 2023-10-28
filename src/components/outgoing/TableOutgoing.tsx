@@ -122,14 +122,14 @@ function Row(props: {
   const [open, setOpen] = useState<boolean>(false);
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<JSX.Element | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const onDelete = async (idoutgoing: number): Promise<void> => {
-    setLoader(<CircularIndeterminate />);
+    setLoader(true);
     const { success, error, notFound } = await outgoingService.delete(
       idoutgoing
     );
-    setLoader(null);
+    setLoader(false);
 
     if (success) {
       setAlert(
@@ -152,7 +152,8 @@ function Row(props: {
 
   return (
     <React.Fragment>
-      {loader}
+      <CircularIndeterminate open={loader} />
+
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
           <IconButton
