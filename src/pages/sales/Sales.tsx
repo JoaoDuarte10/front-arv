@@ -1,32 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { SalesService } from '../../service/api/sales/sales';
 import { ContainerMain } from '../../components/containers/ContainerMain';
 import { Breadcumb } from '../../components/Breadcumb';
 import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
-import { useSelector, useDispatch } from 'react-redux';
-import { ReduceStore } from '../../app/store';
-import { clearClient, clientAdded } from '../../reducers/clients-slice';
+import { useDispatch } from 'react-redux';
 import { ClientService } from '../../service/api/client/client-service';
-import { AlertInfo } from '../../components/alerts/AlertInfo';
-import { AlertError } from '../../components/alerts/AlertError';
-import { AlertSuccess } from '../../components/alerts/AlertSuccess';
-import { TIMEOUT } from '../../utils/constants';
 import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
 import { TableSales } from '../../components/sales/TableSales';
-import { ClientsInterface } from '../../service/api/client/types';
-import { SalesInterface } from '../../service/api/sales/types';
 import {
   TableMultiFilter,
   TypeMultiFilter,
 } from '../../components/tableMultiFilter/index';
+import { useSales } from './hooks/useSales';
 
 export function Sales(props: {
   salesService: SalesService;
   clientService: ClientService;
 }) {
-  const { clientService, salesService } = props;
+  const { salesService } = props;
 
-  const dispatch = useDispatch();
+  const hookData = useSales();
+
+  const { loader, alert, clients, sales, fetchByAllFilters } = hookData;
 
   const [date, setDate] = useState<string>('');
   const [period, setPeriod] = useState<{ date1: string; date2: string }>({
@@ -40,178 +35,73 @@ export function Sales(props: {
     idclients: number | null;
   }>({ label: '', idclients: null });
 
-  const clientsCache = useSelector((state: ReduceStore) => state.client);
-  const [clients, setClients] = useState<ClientsInterface[]>([]);
-  const [sales, setSales] = useState<SalesInterface[]>([]);
+  const filters = [
+    {
+      label: 'Data',
+      value: date,
+      placeholder: '',
+      type: TypeMultiFilter.date,
+      handleChangeValue: setDate,
+      disabled: period.date1 || period.date2 ? true : false,
+    },
+    {
+      label: 'Periodo',
+      value: '',
+      placeholder: '',
+      type: TypeMultiFilter.period,
+      handleChangeValue: () => null,
+      period: {
+        date1: {
+          value: period.date1,
+          handleChangeValue: (e: React.BaseSyntheticEvent) =>
+            setPeriod({ date1: e.target.value, date2: period.date2 }),
+        },
+        date2: {
+          value: period.date2,
+          handleChangeValue: (e: React.BaseSyntheticEvent) =>
+            setPeriod({ date1: period.date1, date2: e.target.value }),
+        },
+      },
+      disabled: date ? true : false,
+    },
+    {
+      label: 'Clientes',
+      value: clientSelected.label,
+      placeholder: 'Selecione o cliente',
+      type: TypeMultiFilter.select,
+      options: clients.map(client => ({
+        label: client.name,
+        value: client.idclients,
+      })),
+      handleChangeValue: (
+        e: React.BaseSyntheticEvent,
+        item: { label: string; value: number },
+      ) => {
+        if (typeof item === 'object' && item && item.label && item.value) {
+          setClientSelected({
+            label: item.label,
+            idclients: item.value,
+          });
+        }
+      },
+      disabled: false,
+    },
+    {
+      label: 'Pendentes',
+      value: pending,
+      placeholder: 'Pendentes',
+      type: TypeMultiFilter.check,
+      handleChangeValue: () => setPending(!pending),
+      disabled: false,
+    },
+  ];
 
-  const [alert, setAlert] = useState<JSX.Element | null>(null);
-  const [loader, setLoader] = useState<boolean>(false);
-
-  const getAllClients = async () => {
-    setLoader(true);
-    const { data } = await clientService.fetchAllClients();
-    setLoader(false);
-
-    if (data) {
-      dispatch(clearClient());
-      setClients(data);
-      dispatch(clientAdded(data));
-    }
+  const clearFilters = () => {
+    setDate('');
+    setClientSelected({ label: '', idclients: null });
+    setPeriod({ date1: '', date2: '' });
+    setPending(false);
   };
-
-  useEffect(() => {
-    if (!clientsCache.length) {
-      getAllClients();
-    } else {
-      setClients(clientsCache);
-    }
-  }, []);
-
-  const fetchSalesByDate = async () => {
-    setLoader(true);
-    const {
-      success,
-      data,
-      error,
-      notFound,
-      badRequest,
-    } = await salesService.findByDate(date);
-    setLoader(false);
-
-    if (success) {
-      setSales(data);
-      setAlert(<AlertSuccess title="Pesquisa atualizada" />);
-    }
-    if (notFound) {
-      setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
-    }
-    if (error) {
-      setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />,
-      );
-    }
-    if (badRequest) {
-      setAlert(<AlertInfo title="pPreencha os campos corretamente." />);
-    }
-  };
-
-  const fetchSalesByPeriod = async () => {
-    setLoader(true);
-    const {
-      success,
-      data,
-      error,
-      notFound,
-      badRequest,
-    } = await salesService.findByPeriod(period.date1, period.date2);
-    setLoader(false);
-
-    if (success) {
-      setSales(data);
-      setAlert(<AlertSuccess title="Pesquisa atualizada" />);
-    }
-    if (notFound) {
-      setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
-    }
-    if (error) {
-      setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />,
-      );
-    }
-    if (badRequest) {
-      setAlert(<AlertInfo title="Preencha os campos corretamente." />);
-    }
-  };
-
-  const fetchSalesByClient = async () => {
-    setLoader(true);
-    const {
-      success,
-      data,
-      error,
-      notFound,
-      badRequest,
-    } = await salesService.findByClient(clientSelected.idclients as number);
-    setLoader(false);
-
-    if (success) {
-      setSales(data);
-      setAlert(<AlertSuccess title="Pesquisa atualizada" />);
-    }
-    if (notFound) {
-      setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
-    }
-    if (error) {
-      setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />,
-      );
-    }
-    if (badRequest) {
-      setAlert(<AlertInfo title="Preencha os campos corretamente." />);
-    }
-  };
-
-  const fetchPenging = async () => {
-    setLoader(true);
-    const { success, data, error, notFound } = await salesService.findPending();
-    setLoader(false);
-
-    if (success) {
-      setSales(data);
-      setAlert(<AlertSuccess title="Pesquisa atualizada" />);
-    }
-    if (notFound) {
-      setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
-    }
-    if (error) {
-      setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />,
-      );
-    }
-  };
-
-  const fetchByAllFilters = async () => {
-    setLoader(true);
-    const {
-      success,
-      data,
-      error,
-      notFound,
-      badRequest,
-      message,
-    } = await salesService.fetchByAllFilter({
-      idclients: clientSelected.idclients as number,
-      date,
-      period,
-      pending,
-    });
-    setLoader(false);
-
-    if (success) {
-      setSales(data);
-      setAlert(<AlertSuccess title="Pesquisa atualizada" />);
-    }
-    if (notFound) {
-      setAlert(<AlertInfo title="Nenhuma venda encontrada." />);
-    }
-    if (badRequest) {
-      setAlert(<AlertInfo title={message as string} />);
-    }
-    if (error) {
-      setAlert(
-        <AlertError title="Não foi possível processar sua requisição." />,
-      );
-    }
-  };
-
-  const handleSubmitFilters = async () => {
-    await fetchByAllFilters();
-    return true;
-  };
-
-  if (alert) {
-    setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
-  }
 
   return (
     <ContainerMain>
@@ -226,78 +116,16 @@ export function Sales(props: {
       <TitlePrincipal title="Suas vendas" />
 
       <TableMultiFilter
-        filters={[
-          {
-            label: 'Data',
-            value: date,
-            placeholder: '',
-            type: TypeMultiFilter.date,
-            handleChangeValue: setDate,
-            disabled: period.date1 || period.date2 ? true : false,
-          },
-          {
-            label: 'Periodo',
-            value: '',
-            placeholder: '',
-            type: TypeMultiFilter.period,
-            handleChangeValue: () => null,
-            period: {
-              date1: {
-                value: period.date1,
-                handleChangeValue: (e: React.BaseSyntheticEvent) =>
-                  setPeriod({ date1: e.target.value, date2: period.date2 }),
-              },
-              date2: {
-                value: period.date2,
-                handleChangeValue: (e: React.BaseSyntheticEvent) =>
-                  setPeriod({ date1: period.date1, date2: e.target.value }),
-              },
-            },
-            disabled: date ? true : false,
-          },
-          {
-            label: 'Clientes',
-            value: clientSelected.label,
-            placeholder: 'Selecione o cliente',
-            type: TypeMultiFilter.select,
-            options: clients.map(client => ({
-              label: client.name,
-              value: client.idclients,
-            })),
-            handleChangeValue: (
-              e: React.BaseSyntheticEvent,
-              item: { label: string; value: number },
-            ) => {
-              if (
-                typeof item === 'object' &&
-                item &&
-                item.label &&
-                item.value
-              ) {
-                setClientSelected({
-                  label: item.label,
-                  idclients: item.value,
-                });
-              }
-            },
-            disabled: false,
-          },
-          {
-            label: 'Pendentes',
-            value: pending,
-            placeholder: 'Pendentes',
-            type: TypeMultiFilter.check,
-            handleChangeValue: () => setPending(!pending),
-            disabled: false,
-          },
-        ]}
-        clearFilters={(e: React.BaseSyntheticEvent) => {
-          setDate('');
-          setClientSelected({ label: '', idclients: null });
-          setPeriod({ date1: '', date2: '' });
-          setPending(false);
-        }}
-        handleSubmit={handleSubmitFilters}
+        filters={filters}
+        clearFilters={clearFilters}
+        handleSubmit={() =>
+          fetchByAllFilters({
+            idclients: clientSelected.idclients as number,
+            date,
+            period,
+            pending,
+          })
+        }
       />
 
       {alert}
@@ -330,9 +158,7 @@ export function Sales(props: {
               )
             : null}
         </div>
-      ) : (
-        <h6 className="mt-4 ml-2 font-weight-bold">Faça uma busca</h6>
-      )}
+      ) : null}
     </ContainerMain>
   );
 }

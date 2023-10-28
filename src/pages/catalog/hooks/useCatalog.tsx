@@ -1,13 +1,10 @@
-import { useState } from 'react';
 import { listDeleteHookTemplate } from '../../../hooks/listDeleteHook';
 import {
-  CatalogService,
   deleteCatalogs,
   fetchAllCatalogs,
   fetchOneCatalogs,
 } from '../../../service/api/catalog/catalog-service';
 import { CatalogInterface } from '../../../service/api/catalog/types';
-import { LocalStorageService } from '../../../service/localStorage/local-storage';
 
 const initialFormData: CatalogInterface[] = [
   {
@@ -46,10 +43,6 @@ export const useHookListDelete = listDeleteHookTemplate<CatalogInterface>(
 
 export const useCatalog = () => {
   const hookData = useHookListDelete();
-
-  // const { setLoading, setAlert } = hookData;
-
-  // const [catalog, setCatalog] = useState<CatalogInterface[]>([]);
 
   return {
     ...hookData,
