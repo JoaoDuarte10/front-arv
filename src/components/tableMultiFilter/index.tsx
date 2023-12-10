@@ -150,7 +150,7 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
             <Checkbox
               onChange={filter.handleChangeValue}
               color="primary"
-              checked={filter.value as boolean}
+              checked={filter.value ? true : false}
             />
           }
           label=""
@@ -193,7 +193,7 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
 
       {filterIsOpen && (
         <S.ContainerFilter>
-          {filteredFilters.map((filter, index) => {
+          {filteredFilters.map(filter => {
             return (
               <S.ContainerRowsFilter
                 key={randomId()}

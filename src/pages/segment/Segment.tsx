@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Breadcumb } from '../../components/Breadcumb';
 import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
 import { SegmentService } from '../../service/api/segment/segment';
@@ -89,8 +89,6 @@ export function Segment(props: InputProps) {
         actionUpdate={updateSegmentRequest}
         setNewSegment={setEditSegmentName}
       />
-
-      {/* <CustomizedSnackbars /> */}
 
       {segments.length && (
         <TableContainer component={Paper}>

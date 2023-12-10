@@ -85,11 +85,14 @@ export function Schedules(props: {
         e: React.BaseSyntheticEvent,
         item: { label: string; value: number },
       ) => {
-        if (typeof item === 'object') {
+        if (item && typeof item === 'object') {
           setClientSelected({
             label: item.label,
             idclients: item.value,
           });
+        }
+        if (!item) {
+          setClientSelected({ label: '', idclients: null });
         }
       },
       disabled: date ? true : false,
@@ -124,7 +127,7 @@ export function Schedules(props: {
       {schedules.length
         ? schedules.map((schedule: ScheduleInterface) => {
             return (
-              <div className="schedule_card" key={randomId()}>
+              <div className="schedule_card" key={randomId() + randomId()}>
                 {schedule.expired ? (
                   <small className="h6 text-danger font-weight-bold pulse">
                     Horário expirado
@@ -142,6 +145,7 @@ export function Schedules(props: {
                       onClick={(e: React.SyntheticEvent) => {
                         whatsAppService.redirectToWhatsappWithMessage({
                           event: e,
+                          id: schedule.idschedules as number,
                           client:
                             schedule.clientName || (schedule.name as string),
                           phone: schedule.phone as string,
@@ -150,6 +154,13 @@ export function Schedules(props: {
                           totalAtendenceCount: schedule.totalAtendenceCount,
                           atendenceCount: schedule.atendenceCount as number,
                           description: schedule.description,
+                          services:
+                            schedule.scheduleServices &&
+                            schedule.scheduleServices.length
+                              ? schedule.scheduleServices.map(
+                                  scheduleService => scheduleService.name,
+                                )
+                              : [],
                         });
                       }}
                     />
@@ -185,12 +196,19 @@ export function Schedules(props: {
                   </BasicDeleteModal>
                 </div>
 
+                <LabelForm
+                  text="Código do agendamento"
+                  className="pb-2 border-bottom"
+                >
+                  <LabelSmall text={schedule.idschedules || ''} />
+                </LabelForm>
+
                 <LabelForm text="Cliente" className="pb-2 border-bottom">
                   <LabelSmall
                     text={schedule.name || (schedule.clientName as string)}
                   />
                 </LabelForm>
-                <LabelForm text="Descrição" className="pb-2 border-bottom">
+                <LabelForm text="Observação" className="pb-2 border-bottom">
                   <LabelSmall text={schedule.description} />
                 </LabelForm>
 
@@ -198,13 +216,11 @@ export function Schedules(props: {
                 schedule.scheduleServices.length > 0 ? (
                   <Grid item xs={12} md={6}>
                     <LabelForm text="Serviços" className="pb-2 border-bottom">
-                      {schedule.scheduleServices.map(scheduleService => {
-                        return (
-                          <>
-                            <LabelSmall text={scheduleService.name} />;{' '}
-                          </>
-                        );
-                      })}
+                      <LabelSmall
+                        text={schedule.scheduleServices
+                          .map(scheduleService => scheduleService.name.trim())
+                          .join(', ')}
+                      />
                     </LabelForm>
                   </Grid>
                 ) : null}
@@ -246,7 +262,7 @@ export function Schedules(props: {
                   </DivInline>
                 ) : null}
 
-                <LabelForm text="Criado em" className="border-bottom pb-2 mb-2">
+                <LabelForm text="Criação" className="border-bottom pb-2 mb-2">
                   <LabelSmall
                     text={format(
                       new Date(

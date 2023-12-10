@@ -193,21 +193,11 @@ export function FormSchedule(props: InputProps) {
           className="pt-2"
           onChange={(_e: React.BaseSyntheticEvent, item: Option[]) => {
             setIdCatalogs(item);
-            // if (typeof item === "string") {
-            //   setClientName(item);
-            //   setClientSelected({ label: item, idclients: null });
-            // } else {
-            //   setClientSelected({
-            //     label: item.label,
-            //     idclients: item.idclients
-            //   });
-            //   setClientName(null);
-            // }
           }}
         />
 
         <TextFieldMultiline
-          label="Descrição*"
+          label="Observação"
           value={description}
           fnChange={(e: React.BaseSyntheticEvent) => {
             setDescription(e.target.value);

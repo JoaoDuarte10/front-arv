@@ -92,13 +92,19 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
                   <h6 className="text-danger font-weight-bold mb-3">Pacote</h6>
                 ) : null}
                 <h6 className="text-primary font-weight-bold pb-2 border-bottom">
+                  Código do agendamento:{' '}
+                  <small className="text-muted h6">
+                    {schedule.idschedules}
+                  </small>
+                </h6>
+                <h6 className="text-primary font-weight-bold pb-2 border-bottom">
                   Cliente:{' '}
                   <small className="text-muted h6">
                     {schedule.name || schedule.clientName}
                   </small>
                 </h6>
                 <h6 className="text-primary font-weight-bold pb-2 border-bottom">
-                  Descrição:{' '}
+                  Observação:{' '}
                   <small className="text-muted h6">
                     {schedule.description}
                   </small>
