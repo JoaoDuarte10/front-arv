@@ -24,7 +24,7 @@ export class WhatsAppService {
       params.time
     } horas? \n${isPacote}\nProcedimentos: ${params.services.map(service => service.trim()).join(
       ', ',
-    )}.\n\nCódigo do agendamento: ${params.id} \n\nAguardo seu retorno!`;
+    ) || params.description.trim()}.\n\nCódigo do agendamento: ${params.id} \n\nAguardo seu retorno!`;
 
     const URL = `https://api.whatsapp.com/send?phone=55${params.phone}&text=`;
     const redirect = window.encodeURIComponent(text);

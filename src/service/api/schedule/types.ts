@@ -7,6 +7,8 @@ export type ScheduleInterface = {
   description: string;
   expired?: boolean;
   time: string;
+  initialTime?: string;
+  endTime?: string;
   date: string;
   pacote: boolean;
   atendenceCount?: number;
@@ -16,6 +18,8 @@ export type ScheduleInterface = {
     name: string;
     idScheduleServices: number;
     idCatalog: number;
+    price: number;
+    duration: string;
   }[];
   idCatalogs?: number[];
   createdAt?: string;

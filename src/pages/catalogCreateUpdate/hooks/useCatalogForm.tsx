@@ -15,6 +15,7 @@ const initialFormData: CatalogInterface & CatalogFormData = {
   description: '',
   price: null,
   idCatalog: 0,
+  duration: '',
   createdAt: '',
   updatedAt: '',
 };

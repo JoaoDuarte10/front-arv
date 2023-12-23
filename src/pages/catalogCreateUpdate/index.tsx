@@ -5,9 +5,6 @@ import { GenericButton } from '../../components/buttons/GenericButton';
 import { ContainerCardWhite } from '../../components/containers/ContainerCardWhite';
 import { ContainerMain } from '../../components/containers/ContainerMain';
 import { DivInline } from '../../components/containers/DivInline';
-import ComboBoxList from '../../components/inputs/InputAutocompleteList';
-import InputMaskNumber from '../../components/inputs/InputMaskNumber';
-import InputMaskPhone from '../../components/inputs/InputMaskPhone';
 import FullWidthTextField from '../../components/inputs/TextFieldFullWidth';
 import TextFieldMultiline from '../../components/inputs/TextFieldMultiline';
 import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
@@ -15,6 +12,7 @@ import { ColorsBootstrap } from '../../components/modal/GenericModal';
 import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
 import { useCatalogForm } from './hooks/useCatalogForm';
 import { mask } from '../../utils/mask-money';
+import { TimeInput } from '../../components/time';
 
 export function CatalogsCreateUpdate() {
   const {
@@ -24,9 +22,7 @@ export function CatalogsCreateUpdate() {
     isEditing,
     handleClearFormData,
     loading,
-    setLoading,
     alert,
-    setAlert,
   } = useCatalogForm();
 
   const titlePage = isEditing ? 'Editar Serviço' : 'Novo Serviço';
@@ -65,43 +61,28 @@ export function CatalogsCreateUpdate() {
           disabled={loading}
           rows={3}
         />
-        <FullWidthTextField
-          label="Preço*"
-          value={formData.price || ''}
-          customChange={(e: React.BaseSyntheticEvent) => {
-            let val = e.target.value;
-            const { maskedValue } = mask(val, 2, ',', '.', false, 'R$');
-            handleChangeValue('price')(maskedValue);
-          }}
-          disabled={loading}
-        />
-        {/* <div className="row">
-          <div className="col-8">
+        <DivInline>
+          <div className="col">
             <FullWidthTextField
-              label="Endereço"
-              value={formData.address}
-              fnChange={handleChangeValue("address")}
+              label="Preço*"
+              value={formData.price || ''}
+              customChange={(e: React.BaseSyntheticEvent) => {
+                let val = e.target.value;
+                const { maskedValue } = mask(val, 2, ',', '.', false, 'R$');
+                handleChangeValue('price')(maskedValue);
+              }}
               disabled={loading}
             />
           </div>
-          <div className="col-4">
-            <InputMaskNumber
-              label="Número"
-              value={formData.addressNumber || ""}
-              fnChange={(e: React.BaseSyntheticEvent) =>
-                handleChangeValue("addressNumber")(e.target.value)
-              }
+          <div className="col">
+            <TimeInput
+              value={((formData.duration as unknown) as Date) || ''}
+              setValue={handleChangeValue('duration')}
+              label="Tempo de duração"
             />
           </div>
-        </div> */}
-        {/* <TextFieldMultiline
-          label="Observação"
-          value={formData.note}
-          fnChange={(e: React.BaseSyntheticEvent) =>
-            handleChangeValue("note")(e.target.value)
-          }
-          rows={4}
-        /> */}
+        </DivInline>
+
         <DivInline className="mt-2">
           <div className="col">
             <GenericButton

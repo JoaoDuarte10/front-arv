@@ -122,7 +122,12 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
                   </h6>
                   <h6 className="text-primary font-weight-bold col-sm-6 border-bottom mb-2 pb-2">
                     Horário:{' '}
-                    <small className="text-muted h6">{schedule.time}h</small>
+                    <small className="text-muted h6">
+                      {schedule.initialTime}h
+                      {schedule.initialTime !== schedule.endTime
+                        ? `à ${schedule.endTime}h`
+                        : ''}
+                    </small>
                   </h6>
                 </DivInline>
 

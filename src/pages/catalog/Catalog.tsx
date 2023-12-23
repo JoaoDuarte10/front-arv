@@ -40,6 +40,11 @@ export function Catalog() {
 
       {resources.length
         ? resources.map(catalog => {
+            const durationHour =
+              catalog.duration && catalog.duration.split(':')[0];
+            const durationMinutes =
+              catalog.duration && catalog.duration.split(':')[1];
+
             return (
               <div
                 className="container_catalog"
@@ -120,6 +125,18 @@ export function Catalog() {
                       className="col-sm-12 pb-2 border-bottom"
                     >
                       <LabelSmall text={catalog.description} />
+                    </LabelForm>
+                    <LabelForm
+                      text="Tempo de Duração"
+                      className="col-sm-12 pb-2 border-bottom"
+                    >
+                      <LabelSmall
+                        text={
+                          catalog.duration
+                            ? `${durationHour}h ${durationMinutes}m`
+                            : ''
+                        }
+                      />
                     </LabelForm>
                     <LabelForm
                       text="Criado em"

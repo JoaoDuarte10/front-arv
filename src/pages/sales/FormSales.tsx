@@ -67,9 +67,21 @@ export function FormSales(props: InputProps) {
   useEffect(() => {
     fetchPaymentMethodsEnums();
     if (schedule) {
-      setDescription(schedule.description);
+      setDescription(
+        schedule.scheduleServices && schedule.scheduleServices.length
+          ? schedule.scheduleServices
+              .map(service => service.name.trim())
+              .join(', ')
+          : schedule.description,
+      );
       setDate(schedule.date);
-      setPrice('');
+      setPrice(
+        schedule.scheduleServices && schedule.scheduleServices.length
+          ? schedule.scheduleServices
+              .reduce((acc, curr) => acc + curr.price, 0)
+              .toLocaleString()
+          : '',
+      );
       setPaymentDate('');
       setClientSelected({
         label: schedule.name || (schedule.clientName as string),

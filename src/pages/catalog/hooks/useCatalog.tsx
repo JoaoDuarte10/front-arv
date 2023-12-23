@@ -13,6 +13,7 @@ const initialFormData: CatalogInterface[] = [
     name: '',
     description: '',
     price: 0,
+    duration: '',
     createdAt: '',
     updatedAt: '',
   },
