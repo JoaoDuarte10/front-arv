@@ -4,7 +4,7 @@ export type CatalogInterface = {
   name: string;
   description: string;
   price: number | null;
-  duration: string;
+  duration: string | Date | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -15,5 +15,5 @@ export type CatalogFormData = {
   name: string;
   description: string;
   price: number | null;
-  duration: string;
+  duration: string | Date | null;
 };

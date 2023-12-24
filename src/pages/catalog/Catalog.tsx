@@ -41,9 +41,13 @@ export function Catalog() {
       {resources.length
         ? resources.map(catalog => {
             const durationHour =
-              catalog.duration && catalog.duration.split(':')[0];
+              catalog.duration &&
+              typeof catalog.duration === 'string' &&
+              catalog.duration.split(':')[0];
             const durationMinutes =
-              catalog.duration && catalog.duration.split(':')[1];
+              catalog.duration &&
+              typeof catalog.duration === 'string' &&
+              catalog.duration.split(':')[1];
 
             return (
               <div

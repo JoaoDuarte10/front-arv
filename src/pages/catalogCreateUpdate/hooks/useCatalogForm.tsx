@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { createUpdateHookTemplate } from '../../../hooks/createUpdateHook';
 import {
   createCatalogs,
@@ -15,7 +16,7 @@ const initialFormData: CatalogInterface & CatalogFormData = {
   description: '',
   price: null,
   idCatalog: 0,
-  duration: '',
+  duration: null,
   createdAt: '',
   updatedAt: '',
 };
@@ -50,6 +51,23 @@ export const useHookCreateUpdate = createUpdateHookTemplate<
 
 export const useCatalogForm = () => {
   const hookData = useHookCreateUpdate();
+
+  const { formData } = hookData;
+
+  useEffect(() => {
+    if (
+      hookData.isEditing &&
+      formData.duration &&
+      typeof formData.duration === 'string'
+    ) {
+      const duration = formData.duration.split(':');
+      const timeSelected = new Date();
+      timeSelected.setHours(Number(duration[0]));
+      timeSelected.setMinutes(Number(duration[1]));
+
+      hookData.handleChangeValue('duration')(timeSelected);
+    }
+  }, [hookData.isEditing, formData.duration]);
 
   return {
     ...hookData,
