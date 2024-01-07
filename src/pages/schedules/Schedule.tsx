@@ -242,7 +242,7 @@ export function Schedules(props: {
                     className="col-sm-6 pb-2 border-bottom"
                   >
                     <LabelSmall
-                      text={`${schedule.initialTime}h ${
+                      text={`${schedule.initialTime || schedule.time}h ${
                         schedule.initialTime !== schedule.endTime
                           ? `à ${schedule.endTime}h`
                           : ''
