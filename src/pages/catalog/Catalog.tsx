@@ -29,9 +29,14 @@ export function Catalog() {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
   }
 
+  const breadCumbLinks = [
+    { link: false, name: 'Serviços' },
+    { link: '/catalogs/create', name: 'Novo Serviço' },
+  ];
+
   return (
     <ContainerMain>
-      <Breadcumb page={[{ link: false, name: 'Serviços' }]} />
+      <Breadcumb page={breadCumbLinks} />
       <TitlePrincipal title="Serviços" />
 
       {alert}

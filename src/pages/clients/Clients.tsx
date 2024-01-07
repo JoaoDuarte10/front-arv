@@ -38,9 +38,14 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
     setTimeout(() => setAlert(null), TIMEOUT.THREE_SECCONDS);
   }
 
+  const breadCumbLinks = [
+    { link: false, name: 'Clientes' },
+    { link: '/client/create', name: 'Novo Cliente' },
+  ];
+
   return (
     <ContainerMain>
-      <Breadcumb page={[{ link: false, name: 'Clientes' }]} />
+      <Breadcumb page={breadCumbLinks} />
       <TitlePrincipal title="Clientes" />
 
       {alert}
