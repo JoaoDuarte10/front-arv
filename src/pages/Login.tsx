@@ -149,7 +149,7 @@ export function Login(props: { loginService: LoginService }) {
         </form>
       </div>
       <p className="mt-5 mb-5 text-center text-white">
-        ARV Controll &copy; 2023
+        ARV Controll &copy; {new Date().getFullYear()}
       </p>
     </div>
   );

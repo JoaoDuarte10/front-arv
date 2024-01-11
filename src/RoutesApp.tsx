@@ -29,6 +29,7 @@ import { CreateOutgoing } from './pages/outgoing/CreateOutgoing';
 import { ClientCreateUpdate } from './pages/clientCreateUpdate/index';
 import { Catalog } from './pages/catalog/Catalog';
 import { CatalogsCreateUpdate } from './pages/catalogCreateUpdate';
+import { Rules } from './pages/rules/Rules';
 
 export const API_RV_BASE_URI = process.env.REACT_APP_BASE_URL as string;
 export const LOCAL_STORAGE_LOGIN_KEY = process.env
@@ -242,6 +243,15 @@ export function RoutesApp() {
               <PrivateRoute rules={[ruleService.ruleWithPage('catalogs')]}>
                 {navBar}
                 <CatalogsCreateUpdate />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/rules"
+            element={
+              <PrivateRoute rules={[ruleService.ruleWithPage('management')]}>
+                {navBar}
+                <Rules />
               </PrivateRoute>
             }
           />

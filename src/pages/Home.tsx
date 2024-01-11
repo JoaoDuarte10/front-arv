@@ -30,7 +30,7 @@ export function Home() {
         produtividade.
       </p>
       <p className="mt-5 mb-3 text-muted text-center">
-        ARV - Controll &copy; 2022
+        ARV - Controll &copy; {new Date().getFullYear()}
       </p>
     </ContainerMain>
   );

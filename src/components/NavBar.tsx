@@ -22,6 +22,7 @@ export function NavBarResponsive(props: {
   const [openResponsive, setOpenResponsive] = useState<boolean>(false);
   const [openOutgoing, setOpenOutgoing] = useState<boolean>(false);
   const [openCatalog, setOpenCatalog] = useState<boolean>(false);
+  const [openManagement, setOpenManagement] = useState<boolean>(false);
 
   const closeItens = () => {
     setOpenSales(false);
@@ -29,6 +30,7 @@ export function NavBarResponsive(props: {
     setOpenSchedules(false);
     setOpenOutgoing(false);
     setOpenCatalog(false);
+    setOpenManagement(false);
     closeNavResponsive();
   };
 
@@ -336,6 +338,48 @@ export function NavBarResponsive(props: {
                     style={{ outline: 'none' }}
                   >
                     Seus Serviços
+                  </button>
+                </li>
+              </ul>
+            </Collapse>
+          </li>
+        )}
+        {rules.includes(ruleService.ruleWithPage('management')) && (
+          <li className="nav-item remove-style-link" key={randomId()}>
+            <button
+              className="btn-list-item"
+              style={{ outline: 'none' }}
+              onClick={e => setOpenManagement(!openManagement)}
+            >
+              Gerenciamento
+              {openManagement ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+            </button>
+            <Collapse in={openManagement} timeout="auto" unmountOnExit>
+              <ul
+                style={{ listStyle: 'none', listStyleType: 'none', padding: 0 }}
+              >
+                <li className="sub-item" key="69482">
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate('/catalogs/create');
+                    }}
+                    style={{ outline: 'none' }}
+                  >
+                    Tipos de usuários
+                  </button>
+                </li>
+                <li className="sub-item" key="34454">
+                  <button
+                    className="btn-list-sub-item"
+                    onClick={e => {
+                      closeItens();
+                      navigate('/rules');
+                    }}
+                    style={{ outline: 'none' }}
+                  >
+                    Permissões
                   </button>
                 </li>
               </ul>
