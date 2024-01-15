@@ -46,14 +46,22 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
 
         setLoading(true);
 
-        const { success, data } = await params.services.getDetails(Number(id));
+        const {
+          success,
+          data,
+          unauthorized,
+        } = await params.services.getDetails(Number(id));
+
+        setLoading(false);
 
         if (success) {
           setBaseFormData(data);
           setFormData(data);
         }
 
-        setLoading(false);
+        if (unauthorized) {
+          navigate('/login', { replace: true });
+        }
       };
 
       fetchDetails();
@@ -76,7 +84,10 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
         badRequest,
         conflict,
         message,
+        unauthorized,
       } = await params.services.create(customFormData);
+
+      setLoading(false);
 
       if (success) {
         setFormData(params.initialFormData);
@@ -93,7 +104,9 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
         );
       }
 
-      setLoading(false);
+      if (unauthorized) {
+        navigate('/login', { replace: true });
+      }
     };
 
     const handleUpdate = async (customFormData = formData) => {
@@ -105,7 +118,10 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
         badRequest,
         conflict,
         message,
+        unauthorized,
       } = await params.services.edit(customFormData);
+
+      setLoading(false);
 
       if (success) {
         setFormData(params.initialFormData);
@@ -122,7 +138,9 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
         );
       }
 
-      setLoading(false);
+      if (unauthorized) {
+        navigate('/login', { replace: true });
+      }
     };
 
     const handleClearFormData = () => {

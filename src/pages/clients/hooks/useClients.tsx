@@ -14,6 +14,7 @@ import {
 import { AlertInfo } from '../../../components/alerts/AlertInfo';
 import { AlertError } from '../../../components/alerts/AlertError';
 import { AlertSuccess } from '../../../components/alerts/AlertSuccess';
+import { useNavigate } from 'react-router-dom';
 
 const initialFormData: ClientsInterface[] = [
   {
@@ -63,6 +64,7 @@ export const useHookListDelete = listDeleteHookTemplate<ClientsInterface>(
 
 export const useClient = () => {
   const hookData = useHookListDelete();
+  let navigate = useNavigate();
 
   const { setLoading, setAlert } = hookData;
 
@@ -70,7 +72,14 @@ export const useClient = () => {
 
   const fetchSalesByClient = async (id: number) => {
     setLoading(true);
-    const { success, data, error, notFound } = await findSalesByClient(id);
+    const {
+      success,
+      data,
+      error,
+      notFound,
+      unauthorized,
+    } = await findSalesByClient(id);
+    setLoading(false);
 
     if (success) {
       setSales(data);
@@ -84,7 +93,9 @@ export const useClient = () => {
         <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
-    setLoading(false);
+    if (unauthorized) {
+      navigate('/login', { replace: true });
+    }
   };
 
   const fetchSalesPending = async (id: number) => {

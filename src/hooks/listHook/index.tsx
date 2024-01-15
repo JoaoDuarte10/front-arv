@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ListHookProps } from "./types";
 import { AlertSuccess } from '../../components/alerts/AlertSuccess';
 import { AlertServerError } from '../../components/alerts/AlertServerError';
+import { useNavigate } from "react-router-dom";
 
 export const listHookTemplate = <LT = any>(params: ListHookProps<LT>) => {
   return () => {
@@ -10,10 +11,14 @@ export const listHookTemplate = <LT = any>(params: ListHookProps<LT>) => {
     const [loading, setLoading] = useState(true);
     const [alert, setAlert] = useState<JSX.Element | null>(null);
 
+    let navigate = useNavigate();
+
     const fetchResources = async () => {
       setLoading(true);
 
-      const { success, data, error, message } = await params.fetchAll();
+      const { success, data, error, message, unauthorized } = await params.fetchAll();
+
+      setLoading(false);
 
       if (success) {
         setResources(data);
@@ -24,7 +29,9 @@ export const listHookTemplate = <LT = any>(params: ListHookProps<LT>) => {
         setAlert(<AlertServerError title={message || params.texts.list.error}/>);
       }
 
-      setLoading(false);
+      if (unauthorized) {
+        navigate('/login', { replace: true });
+      }
     };
 
     useEffect(() => {

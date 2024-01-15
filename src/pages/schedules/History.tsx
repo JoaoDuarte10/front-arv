@@ -13,9 +13,11 @@ import { AlertSuccess } from '../../components/alerts/AlertSuccess';
 import { TIMEOUT } from '../../utils/constants';
 import { randomId } from '../../utils/random';
 import { ScheduleInterface } from '../../service/api/schedule/types';
+import { useNavigate } from 'react-router-dom';
 
 export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
   const { scheduleService } = props;
+  let navigate = useNavigate();
 
   const [schedules, setSchedules] = useState<ScheduleInterface[]>([]);
   const [loader, setLoader] = useState<boolean>(false);
@@ -27,6 +29,7 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
       success,
       data,
       notFound,
+      unauthorized,
     } = await scheduleService.fetchMostRecentFrom(date);
     setLoader(false);
 
@@ -36,6 +39,10 @@ export function ScheduleHistory(props: { scheduleService: ScheduleService }) {
     }
     if (notFound) {
       setAlert(<AlertInfo title="Nenhuma agenda encontrada." />);
+    }
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
     }
   };
 

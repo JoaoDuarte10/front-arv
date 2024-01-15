@@ -160,12 +160,16 @@ export function FormSchedule(props: InputProps) {
           />
         ) : (
           <ComboBoxList
-            options={clients.map(client => {
-              return {
-                label: client.name,
-                idclients: client.id,
-              };
-            })}
+            options={
+              (clients.length &&
+                clients.map(client => {
+                  return {
+                    label: client.name,
+                    idclients: client.id,
+                  };
+                })) ||
+              []
+            }
             label={'Selecione o cliente*'}
             value={clientSelected}
             onChange={(

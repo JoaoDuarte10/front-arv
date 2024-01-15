@@ -111,12 +111,16 @@ export function FormSales(props: InputProps) {
         <div className="mb-1 mt-2">
           {clients.length ? (
             <ComboBoxList
-              options={clients.map(client => {
-                return {
-                  label: client.name,
-                  idclients: client.id,
-                };
-              })}
+              options={
+                (clients.length &&
+                  clients.map(client => {
+                    return {
+                      label: client.name,
+                      idclients: client.id,
+                    };
+                  })) ||
+                []
+              }
               label={'Selecione o Cliente'}
               value={clientSelected.label}
               onChange={(

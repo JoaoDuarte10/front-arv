@@ -11,11 +11,13 @@ import { AlertInfo } from '../../../components/alerts/AlertInfo';
 import { AlertSuccess } from '../../../components/alerts/AlertSuccess';
 import { AlertError } from '../../../components/alerts/AlertError';
 import { TIMEOUT } from '../../../utils/constants';
+import { useNavigate } from 'react-router-dom';
 
 export const useSegment = () => {
   const segmentCache = useSelector((state: ReduceStore) => state.segment);
 
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
   const segmentService = new SegmentService(
     API_RV_BASE_URI,
@@ -41,8 +43,13 @@ export const useSegment = () => {
 
   const getSegments = async () => {
     setLoader(true);
-    const { data } = await segmentService.getAll();
+    const { data, unauthorized } = await segmentService.getAll();
     setLoader(false);
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
+      return;
+    }
 
     dispatch(segmentAdded(data));
     setSegments(data);
@@ -73,7 +80,12 @@ export const useSegment = () => {
     if (!formFieldsIsValids(segment)) return;
 
     setLoader(true);
-    const { success, conflict, error } = await segmentService.create(segment);
+    const {
+      success,
+      conflict,
+      error,
+      unauthorized,
+    } = await segmentService.create(segment);
     setLoader(false);
 
     if (success) {
@@ -90,6 +102,10 @@ export const useSegment = () => {
         <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
+    }
   };
 
   const updateSegmentRequest = async (
@@ -99,10 +115,12 @@ export const useSegment = () => {
     event.preventDefault();
 
     setLoader(true);
-    const { success, notFound, error } = await segmentService.update(
-      segment.idsegments,
-      segment.name,
-    );
+    const {
+      success,
+      notFound,
+      error,
+      unauthorized,
+    } = await segmentService.update(segment.idsegments, segment.name);
     setLoader(false);
 
     if (success) {
@@ -120,6 +138,10 @@ export const useSegment = () => {
         <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
+    }
   };
 
   const onDeleteSegment = async (event: React.BaseSyntheticEvent) => {
@@ -130,9 +152,13 @@ export const useSegment = () => {
     }
 
     setLoader(true);
-    const { success, notFound, error, conflict } = await segmentService.delete(
-      segmentWithDelete,
-    );
+    const {
+      success,
+      notFound,
+      error,
+      conflict,
+      unauthorized,
+    } = await segmentService.delete(segmentWithDelete);
     setLoader(false);
 
     if (success) {
@@ -154,6 +180,10 @@ export const useSegment = () => {
       setAlert(
         <AlertError title="Não é possível excluir esse segmento pois há clientes associados à ele." />,
       );
+    }
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
     }
 
     setOpenEditModal(false);

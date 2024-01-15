@@ -19,7 +19,7 @@ export class ClientService {
     let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
-        .get(`${this.baseUri}/api/client/all`, {
+        .get(`${this.baseUri}/api/client`, {
           headers: {
             Authorization: `Bearer ${this.localStorageService.getAccessToken()}`,
           },
@@ -94,7 +94,7 @@ export class ClientService {
     let response: HttpResponse = {} as HttpResponse;
     try {
       const { data, status } = await axios
-        .put(
+        .patch(
           `${this.baseUri}/api/client`,
           {
             idclients: params.idclients,

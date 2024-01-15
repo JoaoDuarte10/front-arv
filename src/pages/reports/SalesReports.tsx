@@ -18,9 +18,11 @@ import {
   TableMultiFilter,
   TypeMultiFilter,
 } from '../../components/tableMultiFilter/index';
+import { useNavigate } from 'react-router-dom';
 
 export function SalesReports(props: { salesService: SalesService }) {
   const { salesService } = props;
+  let navigate = useNavigate();
 
   const [report, setReport] = useState<SalesReportsInterface | null>(null);
 
@@ -50,10 +52,13 @@ export function SalesReports(props: { salesService: SalesService }) {
     );
 
     setLoader(true);
-    const { success, data, notFound, error } = await salesService.findReports(
-      startDayLastMonth,
-      endDayLastMonth,
-    );
+    const {
+      success,
+      data,
+      notFound,
+      error,
+      unauthorized,
+    } = await salesService.findReports(startDayLastMonth, endDayLastMonth);
     setLoader(false);
 
     if (success) {
@@ -74,6 +79,10 @@ export function SalesReports(props: { salesService: SalesService }) {
         <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
+    }
   };
 
   const fetchReportsWithLastMonth = async () => {
@@ -89,10 +98,13 @@ export function SalesReports(props: { salesService: SalesService }) {
     );
 
     setLoader(true);
-    const { success, data, notFound, error } = await salesService.findReports(
-      startDayLastMonth,
-      endDayLastMonth,
-    );
+    const {
+      success,
+      data,
+      notFound,
+      error,
+      unauthorized,
+    } = await salesService.findReports(startDayLastMonth, endDayLastMonth);
     setLoader(false);
 
     if (success) {
@@ -113,6 +125,10 @@ export function SalesReports(props: { salesService: SalesService }) {
         <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
+    }
   };
 
   const fetchReportCurrentWeek = async () => {
@@ -127,10 +143,13 @@ export function SalesReports(props: { salesService: SalesService }) {
     );
 
     setLoader(true);
-    const { success, data, notFound, error } = await salesService.findReports(
-      startDateWeek,
-      endDateWeek,
-    );
+    const {
+      success,
+      data,
+      notFound,
+      error,
+      unauthorized,
+    } = await salesService.findReports(startDateWeek, endDateWeek);
     setLoader(false);
 
     if (success) {
@@ -151,6 +170,10 @@ export function SalesReports(props: { salesService: SalesService }) {
         <AlertError title="Não foi possível processar sua requisição." />,
       );
     }
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
+    }
   };
 
   const fetchReportLastWeek = async () => {
@@ -165,10 +188,13 @@ export function SalesReports(props: { salesService: SalesService }) {
     );
 
     setLoader(true);
-    const { success, data, notFound, error } = await salesService.findReports(
-      startDateWeek,
-      endDateWeek,
-    );
+    const {
+      success,
+      data,
+      notFound,
+      error,
+      unauthorized,
+    } = await salesService.findReports(startDateWeek, endDateWeek);
     setLoader(false);
 
     if (success) {
@@ -188,6 +214,10 @@ export function SalesReports(props: { salesService: SalesService }) {
       setAlert(
         <AlertError title="Não foi possível processar sua requisição." />,
       );
+    }
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
     }
   };
 

@@ -18,9 +18,11 @@ import { AlertInfo } from '../../components/alerts/AlertInfo';
 import { AlertSuccess } from '../../components/alerts/AlertSuccess';
 import { AlertError } from '../../components/alerts/AlertError';
 import { DateInput } from '../../components/date/index';
+import { useNavigate } from 'react-router-dom';
 
 export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
   const { outgoingService } = props;
+  let navigate = useNavigate();
 
   const [paymentMethods, setPaymentMethods] = useState<
     OutgoingPaymentMethodEnums
@@ -48,8 +50,16 @@ export function CreateOutgoing(props: { outgoingService: OutgoingService }) {
 
   const fetchPaymentMethodsEnums = async () => {
     setLoader(true);
-    const { success, data } = await outgoingService.fetchPaymentMethodEnums();
+    const {
+      success,
+      data,
+      unauthorized,
+    } = await outgoingService.fetchPaymentMethodEnums();
     setLoader(false);
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
+    }
 
     if (success) {
       setPaymentMethods(data);

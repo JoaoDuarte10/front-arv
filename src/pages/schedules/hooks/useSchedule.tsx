@@ -13,9 +13,11 @@ import { AlertError } from '../../../components/alerts/AlertError';
 import { OutgoingPaymentMethodEnums } from '../../../service/api/outgoing/types';
 import { SalesService } from '../../../service/api/sales/sales';
 import { TIMEOUT } from '../../../utils/constants';
+import { useNavigate } from 'react-router-dom';
 
 export const useSchedule = () => {
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
   const clientsCache = useSelector((state: ReduceStore) => state.client);
 
@@ -56,6 +58,10 @@ export const useSchedule = () => {
       await getAllClients();
     } else {
       setAlert(<AlertInfo title="Por favor, recarregue a página." />);
+    }
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
     }
   };
 

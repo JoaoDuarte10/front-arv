@@ -3,6 +3,7 @@ import { Props } from "./types";
 import { listHookTemplate } from "../listHook";
 import { AlertSuccess } from '../../components/alerts/AlertSuccess';
 import { AlertServerError } from '../../components/alerts/AlertServerError';
+import { useNavigate } from "react-router-dom";
 
 export const listDeleteHookTemplate = <LT = any>(params: Props<LT>) => {
   const useListHook = listHookTemplate<LT>({
@@ -13,11 +14,14 @@ export const listDeleteHookTemplate = <LT = any>(params: Props<LT>) => {
   return () => {
     const hookData = useListHook();
     const { setLoading, setAlert } = hookData;
+    let navigate = useNavigate();
 
     const handleDeleteResource = async (id: number) => {
       setLoading(true);
 
-      const { success, error, message } = await params.services.delete(id);
+      const { success, error, message, unauthorized } = await params.services.delete(id);
+
+      setLoading(false);
 
       if (success) {
         hookData.fetchResources();
@@ -28,7 +32,9 @@ export const listDeleteHookTemplate = <LT = any>(params: Props<LT>) => {
         setAlert(<AlertServerError title={message || ''}/>)
       }
 
-      setLoading(false);
+      if (unauthorized) {
+        navigate('/login', { replace: true });
+      }
     };
 
     return {

@@ -15,9 +15,11 @@ import {
   TableMultiFilter,
   TypeMultiFilter,
 } from '../../components/tableMultiFilter/index';
+import { useNavigate } from 'react-router-dom';
 
 export function Outgoing(props: { outgoingService: OutgoingService }) {
   const { outgoingService } = props;
+  let navigate = useNavigate();
 
   const [outgoing, setOutgoing] = useState<OutgoingInterface[]>([]);
 
@@ -28,13 +30,6 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
   });
 
   const [allOutgoingFilter, setAllOutgoingFilter] = useState<boolean>(false);
-
-  const [searchFilterDateEnable, setSearchFilterDateEnable] = useState<boolean>(
-    false,
-  );
-  const [searchFilterPeriodEnable, setSearchFilterPeriodEnable] = useState<
-    boolean
-  >(false);
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
   const [loader, setLoader] = useState<boolean>(false);
@@ -47,6 +42,7 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       notFound,
       error,
       badRequest,
+      unauthorized,
     } = await outgoingService.fetchAll();
     setLoader(false);
 
@@ -66,6 +62,10 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
     if (error) {
       setAlert(<AlertError title="Erro ao processar sua requisição." />);
     }
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
+    }
   };
 
   const fetchByDate = async () => {
@@ -76,6 +76,7 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       notFound,
       error,
       badRequest,
+      unauthorized,
     } = await outgoingService.fetchByDate(date as any);
     setLoader(false);
 
@@ -95,6 +96,10 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
     if (error) {
       setAlert(<AlertError title="Erro ao processar sua requisição." />);
     }
+
+    if (unauthorized) {
+      navigate('/login', { replace: true });
+    }
   };
 
   const fetchByPeriod = async () => {
@@ -105,6 +110,7 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
       notFound,
       error,
       badRequest,
+      unauthorized,
     } = await outgoingService.fetchByPeriod(
       period.date1 as any,
       period.date2 as any,
@@ -127,11 +133,10 @@ export function Outgoing(props: { outgoingService: OutgoingService }) {
     if (error) {
       setAlert(<AlertError title="Erro ao processar sua requisição." />);
     }
-  };
 
-  const closeActionButtons = () => {
-    setSearchFilterPeriodEnable(false);
-    setSearchFilterDateEnable(false);
+    if (unauthorized) {
+      navigate('/login', { replace: true });
+    }
   };
 
   const handleSubmitFilters = async () => {
