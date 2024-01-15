@@ -21,6 +21,8 @@ import InputMaskPhone from '../../components/inputs/InputMaskPhone';
 import FullWidthTextField from '../../components/inputs/TextFieldFullWidth';
 import TextFieldMultiline from '../../components/inputs/TextFieldMultiline';
 import { ColorsBootstrap } from '../../components/modal/GenericModal';
+import { Typography } from '@mui/material';
+import InputMaskCep from '../../components/inputs/InputMaskCep';
 
 export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
   const {
@@ -33,6 +35,7 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
     setLoading,
     alert,
     setAlert,
+    handleChangeAddress,
   } = useClientForm();
 
   const { segmentService } = props;
@@ -98,31 +101,13 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
           disabled={loading}
         />
         <InputMaskPhone
-          label="Celular*"
+          label="Celular"
           value={formData.phone}
           fnChange={(e: React.BaseSyntheticEvent) =>
             handleChangeValue('phone')(e.target.value)
           }
         />
-        <div className="row">
-          <div className="col-8">
-            <FullWidthTextField
-              label="Endereço"
-              value={formData.address}
-              fnChange={handleChangeValue('address')}
-              disabled={loading}
-            />
-          </div>
-          <div className="col-4">
-            <InputMaskNumber
-              label="Número"
-              value={formData.addressNumber || ''}
-              fnChange={(e: React.BaseSyntheticEvent) =>
-                handleChangeValue('addressNumber')(e.target.value)
-              }
-            />
-          </div>
-        </div>
+
         {segments.length ? (
           <ComboBoxList
             label="Selecionar segmento"
@@ -142,8 +127,78 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
               margin: '5px 0',
             }}
             value={formData.segment}
+            disabled={loading}
           />
         ) : null}
+
+        <Typography variant="h6" className="mt-2 mb-2">
+          Endereço
+        </Typography>
+
+        <DivInline className="mb-1">
+          <div className="col-4">
+            <InputMaskCep
+              label="CEP"
+              value={(formData.address && formData.address.cep) || ''}
+              fnChange={(e: React.BaseSyntheticEvent) =>
+                handleChangeAddress('cep')(e.target.value)
+              }
+              disabled={loading}
+            />
+          </div>
+          <div className="col-8">
+            <FullWidthTextField
+              label="Cidade"
+              value={(formData.address && formData.address.city) || ''}
+              fnChange={handleChangeAddress('city')}
+              disabled={loading}
+            />
+          </div>
+        </DivInline>
+        <DivInline className="mb-1">
+          <div className="col-8">
+            <FullWidthTextField
+              label="Endereço"
+              value={(formData.address && formData.address.address) || ''}
+              fnChange={handleChangeAddress('address')}
+              disabled={loading}
+            />
+          </div>
+          <div className="col-4">
+            <InputMaskNumber
+              label="Número"
+              value={(formData.address && formData.address.number) || ''}
+              fnChange={(e: React.BaseSyntheticEvent) =>
+                handleChangeAddress('number')(e.target.value)
+              }
+            />
+          </div>
+        </DivInline>
+        <DivInline className="mb-1">
+          <div className="col-6">
+            <FullWidthTextField
+              label="Estado"
+              value={(formData.address && formData.address.uf) || ''}
+              fnChange={handleChangeAddress('uf')}
+              disabled={loading}
+            />
+          </div>
+          <div className="col-6">
+            <FullWidthTextField
+              label="Bairro"
+              value={(formData.address && formData.address.neighborhood) || ''}
+              fnChange={handleChangeAddress('neighborhood')}
+              disabled={loading}
+            />
+          </div>
+        </DivInline>
+        <FullWidthTextField
+          label="Complemento"
+          value={(formData.address && formData.address.complement) || ''}
+          fnChange={handleChangeAddress('complement')}
+          disabled={loading}
+        />
+
         <TextFieldMultiline
           label="Observação"
           value={formData.note}
@@ -151,6 +206,8 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
             handleChangeValue('note')(e.target.value)
           }
           rows={4}
+          className="mt-2"
+          disabled={loading}
         />
         <DivInline className="mt-2">
           <div className="col">

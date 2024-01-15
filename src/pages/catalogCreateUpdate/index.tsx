@@ -76,7 +76,7 @@ export function CatalogsCreateUpdate() {
           </div>
           <div className="col">
             <TimeInput
-              value={((formData.duration as unknown) as Date)}
+              value={(formData.duration as unknown) as Date}
               setValue={handleChangeValue('duration')}
               label="Tempo de duração"
             />

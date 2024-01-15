@@ -1,23 +1,33 @@
 export type ClientsInterface = {
-  idclients: number;
+  id: number;
   name: string;
   email: string;
   phone: string;
   segment: string;
-  address: string;
-  addressNumber: number;
+  address: AddressDto;
   note: string;
-  created_at: string;
-  updated_at?: string;
+  createdAt: string;
+  updatedAt?: string;
+};
+
+export type AddressDto = {
+  cep: string;
+  address: string;
+  city: string;
+  uf: string;
+  neighborhood: string;
+  number: number;
+  complement: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type ClientFormData = {
-  idclients?: number;
+  id?: number;
   name: string;
   email: string;
   phone: string;
-  address: string;
-  addressNumber: number;
+  address: AddressDto;
   note: string | null;
   idsegment?: number | null;
   segment?: string;

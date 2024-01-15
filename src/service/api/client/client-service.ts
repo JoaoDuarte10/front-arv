@@ -162,7 +162,7 @@ export const fetchAllClients = async (): Promise<HttpResponse> => {
   let response: HttpResponse = {} as HttpResponse;
   try {
     const { data, status } = await axios
-      .get(`${API_RV_BASE_URI}/api/client/all`, {
+      .get(`${API_RV_BASE_URI}/api/client`, {
         headers: {
           Authorization: `Bearer ${localStorageService.getAccessToken()}`,
         },
@@ -211,17 +211,52 @@ export const createClient = async (
 ): Promise<HttpResponse> => {
   let response: HttpResponse = {} as HttpResponse;
   try {
+    const cep =
+      (params.address &&
+        params.address.cep &&
+        ((typeof params.address.cep === 'string' &&
+          params.address.cep.trim().replace(/\D/gi, '')) ||
+          params.address.cep)) ||
+      null;
+
     const { data, status } = await axios
       .post(
         `${API_RV_BASE_URI}/api/client`,
         {
-          name: params.name,
-          email: params.email,
-          phone: params.phone,
+          name: params.name && params.name.trim(),
+          email: (params.email && params.email.trim()) || null,
+          phone: (params.phone && params.phone.trim()) || null,
           idsegment: params.idsegment,
-          address: params.address,
-          addressNumber: params.addressNumber,
-          note: params.note,
+          address: {
+            cep,
+            address:
+              (params.address &&
+                params.address.address &&
+                params.address.address.trim()) ||
+              null,
+            city:
+              (params.address &&
+                params.address.city &&
+                params.address.city.trim()) ||
+              null,
+            uf:
+              (params.address &&
+                params.address.uf &&
+                params.address.uf.trim()) ||
+              null,
+            neighborhood:
+              (params.address &&
+                params.address.neighborhood &&
+                params.address.neighborhood.trim()) ||
+              null,
+            number: (params.address && params.address.number) || null,
+            complement:
+              (params.address &&
+                params.address.complement &&
+                params.address.complement.trim()) ||
+              null,
+          },
+          note: (params.note && params.note.trim()) || null,
         },
         {
           headers: {
@@ -248,25 +283,55 @@ export const editClient = async (
 ): Promise<HttpResponse> => {
   let response: HttpResponse = {} as HttpResponse;
   try {
+    const cep =
+      (params.address &&
+        params.address.cep &&
+        ((typeof params.address.cep === 'string' &&
+          params.address.cep.trim().replace(/\D/gi, '')) ||
+          params.address.cep)) ||
+      null;
+
+    const payload = {
+      name: params.name && params.name.trim(),
+      email: (params.email && params.email.trim()) || null,
+      phone: (params.phone && params.phone.trim()) || null,
+      idsegment: params.idsegment,
+      address: {
+        cep,
+        address:
+          (params.address &&
+            params.address.address &&
+            params.address.address.trim()) ||
+          null,
+        city:
+          (params.address &&
+            params.address.city &&
+            params.address.city.trim()) ||
+          null,
+        uf:
+          (params.address && params.address.uf && params.address.uf.trim()) ||
+          null,
+        neighborhood:
+          (params.address &&
+            params.address.neighborhood &&
+            params.address.neighborhood.trim()) ||
+          null,
+        number: (params.address && params.address.number) || null,
+        complement:
+          (params.address &&
+            params.address.complement &&
+            params.address.complement.trim()) ||
+          null,
+      },
+      note: (params.note && params.note.trim()) || null,
+    };
+
     const { data, status } = await axios
-      .put(
-        `${API_RV_BASE_URI}/api/client`,
-        {
-          idclients: params.idclients,
-          name: params.name,
-          email: params.email,
-          phone: params.phone,
-          idsegment: params.idsegment,
-          address: params.address,
-          addressNumber: params.addressNumber,
-          note: params.note,
+      .patch(`${API_RV_BASE_URI}/api/client/${params.id}`, payload, {
+        headers: {
+          Authorization: `Bearer ${localStorageService.getAccessToken()}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorageService.getAccessToken()}`,
-          },
-        },
-      )
+      })
       .then(res => ({ data: res.data, status: res.status }))
       .catch(err => ({
         data: err.response ? err.response.data : err.response,
@@ -287,10 +352,7 @@ export const deleteClient = async (
   let response: HttpResponse = {} as HttpResponse;
   try {
     const { data, status } = await axios
-      .delete(`${API_RV_BASE_URI}/api/client`, {
-        params: {
-          idclients: idclients,
-        },
+      .delete(`${API_RV_BASE_URI}/api/client/${idclients}`, {
         headers: {
           Authorization: `Bearer ${localStorageService.getAccessToken()}`,
         },

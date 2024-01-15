@@ -45,7 +45,7 @@ export function InfoClients(props: {
 
   const navigate = useNavigate();
 
-  const client = resources.find(client => client.idclients === Number(id));
+  const client = resources.find(client => client.id === Number(id));
 
   useEffect(() => {
     if (!id) {
@@ -84,13 +84,13 @@ export function InfoClients(props: {
               whatsAppService.redirectToWhatsapp(e, client.phone);
             }}
           />
-          <Link className="" to={`/client/edit/${client.idclients}`}>
+          <Link className="" to={`/client/edit/${client.id}`}>
             <EditIconButton />
           </Link>
           <BasicDeleteModal
             btnName="Excluir"
             onChange={(e: React.SyntheticEvent) => {
-              handleDeleteResource(client.idclients);
+              handleDeleteResource(client.id);
             }}
           >
             <Typography
@@ -114,27 +114,97 @@ export function InfoClients(props: {
           </LabelForm>
           <DivInline className="row">
             <LabelForm text="E-mail" className="col-sm-6 pb-2 border-bottom">
-              <LabelSmall text={client.email} />
+              <LabelSmall text={client.email || 'Não informado'} />
             </LabelForm>
             <LabelForm text="Celular" className="col-sm-6 pb-2 border-bottom">
-              <LabelSmall text={client.phone} />
+              <LabelSmall text={client.phone || 'Não informado'} />
             </LabelForm>
           </DivInline>
           <DivInline className="row">
             <LabelForm text="Endereço" className="col-sm-6 pb-2 border-bottom">
-              <LabelSmall text={client.address} />
+              <LabelSmall
+                text={
+                  (client.address &&
+                    client.address.address &&
+                    client.address.address) ||
+                  'Não informado'
+                }
+              />
             </LabelForm>
             <LabelForm text="Número" className="col-sm-6 pb-2 border-bottom">
-              <LabelSmall text={client.addressNumber} />
+              <LabelSmall
+                text={
+                  (client.address &&
+                    client.address.number &&
+                    client.address.number) ||
+                  'Não informado'
+                }
+              />
             </LabelForm>
           </DivInline>
+          <DivInline className="row">
+            <LabelForm text="CEP" className="col-sm-6 pb-2 border-bottom">
+              <LabelSmall
+                text={
+                  (client.address &&
+                    client.address.cep &&
+                    client.address.cep
+                      .toString()
+                      .replace(/\D/g, '')
+                      .replace(/(\d{5})(\d)/, '$1-$2')
+                      .replace(/(-\d{3})\d+?$/, '$1')) ||
+                  'Não informado'
+                }
+              />
+            </LabelForm>
+            <LabelForm text="Cidade" className="col-sm-6 pb-2 border-bottom">
+              <LabelSmall
+                text={
+                  (client.address &&
+                    client.address.city &&
+                    client.address.city) ||
+                  'Não informado'
+                }
+              />
+            </LabelForm>
+          </DivInline>
+          <DivInline className="row">
+            <LabelForm text="Estado" className="col-sm-6 pb-2 border-bottom">
+              <LabelSmall
+                text={
+                  (client.address && client.address.uf && client.address.uf) ||
+                  'Não informado'
+                }
+              />
+            </LabelForm>
+            <LabelForm text="Bairro" className="col-sm-6 pb-2 border-bottom">
+              <LabelSmall
+                text={
+                  (client.address &&
+                    client.address.neighborhood &&
+                    client.address.neighborhood) ||
+                  'Não informado'
+                }
+              />
+            </LabelForm>
+          </DivInline>
+          <LabelForm text="Complemento" className="pb-2 border-bottom">
+            <LabelSmall
+              text={
+                (client.address &&
+                  client.address.complement &&
+                  client.address.complement) ||
+                'Não informado'
+              }
+            />
+          </LabelForm>
           <LabelForm text="Segmento" className="pb-2 border-bottom">
             <LabelSmall text={client.segment || 'Nenhum segmento'} />
           </LabelForm>
           <LabelForm text="Criado em" className="pb-2 border-bottom">
             <LabelSmall
               text={format(
-                new Date(client.created_at.replace('Z', '')),
+                new Date(client.createdAt.replace('Z', '')),
                 "dd/MM/yyyy 'às' HH:mm'h'",
               )}
             />
@@ -142,9 +212,9 @@ export function InfoClients(props: {
           <LabelForm text="Última atualização" className="pb-2 border-bottom">
             <LabelSmall
               text={
-                client.updated_at
+                client.updatedAt
                   ? format(
-                      new Date(client.updated_at.replace('Z', '')),
+                      new Date(client.updatedAt.replace('Z', '')),
                       "dd/MM/yyyy 'às' HH:mm'h'",
                     )
                   : 'Nenhuma atualização'

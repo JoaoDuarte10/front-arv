@@ -79,7 +79,7 @@ export function Schedules(props: {
       type: TypeMultiFilter.select,
       options: clients.map(client => ({
         label: client.name,
-        value: client.idclients,
+        value: client.id,
       })),
       handleChangeValue: (
         e: React.BaseSyntheticEvent,

@@ -24,16 +24,15 @@ const clientSlice = createSlice({
           payload: params.length
             ? params.map(client => {
                 return {
-                  idclients: client.idclients,
+                  id: client.id,
                   name: client.name,
                   email: client.email,
                   phone: client.phone,
                   segment: client.segment,
                   address: client.address,
-                  addressNumber: client.addressNumber,
                   note: client.note,
-                  created_at: client.created_at,
-                  updated_at: client.updated_at,
+                  createdAt: client.createdAt,
+                  updatedAt: client.updatedAt,
                 };
               })
             : [],

@@ -163,7 +163,7 @@ export function FormSchedule(props: InputProps) {
             options={clients.map(client => {
               return {
                 label: client.name,
-                idclients: client.idclients,
+                idclients: client.id,
               };
             })}
             label={'Selecione o cliente*'}

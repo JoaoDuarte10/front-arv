@@ -13,15 +13,15 @@ export const listHookTemplate = <LT = any>(params: ListHookProps<LT>) => {
     const fetchResources = async () => {
       setLoading(true);
 
-      const { success, data, error } = await params.fetchAll();
+      const { success, data, error, message } = await params.fetchAll();
 
       if (success) {
         setResources(data);
-        setAlert(<AlertSuccess title="Pesquisa atualizada" />);
+        setAlert(<AlertSuccess title={params.texts.list.success || "Pesquisa atualizada"} />);
       }
 
       if (error) {
-        setAlert(<AlertServerError />);
+        setAlert(<AlertServerError title={message || params.texts.list.error}/>);
       }
 
       setLoading(false);

@@ -88,7 +88,9 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
       }
 
       if (error) {
-        setAlert(<AlertServerError />);
+        setAlert(
+          <AlertServerError title={message || params.texts.create.error} />,
+        );
       }
 
       setLoading(false);
@@ -115,7 +117,9 @@ export const createUpdateHookTemplate = <FD, DT extends FD>(
       }
 
       if (error) {
-        setAlert(<AlertServerError />);
+        setAlert(
+          <AlertServerError title={message || params.texts.create.error} />,
+        );
       }
 
       setLoading(false);

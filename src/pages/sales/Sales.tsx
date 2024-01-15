@@ -69,10 +69,14 @@ export function Sales(props: {
       value: clientSelected.label,
       placeholder: 'Selecione o cliente',
       type: TypeMultiFilter.select,
-      options: clients.map(client => ({
-        label: client.name,
-        value: client.idclients,
-      })),
+      options:
+        (clients &&
+          clients.length &&
+          clients.map(client => ({
+            label: client.name,
+            value: client.id,
+          }))) ||
+        [],
       handleChangeValue: (
         e: React.BaseSyntheticEvent,
         item: { label: string; value: number },

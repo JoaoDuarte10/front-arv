@@ -227,11 +227,7 @@ export default function EnhancedTable(props: {
                         /> */}
                       </TableCell>
                       {Object.values(row.columns).map(object => {
-                        return (
-                          <TableCell key={object} >
-                            {object}
-                          </TableCell>
-                        );
+                        return <TableCell key={object}>{object}</TableCell>;
                       })}
                     </TableRow>
                   );

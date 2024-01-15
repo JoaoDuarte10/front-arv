@@ -4,7 +4,7 @@ import { TitlePrincipal } from '../../components/titles/TitlePrincipal';
 import { Link, useNavigate } from 'react-router-dom';
 import { WhatsAppService } from '../../service/api/whatsapp/whatsapp';
 import { BasicDeleteModal } from '../../components/modal/BasicDeleteModal';
-import { Backdrop, CircularProgress, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { TIMEOUT } from '../../utils/constants';
 import { ContainerMain } from '../../components/containers/ContainerMain';
 import { EditIconButton } from '../../components/buttons/EditIconButton';
@@ -61,7 +61,7 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
             type: TypeMultiFilter.select,
             options: resources.map(client => ({
               label: client.name,
-              value: client.idclients,
+              value: client.id,
             })),
             handleChangeValue: (e: React.BaseSyntheticEvent, item: Option) => {
               if (typeof item === 'object') {
@@ -79,10 +79,7 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
       {resources.length
         ? resources.map(client => {
             return (
-              <div
-                className="container_client"
-                key={client.idclients + randomId()}
-              >
+              <div className="container_client" key={client.id + randomId()}>
                 <div className="actions_client remove-style-link">
                   <Link
                     style={{
@@ -90,7 +87,7 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
                       padding: '5px',
                       borderRadius: '15px',
                     }}
-                    to={`${INFO_CLIENT_URL}${client.idclients}`}
+                    to={`${INFO_CLIENT_URL}${client.id}`}
                   >
                     Mais Informações
                   </Link>
@@ -105,13 +102,13 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
                         whatsAppService.redirectToWhatsapp(e, client.phone);
                       }}
                     />
-                    <Link className="" to={`/client/edit/${client.idclients}`}>
+                    <Link className="" to={`/client/edit/${client.id}`}>
                       <EditIconButton />
                     </Link>
                     <BasicDeleteModal
                       btnName="Excluir"
                       onChange={(e: React.SyntheticEvent) => {
-                        handleDeleteResource(client.idclients);
+                        handleDeleteResource(client.id);
                       }}
                     >
                       <Typography
@@ -137,12 +134,14 @@ export function Clients(props: { whatsAppService: WhatsAppService }) {
                     >
                       <LabelSmall text={client.name} />
                     </LabelForm>
-                    <LabelForm
-                      text="Celular"
-                      className="col-sm-6 pb-2 border-bottom"
-                    >
-                      <LabelSmall text={client.phone} />
-                    </LabelForm>
+                    {client.phone && (
+                      <LabelForm
+                        text="Celular"
+                        className="col-sm-6 pb-2 border-bottom"
+                      >
+                        <LabelSmall text={client.phone} />
+                      </LabelForm>
+                    )}
                   </DivInline>
                   {client.segment ? (
                     <LabelForm text="Segmento" className="pb-2 border-bottom">

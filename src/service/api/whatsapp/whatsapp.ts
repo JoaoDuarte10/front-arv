@@ -18,13 +18,13 @@ export class WhatsAppService {
     const dateUrl = new Date(params.date).toLocaleDateString('pt-BR', {
       timeZone: 'UTC',
     });
-    const text = `Olá ${
-      params.client.trim()
-    }, tudo bem? \nPosso confirmar o horário que agendamos para dia ${dateUrl} às ${
+    const text = `Olá ${params.client.trim()}, tudo bem? \nPosso confirmar o horário que agendamos para dia ${dateUrl} às ${
       params.time
-    } horas? \n${isPacote}\nProcedimentos: ${params.services.map(service => service.trim()).join(
-      ', ',
-    ) || params.description.trim()}.\n\nCódigo do agendamento: ${params.id} \n\nAguardo seu retorno!`;
+    } horas? \n${isPacote}\nProcedimentos: ${params.services
+      .map(service => service.trim())
+      .join(', ') || params.description.trim()}.\n\nCódigo do agendamento: ${
+      params.id
+    } \n\nAguardo seu retorno!`;
 
     const URL = `https://api.whatsapp.com/send?phone=55${params.phone}&text=`;
     const redirect = window.encodeURIComponent(text);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ClientFormData,
   ClientsInterface,
@@ -9,18 +9,26 @@ import {
   editClient,
   fetchClientById,
 } from '../../../service/api/client/client-service';
+import { fetchAddress } from '../../../service/api/cep/cep-service';
 
-const initialFormData: ClientsInterface & ClientFormData = {
-  idclients: 0,
+const initialFormData: ClientFormData = {
+  id: 0,
   name: '',
   email: '',
   phone: '',
   segment: '',
   idsegment: null,
-  addressNumber: null,
-  address: '',
+  address: {
+    cep: '',
+    address: '',
+    city: '',
+    uf: '',
+    neighborhood: '',
+    number: 0,
+    complement: '',
+  },
   note: '',
-  created_at: '',
+  createdAt: '',
 } as any;
 
 const params = {
@@ -48,13 +56,63 @@ const params = {
 
 export const useHookCreateUpdate = createUpdateHookTemplate<
   ClientFormData,
-  ClientsInterface
->(params);
+  ClientFormData
+>(params as any);
 
 export const useClientForm = () => {
   const hookData = useHookCreateUpdate();
 
+  const { setLoading, setFormData } = hookData;
+
+  const handleChangeAddress = (field: any) => (value: string | number) => {
+    setFormData(state => ({
+      ...state,
+      address: {
+        ...(state.address as any),
+        [field]: value,
+      },
+    }));
+  };
+
+  useEffect(() => {
+    const cep =
+      (hookData.formData.address &&
+        hookData.formData.address.cep &&
+        typeof hookData.formData.address.cep === 'string' &&
+        hookData.formData.address.cep.replace(/\D/gi, '')) ||
+      '';
+
+    const hasCorrectLength = cep.length === 8;
+    if (!hasCorrectLength) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      fetchAddress(cep).then(res => {
+        if (res.success) {
+          const address = res.data;
+          setFormData(state => ({
+            ...state,
+            address: {
+              ...state.address,
+              ...(address as any),
+            },
+          }));
+        }
+      });
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  }, [
+    hookData.formData.address &&
+      hookData.formData.address.cep &&
+      hookData.formData.address.cep,
+  ]);
+
   return {
     ...hookData,
+    handleChangeAddress,
   };
 };

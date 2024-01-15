@@ -13,9 +13,7 @@ export function Rules() {
 
   const navigate = useNavigate();
 
-  const breadCumbLinks = [
-    { link: false, name: pageName },
-  ];
+  const breadCumbLinks = [{ link: false, name: pageName }];
 
   return (
     <ContainerMain>

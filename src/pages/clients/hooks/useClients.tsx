@@ -17,15 +17,24 @@ import { AlertSuccess } from '../../../components/alerts/AlertSuccess';
 
 const initialFormData: ClientsInterface[] = [
   {
-    idclients: 0,
+    id: 0,
     name: '',
     email: '',
     phone: '',
     segment: '',
-    address: '',
-    addressNumber: 0,
+    address: {
+      cep: '',
+      address: '',
+      city: '',
+      uf: '',
+      neighborhood: '',
+      number: 0,
+      complement: '',
+      createdAt: '' as any,
+      updatedAt: '' as any,
+    },
     note: '',
-    created_at: '',
+    createdAt: '',
   },
 ];
 

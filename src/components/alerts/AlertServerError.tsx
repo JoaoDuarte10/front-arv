@@ -10,7 +10,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export function AlertServerError() {
+export function AlertServerError(props: { title?: string }) {
+  const { title } = props;
   const [open, setOpen] = React.useState(true);
 
   const handleClose = (
@@ -34,7 +35,7 @@ export function AlertServerError() {
           onClose={handleClose}
           sx={{ width: '100%' }}
         >
-          Não foi possível processar a requisição.
+          {title || 'Não foi possível processar a requisição.'}
         </Alert>
       </Snackbar>
     </Stack>

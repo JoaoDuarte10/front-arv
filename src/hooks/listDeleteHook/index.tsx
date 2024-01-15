@@ -17,7 +17,7 @@ export const listDeleteHookTemplate = <LT = any>(params: Props<LT>) => {
     const handleDeleteResource = async (id: number) => {
       setLoading(true);
 
-      const { success, error } = await params.services.delete(id);
+      const { success, error, message } = await params.services.delete(id);
 
       if (success) {
         hookData.fetchResources();
@@ -25,7 +25,7 @@ export const listDeleteHookTemplate = <LT = any>(params: Props<LT>) => {
       }
 
       if (error) {
-        setAlert(<AlertServerError />)
+        setAlert(<AlertServerError title={message || ''}/>)
       }
 
       setLoading(false);
