@@ -121,6 +121,32 @@ export function InfoClients(props: {
             </LabelForm>
           </DivInline>
           <DivInline className="row">
+            <LabelForm text="CPF" className="col-sm-6 pb-2 border-bottom">
+              <LabelSmall
+                text={
+                  (client.cpf &&
+                    client.cpf.replace(
+                      /(\d{3})(\d{3})(\d{3})(\d{2})/g,
+                      '$1.$2.$3-$4',
+                    )) ||
+                  'Não informado'
+                }
+              />
+            </LabelForm>
+            <LabelForm text="CNPJ" className="col-sm-6 pb-2 border-bottom">
+              <LabelSmall
+                text={
+                  (client.cnpj &&
+                    client.cnpj.replace(
+                      /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g,
+                      '$1.$2.$3/$4-$5',
+                    )) ||
+                  'Não informado'
+                }
+              />
+            </LabelForm>
+          </DivInline>
+          <DivInline className="row">
             <LabelForm text="Endereço" className="col-sm-6 pb-2 border-bottom">
               <LabelSmall
                 text={

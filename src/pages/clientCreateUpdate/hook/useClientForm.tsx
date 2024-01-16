@@ -28,6 +28,8 @@ const initialFormData: ClientFormData = {
     complement: '',
   },
   note: '',
+  cpf: '',
+  cnpj: '',
   createdAt: '',
 } as any;
 

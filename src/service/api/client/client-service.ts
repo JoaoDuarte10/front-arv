@@ -257,6 +257,10 @@ export const createClient = async (
               null,
           },
           note: (params.note && params.note.trim()) || null,
+          cpf:
+            (params.cpf && params.cpf.trim().replace(/[^0-9]+/g, '')) || null,
+          cnpj:
+            (params.cnpj && params.cnpj.trim().replace(/[^0-9]+/g, '')) || null,
         },
         {
           headers: {
@@ -323,6 +327,8 @@ export const editClient = async (
             params.address.complement.trim()) ||
           null,
       },
+      cpf: (params.cpf && params.cpf.trim().replace(/[^0-9]+/g, '')) || null,
+      cnpj: (params.cnpj && params.cnpj.trim().replace(/[^0-9]+/g, '')) || null,
       note: (params.note && params.note.trim()) || null,
     };
 

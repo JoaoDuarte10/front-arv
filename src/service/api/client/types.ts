@@ -6,6 +6,8 @@ export type ClientsInterface = {
   segment: string;
   address: AddressDto;
   note: string;
+  cpf: string;
+  cnpj: string;
   createdAt: string;
   updatedAt?: string;
 };
@@ -31,4 +33,6 @@ export type ClientFormData = {
   note: string | null;
   idsegment?: number | null;
   segment?: string;
+  cpf: string;
+  cnpj: string;
 };

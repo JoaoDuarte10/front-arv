@@ -31,6 +31,8 @@ const clientSlice = createSlice({
                   segment: client.segment,
                   address: client.address,
                   note: client.note,
+                  cpf: client.cpf,
+                  cnpj: client.cnpj,
                   createdAt: client.createdAt,
                   updatedAt: client.updatedAt,
                 };

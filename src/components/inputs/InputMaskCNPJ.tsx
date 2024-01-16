@@ -10,7 +10,7 @@ type Props = {
   disabled?: boolean;
 };
 
-export default function InputMaskNumber({
+export default function InputMaskCNPJ({
   label,
   fnChange,
   value,
@@ -25,7 +25,7 @@ export default function InputMaskNumber({
     >
       <InputMask
         type="number"
-        mask="999999"
+        mask="99.999.999/9999-99"
         maskChar={''}
         onChange={fnChange}
         required={true}

@@ -35,6 +35,8 @@ const initialFormData: ClientsInterface[] = [
       updatedAt: '' as any,
     },
     note: '',
+    cpf: '',
+    cnpj: '',
     createdAt: '',
   },
 ];

@@ -23,6 +23,8 @@ import TextFieldMultiline from '../../components/inputs/TextFieldMultiline';
 import { ColorsBootstrap } from '../../components/modal/GenericModal';
 import { Typography } from '@mui/material';
 import InputMaskCep from '../../components/inputs/InputMaskCep';
+import InputMaskCPF from '../../components/inputs/InputMaskCPF';
+import InputMaskCNPJ from '../../components/inputs/InputMaskCNPJ';
 
 export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
   const {
@@ -107,6 +109,29 @@ export function ClientCreateUpdate(props: { segmentService: SegmentService }) {
             handleChangeValue('phone')(e.target.value)
           }
         />
+
+        <DivInline className="mb-1">
+          <div className="col-6">
+            <InputMaskCPF
+              label="CPF"
+              value={formData.cpf || ''}
+              fnChange={(e: React.BaseSyntheticEvent) =>
+                handleChangeValue('cpf')(e.target.value)
+              }
+              disabled={loading}
+            />
+          </div>
+          <div className="col-6">
+            <InputMaskCNPJ
+              label="CNPJ"
+              value={formData.cnpj || ''}
+              fnChange={(e: React.BaseSyntheticEvent) =>
+                handleChangeValue('cnpj')(e.target.value)
+              }
+              disabled={loading}
+            />
+          </div>
+        </DivInline>
 
         {segments.length ? (
           <ComboBoxList
