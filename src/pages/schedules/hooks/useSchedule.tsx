@@ -14,12 +14,11 @@ import { OutgoingPaymentMethodEnums } from '../../../service/api/outgoing/types'
 import { SalesService } from '../../../service/api/sales/sales';
 import { TIMEOUT } from '../../../utils/constants';
 import { useNavigate } from 'react-router-dom';
+import { RulesEnum, RulesService } from '../../../service/api/rules/rules';
 
 export const useSchedule = () => {
   const dispatch = useDispatch();
   let navigate = useNavigate();
-
-  const clientsCache = useSelector((state: ReduceStore) => state.client);
 
   const clientService = new ClientService(API_RV_BASE_URI, localStorageService);
   const scheduleService = new ScheduleService(
@@ -27,6 +26,13 @@ export const useSchedule = () => {
     localStorageService,
   );
   const salesService = new SalesService(API_RV_BASE_URI, localStorageService);
+  const rulesService = new RulesService(localStorageService);
+
+  const moduleClientEnabled = rulesService.userHasPermission(RulesEnum.CLIENTS);
+
+  const clientsCache = moduleClientEnabled
+    ? useSelector((state: ReduceStore) => state.client)
+    : [];
 
   const [alert, setAlert] = useState<JSX.Element | null>(null);
   const [loader, setLoader] = useState<boolean>(false);
@@ -41,12 +47,16 @@ export const useSchedule = () => {
   }>({ label: '', idclients: null });
 
   const getAllClients = async () => {
+    if (!moduleClientEnabled) {
+      return;
+    }
+
     setLoader(true);
     const {
       success,
       data,
-      error,
       unauthorized,
+      notFound,
     } = await clientService.fetchAllClients();
     setLoader(false);
 
@@ -54,8 +64,8 @@ export const useSchedule = () => {
       dispatch(clearClient());
       setClients(data);
       dispatch(clientAdded(data));
-    } else if (!error && !unauthorized) {
-      await getAllClients();
+    } else if (notFound) {
+      setAlert(<AlertInfo title="Nenhum cliente encontrado." />);
     } else {
       setAlert(<AlertInfo title="Por favor, recarregue a página." />);
     }
@@ -341,5 +351,6 @@ export const useSchedule = () => {
     setOpenModal,
     setOpenModalSale,
     onCreate,
+    moduleClientEnabled,
   };
 };

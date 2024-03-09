@@ -37,6 +37,7 @@ export type MultFilter = {
   error?: boolean;
   helperText?: string;
   disabled: boolean;
+  isHidden?: boolean;
 };
 
 type TableMultiFilterProps = {
@@ -56,7 +57,7 @@ export function TableMultiFilter(props: TableMultiFilterProps) {
 
   const [filterIsOpen, setFilterOpen] = useState(false);
 
-  const filteredFilters = useMemo(() => filters.filter(filter => filter), [
+  const filteredFilters = useMemo(() => filters.filter(filter => !filter.isHidden), [
     filters,
   ]);
   const createInputFilter = (

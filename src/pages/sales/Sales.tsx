@@ -8,6 +8,7 @@ import { ClientService } from '../../service/api/client/client-service';
 import { CircularIndeterminate } from '../../components/loaders/CircularLoader';
 import { TableSales } from '../../components/sales/TableSales';
 import {
+  MultFilter,
   TableMultiFilter,
   TypeMultiFilter,
 } from '../../components/tableMultiFilter/index';
@@ -21,7 +22,14 @@ export function Sales(props: {
 
   const hookData = useSales();
 
-  const { loader, alert, clients, sales, fetchByAllFilters } = hookData;
+  const {
+    loader,
+    alert,
+    clients,
+    sales,
+    fetchByAllFilters,
+    moduleClientEnabled,
+  } = hookData;
 
   const [date, setDate] = useState<string>('');
   const [period, setPeriod] = useState<{ date1: string; date2: string }>({
@@ -35,7 +43,7 @@ export function Sales(props: {
     idclients: number | null;
   }>({ label: '', idclients: null });
 
-  const filters = [
+  const filters: MultFilter[] = [
     {
       label: 'Data',
       value: date,
@@ -89,6 +97,7 @@ export function Sales(props: {
         }
       },
       disabled: false,
+      isHidden: moduleClientEnabled || !clients.length,
     },
     {
       label: 'Pendentes',

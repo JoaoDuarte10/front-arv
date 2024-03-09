@@ -13,21 +13,31 @@ import { SalesService } from '../../../service/api/sales/sales';
 import { API_RV_BASE_URI, localStorageService } from '../../../RoutesApp';
 import { TIMEOUT } from '../../../utils/constants';
 import { OutgoingPaymentMethodEnums } from '../../../service/api/outgoing/types';
+import { RulesEnum, RulesService } from '../../../service/api/rules/rules';
 
 export const useSales = () => {
   const dispatch = useDispatch();
 
   const clientService = new ClientService(API_RV_BASE_URI, localStorageService);
   const salesService = new SalesService(API_RV_BASE_URI, localStorageService);
+  const rulesService = new RulesService(localStorageService);
 
   const [loader, setLoader] = useState<boolean>(false);
   const [alert, setAlert] = useState<JSX.Element | null>(null);
   const [clients, setClients] = useState<ClientsInterface[]>([]);
   const [sales, setSales] = useState<SalesInterface[]>([]);
 
-  const clientsCache = useSelector((state: ReduceStore) => state.client);
+  const moduleClientEnabled = rulesService.userHasPermission(RulesEnum.CLIENTS);
+
+  const clientsCache = moduleClientEnabled
+    ? useSelector((state: ReduceStore) => state.client)
+    : [];
 
   const getAllClients = async () => {
+    if (!moduleClientEnabled) {
+      return;
+    }
+
     setLoader(true);
     const { data } = await clientService.fetchAllClients();
     setLoader(false);
@@ -139,5 +149,6 @@ export const useSales = () => {
     sales,
     fetchByAllFilters,
     onCreate,
+    moduleClientEnabled,
   };
 };

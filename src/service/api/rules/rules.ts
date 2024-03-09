@@ -4,6 +4,10 @@ import { LocalStorageService } from '../../localStorage/local-storage';
 import { RuleFormData, RulesInterface } from './type';
 import { normalizeResponse } from '../../http/fetch';
 
+export enum RulesEnum {
+  CLIENTS = 'clients',
+}
+
 export class RulesService {
   private rules: string[] = [];
 
@@ -12,7 +16,7 @@ export class RulesService {
     if (userRules) this.rules = userRules;
   }
 
-  userHasPermission(rule: string) {
+  userHasPermission(rule: RulesEnum | string) {
     return this.rules.includes(rule);
   }
 

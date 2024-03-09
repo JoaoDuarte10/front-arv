@@ -27,6 +27,7 @@ import { OutgoingService } from '../../service/api/outgoing/outgoing';
 import { ScheduleService } from '../../service/api/schedule/schedule';
 import { ScheduleInterface } from '../../service/api/schedule/types';
 import {
+  MultFilter,
   TableMultiFilter,
   TypeMultiFilter,
 } from '../../components/tableMultiFilter/index';
@@ -61,9 +62,10 @@ export function Schedules(props: {
     handleSubmitFilters,
     setOpenModal,
     setOpenModalSale,
+    moduleClientEnabled,
   } = hookData;
 
-  const filters = [
+  const filters: MultFilter[] = [
     {
       label: 'Data',
       value: date,
@@ -96,6 +98,7 @@ export function Schedules(props: {
         }
       },
       disabled: date ? true : false,
+      isHidden: !moduleClientEnabled || !clients.length,
     },
   ];
 
